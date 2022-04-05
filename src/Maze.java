@@ -52,6 +52,10 @@ public class Maze {
 
         int[] newLocation = referenceBlock.getLocation();
 
+
+        if(outOfBounds(getIndex(newLocation),direction)){return -1;}
+
+
         /*
          * Updates newLocation [x,y] according to parameter direction
          */
@@ -73,8 +77,8 @@ public class Maze {
                 return -2;
         }
 
-        if(outOfBounds(getIndex(newLocation),direction)){return -1;}
-        else return getIndex(newLocation);
+        return getIndex(newLocation);
+
     }
 
 
@@ -112,7 +116,7 @@ public class Maze {
             default:
                 return false;
         }
-        return null;
+        return false;
     }
 
 
