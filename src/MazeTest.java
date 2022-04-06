@@ -55,12 +55,13 @@ int[] locationBottomRight = {8,2};
         assertEquals("Test", testMaze.getMazeName());
     }
 
-    @Test
-    public void showArray()
-    {
-        for (Block item: testMaze.getMazeMap()) {
-            System.out.println(item.getLocation()[0] + "\t" + item.getLocation()[1]);
 
-        }
+    @Test
+    public void testOutOfBounds()
+    {
+        assertTrue(testMaze.outOfBounds(0,"left"));
+        assertTrue(testMaze.outOfBounds(4,"up"));
+        assertTrue(testMaze.outOfBounds(17,"down"));
+        assertTrue(testMaze.outOfBounds(20,"right"));
     }
 }
