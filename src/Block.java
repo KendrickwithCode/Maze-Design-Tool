@@ -26,7 +26,7 @@ public class Block {
      * Returns Wall object of north facing wall
      * @return north Wall object
      */
-    public IWall getWallNorth() {  //<<--- Change types to Wall class when created
+    public IWall getWallNorth() {
         return wallNorth;
     }
 
@@ -34,7 +34,7 @@ public class Block {
      * Returns Wall object of south facing wall
      * @return south Wall object
      */
-    public IWall getWallSouth() {  //<<--- Change types to Wall class when created
+    public IWall getWallSouth() {
         return wallSouth;
     }
 
@@ -42,7 +42,7 @@ public class Block {
      * Returns Wall object of east facing wall
      * @return east Wall object
      */
-    public IWall getWallEast() {  //<<--- Change types to Wall class when created
+    public IWall getWallEast() {
         return wallEast;
     }
 
@@ -50,7 +50,7 @@ public class Block {
      * Returns Wall object of west facing wall
      * @return west Wall object
      */
-    public IWall getWallWest() {  //<<--- Change types to Wall class when created
+    public IWall getWallWest() {
         return wallWest;
     }
 
