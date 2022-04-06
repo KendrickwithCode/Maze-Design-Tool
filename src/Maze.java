@@ -46,11 +46,15 @@ public class Maze {
      * Return the index of requested neighbouring block "UP", "DOWN", "LEFT", "RIGHT"
      * @param referenceBlock origin maze block
      * @param direction neighbouring block direction "UP", "DOWN", "LEFT", "RIGHT"
-     * @return the index or -1 for out of Arraylist or -2 for direction invalid entry
+     * @return the index or -1 for out of maze map boundary or -2 for direction invalid entry
      */
     public int getNeighbourIndex(Block referenceBlock, String direction){
 
         int[] newLocation = referenceBlock.getLocation();
+
+
+        if(outOfBounds(getIndex(newLocation),direction)){return -1;}
+
 
         /*
          * Updates newLocation [x,y] according to parameter direction
@@ -72,8 +76,49 @@ public class Maze {
             default:
                 return -2;
         }
+
         return getIndex(newLocation);
+
     }
+
+
+    /**
+     * check's if neighbour block is out of the mazes boundary
+     * @param index array index number
+     * @param direction neighbouring block direction "UP", "DOWN", "LEFT", "RIGHT"
+     * @return boolean true if out of bounds or false if not
+     */
+    public Boolean outOfBounds(int index, String direction )
+    {
+        direction = direction.toUpperCase();
+
+        switch (direction) {
+            case "RIGHT":
+                if ((index + 1) % size[0] == 0) {
+                    return true;
+                }
+                break;
+            case "LEFT":
+                if ((index + 1) % size[0] == 1) {
+                    return true;
+                }
+                break;
+            case "UP":
+                if (index / size[0] == 0) {
+                    return true;
+                }
+                break;
+            case "DOWN":
+                if ((index / size[0] >= size[1] - 1)) {
+                    return true;
+                }
+                break;
+            default:
+                return false;
+        }
+        return false;
+    }
+
 
     /**
      * Return the index of requested neighbouring block "UP", "DOWN", "LEFT", "RIGHT"
@@ -84,6 +129,7 @@ public class Maze {
     public Block getNeighbourBlock(Block referenceBlock, String direction){
 
         int newLocationIndex = getIndex(referenceBlock.getLocation());
+
         if (newLocationIndex >= 0 && newLocationIndex < mazeMap.size())
             return mazeMap.get(getNeighbourIndex(referenceBlock,direction));
         else

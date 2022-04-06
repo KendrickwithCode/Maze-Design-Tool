@@ -1,9 +1,9 @@
 public class Block {
 
-    private String wallNorth;  //<<--- Change types to Wall class when created
-    private String wallSouth;
-    private String wallEast;
-    private String wallWest;
+    private IWall wallNorth;
+    private IWall wallSouth;
+    private IWall wallEast;
+    private IWall wallWest;
     private final int[] location;
 
     /**
@@ -26,7 +26,7 @@ public class Block {
      * Returns Wall object of north facing wall
      * @return north Wall object
      */
-    public String getWallNorth() {  //<<--- Change types to Wall class when created
+    public IWall getWallNorth() {
         return wallNorth;
     }
 
@@ -34,7 +34,7 @@ public class Block {
      * Returns Wall object of south facing wall
      * @return south Wall object
      */
-    public String getWallSouth() {  //<<--- Change types to Wall class when created
+    public IWall getWallSouth() {
         return wallSouth;
     }
 
@@ -42,7 +42,7 @@ public class Block {
      * Returns Wall object of east facing wall
      * @return east Wall object
      */
-    public String getWallEast() {  //<<--- Change types to Wall class when created
+    public IWall getWallEast() {
         return wallEast;
     }
 
@@ -50,7 +50,7 @@ public class Block {
      * Returns Wall object of west facing wall
      * @return west Wall object
      */
-    public String getWallWest() {  //<<--- Change types to Wall class when created
+    public IWall getWallWest() {
         return wallWest;
     }
 
