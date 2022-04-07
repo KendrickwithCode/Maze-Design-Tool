@@ -1,11 +1,11 @@
 public abstract class Block {
 
-    private MazeWall wallNorth;
-    private MazeWall wallSouth;
-    private MazeWall wallEast;
-    private MazeWall wallWest;
-    private final int[] location;
-    private final int blockIndex;
+    protected MazeWall wallNorth;
+    protected MazeWall wallSouth;
+    protected MazeWall wallEast;
+    protected MazeWall wallWest;
+    protected final int[] location;
+    protected final int blockIndex;
 
     /**
      * Constructs and initialises new Block
