@@ -8,7 +8,7 @@ public class LogoBlock extends Block{
      *
      * @param location location of block on maze
      */
-    public LogoBlock(int[] location) {
-        super(location);
+    public LogoBlock(int[] location, int blockIndex) {
+        super(location, blockIndex);
     }
 }
