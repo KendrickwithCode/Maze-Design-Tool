@@ -9,7 +9,6 @@ int[] locationBottomRight = {8,2};
     @BeforeEach
     public void Before(){
     testMaze = new Maze(7,3, "Test");
-
     }
 
     @Test void testConstructor()
@@ -65,16 +64,16 @@ int[] locationBottomRight = {8,2};
         assertTrue(testMaze.outOfBounds(20,"EAST"));
     }
 
-    @Test
-    public void arrayTest()
-    {
-        for (Block current: testMaze.getMazeMap()
-             ) {
-            System.out.println("I: " + current.getBlockIndex() + "\t X,Y: " + current.getLocation()[0]+","+current.getLocation()[1]
-            + "\tWall N: " + current.getWallNorth() + "\tWall E:" + current.getWallEast()
-            + "\tWall S: " + current.getWallSouth() + "\tWall W:" + current.getWallWest());
-        }
-    }
+//    @Test
+//    public void arrayTest()
+//    {
+//        for (Block current: testMaze.getMazeMap()
+//             ) {
+//            System.out.println("I: " + current.getBlockIndex() + "\t X,Y: " + current.getLocation()[0]+","+current.getLocation()[1]
+//            + "\tWall N: " + current.getWallNorth() + "\tWall E:" + current.getWallEast()
+//            + "\tWall S: " + current.getWallSouth() + "\tWall W:" + current.getWallWest());
+//        }
+//    }
 
 
 }

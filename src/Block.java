@@ -4,12 +4,12 @@ public abstract class Block {
     private MazeWall wallSouth;
     private MazeWall wallEast;
     private MazeWall wallWest;
-    private int[] location;
-    private int blockIndex;
+    private final int[] location;
+    private final int blockIndex;
 
     /**
      * Constructs and initialises new Block
-     * @param location location of block on maze
+     * @param location int[x,y] x,y location of block on maze
      */
     public Block(int[] location, int blockIndex)
     {
@@ -17,13 +17,11 @@ public abstract class Block {
         this.blockIndex = blockIndex;
         wallEast = new MazeWall();
         wallSouth = new MazeWall();
-        wallNorth = new MazeWall();
-        wallWest = new MazeWall();
     }
 
     /**
      * Returns location of block in maze
-     * @return location
+     * @return blocks location int[x,y]
      */
     public int[] getLocation(){
         return location;
@@ -61,22 +59,42 @@ public abstract class Block {
         return wallWest;
     }
 
+    /**
+     * Sets Wall object of north facing wall
+     * @param wallNorth north facing wall
+     */
     public void setWallNorth(MazeWall wallNorth) {
         this.wallNorth = wallNorth;
     }
 
+    /**
+     * Sets Wall object of south facing wall
+     * @param wallSouth south facing wall
+     */
     public void setWallSouth(MazeWall wallSouth) {
         this.wallSouth = wallSouth;
     }
 
+    /**
+     * Sets Wall object of east facing wall
+     * @param wallEast east facing wall
+     */
     public void setWallEast(MazeWall wallEast) {
         this.wallEast = wallEast;
     }
 
+    /**
+     * Sets Wall object of west facing wall
+     * @param wallWest west facing wall
+     */
     public void setWallWest(MazeWall wallWest) {
         this.wallWest = wallWest;
     }
 
+    /**
+     * Returns the blocks Arraylist index
+     * @return blocks Arraylist index
+     */
     public int getBlockIndex() {
         return blockIndex;
     }

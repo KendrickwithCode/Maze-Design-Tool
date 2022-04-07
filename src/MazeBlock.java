@@ -8,6 +8,5 @@ public class MazeBlock extends Block{
      */
     public MazeBlock(int[] location, int blockIndex) {
         super(location, blockIndex);
-        this.visited = visited;
     }
 }

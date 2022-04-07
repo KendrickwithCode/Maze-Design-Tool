@@ -44,13 +44,17 @@ public class Maze {
         }
     }
 
+    /**
+     * Sets all the walls in the maze
+     * @param currentBlock current Block from mazeMap Arraylist
+     */
     private void setMazeWalls(Block currentBlock)
     {
         if(currentBlock.getLocation()[1] == 0)
         {
             currentBlock.setWallNorth(new MazeWall());
         }else{
-            //currentBlock.setWallNorth(getNeighbourBlock(currentBlock,"NORTH").getWallSouth());
+            currentBlock.setWallNorth(getNeighbourBlock(currentBlock,"NORTH").getWallSouth());
         }
 
         if(currentBlock.getLocation()[0] == 0)
@@ -58,11 +62,8 @@ public class Maze {
             currentBlock.setWallWest(new MazeWall());
         }else
         {
-            //currentBlock.setWallWest(getNeighbourBlock(currentBlock,"WEST").getWallEast());
+            currentBlock.setWallWest(getNeighbourBlock(currentBlock,"WEST").getWallEast());
         }
-
-
-
     }
 
 
@@ -74,7 +75,7 @@ public class Maze {
      */
     public int getNeighbourIndex(Block referenceBlock, String direction){
 
-        int[] newLocation = referenceBlock.getLocation();
+        int[] newLocation = referenceBlock.getLocation().clone();
 
         if(outOfBounds(getIndex(newLocation),direction)){return -1;}
 
@@ -87,7 +88,6 @@ public class Maze {
                 break;
             case "SOUTH":
                 newLocation[1] += 1;
-
                 break;
             case "WEST":
                 newLocation[0] -= 1;
@@ -100,9 +100,7 @@ public class Maze {
         }
 
         return getIndex(newLocation);
-
     }
-
 
     /**
      * check's if neighbour block is out of the mazes boundary
@@ -112,9 +110,8 @@ public class Maze {
      */
     public Boolean outOfBounds(int index, String direction )
     {
-        direction = direction.toUpperCase();
 
-        switch (direction) {
+        switch (direction.toUpperCase()) {
             case "EAST":
                 if ((index + 1) % size[0] == 0) {
                     return true;
@@ -140,7 +137,6 @@ public class Maze {
         }
         return false;
     }
-
 
     /**
      * Return the index of requested neighbouring block "NORTH", "EAST", "SOUTH" ," WEST"
@@ -202,7 +198,7 @@ public class Maze {
     }
 
     /**
-     *Gets current maze name
+     * Returns current maze name
      * @return mazes name
      */
     public String getMazeName() {
@@ -210,15 +206,15 @@ public class Maze {
     }
 
     /**
-     *
-     * @return mazeMap
+     * Returns the ArrayList mazes map
+     * @return maze map as an ArrayList
      */
     public ArrayList<Block> getMazeMap() {
         return mazeMap;
     }
 
     /**
-     * Gets current maze size
+     * Returns current maze size
      * @return current maze size [x,y]
      */
     public int[] getSize() {
@@ -226,7 +222,7 @@ public class Maze {
     }
 
     /**
-     *  sets difficulty level
+     * Sets difficulty level
      * @param difficulty new level for difficulty
      */
     public void setDifficulty(int difficulty) {
@@ -234,7 +230,7 @@ public class Maze {
     }
 
     /**
-     *  Sets the maze name
+     * Sets the maze name
      * @param mazeName The new name for maze
      */
     public void setMazeName(String mazeName) {
