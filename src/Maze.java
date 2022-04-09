@@ -43,8 +43,8 @@ public class Maze {
         mazeMap.get(getIndex(current)).getWallWest().setActive(true);
         //bottom right corner
         current[0] = sizeX - 1;
-        mazeMap.get(getIndex(current)).getWallNorth().setActive(true);
-        mazeMap.get(getIndex(current)).getWallWest().setActive(true);
+        mazeMap.get(getIndex(current)).getWallSouth().setActive(true);
+        mazeMap.get(getIndex(current)).getWallEast().setActive(true);
         //set the east and west border walls between the corners
         for(int y = 1; y < sizeY-1; y++) {
             current[0] = sizeX - 1;
@@ -58,7 +58,7 @@ public class Maze {
             current[0] = x;
             current[1] = 0;
             mazeMap.get(getIndex(current)).getWallNorth().setActive(true);
-            current[0] = sizeY - 1;
+            current[1] = sizeY - 1;
             mazeMap.get(getIndex(current)).getWallSouth().setActive(true);
         }
     }
