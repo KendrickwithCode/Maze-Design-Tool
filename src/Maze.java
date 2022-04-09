@@ -10,7 +10,7 @@ public class Maze {
     private final ArrayList<Block> mazeMap;
 
     /**
-     * Constructs and initialises a new Maze
+     * Constructs and initialises a new Maze. Resulting maze is blank with only border walls activated.
      * @param sizeX size of the x-axis for the maze
      * @param sizeY size of the y-axis for the maze
      * @param name name of the maze
@@ -24,7 +24,47 @@ public class Maze {
     }
 
     /**
-     * Resets the maze map to new clear blocks.
+     * Activates all the wall objects that sit on the border of the maze. All the block and corresponding wall objects
+     * in the maze must have already been set.
+     * @param sizeX size of the x-axis of the maze
+     * @param sizeY size of the y-axis of the maze
+     */
+    private void activateBorderWalls(int sizeX, int sizeY){
+        int[] current = {0,0};  //used to hold the current position and get the index in mazeMap
+        //top left corner
+        mazeMap.get(0).getWallNorth().setActive(true);
+        mazeMap.get(0).getWallWest().setActive(true);
+        //top right corner
+        mazeMap.get(sizeX-1).getWallNorth().setActive(true);
+        mazeMap.get(sizeX-1).getWallEast().setActive(true);
+        //bottom left corner
+        current[1] = sizeY - 1;
+        mazeMap.get(getIndex(current)).getWallSouth().setActive(true);
+        mazeMap.get(getIndex(current)).getWallWest().setActive(true);
+        //bottom right corner
+        current[0] = sizeX - 1;
+        mazeMap.get(getIndex(current)).getWallSouth().setActive(true);
+        mazeMap.get(getIndex(current)).getWallEast().setActive(true);
+        //set the east and west border walls between the corners
+        for(int y = 1; y < sizeY-1; y++) {
+            current[0] = sizeX - 1;
+            current[1] = y;
+            mazeMap.get(getIndex(current)).getWallEast().setActive(true);
+            current[0] = 0;
+            mazeMap.get(getIndex(current)).getWallWest().setActive(true);
+        }
+        //set the north and south walls between the corners
+        for(int x = 1; x < sizeX-1; x++) {
+            current[0] = x;
+            current[1] = 0;
+            mazeMap.get(getIndex(current)).getWallNorth().setActive(true);
+            current[1] = sizeY - 1;
+            mazeMap.get(getIndex(current)).getWallSouth().setActive(true);
+        }
+    }
+
+    /**
+     * Resets the maze map to new clear blocks with only the outer border walls activated.
      * @param sizeX X-axis size of the maze
      * @param sizeY Y-axis size of the maze
      */
@@ -42,6 +82,7 @@ public class Maze {
                 currentIndex++;
             }
         }
+        activateBorderWalls(sizeX,sizeY);
     }
 
     /**
@@ -157,7 +198,7 @@ public class Maze {
     /**
      * Gets the ArrayList index of the asked location
      * @param location [x,y] of the cell you like to know the Arraylist index
-     * @return the index of the supplied location
+     * @return the index of the supplied location2
      */
     public int getIndex(int[] location)
     {
@@ -168,23 +209,10 @@ public class Maze {
     }
 
     /**
-     * Renders the current maze
-     */
-    public void RenderMaze()
-    {
-    }
-
-    /**
-     * Auto generates a new maze
-     */
-    public void GenerateMaze()
-    {
-    }
-
-    /**
      * Returns current difficulty level
      * @return difficulty level
      */
+
     public int getDifficulty() {
         return difficulty;
     }
