@@ -4,7 +4,7 @@ public class LogoBlock extends Block{
     private int[][] startPictureCoor;
 
     /**
-     * Constructs and initialises new Block
+     * Constructs and initialises new LogoBlock which can display logos
      *
      * @param location location of block on maze
      */

@@ -71,16 +71,16 @@ int[] locationBottomRight = {8,2};
         assertEquals(currentBlock.getWallSouth(), testMaze.getNeighbourBlock(currentBlock, "SOUTH").getWallNorth());
 
         // Enable if statement to see memory map
-        boolean showMemMap = false;
+        boolean showMemMap = true;
         if (showMemMap) {
             for (Block current : testMaze.getMazeMap()
             ) {
                 System.out.println("I: " + current.getBlockIndex() + "\t X,Y: " + current.getLocation()[0] + "," + current.getLocation()[1]
-                        + "\tWall N: " + current.getWallNorth() + "\tWall S: " + current.getWallSouth()
-                        + "\tWall E:" + current.getWallEast() + "\tWall W:" + current.getWallWest());
+                        + "\tWall N: " + current.getWallNorth() + "\t" + current.getWallNorth().isActive()
+                        + "\tWall S: " + current.getWallSouth() + "\t" + current.getWallSouth().isActive()
+                        + "\tWall E:" + current.getWallEast() +  "\t" + current.getWallEast().isActive()
+                        + "\tWall W:" + current.getWallWest() + "\t" + current.getWallWest().isActive());
             }
-
-
         }
     }
 
