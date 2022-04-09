@@ -6,7 +6,7 @@ public class MazeBlock extends Block{
      *
      * @param location location of block on maze
      */
-    public MazeBlock(int[] location) {
-        super(location);
+    public MazeBlock(int[] location, int blockIndex) {
+        super(location, blockIndex);
     }
 }
