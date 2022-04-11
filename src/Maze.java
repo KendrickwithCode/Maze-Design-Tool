@@ -65,6 +65,12 @@ public class Maze {
         }
     }
 
+    public void generateNewMaze()
+    {
+        resetMaze(false);
+        MazeGenerator.GenerateMaze(this,0);
+    }
+
     /**
      * Resets the maze map to new clear blocks with only the outer border walls activated.
      * @param sizeX X-axis size of the maze

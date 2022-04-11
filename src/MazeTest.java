@@ -92,7 +92,8 @@ int[] locationBottomRight = {8,2};
     public void testMap()
     {
 
-        testMaze.resetMaze(false);
+        //testMaze.resetMaze(false);
+        testMaze.generateNewMaze();
 
         char NW = '╔';
         char N = '═';
@@ -153,7 +154,7 @@ int[] locationBottomRight = {8,2};
         ArrayList <String> displayBuffer2 = new ArrayList<>();
         int sizeY = testMaze.getSize()[1];
         int sizeX = testMaze.getSize()[0];
-        boolean toggle = false;
+        boolean toggle = true;
 
         for (char[] item: testDisp
              ) {

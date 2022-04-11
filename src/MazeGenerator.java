@@ -1,4 +1,4 @@
-import java.util.ArrayDeque;
+//import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,7 +18,7 @@ public class MazeGenerator {
 //    private static ArrayDeque<Block> stackList;
     private static Maze currentMaze;
 
-    public static void depthFieldSearch(int startPosIndex)
+    private static void depthFieldSearch(int startPosIndex)
     {
         Block currentBlock = currentMaze.getMazeMap().get(startPosIndex);
         depthFieldSearchRecursion(currentBlock);
@@ -80,7 +80,7 @@ public class MazeGenerator {
 
         for (String direction: new String[]{"NORTH","EAST","SOUTH","WEST"}
              ) {
-            if (currentMaze.outOfBounds(currentBlockIndex,direction) && !currentMaze.getNeighbourBlock(currentBlock, direction).getVisited())
+            if (!currentMaze.outOfBounds(currentBlockIndex,direction) && !currentMaze.getNeighbourBlock(currentBlock, direction).getVisited())
             {
                 currentBlock.availableDirections.add(direction);
             }
