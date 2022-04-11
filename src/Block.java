@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.*;
+
 public abstract class Block {
 
     protected MazeWall wallNorth;
@@ -6,6 +9,7 @@ public abstract class Block {
     protected MazeWall wallWest;
     protected final int[] location;
     protected final int blockIndex;
+    private JPanel blockPanel;
 
     /**
      * Constructs and initialises new Block
@@ -17,6 +21,7 @@ public abstract class Block {
         this.blockIndex = blockIndex;
         wallEast = new MazeWall();
         wallSouth = new MazeWall();
+        this.blockPanel = createPanel();
     }
 
     /**
@@ -97,5 +102,18 @@ public abstract class Block {
      */
     public int getBlockIndex() {
         return blockIndex;
+    }
+
+    public JPanel getBlockPanel() {
+        return this.blockPanel;
+    }
+
+    private JPanel createPanel(){
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        panel.setBackground(Color.white);
+        panel.setBorder(BorderFactory.createLineBorder(Color.black, 0));
+
+        return panel;
     }
 }
