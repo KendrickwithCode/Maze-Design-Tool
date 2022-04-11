@@ -15,6 +15,8 @@ public abstract class Block {
     /**
      * Constructs and initialises new Block
      * @param location int[x,y] x,y location of block on maze
+     * @param blockIndex sets the block index for the maze map ArrayList of block.
+     * @param clearWalls sets the default value for the walls to be cleared (true / inactive) or set (false / active)
      */
     public Block(int[] location, int blockIndex,Boolean clearWalls)
     {
@@ -28,16 +30,29 @@ public abstract class Block {
         availableDirections = new ArrayList<>();
     }
 
+    /**
+     * Overload Constructs and initialises new Block
+     * @param location int[x,y] x,y location of block on maze
+     * @param blockIndex sets the block index for the maze map ArrayList of block.
+     */
     public Block(int[] location, int blockIndex)
     {
         this(location,blockIndex, true);
         this.visited = false;
     }
 
+    /**
+     * Gets all available directions from objects fields
+     * @return ArrayList of available directions to travel
+     */
     public ArrayList<String> getAvailableDirections() {
         return availableDirections;
     }
 
+    /**
+     * Sets available directions
+     * @param availableDirections ArrayList of available directions "NORTH", "EAST", "SOUTH", "WEST"
+     */
     public void setAvailableDirections(ArrayList<String> availableDirections) {
         this.availableDirections = availableDirections;
     }
