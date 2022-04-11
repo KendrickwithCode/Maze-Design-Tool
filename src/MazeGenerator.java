@@ -1,5 +1,6 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Random;
 
 //  The depth-first search algorithm of maze generation is frequently implemented using backtracking.
 //  This can be described with a following recursive routine:
@@ -14,19 +15,57 @@ import java.util.ArrayList;
 
 public class MazeGenerator {
 
-    private static ArrayDeque<Block> stackList;
+//    private static ArrayDeque<Block> stackList;
     private static Maze currentMaze;
 
+    public static void depthFieldSearch(int startPosIndex)
+    {
+        Block currentBlock = currentMaze.getMazeMap().get(startPosIndex);
+        depthFieldSearchRecursion(currentBlock);
+    }
 
+    private static void depthFieldSearchRecursion(Block currentBlock)
+    {
+        currentBlock.setVisited(true);
+        setupDirections(currentBlock);
+        String nextDirection = randomSelector(currentBlock.getAvailableDirections());
 
-    public static void GenerateMaze(Maze maze,int[] startPos){
+        if ( !nextDirection.isEmpty()) {
+            setWallState(currentBlock,nextDirection);
+            Block nextBlock = currentMaze.getNeighbourBlock(currentBlock,nextDirection);
+            depthFieldSearchRecursion(nextBlock);
+        }
+    }
+
+    private static void setWallState(Block currentBlock, String direction)
+    {
+        switch (direction.toUpperCase()) {
+            case "EAST" -> currentBlock.getWallEast().setActive(false);
+            case "WEST" -> currentBlock.getWallWest().setActive(false);
+            case "NORTH" -> currentBlock.getWallNorth().setActive(false);
+            case "SOUTH" -> currentBlock.getWallSouth().setActive(false);
+            default -> {
+            }
+        }
+    }
+
+    private static String randomSelector(ArrayList <String> directionList){
+        Random randomIndex= new Random();
+        return directionList.get(randomIndex.nextInt(directionList.size()));
+    }
+
+    public static void GenerateMaze(Maze maze,int startPosIndex){
         currentMaze = maze;
-        maze.resetMaze(maze.getSize()[0],maze.getSize()[1],false);
-        int startPosIndex = maze.getIndex(startPos);
-        Block currentBlock = maze.getMazeMap().get(startPosIndex);
+        depthFieldSearch(startPosIndex);
 
-        setupDirections(currentBlock);      //Sets directions that can be traversed
-        stackList.push(currentBlock);       //Get Start Pos Add to stack
+
+
+//        maze.resetMaze(maze.getSize()[0],maze.getSize()[1],false);
+//        int startPosIndex = maze.getIndex(startPos);
+//        Block currentBlock = maze.getMazeMap().get(startPosIndex);
+//
+//        setupDirections(currentBlock);      //Sets directions that can be traversed
+//        stackList.push(currentBlock);       //Get Start Pos Add to stack
 
     }
 
@@ -41,7 +80,7 @@ public class MazeGenerator {
 
         for (String direction: new String[]{"NORTH","EAST","SOUTH","WEST"}
              ) {
-            if (currentMaze.outOfBounds(currentBlockIndex,direction))
+            if (currentMaze.outOfBounds(currentBlockIndex,direction) && !currentMaze.getNeighbourBlock(currentBlock, direction).getVisited())
             {
                 currentBlock.availableDirections.add(direction);
             }

@@ -8,6 +8,7 @@ public abstract class Block {
     protected MazeWall wallWest;
     protected final int[] location;
     protected final int blockIndex;
+    protected boolean visited;
 
     protected ArrayList<String> availableDirections;
 
@@ -30,6 +31,31 @@ public abstract class Block {
     public Block(int[] location, int blockIndex)
     {
         this(location,blockIndex, true);
+        this.visited = false;
+    }
+
+    public ArrayList<String> getAvailableDirections() {
+        return availableDirections;
+    }
+
+    public void setAvailableDirections(ArrayList<String> availableDirections) {
+        this.availableDirections = availableDirections;
+    }
+
+    /**
+     * Gets the boolean if the block has been visited
+     * @return visited boolean.
+     */
+    public boolean getVisited() {
+        return visited;
+    }
+
+    /**
+     * Sets the visited state to true or false.
+     * @param visited boolean has been visited ture / false.
+     */
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 
     /**
