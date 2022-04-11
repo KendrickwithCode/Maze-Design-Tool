@@ -14,6 +14,7 @@
 //                     which is invoked once for any initial cell in the area.
 
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,7 +24,7 @@ import java.util.Random;
  * Auto Generates A Maze and overwrites current one.
  */
 public class MazeGenerator {
-//    private static ArrayDeque<Block> stackList;
+    private static ArrayDeque<Block> stackList;
     private static Maze currentMaze;
 
     /**
@@ -32,6 +33,7 @@ public class MazeGenerator {
      */
     private static void depthFieldSearch(int startPosIndex)
     {
+        stackList = new ArrayDeque<>();
         Block currentBlock = currentMaze.getMazeMap().get(startPosIndex);
         depthFieldSearchRecursion(currentBlock);
     }
@@ -42,15 +44,41 @@ public class MazeGenerator {
      */
     private static void depthFieldSearchRecursion(Block currentBlock)
     {
+        if(!currentBlock.visited){
+            stackList.push(currentBlock);
+        }
+
         currentBlock.setVisited(true);
+
         setupDirections(currentBlock);
         String nextDirection = randomSelector(currentBlock.getAvailableDirections());
 
         if (!nextDirection.equals("END") ) {
-            setWallState(currentBlock,nextDirection);
-            Block nextBlock = currentMaze.getNeighbourBlock(currentBlock,nextDirection);
+
+            Block nextBlock = setupMoveToNextBlock(currentBlock,nextDirection);
             depthFieldSearchRecursion(nextBlock);
         }
+        else
+        {
+            stackList.pop();
+            if (stackList.size() > 0) {
+                Block first = stackList.getFirst();
+                Block last = stackList.getLast();
+                depthFieldSearchRecursion(stackList.getFirst());
+            }
+        }
+    }
+
+    /**
+     * Removes wall needed to movel to the next block
+     * @param currentBlock reference block (block that you are working from).
+     * @param nextDirection the direction you wish to move to for the next block "NORTH", "EAST", "SOUTH", "WEST"
+     * @return the next block from the direction you chose to move.
+     */
+    private static Block setupMoveToNextBlock(Block currentBlock, String nextDirection)
+    {
+        setWallState(currentBlock,nextDirection);
+        return currentMaze.getNeighbourBlock(currentBlock,nextDirection);
     }
 
     /**
@@ -108,6 +136,7 @@ public class MazeGenerator {
      */
     private static void setupDirections(Block currentBlock)
     {
+        currentBlock.clearAvailableDirections();
         int currentBlockIndex = currentMaze.getIndex(currentBlock.getLocation());
 
         for (String direction: new String[]{"NORTH","EAST","SOUTH","WEST"}

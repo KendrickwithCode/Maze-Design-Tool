@@ -49,6 +49,11 @@ public abstract class Block {
         return availableDirections;
     }
 
+    public void clearAvailableDirections()
+    {
+        availableDirections.clear();
+    }
+
     /**
      * Sets available directions
      * @param availableDirections ArrayList of available directions "NORTH", "EAST", "SOUTH", "WEST"
