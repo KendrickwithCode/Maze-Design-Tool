@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Block {
 
     protected MazeWall wallNorth;
@@ -7,16 +9,27 @@ public abstract class Block {
     protected final int[] location;
     protected final int blockIndex;
 
+    protected ArrayList<String> availableDirections;
+
     /**
      * Constructs and initialises new Block
      * @param location int[x,y] x,y location of block on maze
      */
-    public Block(int[] location, int blockIndex)
+    public Block(int[] location, int blockIndex,Boolean clearWalls)
     {
         this.location = location;
         this.blockIndex = blockIndex;
         wallEast = new MazeWall();
         wallSouth = new MazeWall();
+        wallEast.setActive(!clearWalls);
+        wallSouth.setActive(!clearWalls);
+
+        availableDirections = new ArrayList<>();
+    }
+
+    public Block(int[] location, int blockIndex)
+    {
+        this(location,blockIndex, true);
     }
 
     /**

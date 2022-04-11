@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import static java.lang.Boolean.TRUE;
+
 
 public class Maze {
 
@@ -68,7 +70,7 @@ public class Maze {
      * @param sizeX X-axis size of the maze
      * @param sizeY Y-axis size of the maze
      */
-    public void resetMaze(int sizeX, int sizeY)
+    public void resetMaze(int sizeX, int sizeY, Boolean clearWalls)
     {
         mazeMap.clear();
         int currentIndex=0;
@@ -77,13 +79,29 @@ public class Maze {
          */
         for (int y =0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                mazeMap.add(new MazeBlock(new int[]{x,y},currentIndex));
+                mazeMap.add(new MazeBlock(new int[]{x,y},currentIndex, clearWalls));
                 setMazeWalls(mazeMap.get(currentIndex));
                 currentIndex++;
             }
         }
         activateBorderWalls(sizeX,sizeY);
     }
+
+    public void resetMaze(Boolean clearWalls)
+    {
+        this.resetMaze(size[0],size[1], clearWalls);
+    }
+
+    /**
+     * Overload resetMaze - Passes a default true Parameter to resetMaze
+     * @param sizeX X-axis size of the maze
+     * @param sizeY Y-axis size of the maze
+     */
+    public void resetMaze(int sizeX, int sizeY)
+    {
+        this.resetMaze(sizeX,sizeY, true);
+    }
+
 
     /**
      * Sets all the walls in the maze

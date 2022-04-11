@@ -7,7 +7,7 @@ public class MazeWall{
     public MazeWall() {
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 
@@ -23,11 +23,13 @@ public class MazeWall{
         this.start = start;
     }
 
-    public boolean isFinish() {
+    public boolean getFinish() {
         return finish;
     }
 
     public void setFinish(boolean finish) {
         this.finish = finish;
     }
+
+
 }
