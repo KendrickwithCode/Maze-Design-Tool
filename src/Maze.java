@@ -65,11 +65,28 @@ public class Maze {
         }
     }
 
+    /**
+     * Auto generates a new maze. Destroys old maze while generating a new one
+     * @param algorithm the algorithm used to generate the maze "DPSIterative", "DPSRecursive"
+     * @param startPosXY the starting position int[x,y]
+     */
+    public void generateNewMaze(String algorithm,int[] startPosXY)
+    {
+        int startIndex = getIndex(startPosXY);
+        resetMaze(false);
+        MazeGenerator.GenerateMaze(this,startIndex,algorithm);
+    }
+
+    /**
+     * Overload Auto generates a new maze. Destroys old maze while generating a new one
+     */
     public void generateNewMaze()
     {
-        resetMaze(false);
-        MazeGenerator.GenerateMaze(this,0);
+        generateNewMaze("DPSIterative",new int[]{0,0});
     }
+
+
+
 
     /**
      * Resets the maze map to new clear blocks with only the outer border walls activated.
