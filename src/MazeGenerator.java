@@ -63,7 +63,7 @@ public class MazeGenerator {
      *                       1.  Push the current cell to the stack
      *                       2.  Choose one of the unvisited neighbours
      *                       3.  Remove the wall between the current cell and the chosen cell
-     *                       4.    Mark the chosen cell as visited and push it to the stack
+     *                       4.  Mark the chosen cell as visited and push it to the stack
      *
      * @param firstBlock block to start from.
      */
@@ -75,8 +75,9 @@ public class MazeGenerator {
         {
             Block currentBlock = stackList.pop();
             setupDirections(currentBlock);
-            if(currentBlock.getAvailableDirections().size() != 0)
+            if(!currentBlock.getAvailableDirections().isEmpty())
             {
+                stackList.push(currentBlock);
                 String nextDirection = randomSelector(currentBlock.getAvailableDirections());
                 if(!nextDirection.equals("END")) {
                     Block nextBlock=setupMoveToNextBlock(currentBlock, nextDirection);
@@ -169,7 +170,7 @@ public class MazeGenerator {
     }
 
     /**
-     * Gets the available direction from current block
+     * Gets the available direction from current block. Check out of bounds and if the block has already been visited.
      * @param currentBlock is the current block of reference to get all available directions
      */
     private static void setupDirections(Block currentBlock)
@@ -179,6 +180,7 @@ public class MazeGenerator {
 
         for (String direction: new String[]{"NORTH","EAST","SOUTH","WEST"}
              ) {
+            // If next block is not out of bounds and has not been visited add as a direction that can be travelled.
             if (!currentMaze.outOfBounds(currentBlockIndex,direction) && !currentMaze.getNeighbourBlock(currentBlock, direction).getVisited())
             {
                 currentBlock.availableDirections.add(direction);
