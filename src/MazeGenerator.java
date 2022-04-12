@@ -121,8 +121,6 @@ public class MazeGenerator {
         {
             stackList.pop();
             if (stackList.size() > 0) {
-                Block first = stackList.getFirst();
-                Block last = stackList.getLast();
                 depthFieldSearchRecursion(stackList.getFirst());
             }
         }
