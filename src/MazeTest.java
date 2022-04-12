@@ -95,17 +95,8 @@ int[] locationBottomRight = {8,2};
         if (displayMazeMap.get()) {
             testMaze.generateNewMaze();
 
-            char NW = '╔';
-            char N = '═';
-            char NE = '╗';
-            char E = '║';
-            char SE = '╝';
-            char S = '═';
-            char SW = '╚';
-            char W = '║';
             char C = ' ';
-
-            char A = '≡';
+            char A = '=';
 
             char[][] testDisp = new char[testMaze.getSize()[0] * testMaze.getSize()[0]][4];                   // 0 1
             // 2 3
