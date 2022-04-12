@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Block {
@@ -9,6 +11,8 @@ public abstract class Block {
     protected final int[] location;
     protected final int blockIndex;
     protected boolean visited;
+
+    private final JPanel blockPanel;
 
     protected ArrayList<String> availableDirections;
 
@@ -26,6 +30,8 @@ public abstract class Block {
         wallSouth = new MazeWall();
         wallEast.setActive(!clearWalls);
         wallSouth.setActive(!clearWalls);
+
+        this.blockPanel = createPanel();
 
         availableDirections = new ArrayList<>();
     }
@@ -157,4 +163,18 @@ public abstract class Block {
     public int getBlockIndex() {
         return blockIndex;
     }
+
+    public JPanel getBlockPanel() {
+        return this.blockPanel;
+    }
+
+    private JPanel createPanel(){
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        panel.setBackground(Color.white);
+        panel.setBorder(BorderFactory.createLineBorder(Color.black, 0));
+
+        return panel;
+    }
+
 }

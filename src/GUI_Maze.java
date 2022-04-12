@@ -22,6 +22,7 @@ public class GUI_Maze extends JPanel{
 
         // Create maze
         Maze maze = new Maze(mazeWidth, mazeHeight, mazeName);
+        maze.generateNewMaze();
 
         // Set maze padding and layout
         Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
