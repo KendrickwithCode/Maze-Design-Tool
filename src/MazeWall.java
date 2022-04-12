@@ -29,6 +29,17 @@ public class MazeWall{
      */
     public void setActive(boolean active) {
         this.active = active;
+
+        Color activeColor = Color.black;
+        Color unsetColor = Color.white;
+        if(active){
+            this.button.setBackground(activeColor);
+            this.button.setContentAreaFilled(true);
+        } else {
+            this.button.setContentAreaFilled(false);
+            this.button.setBackground(unsetColor);
+        }
+
     }
 
     public boolean isStart() {
