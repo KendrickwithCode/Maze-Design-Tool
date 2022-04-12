@@ -89,98 +89,83 @@ int[] locationBottomRight = {8,2};
     }
 
     @Test
-    public void testMap()
-    {
+    public void testMap() {
+        AtomicBoolean displayMazeMap = new AtomicBoolean(false);
 
-        //testMaze.resetMaze(false);
-        testMaze.generateNewMaze();
+        if (displayMazeMap.get()) {
+            testMaze.generateNewMaze();
 
-        char NW = '╔';
-        char N = '═';
-        char NE = '╗';
-        char E = '║';
-        char SE = '╝';
-        char S = '═';
-        char SW = '╚';
-        char W = '║';
-        char C = ' ';
+            char NW = '╔';
+            char N = '═';
+            char NE = '╗';
+            char E = '║';
+            char SE = '╝';
+            char S = '═';
+            char SW = '╚';
+            char W = '║';
+            char C = ' ';
 
-        char A = '≡';
+            char A = '≡';
 
-        char[][] testDisp = new char[testMaze.getSize()[0]*testMaze.getSize()[0]][4];                   // 0 1
-                                                                                                        // 2 3
+            char[][] testDisp = new char[testMaze.getSize()[0] * testMaze.getSize()[0]][4];                   // 0 1
+            // 2 3
+            int i = 0;
 
+            for (Block block : testMaze.getMazeMap()
+            ) {
 
-        int i = 0;
-
-        for (Block block: testMaze.getMazeMap()
-             ) {
-
-            testDisp[i][3] = '.';
+                testDisp[i][3] = '.';
 
 
-            if (block.getWallNorth().getActive() )
-            {
-                testDisp[i][0] = A;
-                testDisp[i][1] = A;
-            }else
-            {
-                testDisp[i][0] = C;
-                testDisp[i][1] = C;
+                if (block.getWallNorth().getActive()) {
+                    testDisp[i][0] = A;
+                    testDisp[i][1] = A;
+                } else {
+                    testDisp[i][0] = C;
+                    testDisp[i][1] = C;
+                }
+
+                if (block.getWallWest().getActive()) {
+                    testDisp[i][0] = A;
+                    testDisp[i][2] = A;
+                } else {
+                    testDisp[i][2] = C;
+                }
+                i++;
             }
 
-            if (block.getWallWest().getActive() )
-            {
-                testDisp[i][0] = A;
-                testDisp[i][2] = A;
+
+            ArrayList<String> displayBuffer1 = new ArrayList<>();
+            ArrayList<String> displayBuffer2 = new ArrayList<>();
+            int sizeY = testMaze.getSize()[1];
+            int sizeX = testMaze.getSize()[0];
+            boolean toggle = true;
+
+            for (char[] item : testDisp
+            ) {
+                displayBuffer1.add(Character.toString(item[0]));
+                displayBuffer1.add(Character.toString(item[1]));
             }
-            else
-            {
-                testDisp[i][2] = C;
+
+            for (char[] item : testDisp
+            ) {
+                displayBuffer2.add(Character.toString(item[2]));
+                displayBuffer2.add(Character.toString(item[3]));
             }
-            i++;
-        }
 
 
-
-//        for (char[] item:testDisp
-//             ) {
-//            System.out.print(item);
-//        }
-
-
-
-        ArrayList <String> displayBuffer1 = new ArrayList<>();
-        ArrayList <String> displayBuffer2 = new ArrayList<>();
-        int sizeY = testMaze.getSize()[1];
-        int sizeX = testMaze.getSize()[0];
-        boolean toggle = true;
-
-        for (char[] item: testDisp
-             ) {
-            displayBuffer1.add(Character.toString(item[0]));
-            displayBuffer1.add(Character.toString(item[1]));
-        }
-
-        for (char[] item: testDisp
-        ) {
-            displayBuffer2.add(Character.toString(item[2]));
-            displayBuffer2.add(Character.toString(item[3]));
-        }
-
-
-            for (String item: displayBuffer1
+            for (String item : displayBuffer1
             ) {
                 System.out.print(item);
 
             }
 
             System.out.println();
-            for (String item: displayBuffer2
+            for (String item : displayBuffer2
             ) {
                 System.out.print(item);
             }
+        }
     }
-
 }
 
