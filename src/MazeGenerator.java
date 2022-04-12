@@ -1,23 +1,10 @@
 
-//  Automate generator algorithm is based of the Wikipedia recursive algorithm (Recursive implementation).
+//  Automate generator algorithm is based of the Wikipedia algorithms.
 //  https://en.wikipedia.org/wiki/Maze_generation_algorithm
-//
-//  The depth-first search algorithm of maze generation is frequently implemented using backtracking.
-//  This can be described with a following recursive routine:
-//
-//        1.    Given a current cell as a parameter
-//        2.    Mark the current cell as visited
-//        3.    While the current cell has any unvisited neighbour cells
-//                  1. Choose one of the unvisited neighbours
-//                  2. Remove the wall between the current cell and the chosen cell
-//                  3. Invoke the routine recursively for a chosen cell
-//                     which is invoked once for any initial cell in the area.
-
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Random;
-
 
 
 /**
@@ -28,19 +15,92 @@ public class MazeGenerator {
     private static Maze currentMaze;
 
     /**
-     * Code entry point for recursive depth field search
-     * @param startPosIndex set starting point block as an index
+     * Automation maze generator. This function will overwrite the current maze's map with
+     * an automated generated maze.
+     * @param maze the maze object to work on
+     * @param startPosIndex the starting block point as an index integer.
+     * @param algorithm generation algorithm ""
      */
-    private static void depthFieldSearch(int startPosIndex)
-    {
+    public static void GenerateMaze(Maze maze,int startPosIndex, String algorithm){
+        currentMaze = maze;
         stackList = new ArrayDeque<>();
-        Block currentBlock = currentMaze.getMazeMap().get(startPosIndex);
-        depthFieldSearchRecursion(currentBlock);
+        Block firstBlock = currentMaze.getMazeMap().get(startPosIndex);
+
+        switch (algorithm.toUpperCase())
+        {
+            case "RECURSIVE":
+                depthFieldSearchRecursion(firstBlock);
+                break;
+
+            case "ITERATIVE":
+                depthFieldSearchIterative(firstBlock);
+            default:
+                depthFieldSearchIterative(firstBlock);
+                break;
+        }
     }
 
     /**
-     * Recursive function for depth fielf search
-     * @param currentBlock current block that is being worked on
+     * Overload Automation maze generator. This function will overwrite the current maze's map with
+     * an automated generated maze.
+     * @param maze the maze object to work on
+     * @param startPosIndex the starting block point as an index integer.
+     */
+    public static void GenerateMaze(Maze maze,int startPosIndex){
+        String defaultAlgorithm = "Iterative";
+        GenerateMaze(maze,startPosIndex,defaultAlgorithm);
+    }
+
+    /**
+     * Generate a maze via Depth Field Search Iterative Algorithm.
+     *  Algorithm From Wikipedia
+     *  https://en.wikipedia.org/wiki/Maze_generation_algorithm
+     *
+     *       1.  Choose the initial cell, mark it as visited and push it to the stack
+     *       2.  While the stack is not empty
+     *               1.  Pop a cell from the stack and make it a current cell
+     *               2.  If the current cell has any neighbours which have not been visited
+     *                       1.  Push the current cell to the stack
+     *                       2.  Choose one of the unvisited neighbours
+     *                       3.  Remove the wall between the current cell and the chosen cell
+     *                       4.    Mark the chosen cell as visited and push it to the stack
+     *
+     * @param firstBlock block to start from.
+     */
+    private static void depthFieldSearchIterative(Block firstBlock){
+        firstBlock.setVisited(true);
+        stackList.push(firstBlock);
+
+        while (!stackList.isEmpty())
+        {
+            Block currentBlock = stackList.pop();
+            setupDirections(currentBlock);
+            if(currentBlock.getAvailableDirections().size() != 0)
+            {
+                String nextDirection = randomSelector(currentBlock.getAvailableDirections());
+                if(!nextDirection.equals("END")) {
+                    Block nextBlock=setupMoveToNextBlock(currentBlock, nextDirection);
+                    nextBlock.setVisited(true);
+                    stackList.push(nextBlock);
+                }
+            }
+        }
+    }
+
+    /**
+     * Generate a maze via Depth Field Search Recursive Algorithm.
+     *  Algorithm From Wikipedia
+     *  https://en.wikipedia.org/wiki/Maze_generation_algorithm
+     *
+     *       1.  Given a current cell as a parameter
+     *       2.  Mark the current cell as visited
+     *       3.  While the current cell has any unvisited neighbour cells
+     *                 1.  Choose one of the unvisited neighbours
+     *                 2.  Remove the wall between the current cell and the chosen cell
+     *                 3.  Invoke the routine recursively for a chosen cell
+     *                     which is invoked once for any initial cell in the area.
+     *
+     * @param currentBlock current block that is being worked on.
      */
     private static void depthFieldSearchRecursion(Block currentBlock)
     {
@@ -49,12 +109,10 @@ public class MazeGenerator {
         }
 
         currentBlock.setVisited(true);
-
         setupDirections(currentBlock);
         String nextDirection = randomSelector(currentBlock.getAvailableDirections());
 
         if (!nextDirection.equals("END") ) {
-
             Block nextBlock = setupMoveToNextBlock(currentBlock,nextDirection);
             depthFieldSearchRecursion(nextBlock);
         }
@@ -109,26 +167,6 @@ public class MazeGenerator {
         return directionList.get(randomIndex.nextInt(directionList.size()));
         else return "END";
     }
-
-    /**
-     * Automation maze generator. This function will overwrite the current maze's map with
-     * an automated generated maze.
-     * @param maze the maze object to work on
-     * @param startPosIndex the starting block point as an index integer.
-     */
-    public static void GenerateMaze(Maze maze,int startPosIndex){
-        currentMaze = maze;
-        depthFieldSearch(startPosIndex);
-
-//        maze.resetMaze(maze.getSize()[0],maze.getSize()[1],false);
-//        int startPosIndex = maze.getIndex(startPos);
-//        Block currentBlock = maze.getMazeMap().get(startPosIndex);
-//
-//        setupDirections(currentBlock);      //Sets directions that can be traversed
-//        stackList.push(currentBlock);       //Get Start Pos Add to stack
-
-    }
-
 
     /**
      * Gets the available direction from current block
