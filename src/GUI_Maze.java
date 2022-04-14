@@ -7,26 +7,41 @@ public class GUI_Maze extends JPanel{
     private int mazeHeight;
     private int mazeWidth;
 
-    public GUI_Maze(int width, int height) {
+
+    public GUI_Maze(Maze maze) {
+    this(maze,false);
+    }
+
+    public GUI_Maze(Maze maze,boolean generate) {
         // Set Maze amount of blocks for maze width and height
-        this.mazeHeight = height;
-        this.mazeWidth = width;
+        this.mazeHeight = maze.getSize()[1];
+        this.mazeWidth = maze.getSize()[0];
 
         // Testing variables
         //
-        int mazeHeight = 25;
-        int mazeWidth = 25;
-        String mazeName = "Testing Maze";
+        //int mazeHeight = 40;
+        //int mazeWidth = 40;
+//        String mazeName = "Testing Maze";
         //
         // Testing variables
 
         // Create maze
-        Maze maze = new Maze(mazeWidth, mazeHeight, mazeName);
-        //maze.generateNewMaze("DPSRecursive",new int[] {0,0});
+//        Maze maze = new Maze(mazeWidth, mazeHeight, mazeName);
+
+
         maze.generateNewMaze("DPSIterative",new int[]{0,0});
 
+        if (generate)
+        {
+            //maze.generateNewMaze("DPSRecursive",new int[] {0,0});
+            //maze.generateNewMaze("DPSIterative",new int[]{0,0});
+        }
+
+
+
+
         // Set maze padding and layout
-        Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+        Border padding = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         setBorder(padding);
         setLayout(new GridBagLayout());
 

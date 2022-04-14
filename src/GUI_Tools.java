@@ -1,15 +1,63 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Constructs and initialises Menu items for the GUI
  */
-public class GUI_Tools extends JFrame{
+public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
-        private JButton btnCreate, btnExport, btnImport, btnSave;
+        private JButton btnCreate, btnExport, btnImport, btnSave, btnGenerate;
         private JTextField width_text, height_text, maze_name;
         private ImageIcon companyLogo;
         private JLabel width, height, name;
+        private GUI mainGui;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+                Object src = e.getSource();
+
+                if (src==btnCreate)
+                {
+                        JOptionPane.showMessageDialog(this,"Create","Create",JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                else if (src==btnExport)
+                {
+                        JOptionPane.showMessageDialog(this,"Export","Export",JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                else if (src==btnImport)
+                {
+                        JOptionPane.showMessageDialog(this,"Import","Import",JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                else if (src==btnSave)
+                {
+                        JOptionPane.showMessageDialog(this,"Save","Save",JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                else if (src==btnGenerate)
+                {
+
+                        //mainGui.getContentPane().remove(mainGui.getMaze());
+                        Maze generated = new Maze (40,40,"Generated");
+                        //generated.generateNewMaze();
+                        GUI_Maze generatedGUIMaze = new GUI_Maze(generated,true);
+                        //this.getContentPane().add(maze, BorderLayout.CENTER);
+                        mainGui.getContentPane().add(generatedGUIMaze);
+
+                }
+
+
+
+        }
+
+        @Override
+        public void run() {
+
+        }
 
         /**
          * Constructs and initialises Menu items for the GUI
@@ -18,8 +66,9 @@ public class GUI_Tools extends JFrame{
          *                        put the menu items on the left side.
          *
          */
-        public GUI_Tools(JPanel borderComponent){
+        public GUI_Tools(JPanel borderComponent, GUI mainGUI){
                 toolsMenu(borderComponent);
+                this.mainGui = mainGUI;
         }
 
         /**
@@ -55,6 +104,14 @@ public class GUI_Tools extends JFrame{
                 btnExport = new JButton("Export");
                 btnImport = new JButton("Import");
                 btnSave = new JButton("Save as...");
+                btnGenerate = new JButton("Generate");
+
+                btnCreate.addActionListener(this);
+                btnExport.addActionListener(this);
+                btnImport.addActionListener(this);
+                btnSave.addActionListener(this);
+                btnGenerate.addActionListener(this);
+
 
                 setStyle(name);
                 setStyle(height);
@@ -63,6 +120,7 @@ public class GUI_Tools extends JFrame{
                 setStyle(btnCreate);
                 setStyle(btnImport);
                 setStyle(btnSave);
+                setStyle(btnGenerate);
 
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.fill = GridBagConstraints.NONE;
@@ -79,6 +137,7 @@ public class GUI_Tools extends JFrame{
                 addToPanel(borderSpot, btnExport, constraints, 1,4,1,1);
                 addToPanel(borderSpot, btnImport, constraints, 0,5,1,1);
                 addToPanel(borderSpot, btnSave, constraints, 1,5,1,1);
+                addToPanel(borderSpot, btnGenerate, constraints, 1,6,1,1);
         }
 
         /**
@@ -105,11 +164,11 @@ public class GUI_Tools extends JFrame{
 
         /**
          * Sets font style to Sans Serif, bold and size 16
-         * @param temp The component to be set to this style.
+         * @param item The component to be set to this style.
          * @return Component with font style set.
          */
-        private Component setStyle(Component temp){
-                temp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
-                return temp;
+        private Component setStyle(Component item){
+                item.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+                return item;
         }
 }

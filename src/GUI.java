@@ -7,12 +7,12 @@ public class GUI extends JFrame{
     private JPanel borderleft, borderight, bordertop, borderbottom;
     private GUI_Tools menu;
     private GUI_Maze maze;
+    private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
 
 
     public GUI(){
         initializeFrame();
     }
-
 
     private void initializeFrame(){
 
@@ -22,14 +22,16 @@ public class GUI extends JFrame{
         setLayout(new BorderLayout());
 
 
+        setIconImage(icon.getImage());
+
         borderbottom = createPanel(Color.DARK_GRAY);
         bordertop = createPanel(Color.DARK_GRAY);
         borderleft = createPanel(Color.DARK_GRAY);
         borderight = createPanel(Color.DARK_GRAY);
-        maze = new GUI_Maze(10, 10);
+        maze = new GUI_Maze(new Maze(40,40, "blank"));
 
         setResizable(false);
-        menu = new GUI_Tools(borderleft); //<-- Call GUI_Tools to set menu items on left side
+        menu = new GUI_Tools(borderleft,this); //<-- Call GUI_Tools to set menu items on left side
 
 
 
@@ -39,9 +41,18 @@ public class GUI extends JFrame{
         this.getContentPane().add(borderbottom, BorderLayout.PAGE_END);
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
 
+
+
         setVisible(true);
     }
 
+    public GUI_Maze getMaze() {
+        return maze;
+    }
+
+    public void setMaze(GUI_Maze maze) {
+        this.maze = maze;
+    }
 
     private JPanel createPanel(Color c){
         JPanel temp = new JPanel();
