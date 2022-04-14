@@ -5,9 +5,6 @@ public class StartupWindow extends JFrame {
 
     public StartupWindow()
     {
-
-        ImageIcon icon = new ImageIcon("img/TopIcon.png");
-        setIconImage(icon.getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ImageIcon startupImage = new ImageIcon("img/StartUp.png");
         JLabel startUpLabel = new JLabel(startupImage);
@@ -17,6 +14,9 @@ public class StartupWindow extends JFrame {
 
         getContentPane().add(startUpLabel);
 
+        this.setUndecorated(true);
+        this.setAlwaysOnTop(true);
+        this.setSize(500,350);
         this.setLocationRelativeTo(null);
         pack();
         setVisible(true);
