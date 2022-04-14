@@ -16,10 +16,11 @@ public class GUI extends JFrame{
 
     private void initializeFrame(){
 
-        setTitle("Maze Generator");
+        setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1500, 1000);
         setLayout(new BorderLayout());
+        this.setLocationRelativeTo(null);
 
 
         setIconImage(icon.getImage());

@@ -100,27 +100,15 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 height_text.setPreferredSize(new Dimension(50, 25));
 
                 //Bottom buttons
-                btnCreate = new JButton("Create!");
-                btnExport = new JButton("Export");
-                btnImport = new JButton("Import");
-                btnSave = new JButton("Save as...");
-                btnGenerate = new JButton("Generate");
-
-                btnCreate.addActionListener(this);
-                btnExport.addActionListener(this);
-                btnImport.addActionListener(this);
-                btnSave.addActionListener(this);
-                btnGenerate.addActionListener(this);
-
+                btnCreate = createButtons("Create!");
+                btnExport = createButtons("Export");
+                btnImport = createButtons("Import");
+                btnSave = createButtons("Save as...");
+                btnGenerate = createButtons("Generate");
 
                 setStyle(name);
                 setStyle(height);
                 setStyle(width);
-                setStyle(btnExport);
-                setStyle(btnCreate);
-                setStyle(btnImport);
-                setStyle(btnSave);
-                setStyle(btnGenerate);
 
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.fill = GridBagConstraints.NONE;
@@ -134,10 +122,28 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, height, constraints, 0,3,1,1);
                 addToPanel(borderSpot, height_text, constraints, 1,3,1,1);
                 addToPanel(borderSpot, btnCreate, constraints, 0,4,1,1);
-                addToPanel(borderSpot, btnExport, constraints, 1,4,1,1);
+                addToPanel(borderSpot, btnGenerate, constraints, 1,4,1,1);
                 addToPanel(borderSpot, btnImport, constraints, 0,5,1,1);
-                addToPanel(borderSpot, btnSave, constraints, 1,5,1,1);
-                addToPanel(borderSpot, btnGenerate, constraints, 1,6,1,1);
+                addToPanel(borderSpot, btnExport, constraints, 1,5,1,1);
+                addToPanel(borderSpot, btnSave, constraints, 1,6,1,1);
+
+
+        }
+
+
+        /**
+         * Create buttons and returns the new button back with event trigger and set sizes
+         * @param name of label on button
+         * @return button
+         */
+        private JButton createButtons(String name)
+        {
+                Dimension buttonsSize = new Dimension(120,32);
+                JButton button = new JButton(name);
+                button.setPreferredSize(buttonsSize);
+                button.addActionListener(this);
+                setStyle(button);
+                return button;
         }
 
         /**
