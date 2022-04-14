@@ -1,25 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class StartupWindow extends JFrame  implements ActionListener {
-
-    private final Timer windowTimer;
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-        new GUI();
-        windowTimer.stop();
-        this.dispose();
-
-    }
+public class StartupWindow extends JFrame {
 
     public StartupWindow()
     {
-        windowTimer = new Timer(3000, this);    // Timer in 3 seconds
-        windowTimer.start();
 
         ImageIcon icon = new ImageIcon("img/TopIcon.png");
         setIconImage(icon.getImage());
