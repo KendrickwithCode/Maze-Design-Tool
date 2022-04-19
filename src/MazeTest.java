@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MazeTest {
 Maze testMaze;
 int[] location = {5,2};
-int[] locationBottomRight = {8,2};
+//int[] locationBottomRight = {8,2};
 
     @BeforeEach
     public void Before(){
@@ -98,29 +98,29 @@ int[] locationBottomRight = {8,2};
             char C = ' ';
             char A = '=';
 
-            char[][] testDisp = new char[testMaze.getSize()[0] * testMaze.getSize()[0]][4];                   // 0 1
+            char[][] testDisplay = new char[testMaze.getSize()[0] * testMaze.getSize()[0]][4];                   // 0 1
             // 2 3
             int i = 0;
 
             for (Block block : testMaze.getMazeMap()
             ) {
 
-                testDisp[i][3] = '.';
+                testDisplay[i][3] = '.';
 
 
                 if (block.getWallNorth().getActive()) {
-                    testDisp[i][0] = A;
-                    testDisp[i][1] = A;
+                    testDisplay[i][0] = A;
+                    testDisplay[i][1] = A;
                 } else {
-                    testDisp[i][0] = C;
-                    testDisp[i][1] = C;
+                    testDisplay[i][0] = C;
+                    testDisplay[i][1] = C;
                 }
 
                 if (block.getWallWest().getActive()) {
-                    testDisp[i][0] = A;
-                    testDisp[i][2] = A;
+                    testDisplay[i][0] = A;
+                    testDisplay[i][2] = A;
                 } else {
-                    testDisp[i][2] = C;
+                    testDisplay[i][2] = C;
                 }
                 i++;
             }
@@ -128,17 +128,17 @@ int[] locationBottomRight = {8,2};
 
             ArrayList<String> displayBuffer1 = new ArrayList<>();
             ArrayList<String> displayBuffer2 = new ArrayList<>();
-            int sizeY = testMaze.getSize()[1];
-            int sizeX = testMaze.getSize()[0];
-            boolean toggle = true;
+//            int sizeY = testMaze.getSize()[1];
+//            int sizeX = testMaze.getSize()[0];
+//            boolean toggle = true;
 
-            for (char[] item : testDisp
+            for (char[] item : testDisplay
             ) {
                 displayBuffer1.add(Character.toString(item[0]));
                 displayBuffer1.add(Character.toString(item[1]));
             }
 
-            for (char[] item : testDisp
+            for (char[] item : testDisplay
             ) {
                 displayBuffer2.add(Character.toString(item[2]));
                 displayBuffer2.add(Character.toString(item[3]));
