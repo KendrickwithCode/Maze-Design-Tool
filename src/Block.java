@@ -85,11 +85,11 @@ public abstract class Block {
     }
 
     /**
-     * Returns location of block in maze
+     * Returns location of block in maze as a copy of the array
      * @return blocks location int[x,y]
      */
     public int[] getLocation(){
-        return location;
+        return location.clone();
     }
 
     /**

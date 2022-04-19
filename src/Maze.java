@@ -283,11 +283,11 @@ public class Maze {
     }
 
     /**
-     * Returns current maze size
+     * Returns current maze size as copy
      * @return current maze size [x,y]
      */
     public int[] getSize() {
-        return size;
+        return size.clone();
     }
 
     /**
