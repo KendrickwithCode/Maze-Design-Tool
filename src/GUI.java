@@ -59,6 +59,12 @@ public class GUI extends JFrame{
         }
 
     public void generateNewMaze( int width, int height, String name){
+        // Checks if GUI already contains a maze and removes it to be replace with new maze
+        Component[] components = this.getContentPane().getComponents();
+        for ( Component comp : components){
+            if ( comp instanceof GUI_Maze) this.getContentPane().remove(comp);
+        }
+        // Create new maze and add to GUI
         maze = new GUI_Maze(new Maze(width, height, name));
         this.getContentPane().add(maze, BorderLayout.CENTER);
         this.revalidate();

@@ -18,11 +18,6 @@ public class GUI_Maze extends JPanel{
         // Set Maze amount of blocks for maze width and height
         this.mazeHeight = maze.getSize()[1];
         this.mazeWidth = maze.getSize()[0];
-        this.maze = maze;
-        generate_maze();
-    }
-
-    public void generate_maze(){
         maze.generateNewMaze("DPSIterative",new int[]{0,0});
 
 //        if (generate)
