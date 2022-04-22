@@ -42,7 +42,7 @@ public class MazeWall{
 
     }
 
-    public boolean isStart() {
+    public boolean getStart() {
         return start;
     }
 
