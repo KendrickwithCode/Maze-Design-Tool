@@ -55,6 +55,9 @@ public abstract class Block {
         return availableDirections;
     }
 
+    /**
+     * Clears all the available directions array
+     */
     public void clearAvailableDirections()
     {
         availableDirections.clear();

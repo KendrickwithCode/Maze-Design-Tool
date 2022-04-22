@@ -110,6 +110,11 @@ public class Maze {
         activateBorderWalls(sizeX,sizeY);
     }
 
+
+    /**
+     * Overload Resets the maze map to new clear blocks with only the outer border walls activated.
+     * @param clearWalls boolean for clearing or setting walls.
+     */
     public void resetMaze(Boolean clearWalls)
     {
         this.resetMaze(size[0],size[1], clearWalls);
@@ -185,7 +190,7 @@ public class Maze {
     }
 
     /**
-     * check's if neighbour block is out of the mazes boundary
+     * Check's if neighbour block is out of the mazes boundary
      * @param index array index number
      * @param direction neighbouring block direction "NORTH", "EAST", "SOUTH" ," WEST"
      * @return boolean true if out of bounds or false if not
