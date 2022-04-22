@@ -40,14 +40,13 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 else if (src==btnGenerate)
                 {
-
                         //mainGui.getContentPane().remove(mainGui.getMaze());
-                        Maze generated = new Maze (40,40,"Generated");
+                        GUI_Maze maze = new GUI_Maze(new Maze(30,30, "blank"));
                         //generated.generateNewMaze();
-                        GUI_Maze generatedGUIMaze = new GUI_Maze(generated,true);
+                        //GUI_Maze generatedGUIMaze = new GUI_Maze(generated,true);
                         //this.getContentPane().add(maze, BorderLayout.CENTER);
-                        mainGui.getContentPane().add(generatedGUIMaze);
-
+                        //this.getContentPane().removeAll();
+                        this.getContentPane().add(maze);
                 }
 
 
@@ -55,9 +54,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         }
 
         @Override
-        public void run() {
-
-        }
+        public void run() {}
 
         /**
          * Constructs and initialises Menu items for the GUI

@@ -16,7 +16,7 @@ public class Main implements ActionListener{
 
     public Main()
     {
-        windowTimer = new Timer(3000,this);    // Timer in 3 seconds
+        windowTimer = new Timer(1,this);    // Timer in 3 seconds
         windowTimer.start();
         startup = new StartupWindow();
     }
