@@ -7,6 +7,8 @@ public class GUI_Maze extends JPanel{
     private int mazeHeight;
     private int mazeWidth;
 
+    private Maze maze;
+
 
     public GUI_Maze(Maze maze) {
     this(maze,false);
@@ -16,26 +18,18 @@ public class GUI_Maze extends JPanel{
         // Set Maze amount of blocks for maze width and height
         this.mazeHeight = maze.getSize()[1];
         this.mazeWidth = maze.getSize()[0];
+        this.maze = maze;
+        generate_maze();
+    }
 
-        // Testing variables
-        //
-        //int mazeHeight = 40;
-        //int mazeWidth = 40;
-//        String mazeName = "Testing Maze";
-        //
-        // Testing variables
-
-        // Create maze
-//        Maze maze = new Maze(mazeWidth, mazeHeight, mazeName);
-
-
+    public void generate_maze(){
         maze.generateNewMaze("DPSIterative",new int[]{0,0});
 
-        if (generate)
-        {
-            //maze.generateNewMaze("DPSRecursive",new int[] {0,0});
-            //maze.generateNewMaze("DPSIterative",new int[]{0,0});
-        }
+//        if (generate)
+//        {
+//            //maze.generateNewMaze("DPSRecursive",new int[] {0,0});
+//            //maze.generateNewMaze("DPSIterative",new int[]{0,0});
+//        }
 
 
 

@@ -29,16 +29,13 @@ public class GUI extends JFrame{
         bordertop = createPanel(Color.DARK_GRAY);
         borderleft = createPanel(Color.DARK_GRAY);
         borderight = createPanel(Color.DARK_GRAY);
-        maze = new GUI_Maze(new Maze(40,40, "blank"));
 
         setResizable(false);
         menu = new GUI_Tools(borderleft,this); //<-- Call GUI_Tools to set menu items on left side
 
 
-
         this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
         this.getContentPane().add(borderleft, BorderLayout.LINE_START);
-        this.getContentPane().add(maze, BorderLayout.CENTER);
         this.getContentPane().add(borderbottom, BorderLayout.PAGE_END);
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
 
@@ -60,6 +57,12 @@ public class GUI extends JFrame{
         temp.setBackground(c);
         return temp;
         }
+
+    public void generateNewMaze( int width, int height, String name){
+        maze = new GUI_Maze(new Maze(width, height, name));
+        this.getContentPane().add(maze, BorderLayout.CENTER);
+        this.revalidate();
+    }
 }
 
 

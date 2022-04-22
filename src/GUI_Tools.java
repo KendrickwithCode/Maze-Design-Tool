@@ -40,18 +40,9 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 else if (src==btnGenerate)
                 {
-
-                        //mainGui.getContentPane().remove(mainGui.getMaze());
-                        Maze generated = new Maze (40,40,"Generated");
-                        //generated.generateNewMaze();
-                        GUI_Maze generatedGUIMaze = new GUI_Maze(generated,true);
-                        //this.getContentPane().add(maze, BorderLayout.CENTER);
-                        mainGui.getContentPane().add(generatedGUIMaze);
-
+                        mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
+                              Integer.parseInt(height_text.getText()), name.getText());
                 }
-
-
-
         }
 
         @Override
@@ -92,11 +83,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Width and Height Labels and Buttons
                 width = new JLabel("Width: ");
                 width.setForeground(Color.WHITE);
-                width_text = new JTextField("100");
+                width_text = new JTextField("25");
                 width_text.setPreferredSize(new Dimension(50, 25));
                 height = new JLabel("Height: ");
                 height.setForeground(Color.WHITE);
-                height_text = new JTextField("100");
+                height_text = new JTextField("25");
                 height_text.setPreferredSize(new Dimension(50, 25));
 
                 //Bottom buttons
