@@ -164,6 +164,10 @@ public abstract class Block {
         return blockIndex;
     }
 
+    /**
+     *  Returns JPanel associated with this block
+     * @return
+     */
     public JPanel getBlockPanel() {
         return this.blockPanel;
     }

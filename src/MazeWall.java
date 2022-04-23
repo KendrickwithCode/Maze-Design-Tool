@@ -11,6 +11,9 @@ public class MazeWall{
     private final JButton button;
     private boolean border;
 
+    /**
+     * Maze wall constructor
+     */
     public MazeWall() {
         this.button = createBtn();
     }
@@ -42,28 +45,51 @@ public class MazeWall{
 
     }
 
+    /**
+     * Returns if wall is starting wall
+     * @return boolean true/false if wall is starting wall
+     */
     public boolean isStart() {
         return start;
     }
 
+    /**
+     * Sets wall as starting wall
+     * @param start boolean true/false if wall is starting wall
+     */
     public void setStart(boolean start) {
         this.start = start;
     }
 
+    /**
+     * Returns if wall is finishing wall
+     * @return boolean true/false if wall is finishing wall
+     */
     public boolean getFinish() {
         return finish;
     }
 
+    /**
+     * Sets wall as finishing wall
+     * @param finish boolean true/false if wall is finishing wall
+     */
     public void setFinish(boolean finish) {
         this.finish = finish;
     }
 
+    /**
+     * Sets wall GUI and variables if wall is a border
+     */
     public void setBorder(){
         this.border = true;
         this.button.setContentAreaFilled(true);
         this.button.setBackground(Color.black);
     }
 
+    /**
+     * Returns button associated with this wall
+     * @return JButton object
+     */
     public JButton getButton(){
         return this.button;
     }
