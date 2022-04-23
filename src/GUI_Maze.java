@@ -26,11 +26,8 @@ public class GUI_Maze extends JPanel{
 //            //maze.generateNewMaze("DPSIterative",new int[]{0,0});
 //        }
 
-
-
-
         // Set maze padding and layout
-        Border padding = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        Border padding = BorderFactory.createEmptyBorder(20, 20, 20, 20);
         setBorder(padding);
         setLayout(new GridBagLayout());
 

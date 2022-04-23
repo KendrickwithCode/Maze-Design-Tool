@@ -5,6 +5,7 @@ public class GUI extends JFrame{
 
     public JPanel panel;
     private JPanel borderleft, borderight, bordertop, borderbottom;
+    private JScrollPane scrollPane;
     private GUI_Tools menu;
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
@@ -21,7 +22,6 @@ public class GUI extends JFrame{
         setSize(1500, 1000);
         setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
-
 
         setIconImage(icon.getImage());
 
@@ -59,14 +59,14 @@ public class GUI extends JFrame{
         }
 
     public void generateNewMaze( int width, int height, String name){
-        // Checks if GUI already contains a maze and removes it to be replace with new maze
+        // Checks if GUI already contains a maze and removes it to be replaced with new maze
         Component[] components = this.getContentPane().getComponents();
         for ( Component comp : components){
-            if ( comp instanceof GUI_Maze) this.getContentPane().remove(comp);
+            if ( comp instanceof JScrollPane) this.getContentPane().remove(comp);
         }
-        // Create new maze and add to GUI
+        // Create new maze and add to GUI using JScrollPane for larger mazes
         maze = new GUI_Maze(new Maze(width, height, name));
-        this.getContentPane().add(maze, BorderLayout.CENTER);
+        this.getContentPane().add(new JScrollPane(maze));
         this.revalidate();
     }
 }
