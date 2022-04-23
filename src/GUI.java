@@ -58,17 +58,25 @@ public class GUI extends JFrame{
         return temp;
         }
 
-    public void generateNewMaze( int width, int height, String name){
+    /**
+     * Creates new maze and displays it in the GUI
+     * @param width Width of maze (in blocks)
+     * @param height Height of maze (in blocks)
+     * @param name Name of maze
+     * @param generate true to generate maze or false to create blank canvas
+     */
+    public void generateNewMaze( int width, int height, String name, boolean generate){
         // Checks if GUI already contains a maze and removes it to be replaced with new maze
         Component[] components = this.getContentPane().getComponents();
         for ( Component comp : components){
             if ( comp instanceof JScrollPane) this.getContentPane().remove(comp);
         }
         // Create new maze and add to GUI using JScrollPane for larger mazes
-        maze = new GUI_Maze(new Maze(width, height, name));
+        maze = new GUI_Maze(new Maze(width, height, name), generate);
         this.getContentPane().add(new JScrollPane(maze));
         this.revalidate();
     }
+
 }
 
 

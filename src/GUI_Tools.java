@@ -20,7 +20,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 if (src==btnCreate)
                 {
-                        JOptionPane.showMessageDialog(this,"Create","Create",JOptionPane.INFORMATION_MESSAGE);
+                        mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
+                                Integer.parseInt(height_text.getText()), name.getText(), false);
                 }
 
                 else if (src==btnExport)
@@ -41,7 +42,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else if (src==btnGenerate)
                 {
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
-                              Integer.parseInt(height_text.getText()), name.getText());
+                              Integer.parseInt(height_text.getText()), name.getText(), true);
+
                 }
         }
 
