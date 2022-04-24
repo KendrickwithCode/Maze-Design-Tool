@@ -20,7 +20,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 if (src==btnCreate)
                 {
-                        JOptionPane.showMessageDialog(this,"Create","Create",JOptionPane.INFORMATION_MESSAGE);
+                        mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
+                                Integer.parseInt(height_text.getText()), name.getText(), false);
                 }
 
                 else if (src==btnExport)
@@ -40,17 +41,9 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 else if (src==btnGenerate)
                 {
-                        //mainGui.getContentPane().remove(mainGui.getMaze());
-                        GUI_Maze maze = new GUI_Maze(new Maze(30,30, "blank"));
-                        //generated.generateNewMaze();
-                        //GUI_Maze generatedGUIMaze = new GUI_Maze(generated,true);
-                        //this.getContentPane().add(maze, BorderLayout.CENTER);
-                        //this.getContentPane().removeAll();
-                        this.getContentPane().add(maze);
+                        mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
+                              Integer.parseInt(height_text.getText()), name.getText(), true);
                 }
-
-
-
         }
 
         @Override
@@ -89,11 +82,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Width and Height Labels and Buttons
                 width = new JLabel("Width: ");
                 width.setForeground(Color.WHITE);
-                width_text = new JTextField("100");
+                width_text = new JTextField("25");
                 width_text.setPreferredSize(new Dimension(50, 25));
                 height = new JLabel("Height: ");
                 height.setForeground(Color.WHITE);
-                height_text = new JTextField("100");
+                height_text = new JTextField("25");
                 height_text.setPreferredSize(new Dimension(50, 25));
 
                 //Bottom buttons
