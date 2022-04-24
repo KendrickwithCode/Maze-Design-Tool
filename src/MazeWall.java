@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,8 +8,8 @@ public class MazeWall{
     public boolean active;
     private boolean start;
     private boolean finish;
-
     private final JButton button;
+    private JButton btn;
     private boolean border;
 
     /**
@@ -28,7 +29,7 @@ public class MazeWall{
 
     /**
      * Sets if the current wall is an Active wall that can't be passed
-     * @param active boolean of the active wall if it is ture (enable / can't pass) / False can pass.
+     * @param active boolean of the active wall if it is true (enable / can't pass) / False can pass.
      */
     public void setActive(boolean active) {
         this.active = active;
@@ -102,7 +103,6 @@ public class MazeWall{
         JButton btn = new JButton();
         btn.setFocusPainted(false);
         btn.setRolloverEnabled(false);
-        btn.setBorder(BorderFactory.createLineBorder(activeColor, 1));
 
 
         if(border) {
@@ -118,6 +118,7 @@ public class MazeWall{
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
+                    Object src = e.getSource();
                     if(border) return;
 
                     if (!active){

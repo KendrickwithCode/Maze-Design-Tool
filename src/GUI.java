@@ -23,7 +23,6 @@ public class GUI extends JFrame{
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1500, 1000);
-        setMinimumSize(new Dimension(500, 500));
         setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
 
@@ -33,7 +32,7 @@ public class GUI extends JFrame{
         bordertop = createPanel(Color.DARK_GRAY);
         borderleft = createPanel(Color.DARK_GRAY);
         borderight = createPanel(Color.DARK_GRAY);
-        
+
         setResizable(false);
         menu = new GUI_Tools(borderleft,this); //<-- Call GUI_Tools to set menu items on left side
 

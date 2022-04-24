@@ -1,7 +1,9 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 /**
  * Constructs and initialises Menu items for the GUI
@@ -9,9 +11,10 @@ import java.awt.event.ActionListener;
 public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         private JButton btnCreate, btnExport, btnImport, btnSave, btnGenerate;
-        private JTextField width_text, height_text, maze_name;
-        private ImageIcon companyLogo;
-        private JLabel width, height, name;
+        public JCheckBox showGrid;
+        private JTextField width_text;
+        private JTextField height_text;
+        private JLabel name;
         private GUI mainGui;
 
         @Override
@@ -44,6 +47,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                               Integer.parseInt(height_text.getText()), name.getText(), true);
                 }
+
         }
 
         @Override
@@ -70,21 +74,21 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 borderSpot.setLayout(layout);
 
                 //Logo image
-                companyLogo = new ImageIcon("img/MazeCraft-Emblem-White.png");
+                ImageIcon companyLogo = new ImageIcon("img/MazeCraft-Emblem-White.png");
                 JLabel logoLabel = new JLabel(companyLogo);
 
                 //Maze Name Label and Button
                 name = new JLabel("Maze Name: ");
                 name.setForeground(Color.WHITE);
-                maze_name = new JTextField("Maze");
+                JTextField maze_name = new JTextField("Maze");
                 maze_name.setPreferredSize(new Dimension(50, 25));
 
                 //Width and Height Labels and Buttons
-                width = new JLabel("Width: ");
+                JLabel width = new JLabel("Width: ");
                 width.setForeground(Color.WHITE);
                 width_text = new JTextField("25");
                 width_text.setPreferredSize(new Dimension(50, 25));
-                height = new JLabel("Height: ");
+                JLabel height = new JLabel("Height: ");
                 height.setForeground(Color.WHITE);
                 height_text = new JTextField("25");
                 height_text.setPreferredSize(new Dimension(50, 25));
@@ -95,10 +99,13 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 btnImport = createButtons("Import");
                 btnSave = createButtons("Save as...");
                 btnGenerate = createButtons("Generate");
+                showGrid = new JCheckBox("Show Grid", true);
+                showGrid.addActionListener(this);
 
                 setStyle(name);
                 setStyle(height);
                 setStyle(width);
+                setStyle(showGrid);
 
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.fill = GridBagConstraints.NONE;
@@ -116,6 +123,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, btnImport, constraints, 0,5,1,1);
                 addToPanel(borderSpot, btnExport, constraints, 1,5,1,1);
                 addToPanel(borderSpot, btnSave, constraints, 1,6,1,1);
+                addToPanel(borderSpot, showGrid, constraints, 0, 6, 1, 1);
 
 
         }

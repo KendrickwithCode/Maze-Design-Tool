@@ -6,7 +6,6 @@ public class GUI_Maze extends JPanel{
 
     private int mazeHeight;
     private int mazeWidth;
-
     private Maze maze;
 
     /**
