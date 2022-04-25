@@ -41,17 +41,6 @@ public class MazeGenerator {
     }
 
     /**
-     * Overload Automation maze generator. This function will overwrite the current maze's map with
-     * an automated generated maze.
-     * @param maze the maze object to work on
-     * @param startPosIndex the starting block point as an index integer.
-     */
-    public static void GenerateMaze(Maze maze,int startPosIndex){
-        String defaultAlgorithm = "DPSITERATIVE";
-        GenerateMaze(maze,startPosIndex,defaultAlgorithm);
-    }
-
-    /**
      * Generate a maze via Depth Field Search Iterative Algorithm.
      *  Algorithm From Wikipedia
      *  https://en.wikipedia.org/wiki/Maze_generation_algorithm

@@ -45,7 +45,7 @@ public class MazeWall{
 
     }
 
-    public boolean isStart() {
+    public boolean getStart() {
         return start;
     }
 
@@ -65,6 +65,10 @@ public class MazeWall{
         this.border = true;
         this.button.setContentAreaFilled(true);
         this.button.setBackground(Color.black);
+    }
+
+    public boolean getBorder() {
+        return border;
     }
 
     public JButton getButton(){
