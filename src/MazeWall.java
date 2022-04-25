@@ -11,6 +11,9 @@ public class MazeWall{
     private final JButton button;
     private boolean border;
 
+    /**
+     * Maze wall constructor
+     */
     public MazeWall() {
         this.button = createBtn();
     }
@@ -42,7 +45,7 @@ public class MazeWall{
 
     }
 
-    public boolean getStart() {
+    public boolean isStart() {
         return start;
     }
 
