@@ -3,10 +3,14 @@ import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Maze Classes Test Class.
+ */
 public class MazeTest {
 Maze testMaze;
 int[] location = {5,2};
@@ -110,10 +114,8 @@ int[] location = {5,2};
     }
 
     @Test
-    public void generalGetSet()
+    public void testGeneralGetSet()
     {
-        Block testBlock = testMaze.getMazeMap().get(10);
-
         //Dificulty
         testMaze.setDifficulty(2);
         assertEquals(2,testMaze.getDifficulty());
@@ -121,7 +123,12 @@ int[] location = {5,2};
         //GetSize
         assertEquals(7,testMaze.getSize()[0]);
         assertEquals(3,testMaze.getSize()[1]);
+    }
 
+    @Test
+    public void testWallClass()
+    {
+        Block testBlock = testMaze.getMazeMap().get(10);
         //Maze Wall Class
         boolean result = testBlock.getWallEast().getStart();
         assertFalse(result);
@@ -134,7 +141,6 @@ int[] location = {5,2};
         testBlock.getWallEast().setStart(false);
         result = testBlock.getWallEast().getStart();
         assertFalse(result);
-
 
         result = testBlock.getWallEast().getFinish();
         assertFalse(result);
@@ -152,6 +158,32 @@ int[] location = {5,2};
         result= testBlock.getWallWest().getBorder();
 
         assertTrue(result);
+    }
+
+    /**
+     * Test Abstract Block Class
+     */
+    @Test
+    public void testBlockClass()
+    {
+        Block testBlock = testMaze.getMazeMap().get(10);
+
+        // Check Directions Array
+        testBlock.setAvailableDirections(new ArrayList<>(List.of("East","South")));
+        assertSame("East", testBlock.getAvailableDirections().get(0));
+        assertSame("South", testBlock.getAvailableDirections().get(1));
+
+        // Check other unused wall assignment setters.
+        int result = testBlock.getBlockIndex();
+        assertSame(10,result);
+
+        testBlock.setWallEast(testBlock.getWallWest());
+        assertSame(testBlock.getWallEast(),testBlock.getWallWest());
+
+        testBlock.setWallSouth(testBlock.getWallNorth());
+        assertSame(testBlock.getWallSouth(),testBlock.getWallNorth());
+
+
     }
 
     /**
@@ -219,7 +251,7 @@ int[] location = {5,2};
 
         assertTrue(testMaze.getMazeMap().get(0).getAvailableDirections().size() <= 3);
         assertTrue(testMaze.getMazeMap().get(11).getAvailableDirections().size() <= 3);
-        testMaze.generateNewMaze("DPSRecursive",new int[]{0,0});
+        testMaze.generateNewMaze("DFSRecursive",new int[]{0,0});
         assertTrue(testMaze.getMazeMap().get(0).getAvailableDirections().size() <= 3);
         assertTrue(testMaze.getMazeMap().get(11).getAvailableDirections().size() <= 3);
 

@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Entry Point to MazeCraft Editor.
+ */
 public class Main implements ActionListener{
 
     private static Timer windowTimer;

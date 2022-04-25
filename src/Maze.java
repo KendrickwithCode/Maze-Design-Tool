@@ -2,7 +2,9 @@ import java.util.ArrayList;
 
 import static java.lang.Boolean.TRUE;
 
-
+/**
+ * Main class for holding all the contents and information of a maze.
+ */
 public class Maze {
 
     private int difficulty;
@@ -67,7 +69,7 @@ public class Maze {
 
     /**
      * Auto generates a new maze. Destroys old maze while generating a new one
-     * @param algorithm the algorithm used to generate the maze "DPSIterative", "DPSRecursive"
+     * @param algorithm the algorithm used to generate the maze "DFSIterative", "DFSRecursive"
      * @param startPosXY the starting position int[x,y]
      */
     public void generateNewMaze(String algorithm,int[] startPosXY)
@@ -82,7 +84,7 @@ public class Maze {
      */
     public void generateNewMaze()
     {
-        generateNewMaze("DPSIterative",new int[]{0,0});
+        generateNewMaze("DFSIterative",new int[]{0,0});
     }
 
 

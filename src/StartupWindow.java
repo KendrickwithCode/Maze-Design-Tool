@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Startup Splash Screen.
+ */
 public class StartupWindow extends JFrame {
 
     public StartupWindow()

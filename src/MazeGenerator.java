@@ -19,7 +19,7 @@ public class MazeGenerator {
      * an automated generated maze.
      * @param maze the maze object to work on
      * @param startPosIndex the starting block point as an index integer.
-     * @param algorithm generation algorithm ("DPSIterative","DPSRecursive").
+     * @param algorithm generation algorithm ("DFSIterative","DFSRecursive").
      */
     public static void GenerateMaze(Maze maze,int startPosIndex, String algorithm){
         currentMaze = maze;
@@ -28,11 +28,11 @@ public class MazeGenerator {
 
         switch (algorithm.toUpperCase())
         {
-            case "DPSRECURSIVE":
+            case "DFSRECURSIVE":
                 depthFieldSearchRecursion(firstBlock);
                 break;
 
-            case "DPSITERATIVE":
+            case "DFSITERATIVE":
                 depthFieldSearchIterative(firstBlock);
             default:
                 depthFieldSearchIterative(firstBlock);

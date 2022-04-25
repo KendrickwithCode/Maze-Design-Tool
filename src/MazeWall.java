@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Mazes physical walls that are each tied to each block or cell.
+ */
 public class MazeWall{
     public boolean active;
     private boolean start;
@@ -45,21 +48,40 @@ public class MazeWall{
 
     }
 
+    /**
+     * Returns the boolean value if the will is a start wall
+     * @return boolean value if the wall is a start wall or not.
+     */
     public boolean getStart() {
         return start;
     }
 
+
+    /**
+     * Sets the boolean field if the will is a start wall or not
+     * @param start boolean true the wall is a start wall false it is not
+     */
     public void setStart(boolean start) {
         this.start = start;
     }
 
+
+    /**
+     * Returns the boolean value if the will is a finish wall
+     * @return boolean value if the wall is a finish wall or not.
+     */
     public boolean getFinish() {
         return finish;
     }
 
+    /**
+     * Sets the boolean field if the will is a finish wall or not
+     * @param finish boolean true the wall is a finish wall false it is not
+     */
     public void setFinish(boolean finish) {
         this.finish = finish;
     }
+
 
     public void setBorder(){
         this.border = true;

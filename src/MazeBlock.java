@@ -1,3 +1,6 @@
+/**
+ * Standard maze block/cell used in the mazes map.
+ */
 public class MazeBlock extends Block{
 
     /**

@@ -21,8 +21,8 @@ public class GUI_Maze extends JPanel{
 
         if (generate)
         {
-            //maze.generateNewMaze("DPSRecursive",new int[] {0,0});
-            maze.generateNewMaze("DPSIterative",new int[]{0,0});
+            //maze.generateNewMaze("DFSRecursive",new int[] {0,0});
+            maze.generateNewMaze("DFSIterative",new int[]{0,0});
         }
 
         // Set maze padding and layout
