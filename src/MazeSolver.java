@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * This class produces a solution to the maze if it is solvable and stores the shortest path.
+ */
 public class MazeSolver{
     private ArrayList<int[]> solution;
 

@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+
+/**
+ *  Astract class used for Maze Block and Logo Blocks in the maze.
+ */
 public abstract class Block {
 
     protected MazeWall wallNorth;
@@ -14,7 +18,7 @@ public abstract class Block {
 
     private final JPanel blockPanel;
 
-    protected ArrayList<String> availableDirections;
+    protected ArrayList<String> availableDirections;    // Stores available directions to traverse from this block
 
     /**
      * Constructs and initialises new Block
@@ -34,17 +38,6 @@ public abstract class Block {
         this.blockPanel = createPanel();
 
         availableDirections = new ArrayList<>();
-    }
-
-    /**
-     * Overload Constructs and initialises new Block
-     * @param location int[x,y] x,y location of block on maze
-     * @param blockIndex sets the block index for the maze map ArrayList of block.
-     */
-    public Block(int[] location, int blockIndex)
-    {
-        this(location,blockIndex, true);
-        this.visited = false;
     }
 
     /**
@@ -168,8 +161,8 @@ public abstract class Block {
     }
 
     /**
-     *  Returns JPanel associated with this block
-     * @return
+     *  Returns JPanel associated with this block.
+     * @return JPanel from this block.
      */
     public JPanel getBlockPanel() {
         return this.blockPanel;

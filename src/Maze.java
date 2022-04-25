@@ -2,7 +2,9 @@ import java.util.ArrayList;
 
 import static java.lang.Boolean.TRUE;
 
-
+/**
+ * Main class for holding all the contents and information of a maze.
+ */
 public class Maze {
 
     private int difficulty;
@@ -67,7 +69,7 @@ public class Maze {
 
     /**
      * Auto generates a new maze. Destroys old maze while generating a new one
-     * @param algorithm the algorithm used to generate the maze "DPSIterative", "DPSRecursive"
+     * @param algorithm the algorithm used to generate the maze "DFSIterative", "DFSRecursive"
      * @param startPosXY the starting position int[x,y]
      */
     public void generateNewMaze(String algorithm,int[] startPosXY)
@@ -82,7 +84,7 @@ public class Maze {
      */
     public void generateNewMaze()
     {
-        generateNewMaze("DPSIterative",new int[]{0,0});
+        generateNewMaze("DFSIterative",new int[]{0,0});
     }
 
 
@@ -233,12 +235,8 @@ public class Maze {
      */
     public Block getNeighbourBlock(Block referenceBlock, String direction){
 
-        int newLocationIndex = getIndex(referenceBlock.getLocation());
+        return mazeMap.get(getNeighbourIndex(referenceBlock,direction));
 
-        if (newLocationIndex >= 0 && newLocationIndex < mazeMap.size())
-            return mazeMap.get(getNeighbourIndex(referenceBlock,direction));
-        else
-            return null;
     }
 
     /**
@@ -309,16 +307,6 @@ public class Maze {
      */
     public void setMazeName(String mazeName) {
         this.mazeName = mazeName;
-    }
-
-    /**
-     * Sets new size of maze
-     * @param sizeX sets new X axis size of maze
-     * @param sizeY sets new Y axis size of maze
-     */
-    public void setSize(int sizeX, int sizeY) {
-        this.size[0] = sizeX;
-        this.size[1] = sizeY;
     }
 }
 
