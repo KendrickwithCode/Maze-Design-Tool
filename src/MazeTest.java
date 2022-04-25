@@ -109,6 +109,19 @@ int[] location = {5,2};
         assertFalse(testMaze.outOfBounds(20,"GROUP127"));
     }
 
+    @Test
+    public void generalGetSet()
+    {
+        testMaze.setDifficulty(2);
+        assertEquals(2,testMaze.getDifficulty());
+
+
+
+        assertEquals(7,testMaze.getSize()[0]);
+        assertEquals(3,testMaze.getSize()[1]);
+
+    }
+
     /**
      * Checks if the Maze map array wall object allocation shares walls correctly
      * amongst the neighbouring blocks.
@@ -139,16 +152,48 @@ int[] location = {5,2};
     }
 
     /**
+     * Test clearing and filling the maze map via ResetMaze
+     */
+    @Test
+    public void testResetMaze()
+    {
+        testMaze.resetMaze(7,3,true);
+        assertFalse(testMaze.getMazeMap().get(8).getWallEast().getActive());
+        assertFalse(testMaze.getMazeMap().get(8).getWallNorth().getActive());
+        assertFalse(testMaze.getMazeMap().get(8).getWallSouth().getActive());
+        assertFalse(testMaze.getMazeMap().get(8).getWallWest().getActive());
+
+        testMaze.resetMaze(7,3,false);
+        assertTrue(testMaze.getMazeMap().get(8).getWallEast().getActive());
+        assertTrue(testMaze.getMazeMap().get(8).getWallNorth().getActive());
+        assertTrue(testMaze.getMazeMap().get(8).getWallSouth().getActive());
+        assertTrue(testMaze.getMazeMap().get(8).getWallWest().getActive());
+
+        testMaze.resetMaze(true);
+        assertFalse(testMaze.getMazeMap().get(8).getWallEast().getActive());
+        assertFalse(testMaze.getMazeMap().get(8).getWallNorth().getActive());
+        assertFalse(testMaze.getMazeMap().get(8).getWallSouth().getActive());
+        assertFalse(testMaze.getMazeMap().get(8).getWallWest().getActive());
+
+
+
+    }
+
+    /**
      * Generator test.
      */
     @Test
-    public void testMap() {
+    public void testGenerator() {
         AtomicBoolean displayMazeMap = new AtomicBoolean(false);
 
         if (displayMazeMap.get()) {
             testMaze.generateNewMaze();
 
             assertTrue(testMaze.getMazeMap().get(0).getAvailableDirections().size() <= 3);
+            assertTrue(testMaze.getMazeMap().get(11).getAvailableDirections().size() <= 3);
+            testMaze.generateNewMaze("DPSRecursive",new int[]{0,0});
+            assertTrue(testMaze.getMazeMap().get(0).getAvailableDirections().size() <= 3);
+            assertTrue(testMaze.getMazeMap().get(11).getAvailableDirections().size() <= 3);
 
 
             char C = ' ';
