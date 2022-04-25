@@ -10,22 +10,29 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MazeTest {
 Maze testMaze;
 int[] location = {5,2};
-//int[] locationBottomRight = {8,2};
 
     @BeforeEach
     public void Before(){
     testMaze = new Maze(7,3, "Test");
     }
 
-
+    /**
+     * Constructor Test
+     */
     @Test void testConstructor()
     {
         assertNotNull(testMaze);
     }
 
+    /**
+     * Retrieve Solvable Variable Test
+     */
     @Test void testGetSolvable(){
         assertFalse(testMaze.getSolvable());}
 
+    /**
+     * Retrieve Difficulty Variable Test
+     */
     @Test void testGetSetDifficulty()
     {
         testMaze.setDifficulty(3);
@@ -33,15 +40,20 @@ int[] location = {5,2};
         assertEquals(3,result);
     }
 
-
+    /**
+     * Retrieves the Index From Block and checks if GetIndex Function is correct.
+     */
     @Test
     public void testGetIndex(){
         int result = testMaze.getIndex(location);
         assertEquals(19,result);
     }
 
+    /**
+     * Checks the GetNeighborIndex Function is correct
+     */
     @Test
-    public void testGetNeighbourIndex()
+    public void testGetNeighborIndex()
     {
         int testBlockIndex = 10;
 
@@ -55,11 +67,13 @@ int[] location = {5,2};
         assertEquals(-2,result);
     }
 
+    /**
+     * Retrieves the Block and checks if GetIndex Function is correct.
+     */
     @Test
     public void testGetNeighbourBlock()
     {
         int testBlockIndex = 12;
-//        int testErrorBlockIndex = 20;
 
         Block testBlock = testMaze.getMazeMap().get(testBlockIndex);
 
@@ -68,12 +82,11 @@ int[] location = {5,2};
         assertEquals(5,result.getLocation()[0]);
         assertEquals(2,result.getLocation()[1]);
 
-
-//        Block testBlockError = testMaze.getMazeMap().get(testErrorBlockIndex);
-//        Block resultError = testMaze.getNeighbourBlock(testBlockError, "SOUTH");
-//        assertNull(resultError);
     }
 
+    /**
+     * Check the GetSetName function for initial naming and renaming.
+     */
     @Test
     public void testGetSetName()
     {
@@ -82,7 +95,10 @@ int[] location = {5,2};
         assertEquals("GROUP127", testMaze.getMazeName());
     }
 
-
+    /**
+     * Check the OutOfBounds functions to ensure it reports out of bounds
+     * on all border edges and direction errors
+     */
     @Test
     public void testOutOfBounds()
     {
@@ -93,15 +109,18 @@ int[] location = {5,2};
         assertFalse(testMaze.outOfBounds(20,"GROUP127"));
     }
 
+    /**
+     * Checks if the Maze map array wall object allocation shares walls correctly
+     * amongst the neighbouring blocks.
+     */
     @Test
     public void arrayTest() {
 
         Block currentBlock = testMaze.getMazeMap().get(10);
         assertEquals(currentBlock.getWallSouth(), testMaze.getNeighbourBlock(currentBlock, "SOUTH").getWallNorth());
 
-
         // Enable if statement to see memory map
-        AtomicBoolean showMemMap = new AtomicBoolean(true);
+        AtomicBoolean showMemMap = new AtomicBoolean(false);
 
         if (showMemMap.get()) {
             for (Block current : testMaze.getMazeMap()
@@ -113,15 +132,24 @@ int[] location = {5,2};
                         + "\tWall W:" + current.getWallWest() + "\t" + current.getWallWest().getActive());
             }
         }
+        assertEquals(testMaze.getMazeMap().get(0).getWallSouth(),testMaze.getMazeMap().get(7).getWallNorth());
+        assertEquals(testMaze.getMazeMap().get(9).getWallSouth(),testMaze.getMazeMap().get(16).getWallNorth());
+        assertEquals(testMaze.getMazeMap().get(5).getWallEast(),testMaze.getMazeMap().get(6).getWallWest());
+        assertEquals(testMaze.getMazeMap().get(18).getWallEast(),testMaze.getMazeMap().get(19).getWallWest());
     }
 
-
+    /**
+     * Generator test.
+     */
     @Test
     public void testMap() {
         AtomicBoolean displayMazeMap = new AtomicBoolean(false);
 
         if (displayMazeMap.get()) {
             testMaze.generateNewMaze();
+
+            assertTrue(testMaze.getMazeMap().get(0).getAvailableDirections().size() <= 3);
+
 
             char C = ' ';
             char A = '=';
@@ -156,9 +184,7 @@ int[] location = {5,2};
 
             ArrayList<String> displayBuffer1 = new ArrayList<>();
             ArrayList<String> displayBuffer2 = new ArrayList<>();
-//            int sizeY = testMaze.getSize()[1];
-//            int sizeX = testMaze.getSize()[0];
-//            boolean toggle = true;
+
 
             for (char[] item : testDisplay
             ) {
