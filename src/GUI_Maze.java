@@ -2,6 +2,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
+/**
+ * The editable Maze part of the GUI.
+ */
 public class GUI_Maze extends JPanel{
 
     private int mazeHeight;
