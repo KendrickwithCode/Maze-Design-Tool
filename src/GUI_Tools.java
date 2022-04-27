@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Constructs and initialises Menu items for the GUI
+ * Constructs and initialises Tool items for the GUI
  */
 public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
@@ -90,7 +90,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 height_text = createTextFeilds("25",textFieldSizeWidth,textFieldSizeHeight);
 
                 //Bottom buttons
-                btnCreate = createButtons("Create!","Create a new blank maze.");
+                btnCreate = createButtons("Create","Create a new blank maze.");
                 btnExport = createButtons("Export","Export current maze to Jpeg.");
                 btnLoad = createButtons("Load","Load maze from database.");
                 btnSave = createButtons("Save","Save maze to database.");
