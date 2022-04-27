@@ -2,27 +2,23 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Main implements ActionListener{
+public class Main{
 
-    private static Timer windowTimer;
-    private static StartupWindow startup;
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        new GUI();
-        windowTimer.stop();
-        startup.dispose();
-    }
-
-    public Main()
+    private static void Run()
     {
-        windowTimer = new Timer(3000,this);    // Timer in 3 seconds
-        windowTimer.start();
-        startup = new StartupWindow();
+        StartupWindow startup = new StartupWindow();
+
+        Timer timer = new Timer(3000, e -> {
+            new GUI();
+            startup.dispose();
+        });
+
+        timer.setRepeats(false);
+        timer.start();
     }
 
     public static void main(String[] args){
-        new Main();
+        Run();
     }
 
 }
