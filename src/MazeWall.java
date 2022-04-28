@@ -103,7 +103,7 @@ public class MazeWall{
         JButton btn = new JButton();
         btn.setFocusPainted(false);
         btn.setRolloverEnabled(false);
-
+        btn.setBorder(BorderFactory.createLineBorder(activeColor, 1));
 
         if(border) {
             btn.setContentAreaFilled(true);
