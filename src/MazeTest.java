@@ -116,7 +116,7 @@ int[] location = {5,2};
     @Test
     public void testGeneralGetSet()
     {
-        //Dificulty
+        //Difficulty
         testMaze.setDifficulty(2);
         assertEquals(2,testMaze.getDifficulty());
 

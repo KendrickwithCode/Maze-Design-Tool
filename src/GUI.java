@@ -3,7 +3,7 @@ import java.awt.*;
 
 /**
  * Graphic User Interface Base.
- * This is where all of the components for the GUI Tools and GUI Maze Sit ontop off.
+ * This is where all the components for the GUI Tools and GUI Maze Sit on top of.
  */
 public class GUI extends JFrame{
 

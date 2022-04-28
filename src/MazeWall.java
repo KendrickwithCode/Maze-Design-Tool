@@ -92,7 +92,7 @@ public class MazeWall{
     }
 
     /**
-     * Retruns boolean if wall is a border wall
+     * Returns boolean if wall is a border wall
      * @return border field
      */
     public boolean getBorder() {

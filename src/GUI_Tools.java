@@ -81,14 +81,14 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 //Maze Name Label and Button
                 name = createLabels("Maze Name: ");
-                maze_name = createTextFeilds("Maze",125,textFieldSizeHeight);
+                maze_name = createTextFields("Maze",125,textFieldSizeHeight);
 
                 //Width and Height Labels and Buttons
                 width = createLabels("Width: ");
-                width_text = createTextFeilds("25",textFieldSizeWidth,textFieldSizeHeight);
+                width_text = createTextFields("25",textFieldSizeWidth,textFieldSizeHeight);
 
                 height = createLabels("Height: ");
-                height_text = createTextFeilds("25",textFieldSizeWidth,textFieldSizeHeight);
+                height_text = createTextFields("25",textFieldSizeWidth,textFieldSizeHeight);
 
                 //Bottom buttons
                 btnCreate = createButtons("Create","Create a new blank maze.");
@@ -126,7 +126,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
          * @param height set the height size of the TextField.
          * @return returns the new created JTextField.
          */
-        private JTextField createTextFeilds(String defaultValue,int width, int height) {
+        private JTextField createTextFields(String defaultValue,int width, int height) {
                 JTextField textField = new JTextField(defaultValue);
                 textField.setPreferredSize(new Dimension(width,height));
                 return textField;

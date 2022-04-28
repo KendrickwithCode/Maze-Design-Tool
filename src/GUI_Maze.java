@@ -184,26 +184,28 @@ public class GUI_Maze extends JPanel{
         return panel;
     }
 
+    //Adjusts the visual size of the walls based on the number of cells
     private int mazeWallWidth (int mazeHeight, int mazeWidth){
         int amountOfCells = mazeHeight * mazeWidth;
         if(amountOfCells < 100){
             return 10;
-        } else if (amountOfCells >= 100 && amountOfCells < 400){
+        } else if (amountOfCells < 400){
             return 8;
-        } else if (amountOfCells >= 400 && amountOfCells < 2500){
+        } else if (amountOfCells < 2500){
             return 6;
         } else {
             return 4;
         }
     }
 
+    //Adjusts the visual size of the mazeBlocks based on the number of cells
     private int mazeBlockSize (int mazeHeight, int mazeWidth){
         int amountOfCells = mazeHeight * mazeWidth;
         if(amountOfCells < 100){
             return (600 / mazeHeight) + 10;
-        } else if (amountOfCells >= 100 && amountOfCells < 400){
+        } else if (amountOfCells < 400){
             return (450 / mazeHeight) + 10;
-        } else if (amountOfCells >= 400 && amountOfCells < 2500){
+        } else if (amountOfCells < 2500){
             return (300 / mazeHeight)+ 10;
         } else {
             return (100 / mazeHeight) + 10;
