@@ -6,6 +6,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Database Connection
+ */
 public class DBConnection {
     /**
      * The singleton instance of the database connection. For each thread to access DB.

@@ -1,5 +1,8 @@
 import javax.swing.*;
 
+/**
+ * Maze Database
+ */
 public class MazeDB{
     /**
      * Constructs and Initialises connection to database

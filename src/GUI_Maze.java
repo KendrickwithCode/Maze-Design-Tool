@@ -6,14 +6,10 @@ import java.awt.*;
  * The editable Maze part of the GUI.
  */
 public class GUI_Maze extends JPanel{
-
     private int mazeHeight;
     private int mazeWidth;
-
     private int blockSize;
-
     private int wallWidth;
-
     private Maze maze;
 
     /**
