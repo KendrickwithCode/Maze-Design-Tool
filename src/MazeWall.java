@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Mazes physical walls that are each tied to each block or cell.
+ */
 public class MazeWall{
     public boolean active;
     private boolean start;
@@ -46,50 +49,50 @@ public class MazeWall{
     }
 
     /**
-     * Returns if wall is starting wall
-     * @return boolean true/false if wall is starting wall
+     * Returns the boolean value if the will is a start wall
+     * @return boolean value if the wall is a start wall or not.
      */
-    public boolean isStart() {
+    public boolean getStart() {
         return start;
     }
 
+
     /**
-     * Sets wall as starting wall
-     * @param start boolean true/false if wall is starting wall
+     * Sets the boolean field if the will is a start wall or not
+     * @param start boolean true the wall is a start wall false it is not
      */
     public void setStart(boolean start) {
         this.start = start;
     }
 
+
     /**
-     * Returns if wall is finishing wall
-     * @return boolean true/false if wall is finishing wall
+     * Returns the boolean value if the will is a finish wall
+     * @return boolean value if the wall is a finish wall or not.
      */
     public boolean getFinish() {
         return finish;
     }
 
     /**
-     * Sets wall as finishing wall
-     * @param finish boolean true/false if wall is finishing wall
+     * Sets the boolean field if the will is a finish wall or not
+     * @param finish boolean true the wall is a finish wall false it is not
      */
     public void setFinish(boolean finish) {
         this.finish = finish;
     }
 
-    /**
-     * Sets wall GUI and variables if wall is a border
-     */
+
     public void setBorder(){
         this.border = true;
         this.button.setContentAreaFilled(true);
         this.button.setBackground(Color.black);
     }
 
-    /**
-     * Returns button associated with this wall
-     * @return JButton object
-     */
+    public boolean getBorder() {
+        return border;
+    }
+
     public JButton getButton(){
         return this.button;
     }

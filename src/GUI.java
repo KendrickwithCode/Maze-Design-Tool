@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Graphic User Interface Base.
+ * This is where all of the components for the GUI Tools and GUI Maze Sit ontop off.
+ */
 public class GUI extends JFrame{
 
     public JPanel panel;

@@ -17,6 +17,10 @@ public class Main{
         timer.start();
     }
 
+    /**
+     * Entry Point - instantiates a Main class.
+     * @param args system arguments
+     */
     public static void main(String[] args){
         Run();
     }
