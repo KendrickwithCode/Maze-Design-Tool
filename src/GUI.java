@@ -29,8 +29,14 @@ public class GUI extends JFrame{
         //Set Toolbar
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
-        JMenuItem saveAs = new JMenuItem("Save As...");
-        file.add(saveAs);
+        JMenuItem load = new JMenuItem("Load");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem export = new JMenuItem("Export");
+        JMenuItem exit = new JMenuItem("Exit");
+        file.add(load);
+        file.add(export);
+        file.add(save);
+        file.add(exit);
         menuBar.add(file);
         this.setJMenuBar(menuBar);
 
@@ -43,7 +49,6 @@ public class GUI extends JFrame{
 
         setResizable(false);
         menu = new GUI_Tools(borderleft,this); //<-- Call GUI_Tools to set menu items on left side
-
 
         this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
         this.getContentPane().add(borderleft, BorderLayout.LINE_START);
