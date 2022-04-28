@@ -166,7 +166,7 @@ public abstract class Block {
 
     /**
      *  Returns JPanel associated with this block
-     * @return
+     * @return Swing JPanel
      */
     public JPanel getBlockPanel() {
         return this.blockPanel;
