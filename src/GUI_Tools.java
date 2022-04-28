@@ -10,13 +10,12 @@ import java.util.Objects;
  */
 public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
-        private JButton btnCreate, btnExport, btnImport, btnSave, btnGenerate;
+        private JButton btnCreate, btnExport, btnLoad, btnSave, btnGenerate;
         private JMenuBar menuBar;
         private JMenu menu;
         public JCheckBox showGrid;
-        private JTextField width_text;
-        private JTextField height_text;
-        private JLabel name;
+        private JTextField width_text, height_text, maze_name;
+        private JLabel width, height, name;
         private GUI mainGui;
 
         @Override
@@ -34,7 +33,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                         JOptionPane.showMessageDialog(this,"Export","Export",JOptionPane.INFORMATION_MESSAGE);
                 }
 
-                else if (src==btnImport)
+                else if (src==btnLoad)
                 {
                         JOptionPane.showMessageDialog(this,"Import","Import",JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -74,33 +73,34 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private void toolsMenu(JPanel borderSpot){
                 GridBagLayout layout = new GridBagLayout();
                 borderSpot.setLayout(layout);
+                int textFieldSizeWidth = 50;
+                int textFieldSizeHeight = 25;
 
                 //Logo image
                 ImageIcon companyLogo = new ImageIcon("img/MazeCraft-Emblem-White.png");
                 JLabel logoLabel = new JLabel(companyLogo);
 
                 //Maze Name Label and Button
-                name = new JLabel("Maze Name: ");
-                name.setForeground(Color.WHITE);
-                JTextField maze_name = new JTextField("Maze");
-                maze_name.setPreferredSize(new Dimension(50, 25));
+                name = createLabels("Maze Name: ");
+                maze_name = createTextFields("Maze",125,textFieldSizeHeight);
+
+                //Maze Name Label and Button
+                name = createLabels("Maze Name: ");
+                maze_name = createTextFields("Maze",125,textFieldSizeHeight);
 
                 //Width and Height Labels and Buttons
-                JLabel width = new JLabel("Width: ");
-                width.setForeground(Color.WHITE);
-                width_text = new JTextField("25");
-                width_text.setPreferredSize(new Dimension(50, 25));
-                JLabel height = new JLabel("Height: ");
-                height.setForeground(Color.WHITE);
-                height_text = new JTextField("25");
-                height_text.setPreferredSize(new Dimension(50, 25));
+                width = createLabels("Width: ");
+                width_text = createTextFields("25",textFieldSizeWidth,textFieldSizeHeight);
+
+                height = createLabels("Height: ");
+                height_text = createTextFields("25",textFieldSizeWidth,textFieldSizeHeight);
 
                 //Bottom buttons
-                btnCreate = createButtons("Create!");
-                btnExport = createButtons("Export");
-                btnImport = createButtons("Import");
-                btnSave = createButtons("Save as...");
-                btnGenerate = createButtons("Generate");
+                btnCreate = createButtons("Create","Create a new blank maze.");
+                btnExport = createButtons("Export","Export current maze to Jpeg.");
+                btnLoad = createButtons("Load","Load maze from database.");
+                btnSave = createButtons("Save","Save maze to database.");
+                btnGenerate = createButtons("Generate","Generate a new maze..");
                 showGrid = new JCheckBox("Show Grid", true);
                 showGrid.addActionListener(this);
 
@@ -122,7 +122,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, height_text, constraints, 1,3,1,1);
                 addToPanel(borderSpot, btnCreate, constraints, 0,4,1,1);
                 addToPanel(borderSpot, btnGenerate, constraints, 1,4,1,1);
-                addToPanel(borderSpot, btnImport, constraints, 0,5,1,1);
+                addToPanel(borderSpot, btnLoad, constraints, 0,5,1,1);
                 addToPanel(borderSpot, btnExport, constraints, 1,5,1,1);
                 addToPanel(borderSpot, btnSave, constraints, 1,6,1,1);
                 addToPanel(borderSpot, showGrid, constraints, 0, 6, 1, 1);
@@ -130,19 +130,45 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         }
 
+        /**
+         * Creates JTextfields components
+         * @param defaultValue is the default value of the TextField.
+         * @param width sets the width size of the TextField.
+         * @param height set the height size of the TextField.
+         * @return returns the new created JTextField.
+         */
+        private JTextField createTextFields(String defaultValue,int width, int height) {
+                JTextField textField = new JTextField(defaultValue);
+                textField.setPreferredSize(new Dimension(width,height));
+                return textField;
+        }
+
+        /**
+         * Creates JLabels components.
+         * @param name is the name of the label.
+         * @return returns the new created JLabel.
+         */
+        private JLabel createLabels(String name) {
+                JLabel label = new JLabel();
+                label.setForeground(Color.WHITE);
+                label.setText(name);
+                return label;
+        }
 
         /**
          * Create buttons and returns the new button back with event trigger and set sizes
          * @param name of label on button
          * @return button
          */
-        private JButton createButtons(String name)
+        private JButton createButtons(String name,String toolTip)
         {
                 Dimension buttonsSize = new Dimension(120,32);
                 JButton button = new JButton(name);
                 button.setPreferredSize(buttonsSize);
                 button.addActionListener(this);
                 setStyle(button);
+                button.createToolTip();
+                button.setToolTipText(toolTip);
                 return button;
         }
 
