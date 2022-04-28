@@ -26,6 +26,14 @@ public class GUI extends JFrame{
         setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
 
+        //Set Toolbar
+        JMenuBar menuBar = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenuItem saveAs = new JMenuItem("Save As...");
+        file.add(saveAs);
+        menuBar.add(file);
+        this.setJMenuBar(menuBar);
+
         setIconImage(icon.getImage());
 
         borderbottom = createPanel(Color.DARK_GRAY);

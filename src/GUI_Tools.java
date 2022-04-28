@@ -11,6 +11,8 @@ import java.util.Objects;
 public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         private JButton btnCreate, btnExport, btnImport, btnSave, btnGenerate;
+        private JMenuBar menuBar;
+        private JMenu menu;
         public JCheckBox showGrid;
         private JTextField width_text;
         private JTextField height_text;
