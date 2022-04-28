@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
  * Mazes physical walls that are each tied to each block or cell.
  */
 public class MazeWall{
-    public boolean active;
+    private boolean active;
     private boolean start;
     private boolean finish;
 
@@ -82,17 +82,27 @@ public class MazeWall{
         this.finish = finish;
     }
 
-
+    /**
+     * Set wall as a borderWall
+     */
     public void setBorder(){
         this.border = true;
         this.button.setContentAreaFilled(true);
         this.button.setBackground(Color.black);
     }
 
+    /**
+     * Retruns boolean if wall is a border wall
+     * @return border field
+     */
     public boolean getBorder() {
         return border;
     }
 
+    /**
+     * Getter for Jbutton object for wall
+     * @return Jbutton object for wall
+     */
     public JButton getButton(){
         return this.button;
     }

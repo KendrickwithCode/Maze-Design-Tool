@@ -94,6 +94,7 @@ public class Maze {
      * Resets the maze map to new clear blocks with only the outer border walls activated.
      * @param sizeX X-axis size of the maze
      * @param sizeY Y-axis size of the maze
+     * @param clearWalls Boolean to set internal maze walls
      */
     public void resetMaze(int sizeX, int sizeY, Boolean clearWalls)
     {
