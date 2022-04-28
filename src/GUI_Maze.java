@@ -67,7 +67,7 @@ public class GUI_Maze extends JPanel{
             // ---
             // North wall
             // Get north wall button
-            JButton northButton = block.wallNorth.getButton();
+            JButton northButton = block.getWallNorth().getButton();
             // Set button constraints
             northButton.setPreferredSize(new Dimension(blockSize, wallWidth));
             mazeComponentConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -84,7 +84,7 @@ public class GUI_Maze extends JPanel{
             // ---
             // West wall
             // Get West wall button
-            JButton westButton = block.wallWest.getButton();
+            JButton westButton = block.getWallWest().getButton();
             // Set button constraints
             westButton.setPreferredSize(new Dimension(wallWidth, blockSize));
             mazeComponentConstraints.fill = GridBagConstraints.VERTICAL;
@@ -101,7 +101,7 @@ public class GUI_Maze extends JPanel{
             // ---
             // East wall
             // Get east wall button
-            JButton eastButton = block.wallEast.getButton();
+            JButton eastButton = block.getWallEast().getButton();
             // Set button constraints
             eastButton.setPreferredSize(new Dimension(wallWidth, blockSize));
             mazeComponentConstraints.fill = GridBagConstraints.VERTICAL;
@@ -118,7 +118,7 @@ public class GUI_Maze extends JPanel{
             // ---
             // South wall
             // Get south wall button
-            JButton southButton = block.wallSouth.getButton();
+            JButton southButton = block.getWallSouth().getButton();
             // Set button constraints
             southButton.setPreferredSize(new Dimension(blockSize, wallWidth));
             mazeComponentConstraints.fill = GridBagConstraints.HORIZONTAL;

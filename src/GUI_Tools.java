@@ -57,7 +57,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
          * @param borderComponent Determines the location of the menu with BorderLayout.
          *                        Example - A panel situated on BorderLayout.LINE_START will
          *                        put the menu items on the left side.
-         *
+         * @param mainGUI Main application GUI
          */
         public GUI_Tools(JPanel borderComponent, GUI mainGUI){
                 toolsMenu(borderComponent);
@@ -67,6 +67,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         /**
          * Add the menu options for the Maze
          * Is called automatically from constructor
+         * @param borderSpot Border information
          */
         private void toolsMenu(JPanel borderSpot){
                 GridBagLayout layout = new GridBagLayout();

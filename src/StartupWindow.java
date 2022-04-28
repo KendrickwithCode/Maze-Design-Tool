@@ -6,6 +6,9 @@ import java.awt.*;
  */
 public class StartupWindow extends JFrame {
 
+    /**
+     * Displays application startup window
+     */
     public StartupWindow()
     {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

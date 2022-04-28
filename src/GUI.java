@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class GUI extends JFrame{
 
-    public JPanel panel;
+    private JPanel panel;
     private JPanel borderleft, borderight, bordertop, borderbottom;
     private JScrollPane scrollPane;
     private GUI_Tools menu;
@@ -15,6 +15,9 @@ public class GUI extends JFrame{
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
 
 
+    /**
+     * GUI Constructor. Initializes Swing frame for application
+     */
     public GUI(){
         initializeFrame();
     }
@@ -48,10 +51,18 @@ public class GUI extends JFrame{
         setVisible(true);
     }
 
+    /**
+     * Returns current GUI_Maze
+     * @return current GUI_maze
+     */
     public GUI_Maze getMaze() {
         return maze;
     }
 
+    /**
+     * Sets current maze GUI
+     * @param maze current GUI_Maze
+     */
     public void setMaze(GUI_Maze maze) {
         this.maze = maze;
     }

@@ -94,7 +94,7 @@ public class MazeGenerator {
      */
     private static void depthFieldSearchRecursion(Block currentBlock)
     {
-        if(!currentBlock.visited){
+        if(!currentBlock.getVisited()){
             stackList.push(currentBlock);
         }
 
@@ -170,7 +170,7 @@ public class MazeGenerator {
             // If next block is not out of bounds and has not been visited add as a direction that can be travelled.
             if (!currentMaze.outOfBounds(currentBlockIndex,direction) && !currentMaze.getNeighbourBlock(currentBlock, direction).getVisited())
             {
-                currentBlock.availableDirections.add(direction);
+                currentBlock.getAvailableDirections().add(direction);
             }
         }
     }

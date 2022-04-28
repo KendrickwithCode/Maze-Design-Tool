@@ -8,17 +8,17 @@ import java.util.ArrayList;
  */
 public abstract class Block {
 
-    protected MazeWall wallNorth;
-    protected MazeWall wallSouth;
-    protected MazeWall wallEast;
-    protected MazeWall wallWest;
-    protected final int[] location;
-    protected final int blockIndex;
-    protected boolean visited;
+    private MazeWall wallNorth;
+    private MazeWall wallSouth;
+    private MazeWall wallEast;
+    private MazeWall wallWest;
+    private final int[] location;
+    private final int blockIndex;
+    private boolean visited;
 
     private final JPanel blockPanel;
 
-    protected ArrayList<String> availableDirections;    // Stores available directions to traverse from this block
+    private ArrayList<String> availableDirections;    // Stores available directions to traverse from this block
 
     /**
      * Constructs and initialises new Block
