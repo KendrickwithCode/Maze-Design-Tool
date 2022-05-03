@@ -100,7 +100,7 @@ public class GUI extends JFrame{
     }
 
    public boolean getGrid(){
-       return maze.mazeGrid;
+       return maze.getGrid();
     }
 
 }

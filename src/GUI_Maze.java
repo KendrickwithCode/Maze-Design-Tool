@@ -8,8 +8,7 @@ public class GUI_Maze extends JPanel{
     private int mazeWidth;
     public Maze maze;
     private JPanel mazePanel;
-    public boolean mazeGrid;
-
+    private static boolean mazeGrid = true;
     /**
      * Maze GUI constructor, creates layout for maze blocks and walls and displays them appropriately
      * @param maze Maze object to display
@@ -17,6 +16,8 @@ public class GUI_Maze extends JPanel{
      */
     public GUI_Maze(Maze maze,boolean generate) {
         this.maze = maze;
+        mazeGrid = getGrid();
+
         // Set Maze amount of blocks for maze width and height
         this.mazeHeight = maze.getSize()[1];
         this.mazeWidth = maze.getSize()[0];
@@ -46,12 +47,10 @@ public class GUI_Maze extends JPanel{
 
         // Add mazePanel to parent JPanel component
         add(mazePanel, mazePanelConstraints);
-        displayMaze(true);
-
+        displayMaze(getGrid());
     }
-
     public void displayMaze(boolean grid){
-        this.mazeGrid = grid;
+        setGrid(grid);
         // Set block and wall sizing to suit amount of blocks
         int blockSize = mazeBlockSize(mazeHeight, mazeWidth);
         int wallWidth = mazeWallWidth(mazeHeight, mazeWidth);
@@ -170,6 +169,14 @@ public class GUI_Maze extends JPanel{
             mazePanel.add(blockPanel, mazeComponentConstraints);
             // ---
         }
+    }
+
+    public boolean getGrid(){
+        return mazeGrid;
+    }
+    public boolean setGrid(boolean toggle){
+        mazeGrid = toggle;
+        return mazeGrid;
     }
 
     private int mazeWallWidth (int mazeHeight, int mazeWidth){
