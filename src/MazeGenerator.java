@@ -19,7 +19,7 @@ public class MazeGenerator {
      * an automated generated maze.
      * @param maze the maze object to work on
      * @param startPosIndex the starting block point as an index integer.
-     * @param algorithm generation algorithm ("DPSIterative","DPSRecursive").
+     * @param algorithm generation algorithm ("DFSIterative","DFSRecursive").
      */
     public static void GenerateMaze(Maze maze,int startPosIndex, String algorithm){
         currentMaze = maze;
@@ -28,27 +28,16 @@ public class MazeGenerator {
 
         switch (algorithm.toUpperCase())
         {
-            case "DPSRECURSIVE":
+            case "DFSRECURSIVE":
                 depthFieldSearchRecursion(firstBlock);
                 break;
 
-            case "DPSITERATIVE":
+            case "DFSITERATIVE":
                 depthFieldSearchIterative(firstBlock);
             default:
                 depthFieldSearchIterative(firstBlock);
                 break;
         }
-    }
-
-    /**
-     * Overload Automation maze generator. This function will overwrite the current maze's map with
-     * an automated generated maze.
-     * @param maze the maze object to work on
-     * @param startPosIndex the starting block point as an index integer.
-     */
-    public static void GenerateMaze(Maze maze,int startPosIndex){
-        String defaultAlgorithm = "DPSITERATIVE";
-        GenerateMaze(maze,startPosIndex,defaultAlgorithm);
     }
 
     /**
@@ -105,7 +94,7 @@ public class MazeGenerator {
      */
     private static void depthFieldSearchRecursion(Block currentBlock)
     {
-        if(!currentBlock.visited){
+        if(!currentBlock.getVisited()){
             stackList.push(currentBlock);
         }
 
@@ -181,7 +170,7 @@ public class MazeGenerator {
             // If next block is not out of bounds and has not been visited add as a direction that can be travelled.
             if (!currentMaze.outOfBounds(currentBlockIndex,direction) && !currentMaze.getNeighbourBlock(currentBlock, direction).getVisited())
             {
-                currentBlock.availableDirections.add(direction);
+                currentBlock.getAvailableDirections().add(direction);
             }
         }
     }

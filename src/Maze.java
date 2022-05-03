@@ -2,7 +2,9 @@ import java.util.ArrayList;
 
 import static java.lang.Boolean.TRUE;
 
-
+/**
+ * Main class for holding all the contents and information of a maze.
+ */
 public class Maze {
 
     private int difficulty;
@@ -35,40 +37,40 @@ public class Maze {
     private void activateBorderWalls(int sizeX, int sizeY){
         int[] current = {0,0};  //used to hold the current position and get the index in mazeMap
         //top left corner
-        mazeMap.get(0).getWallNorth().setActive(true);
-        mazeMap.get(0).getWallWest().setActive(true);
+        mazeMap.get(0).getWallNorth().setBorder();
+        mazeMap.get(0).getWallWest().setBorder();
         //top right corner
-        mazeMap.get(sizeX-1).getWallNorth().setActive(true);
-        mazeMap.get(sizeX-1).getWallEast().setActive(true);
+        mazeMap.get(sizeX-1).getWallNorth().setBorder();
+        mazeMap.get(sizeX-1).getWallEast().setBorder();
         //bottom left corner
         current[1] = sizeY - 1;
-        mazeMap.get(getIndex(current)).getWallSouth().setActive(true);
-        mazeMap.get(getIndex(current)).getWallWest().setActive(true);
+        mazeMap.get(getIndex(current)).getWallSouth().setBorder();
+        mazeMap.get(getIndex(current)).getWallWest().setBorder();
         //bottom right corner
         current[0] = sizeX - 1;
-        mazeMap.get(getIndex(current)).getWallSouth().setActive(true);
-        mazeMap.get(getIndex(current)).getWallEast().setActive(true);
+        mazeMap.get(getIndex(current)).getWallSouth().setBorder();
+        mazeMap.get(getIndex(current)).getWallEast().setBorder();
         //set the east and west border walls between the corners
         for(int y = 1; y < sizeY-1; y++) {
             current[0] = sizeX - 1;
             current[1] = y;
-            mazeMap.get(getIndex(current)).getWallEast().setActive(true);
+            mazeMap.get(getIndex(current)).getWallEast().setBorder();
             current[0] = 0;
-            mazeMap.get(getIndex(current)).getWallWest().setActive(true);
+            mazeMap.get(getIndex(current)).getWallWest().setBorder();
         }
         //set the north and south walls between the corners
         for(int x = 1; x < sizeX-1; x++) {
             current[0] = x;
             current[1] = 0;
-            mazeMap.get(getIndex(current)).getWallNorth().setActive(true);
+            mazeMap.get(getIndex(current)).getWallNorth().setBorder();
             current[1] = sizeY - 1;
-            mazeMap.get(getIndex(current)).getWallSouth().setActive(true);
+            mazeMap.get(getIndex(current)).getWallSouth().setBorder();
         }
     }
 
     /**
      * Auto generates a new maze. Destroys old maze while generating a new one
-     * @param algorithm the algorithm used to generate the maze "DPSIterative", "DPSRecursive"
+     * @param algorithm the algorithm used to generate the maze "DFSIterative", "DFSRecursive"
      * @param startPosXY the starting position int[x,y]
      */
     public void generateNewMaze(String algorithm,int[] startPosXY)
@@ -83,7 +85,7 @@ public class Maze {
      */
     public void generateNewMaze()
     {
-        generateNewMaze("DPSIterative",new int[]{0,0});
+        generateNewMaze("DFSIterative",new int[]{0,0});
     }
 
 
@@ -93,6 +95,7 @@ public class Maze {
      * Resets the maze map to new clear blocks with only the outer border walls activated.
      * @param sizeX X-axis size of the maze
      * @param sizeY Y-axis size of the maze
+     * @param clearWalls Boolean to set internal maze walls
      */
     public void resetMaze(int sizeX, int sizeY, Boolean clearWalls)
     {
@@ -234,12 +237,8 @@ public class Maze {
      */
     public Block getNeighbourBlock(Block referenceBlock, String direction){
 
-        int newLocationIndex = getIndex(referenceBlock.getLocation());
+        return mazeMap.get(getNeighbourIndex(referenceBlock,direction));
 
-        if (newLocationIndex >= 0 && newLocationIndex < mazeMap.size())
-            return mazeMap.get(getNeighbourIndex(referenceBlock,direction));
-        else
-            return null;
     }
 
     /**
@@ -310,16 +309,6 @@ public class Maze {
      */
     public void setMazeName(String mazeName) {
         this.mazeName = mazeName;
-    }
-
-    /**
-     * Sets new size of maze
-     * @param sizeX sets new X axis size of maze
-     * @param sizeY sets new Y axis size of maze
-     */
-    public void setSize(int sizeX, int sizeY) {
-        this.size[0] = sizeX;
-        this.size[1] = sizeY;
     }
 }
 
