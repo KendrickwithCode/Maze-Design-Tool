@@ -16,6 +16,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JTextArea  description_text;
         private JLabel width, height, name, author_name, description;
         private GUI mainGui;
+        private GUI_Maze guiMaze;
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -31,10 +32,15 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                               Integer.parseInt(height_text.getText()), name.getText(), true);
                 }
-                else if (src == showGrid){
-                        if (showGrid.isSelected()){
-
+                else if (src == showGrid)
+                {
+                        if (mainGui.getGrid()){
+                                mainGui.setGrid(false);
                         }
+                        else {
+                                mainGui.setGrid(true);
+                        }
+
                 }
 
         }
@@ -52,11 +58,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         public GUI_Tools(JPanel borderComponent, GUI mainGUI){
                 toolsMenu(borderComponent);
                 this.mainGui = mainGUI;
-
-        }
-
-        public static JCheckBox getshowGrid(){
-                return showGrid;
         }
 
         /**

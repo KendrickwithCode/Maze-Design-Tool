@@ -11,6 +11,7 @@ public class GUI extends JFrame{
     private JScrollPane scrollPane;
     private GUI_Tools menu;
     private GUI_Maze maze;
+    public Maze temp;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
 
 
@@ -94,8 +95,12 @@ public class GUI extends JFrame{
         this.revalidate();
     }
 
-    public void getGrid(){
+    public void setGrid(boolean toggle){
+        maze.displayMaze(toggle);
+    }
 
+   public boolean getGrid(){
+       return maze.mazeGrid;
     }
 
 }
