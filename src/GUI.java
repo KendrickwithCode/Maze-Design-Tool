@@ -2,19 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
+ * Graphic User Interface Base.
+ * This is where all of the components for the GUI Tools and GUI Maze Sit ontop off.
  */
 public class GUI extends JFrame{
 
-    public JPanel panel;
-    private JPanel borderleft, borderight, bordertop, borderbottom;
-    private JScrollPane scrollPane;
-    private GUI_Tools menu;
     private GUI_Maze maze;
-    public Maze temp;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
 
 
+    /**
+     * GUI Constructor. Initializes Swing frame for application
+     */
     public GUI(){
         initializeFrame();
     }
@@ -44,28 +43,34 @@ public class GUI extends JFrame{
 
         setIconImage(icon.getImage());
 
-        borderbottom = createPanel(Color.DARK_GRAY);
-        bordertop = createPanel(Color.DARK_GRAY);
-        borderleft = createPanel(Color.DARK_GRAY);
-        borderight = createPanel(Color.DARK_GRAY);
+        JPanel borderbottom = createPanel(Color.DARK_GRAY);
+        JPanel bordertop = createPanel(Color.DARK_GRAY);
+        JPanel borderleft = createPanel(Color.DARK_GRAY);
+        JPanel borderight = createPanel(Color.DARK_GRAY);
 
         setResizable(false);
-        menu = new GUI_Tools(borderleft,this); //<-- Call GUI_Tools to set menu items on left side
+        GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
         this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
         this.getContentPane().add(borderleft, BorderLayout.LINE_START);
         this.getContentPane().add(borderbottom, BorderLayout.PAGE_END);
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
 
-
-
         setVisible(true);
     }
 
+    /**
+     * Returns current GUI_Maze
+     * @return current GUI_maze
+     */
     public GUI_Maze getMaze() {
         return maze;
     }
 
+    /**
+     * Sets current maze GUI
+     * @param maze current GUI_Maze
+     */
     public void setMaze(GUI_Maze maze) {
         this.maze = maze;
     }
@@ -96,7 +101,7 @@ public class GUI extends JFrame{
     }
 
     public void setGrid(boolean toggle){
-        maze.displayMaze(toggle);
+        maze.renderMaze(toggle);
     }
 
    public boolean getGrid(){
