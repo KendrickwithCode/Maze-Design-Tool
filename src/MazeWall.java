@@ -1,10 +1,10 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MazeWall{
+public class MazeWall {
     public boolean active;
     private boolean start;
     private boolean finish;
@@ -18,6 +18,7 @@ public class MazeWall{
     public MazeWall() {
         this.button = createBtn();
     }
+
 
     /**
      * returns if the current wall is an Active wall that can't be passed
@@ -101,9 +102,9 @@ public class MazeWall{
         Color hoverColor = Color.gray;
 
         JButton btn = new JButton();
+
         btn.setFocusPainted(false);
         btn.setRolloverEnabled(false);
-        btn.setBorder(BorderFactory.createLineBorder(activeColor, 1));
 
         if(border) {
             btn.setContentAreaFilled(true);

@@ -147,6 +147,19 @@ public class GUI_Maze extends JPanel{
             mazePanel.add(blockPanel, mazeComponentConstraints);
             // ---
 
+            //This needs to be fixed
+            if(GUI_Tools.showGrid.isSelected()){
+                southButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                northButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                westButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                eastButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));;
+            }
+            else{
+                southButton.setBorderPainted(false);
+                northButton.setBorderPainted(false);
+                westButton.setBorderPainted(false);
+                eastButton.setBorderPainted(false);
+            }
         }
 
     }

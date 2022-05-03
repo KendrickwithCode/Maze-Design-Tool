@@ -23,6 +23,7 @@ public class GUI extends JFrame{
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1500, 1000);
+        setResizable(false);
         setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
 
@@ -91,6 +92,10 @@ public class GUI extends JFrame{
         maze = new GUI_Maze(new Maze(width, height, name), generate);
         this.getContentPane().add(new JScrollPane(maze));
         this.revalidate();
+    }
+
+    public void getGrid(){
+
     }
 
 }
