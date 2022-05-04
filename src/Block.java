@@ -40,6 +40,10 @@ public abstract class Block {
         availableDirections = new ArrayList<>();
     }
 
+
+//    @Override
+//    public String getCellType();
+
     /**
      * Gets all available directions from objects fields
      * @return ArrayList of available directions to travel

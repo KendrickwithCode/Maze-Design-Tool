@@ -16,7 +16,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JTextArea  description_text;
         private JLabel width, height, name, author_name, description;
         private GUI mainGui;
-        private GUI_Maze guiMaze;
+
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -87,6 +87,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 description_text.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
                 description_text.setLineWrap(true);
                 description_text.setEditable(true);
+                description_text.setWrapStyleWord(true);
 
                 //Width and Height Labels and Buttons
                 width = createLabels("Width: ");
@@ -98,6 +99,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Bottom buttons
                 btnCreate = createButtons("Create","Create a new blank maze.");
                 btnGenerate = createButtons("Generate","Generate a new maze..");
+
                 //Show Grid check box
                 showGrid = new JCheckBox("Show Grid", true);
                 showGrid.addActionListener(this);
