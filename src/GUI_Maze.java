@@ -6,12 +6,13 @@ import java.awt.*;
  * The editable Maze part of the GUI.
  */
 public class GUI_Maze extends JPanel{
-    private int mazeHeight;
-    private int mazeWidth;
-    private int blockSize;
-    private int wallWidth;
-    private Maze maze;
-
+    private final int mazeHeight;
+    private final int mazeWidth;
+    private final int blockSize;
+    private final int wallWidth;
+    private final Maze maze;
+    public JPanel mazePanel;
+    private static boolean mazeGrid = true;
     /**
      * Maze GUI constructor, creates layout for maze blocks and walls and displays them appropriately
      * @param maze Maze object to display
@@ -20,6 +21,9 @@ public class GUI_Maze extends JPanel{
     public GUI_Maze(Maze maze,boolean generate) {
         // Set Maze
         this.maze = maze;
+
+        //Read current Maze Grid boolean
+        mazeGrid = getGrid();
 
         // Set Maze amount of blocks for maze width and height
         this.mazeHeight = maze.getSize()[1];
@@ -41,18 +45,19 @@ public class GUI_Maze extends JPanel{
         setLayout(new GridBagLayout());
 
         // Create and set maze JPanel to be placed in center of area
-        JPanel mazePanel = createMazePanel();
+        mazePanel = createMazePanel();
 
-        // Render Maze to GUI
-        renderMaze(mazePanel);
+        //Render Maze to GUI
+        renderMaze(getGrid());
     }
 
-    private void renderMaze(JPanel mazePanel){
+    public void renderMaze(boolean grid){
+        setGrid(grid);
+
         // Set maze components common constraints
         GridBagConstraints mazeComponentConstraints = new GridBagConstraints();
         mazeComponentConstraints.weightx = 1;
         mazeComponentConstraints.weighty = 1;
-
 
         // Iterate through maze blocks and populate mazePanel
         for ( Block block : maze.getMazeMap() ){
@@ -64,21 +69,41 @@ public class GUI_Maze extends JPanel{
 
             // North wall
             JButton northWallButton = createNorthWallButton(block, mazeComponentConstraints, location);
+            //Set Grid based on "Show Grid" button.
+            if (grid){
+                northWallButton.setBorderPainted(true);
+                northWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            } else { northWallButton.setBorderPainted(false);}
             // Add button to mazePanel with constraints
             mazePanel.add(northWallButton, mazeComponentConstraints);
 
             // West wall
             JButton westWallButton = createWestWallButton(block, mazeComponentConstraints, location);
+            //Set Grid based on "Show Grid" button.
+            if (grid){
+                westWallButton.setBorderPainted(true);
+                westWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            } else { westWallButton.setBorderPainted(false);}
             // Add button to mazePanel with constraints
             mazePanel.add(westWallButton, mazeComponentConstraints);
 
             // East wall
             JButton eastWallButton = createEastWallButton(block, mazeComponentConstraints, location);
+            //Set Grid based on "Show Grid" button.
+            if (grid){
+                eastWallButton.setBorderPainted(true);
+                eastWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            } else { eastWallButton.setBorderPainted(false);}
             // Add button to mazePanel with constraints
             mazePanel.add(eastWallButton, mazeComponentConstraints);
 
             // South wall
             JButton southWallButton = createSouthWallButton(block, mazeComponentConstraints, location);
+            //Set Grid based on "Show Grid" button.
+            if (grid){
+                southWallButton.setBorderPainted(true);
+                southWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+            } else { southWallButton.setBorderPainted(false);}
             // Add button to mazePanel with constraints
             mazePanel.add(southWallButton, mazeComponentConstraints);
 
@@ -89,9 +114,18 @@ public class GUI_Maze extends JPanel{
         }
     }
 
+    public boolean getGrid(){
+        return mazeGrid;
+    }
+    public boolean setGrid(boolean toggle){
+        mazeGrid = toggle;
+        return mazeGrid;
+        }
+
     private JButton createNorthWallButton(Block block, GridBagConstraints constraints, int[] location) {
         // Get north wall button
         JButton northButton = block.getWallNorth().getButton();
+
         // Set button constraints
         northButton.setPreferredSize(new Dimension(blockSize, wallWidth));
         constraints.fill = GridBagConstraints.HORIZONTAL;

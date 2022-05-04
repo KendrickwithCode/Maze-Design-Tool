@@ -7,10 +7,6 @@ import java.awt.*;
  */
 public class GUI extends JFrame{
 
-    private JPanel panel;
-    private JPanel borderleft, borderight, bordertop, borderbottom;
-    private JScrollPane scrollPane;
-    private GUI_Tools menu;
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
 
@@ -27,26 +23,38 @@ public class GUI extends JFrame{
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1500, 1000);
+        setResizable(false);
         setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
 
+        //Set Toolbar
+        JMenuBar menuBar = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenuItem load = new JMenuItem("Load");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem export = new JMenuItem("Export");
+        JMenuItem exit = new JMenuItem("Exit");
+        file.add(load);
+        file.add(export);
+        file.add(save);
+        file.add(exit);
+        menuBar.add(file);
+        this.setJMenuBar(menuBar);
+
         setIconImage(icon.getImage());
 
-        borderbottom = createPanel(Color.DARK_GRAY);
-        bordertop = createPanel(Color.DARK_GRAY);
-        borderleft = createPanel(Color.DARK_GRAY);
-        borderight = createPanel(Color.DARK_GRAY);
+        JPanel borderbottom = createPanel(Color.DARK_GRAY);
+        JPanel bordertop = createPanel(Color.DARK_GRAY);
+        JPanel borderleft = createPanel(Color.DARK_GRAY);
+        JPanel borderight = createPanel(Color.DARK_GRAY);
 
         setResizable(false);
-        menu = new GUI_Tools(borderleft,this); //<-- Call GUI_Tools to set menu items on left side
-
+        GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
         this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
         this.getContentPane().add(borderleft, BorderLayout.LINE_START);
         this.getContentPane().add(borderbottom, BorderLayout.PAGE_END);
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
-
-
 
         setVisible(true);
     }
@@ -90,6 +98,14 @@ public class GUI extends JFrame{
         maze = new GUI_Maze(new Maze(width, height, name), generate);
         this.getContentPane().add(new JScrollPane(maze));
         this.revalidate();
+    }
+
+    public void setGrid(boolean toggle){
+        maze.renderMaze(toggle);
+    }
+
+   public boolean getGrid(){
+       return maze.getGrid();
     }
 
 }

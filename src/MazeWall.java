@@ -1,17 +1,15 @@
 import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/**
- * Mazes physical walls that are each tied to each block or cell.
- */
-public class MazeWall{
-    private boolean active;
+public class MazeWall {
+    public boolean active;
     private boolean start;
     private boolean finish;
-
     private final JButton button;
+    private JButton btn;
     private boolean border;
 
     /**
@@ -20,6 +18,7 @@ public class MazeWall{
     public MazeWall() {
         this.button = createBtn();
     }
+
 
     /**
      * returns if the current wall is an Active wall that can't be passed
@@ -31,7 +30,7 @@ public class MazeWall{
 
     /**
      * Sets if the current wall is an Active wall that can't be passed
-     * @param active boolean of the active wall if it is ture (enable / can't pass) / False can pass.
+     * @param active boolean of the active wall if it is true (enable / can't pass) / False can pass.
      */
     public void setActive(boolean active) {
         this.active = active;
@@ -49,41 +48,39 @@ public class MazeWall{
     }
 
     /**
-     * Returns the boolean value if the will is a start wall
-     * @return boolean value if the wall is a start wall or not.
+     * Returns if wall is starting wall
+     * @return boolean true/false if wall is starting wall
      */
-    public boolean getStart() {
+    public boolean isStart() {
         return start;
     }
 
-
     /**
-     * Sets the boolean field if the will is a start wall or not
-     * @param start boolean true the wall is a start wall false it is not
+     * Sets wall as starting wall
+     * @param start boolean true/false if wall is starting wall
      */
     public void setStart(boolean start) {
         this.start = start;
     }
 
-
     /**
-     * Returns the boolean value if the will is a finish wall
-     * @return boolean value if the wall is a finish wall or not.
+     * Returns if wall is finishing wall
+     * @return boolean true/false if wall is finishing wall
      */
     public boolean getFinish() {
         return finish;
     }
 
     /**
-     * Sets the boolean field if the will is a finish wall or not
-     * @param finish boolean true the wall is a finish wall false it is not
+     * Sets wall as finishing wall
+     * @param finish boolean true/false if wall is finishing wall
      */
     public void setFinish(boolean finish) {
         this.finish = finish;
     }
 
     /**
-     * Set wall as a borderWall
+     * Sets wall GUI and variables if wall is a border
      */
     public void setBorder(){
         this.border = true;
@@ -92,16 +89,8 @@ public class MazeWall{
     }
 
     /**
-     * Retruns boolean if wall is a border wall
-     * @return border field
-     */
-    public boolean getBorder() {
-        return border;
-    }
-
-    /**
-     * Getter for Jbutton object for wall
-     * @return Jbutton object for wall
+     * Returns button associated with this wall
+     * @return JButton object
      */
     public JButton getButton(){
         return this.button;
@@ -113,10 +102,9 @@ public class MazeWall{
         Color hoverColor = Color.gray;
 
         JButton btn = new JButton();
+
         btn.setFocusPainted(false);
         btn.setRolloverEnabled(false);
-        btn.setBorder(BorderFactory.createLineBorder(activeColor, 1));
-
 
         if(border) {
             btn.setContentAreaFilled(true);
@@ -131,6 +119,7 @@ public class MazeWall{
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     super.mouseClicked(e);
+                    Object src = e.getSource();
                     if(border) return;
 
                     if (!active){
