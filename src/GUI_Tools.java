@@ -11,7 +11,7 @@ import java.util.Objects;
 public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         private JButton btnCreate, btnGenerate;
-        public static JCheckBox showGrid;
+        public JCheckBox showGrid;
         private JTextField width_text, height_text, maze_name, author_name_text;
         private JTextArea  description_text;
         private JLabel width, height, name, author_name, description;
