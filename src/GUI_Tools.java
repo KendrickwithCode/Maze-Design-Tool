@@ -24,11 +24,13 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 if (src==btnCreate)
                 {
+                        showGrid.setEnabled(true);
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                 Integer.parseInt(height_text.getText()), name.getText(), false);
                 }
                 else if (src==btnGenerate)
                 {
+                        showGrid.setEnabled(true);
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                               Integer.parseInt(height_text.getText()), name.getText(), true);
                 }
@@ -103,6 +105,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Show Grid check box
                 showGrid = new JCheckBox("Show Grid", true);
                 showGrid.addActionListener(this);
+                showGrid.setEnabled(false);
 
                 setStyle(name);
                 setStyle(height);
