@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class Main implements ActionListener{
 
@@ -16,6 +17,8 @@ public class Main implements ActionListener{
 
     public Main()
     {
+        //Creates DB
+        Connection connection = DBConnection.getInstance();
         windowTimer = new Timer(1,this);    // Timer in 3 seconds
         windowTimer.start();
         startup = new StartupWindow();
