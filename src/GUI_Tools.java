@@ -12,11 +12,10 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         private JButton btnCreate, btnGenerate;
         public static JCheckBox showGrid;
-        private JTextField width_text, height_text, maze_name, author_name_text;
-        private JTextArea  description_text;
+        public JTextField width_text, height_text, maze_name, author_name_text;
+        public JTextArea  description_text;
         private JLabel width, height, name, author_name, description;
         private GUI mainGui;
-
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -32,15 +31,12 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                               Integer.parseInt(height_text.getText()), name.getText(), true);
                 }
-                else if (src == showGrid)
-                {
-                        if (mainGui.getGrid()){
+                else if (src == showGrid) {
+                        if (mainGui.getGrid()) {
                                 mainGui.setGrid(false);
-                        }
-                        else {
+                        } else {
                                 mainGui.setGrid(true);
                         }
-
                 }
 
         }

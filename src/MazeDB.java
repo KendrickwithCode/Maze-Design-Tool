@@ -1,14 +1,47 @@
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Maze Database
  */
 public class MazeDB{
+
+    private static final String INSERT_MAZE = "INSERT INTO maze (Maze_Name, Author_Name, Author_Description, Width, Height) VALUES (?, ?, ?, ?, ?);";
+
+    public static final String CREATE_TABLE =
+            "CREATE TABLE IF NOT EXISTS maze ("
+                    + "idx INTEGER PRIMARY KEY /*!40101 AUTO_INCREMENT */ NOT NULL UNIQUE," // from https://stackoverflow.com/a/41028314
+                    + "Maze_Name VARCHAR(30),"
+                    + "Author_Name VARCHAR(30),"
+                    + "Author_Description VARCHAR(180),"
+                    + "Width VARCHAR(3),"
+                    + "Height VARCHAR(3)" + ");";
+
+    private Connection connection;
+    private PreparedStatement addMaze;
+    private PreparedStatement getMaze;
+    private PreparedStatement deleteMaze;
+    private PreparedStatement rowCount;
+
     /**
      * Constructs and Initialises connection to database
      */
-    private MazeDB(){
-
+    public MazeDB(){
+        connection = DBConnection.getInstance();
+        try {
+            Statement st = connection.createStatement();
+            st.execute(CREATE_TABLE);
+            addMaze = connection.prepareStatement(INSERT_MAZE);
+            //getMaze = connection.prepareStatement(GET_PERSON);
+            //deleteMaze = connection.prepareStatement(DELETE_PERSON);
+            //rowCount = connection.prepareStatement(COUNT_ROWS);
+            /* END MISSING CODE */
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -22,7 +55,8 @@ public class MazeDB{
      * Add a maze to the database.
      * @param maze The maze to be added.
      */
-    public void addMaze(Maze maze){
+    public void addMaze(String maze, String author, String description, String height, String width){
+
     }
 
 

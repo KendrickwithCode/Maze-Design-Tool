@@ -11,9 +11,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
-
     private JMenuItem load, save, export, exit;
-
+    private GUI_Tools menu;
+    MazeDB mazedata;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -25,7 +25,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         if(src==save)
         {
-            JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
+
+            //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
         }
         if(src==export)
         {
@@ -44,9 +45,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     /**
-     * GUI Constructor. Initializes Swing frame for application
+     * GUI Constructor. Initializes Swing frame for application. Creates Connection to DB.
      */
     public GUI(){
+        mazedata = new MazeDB();
         initializeFrame();
     }
 
@@ -90,7 +92,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         JPanel borderight = createPanel(Color.DARK_GRAY);
 
         setResizable(false);
-        GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
+        menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
         this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
         this.getContentPane().add(borderleft, BorderLayout.LINE_START);
