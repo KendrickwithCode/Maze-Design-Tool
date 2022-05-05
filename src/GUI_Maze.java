@@ -49,6 +49,10 @@ public class GUI_Maze extends JPanel{
 
         //Render Maze to GUI
         renderMaze(getGrid());
+
+        MazeSolver solver = new MazeSolver();
+
+        solver.solveMaze(maze);
     }
 
     public void renderMaze(boolean grid){

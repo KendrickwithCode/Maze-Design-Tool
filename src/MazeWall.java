@@ -88,6 +88,10 @@ public class MazeWall {
         this.button.setBackground(Color.black);
     }
 
+    public boolean getborder(){
+        return this.border;
+    }
+
     /**
      * Returns button associated with this wall
      * @return JButton object
