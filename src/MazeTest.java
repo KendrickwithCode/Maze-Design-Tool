@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.*;
 
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MazeTest {
     Maze testMaze;
+    DBConnection testConnection;
     int[] location = {5,2};
 //int[] locationBottomRight = {8,2};
 
@@ -185,6 +187,16 @@ public class MazeTest {
                 System.out.print(item);
             }
         }
+    }
+
+    @Test
+    public void testDBConnection(){
+        assertNull(testConnection);
+    }
+
+    @Test
+    public void testDBQuery(){
+
     }
 
 }

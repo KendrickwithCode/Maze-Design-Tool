@@ -11,9 +11,9 @@ import java.util.Objects;
 public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         private JButton btnCreate, btnGenerate;
-        public static JCheckBox showGrid;
-        public JTextField width_text, height_text, maze_name, author_name_text;
-        public JTextArea  description_text;
+        public JCheckBox showGrid;
+        private JTextField width_text, height_text, maze_name, author_name_text;
+        private JTextArea  description_text;
         private JLabel width, height, name, author_name, description;
         private GUI mainGui;
 
@@ -23,11 +23,13 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 if (src==btnCreate)
                 {
+                        showGrid.setEnabled(true);
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                 Integer.parseInt(height_text.getText()), name.getText(), false);
                 }
                 else if (src==btnGenerate)
                 {
+                        showGrid.setEnabled(true);
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                               Integer.parseInt(height_text.getText()), name.getText(), true);
                 }
@@ -99,6 +101,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Show Grid check box
                 showGrid = new JCheckBox("Show Grid", true);
                 showGrid.addActionListener(this);
+                showGrid.setEnabled(false);
 
                 setStyle(name);
                 setStyle(height);

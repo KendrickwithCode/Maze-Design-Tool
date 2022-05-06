@@ -38,7 +38,6 @@ public class MazeDB{
             //getMaze = connection.prepareStatement(GET_PERSON);
             //deleteMaze = connection.prepareStatement(DELETE_PERSON);
             //rowCount = connection.prepareStatement(COUNT_ROWS);
-            /* END MISSING CODE */
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -55,8 +54,12 @@ public class MazeDB{
      * Add a maze to the database.
      * @param maze The maze to be added.
      */
-    public void addMaze(String maze, String author, String description, String height, String width){
-
+    public void addMaze(String maze, String author, String description, String height, String width) throws SQLException {
+            addMaze.setString(1, maze);
+            addMaze.setString(2, author);
+            addMaze.setString(2, description);
+            addMaze.setString(3, width);
+            addMaze.setString(4, height);
     }
 
 

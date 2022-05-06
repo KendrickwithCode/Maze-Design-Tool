@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 /**
  * Graphic User Interface Base.
@@ -25,7 +26,12 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         if(src==save)
         {
-
+            try {
+                mazedata.addMaze(menu.maze_name.getText(), menu.author_name_text.getText(),
+                        menu.description_text.getText(), menu.width_text.getText(), menu.height_text.getText());
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
         }
         if(src==export)
