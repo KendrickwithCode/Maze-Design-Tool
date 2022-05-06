@@ -24,6 +24,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 if (src==btnCreate)
                 {
                         showGrid.setEnabled(true);
+                        mainGui.save.setEnabled(true);
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                 Integer.parseInt(height_text.getText()), name.getText(), false);
                 }
