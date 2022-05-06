@@ -12,7 +12,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
-    private JMenuItem load, save, export, exit;
+    public JMenuItem load, save, export, exit;
     private GUI_Tools menu;
     MazeDB mazedata;
 
@@ -54,7 +54,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * GUI Constructor. Initializes Swing frame for application. Creates Connection to DB.
      */
     public GUI(){
-        mazedata = new MazeDB();
+        this.mazedata = new MazeDB();
         initializeFrame();
     }
 
@@ -74,7 +74,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         JMenu file = new JMenu("File");
 
         load = menuItemFactory("Load",menuItemWith,menuItemHeight);
+
+        //Set Save button to grey initially before Maze Generation
         save = menuItemFactory("Save",menuItemWith,menuItemHeight);
+        save.setEnabled(false);
+
         export = menuItemFactory("Export",menuItemWith,menuItemHeight);
         exit = menuItemFactory("Exit",menuItemWith,menuItemHeight);
 
