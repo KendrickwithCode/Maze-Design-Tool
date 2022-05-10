@@ -11,7 +11,7 @@ import java.util.Objects;
 public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         private JButton btnCreate, btnGenerate;
-        public static JCheckBox showGrid;
+        public static JCheckBox showGrid, showSolution;
         private JTextField width_text, height_text, maze_name, author_name_text;
         private JTextArea  description_text;
         private JLabel width, height, name, author_name, description;
@@ -39,6 +39,16 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                         }
                         else {
                                 mainGui.setGrid(true);
+                        }
+
+                }
+                else if (src == showSolution)
+                {
+                        if (showSolution.isSelected()){
+                                mainGui.getMaze().mazePanel.setRenderSolution(true);
+                        }
+                        else {
+                                mainGui.getMaze().mazePanel.setRenderSolution(false);
                         }
 
                 }
@@ -101,11 +111,15 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Show Grid check box
                 showGrid = new JCheckBox("Show Grid", true);
                 showGrid.addActionListener(this);
+                //Show Grid check box
+                showSolution = new JCheckBox("Show Solution", false);
+                showSolution.addActionListener(this);
 
                 setStyle(name);
                 setStyle(height);
                 setStyle(width);
                 setStyle(showGrid);
+                setStyle(showSolution);
                 setStyle(author_name);
                 setStyle(description);
                 setStyle(showGrid);
@@ -138,6 +152,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, btnGenerate, constraints, 0,7,2,1);
                 addToPanel(borderSpot, btnCreate, constraints, 0,8,2,1);
                 addToPanel(borderSpot, showGrid, constraints, 0, 9, 2, 1);
+                addToPanel(borderSpot, showSolution, constraints, 0, 10, 2, 1);
 
         }
 

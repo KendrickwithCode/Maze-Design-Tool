@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -9,7 +10,6 @@ public class MazeWall {
     private boolean start;
     private boolean finish;
     private final JButton button;
-    private JButton btn;
     private boolean border;
 
     /**
@@ -34,17 +34,7 @@ public class MazeWall {
      */
     public void setActive(boolean active) {
         this.active = active;
-
-        Color activeColor = Color.black;
-        Color unsetColor = Color.white;
-        if(active){
-            this.button.setBackground(activeColor);
-            this.button.setContentAreaFilled(true);
-        } else {
-            this.button.setContentAreaFilled(false);
-            this.button.setBackground(unsetColor);
-        }
-
+        setButtonColor();
     }
 
     /**
@@ -61,6 +51,7 @@ public class MazeWall {
      */
     public void setStart(boolean start) {
         this.start = start;
+        setButtonColor();
     }
 
     /**
@@ -77,6 +68,7 @@ public class MazeWall {
      */
     public void setFinish(boolean finish) {
         this.finish = finish;
+        setButtonColor();
     }
 
     /**
@@ -84,10 +76,13 @@ public class MazeWall {
      */
     public void setBorder(){
         this.border = true;
-        this.button.setContentAreaFilled(true);
-        this.button.setBackground(Color.black);
+        setButtonColor();
     }
 
+    /**
+     * Returns if wall is border wall
+     * @return Boolean - is wall a border wall
+     */
     public boolean getborder(){
         return this.border;
     }
@@ -98,6 +93,28 @@ public class MazeWall {
      */
     public JButton getButton(){
         return this.button;
+    }
+
+    private void setButtonColor(){
+        Color unsetColor = Color.white;
+        Color activeColor = Color.black;
+        Color startingColor = Color.green;
+        Color finishingColor = Color.red;
+
+        button.setContentAreaFilled(true);
+
+        if (start) {
+            this.button.setBackground(startingColor);
+        } else if (finish) {
+            this.button.setBackground(finishingColor);
+        } else if(border){
+            button.setBackground(activeColor);
+        } else if(active){
+            this.button.setBackground(activeColor);
+        }  else {
+            this.button.setContentAreaFilled(false);
+            this.button.setBackground(unsetColor);
+        }
     }
 
     private JButton createBtn () {
@@ -111,29 +128,45 @@ public class MazeWall {
         btn.setRolloverEnabled(false);
 
         if(border) {
-            btn.setContentAreaFilled(true);
-            btn.setBackground(activeColor);
-        } else {
-            btn.setBackground(unsetColor);
+            setButtonColor();
+            setBorder();
         }
-
 
         if(!border) {
             btn.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-                    Object src = e.getSource();
-                    if(border) return;
+                    MazePanel mazePanel = (MazePanel) btn.getParent();
 
-                    if (!active){
-                        btn.setBackground(activeColor);
-                        btn.setContentAreaFilled(true);
+                    super.mouseClicked(e);
+                    if (SwingUtilities.isRightMouseButton(e)){
+                        JPopupMenu menu = new JPopupMenu();
+                        JMenuItem item = new JMenuItem("Set as starting wall");
+                        item.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                mazePanel.resetStartWalls();
+                                setStart(!start);
+                            }
+                        });
+                        JMenuItem item2 = new JMenuItem("Set as finishing wall");
+                        item2.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                mazePanel.resetFinishWalls();
+                                setFinish(true);
+                            }
+                        });
+                        menu.add(item);
+                        menu.add(item2);
+                        menu.show(e.getComponent(), e.getX(), e.getY());
                     } else {
-                        btn.setContentAreaFilled(false);
-                        btn.setBackground(unsetColor);
+                        Object src = e.getSource();
+                        if(border) return;
+                        setButtonColor();
+                        setActive(!active);
                     }
-                    setActive(!active);
+
                 }
 
                 @Override
@@ -148,13 +181,8 @@ public class MazeWall {
                 public void mouseExited(MouseEvent e) {
                     super.mouseExited(e);
                     if(border) return;
-                    if (!active){
-                        btn.setBackground(unsetColor);
-                        btn.setContentAreaFilled(false);
-                    } else {
-                        btn.setContentAreaFilled(true);
-                        btn.setBackground(activeColor);
-                    }
+                    setButtonColor();
+                    btn.getParent().repaint();
                 }
             });
         }

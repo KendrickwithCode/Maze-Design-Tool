@@ -1,12 +1,12 @@
-import java.awt.*;
+import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class produces a solution to the maze if it is solvable and stores the shortest path.
  */
-public class MazeSolver{
-    private ArrayList<int[]> solution;
+public class MazeSolver extends JPanel{
+
+    private ArrayList<Block> solution = new ArrayList<Block>();;
 
     /**
      * Return an array list for of locations in order to solve maze
@@ -14,60 +14,27 @@ public class MazeSolver{
      * @return Solution locations in order to solve maze
      */
     public ArrayList<Block> solveMaze (Maze maze){
-        // Create stack
-        ArrayList<Block> solution = new ArrayList<Block>();
+        resetMaze(maze);
 
-        // reset maze visited and set maze start and finish blocks
-        for ( Block block : maze.getMazeMap() ) {
-            block.setVisited(false);
-            if (Arrays.equals(block.getLocation(), new int[]{0, 0})){
-                block.startingBlock = true;
-                solution.add(block);
-            } else if (Arrays.equals(block.getLocation(), new int[]{maze.getSize()[0] - 1, maze.getSize()[1] - 1})) {
-                block.finishingBlock = true;
-            }
-        }
+        if(!checkForFinishingWall(maze)){setDefaultFinishingWall(maze);}
+
+        if(!checkForStartingWall(maze)){setDefaultStartingWall(maze);}
+
+        // Get block at top of stack
+        Block currentBlock = solution.get(solution.size() - 1);
 
         // while Stack isn't empty
-        while ( solution.size() > 0 ){
+        while ( !solution.isEmpty() ){
 
-            // Get block at top of stack
-            Block currentBlock = solution.get(solution.size() - 1);
+            currentBlock = solution.get(solution.size() - 1);
+
+            if(isFinishingBlock(currentBlock)){break;}
 
             // set current block visited
             currentBlock.setVisited(true);
 
-            // if block is end block return (solution)
-            if ( currentBlock.finishingBlock ){
-//                solution.removeIf( block -> !block.getVisited());
-                for ( Block block : solution) {
-                    block.getBlockPanel().setBackground(Color.CYAN);
-                    if (block.finishingBlock) {
-                        block.getBlockPanel().setBackground(Color.RED);
-                    }
-                    if (block.startingBlock) {
-                        block.getBlockPanel().setBackground(Color.GREEN);
-                    }
-                }
-                return solution;
-            }
-
-            if ( !currentBlock.getWallNorth().getActive() && !currentBlock.getWallNorth().getborder() ) {
-                Block neighborBlock = maze.getNeighbourBlock(currentBlock, "NORTH");
-                if (!neighborBlock.getVisited()) {
-                    solution.add(neighborBlock);
-                    continue;
-                }
-            }
             if ( !currentBlock.getWallSouth().getActive() && !currentBlock.getWallSouth().getborder() ) {
                 Block neighborBlock = maze.getNeighbourBlock(currentBlock, "SOUTH");
-                if (!neighborBlock.getVisited()) {
-                    solution.add(neighborBlock);
-                    continue;
-                }
-            }
-            if ( !currentBlock.getWallWest().getActive() && !currentBlock.getWallWest().getborder() ) {
-                Block neighborBlock = maze.getNeighbourBlock(currentBlock, "WEST");
                 if (!neighborBlock.getVisited()) {
                     solution.add(neighborBlock);
                     continue;
@@ -80,11 +47,73 @@ public class MazeSolver{
                     continue;
                 }
             }
+            if ( !currentBlock.getWallNorth().getActive() && !currentBlock.getWallNorth().getborder() ) {
+                Block neighborBlock = maze.getNeighbourBlock(currentBlock, "NORTH");
+                if (!neighborBlock.getVisited()) {
+                    solution.add(neighborBlock);
+                    continue;
+                }
+            }
+            if ( !currentBlock.getWallWest().getActive() && !currentBlock.getWallWest().getborder() ) {
+                Block neighborBlock = maze.getNeighbourBlock(currentBlock, "WEST");
+                if (!neighborBlock.getVisited()) {
+                    solution.add(neighborBlock);
+                    continue;
+                }
+            }
 
             solution.remove(solution.size()-1);
-
         }
 
         return solution;
     }
+
+    private void setDefaultStartingWall(Maze maze){
+        maze.getMazeMap().get(0).getWallNorth().setStart(true);
+    }
+
+    private void setDefaultFinishingWall(Maze maze){
+        maze.getMazeMap().get(maze.getMazeMap().size() - 1).getWallSouth().setFinish(true);
+    }
+
+    private void resetMaze(Maze maze) {
+        // reset maze visited and set maze start and finish blocks
+        for ( Block block : maze.getMazeMap() ) {
+            block.setVisited(false);
+            if(isStartingBlock(block) && solution.isEmpty()){
+                solution.add(block);
+            }
+
+        }
+    }
+
+    private boolean checkForStartingWall(Maze maze){
+        boolean startingWall = false;
+        for ( Block block : maze.getMazeMap() ) {
+            if(isStartingBlock(block)){
+                startingWall = true;
+            }
+        }
+        return startingWall;
+    }
+
+    private boolean checkForFinishingWall(Maze maze){
+        boolean finishingWall = false;
+        for ( Block block : maze.getMazeMap() ) {
+            if(isFinishingBlock(block)){
+                finishingWall = true;
+            }
+        }
+        return finishingWall;
+    }
+
+    private boolean isStartingBlock(Block block){
+        return (block.getWallNorth().isStart() || block.getWallSouth().isStart() || block.getWallWest().isStart() || block.getWallEast().isStart());
+    }
+
+    private boolean isFinishingBlock(Block block){
+        return (block.getWallNorth().getFinish() || block.getWallSouth().getFinish() || block.getWallWest().getFinish() || block.getWallEast().getFinish());
+    }
+
+
 }
