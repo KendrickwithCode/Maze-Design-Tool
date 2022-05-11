@@ -27,11 +27,13 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 {
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                 Integer.parseInt(height_text.getText()), name.getText(), false);
+                        setShowSolution();
                 }
                 else if (src==btnGenerate)
                 {
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                               Integer.parseInt(height_text.getText()), name.getText(), true);
+                        setShowSolution();
                 }
                 else if (src == showGrid)
                 {
@@ -45,15 +47,19 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 }
                 else if (src == showSolution)
                 {
-                        if (showSolution.isSelected()){
-                                mainGui.getMaze().mazePanel.setRenderSolution(true);
-                        }
-                        else {
-                                mainGui.getMaze().mazePanel.setRenderSolution(false);
-                        }
+                        setShowSolution();
 
                 }
 
+        }
+
+        private void setShowSolution() {
+                if (showSolution.isSelected()){
+                        mainGui.getMaze().mazePanel.setRenderSolution(true);
+                }
+                else {
+                        mainGui.getMaze().mazePanel.setRenderSolution(false);
+                }
         }
 
         @Override

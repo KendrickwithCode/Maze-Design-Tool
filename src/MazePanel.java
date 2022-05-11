@@ -3,10 +3,10 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-public class MazePanel extends JPanel {
+public class MazePanel extends JPanel{
 
     private Maze maze;
-    private boolean renderSolution = false;
+    private boolean renderSolution;
 
     public MazePanel(Maze maze) {
         this.maze = maze;
