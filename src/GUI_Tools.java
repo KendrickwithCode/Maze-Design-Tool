@@ -13,6 +13,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JButton btnCreate, btnGenerate;
         public static JCheckBox showGrid, showSolution;
         private JTextField width_text, height_text, maze_name, author_name_text;
+        private JScrollPane description_pane;
         private JTextArea  description_text;
         private JLabel width, height, name, author_name, description;
         private GUI mainGui;
@@ -94,9 +95,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 description = createLabels("Maze Description: ");
                 description_text = new JTextArea(10, 20);
-                description_text.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
                 description_text.setLineWrap(true);
                 description_text.setEditable(true);
+                description_pane = new JScrollPane( description_text );
+                description_pane.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+
 
                 //Width and Height Labels and Buttons
                 width = createLabels("Width: ");
@@ -132,7 +135,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.CENTER;
-                constraints.insets = new Insets(20,20,20,20);
+                constraints.insets = new Insets(17,20,17,20);
 
                 //For description text, need to anchor the text box to the top of the grid.
                 GridBagConstraints descriptionConstraints = new GridBagConstraints();
@@ -144,7 +147,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, author_name, constraints, 0, 2, 1, 1);
                 addToPanel(borderSpot, author_name_text, constraints, 1, 2, 1, 1);
                 addToPanel(borderSpot, description, constraints, 0, 3, 2, 1);
-                addToPanel(borderSpot, description_text, descriptionConstraints , 0, 4, 2, 1);
+                addToPanel(borderSpot, description_pane, descriptionConstraints , 0, 4, 2, 1);
                 addToPanel(borderSpot, width, constraints, 0,5,1,1);
                 addToPanel(borderSpot, width_text, constraints, 1,5,1,1);
                 addToPanel(borderSpot, height, constraints, 0,6,1,1);
