@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 /**
- *  Abstract class used for Maze Block and Logo Blocks in the maze.
+ *  Astract class used for Maze Block and Logo Blocks in the maze.
  */
 public abstract class Block {
 
