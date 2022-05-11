@@ -89,17 +89,8 @@ public class MazeWall {
     }
 
     /**
-     * Returns boolean if wall is a border wall
-     * @return border field
-     */
-    public boolean getBorder() {
-        return border;
-    }
-
-    /**
-     * Getter for Jbutton object for wall
-     * @return Jbutton object for wall
-
+     * Returns button associated with this wall
+     * @return JButton object
      */
     public JButton getButton(){
         return this.button;
