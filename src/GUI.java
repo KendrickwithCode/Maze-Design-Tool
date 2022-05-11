@@ -70,14 +70,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         export = menuItemFactory("Export",menuItemWith,menuItemHeight);
         exit = menuItemFactory("Exit",menuItemWith,menuItemHeight);
 
-        JSeparator separator1 = new JSeparator();
-        JSeparator separator2 = new JSeparator();
-
         file.add(load);
         file.add(save);
-        file.add(separator1);
+        file.addSeparator();
         file.add(export);
-        file.add(separator2);
+        file.addSeparator();
         file.add(exit);
         menuBar.add(file);
         this.setJMenuBar(menuBar);
@@ -105,7 +102,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * @param name  name of the menu item
      * @param width width of the menu item
      * @param height height of the menu item
-     * @return
+     * @return returns a new menuItem
      */
     private JMenuItem menuItemFactory(String name, int width, int height)
     {
