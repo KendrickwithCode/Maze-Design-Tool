@@ -94,6 +94,84 @@ public class MazeTest {
     }
 
     @Test
+    public void testGeneralGetSet()
+    {
+        //Difficulty
+        testMaze.setDifficulty(2);
+        assertEquals(2,testMaze.getDifficulty());
+
+        //GetSize
+        assertEquals(7,testMaze.getSize()[0]);
+        assertEquals(3,testMaze.getSize()[1]);
+    }
+
+    @Test
+    public void testWallClass()
+    {
+        Block testBlock = testMaze.getMazeMap().get(10);
+        //Maze Wall Class
+        boolean result = testBlock.getWallEast().getStart();
+        assertFalse(result);
+
+        testBlock.getWallEast().setStart(true);
+        result = testBlock.getWallEast().getStart();
+        assertTrue(result);
+
+
+        testBlock.getWallEast().setStart(false);
+        result = testBlock.getWallEast().getStart();
+        assertFalse(result);
+
+        result = testBlock.getWallEast().getFinish();
+        assertFalse(result);
+
+        testBlock.getWallEast().setFinish(true);
+        result = testBlock.getWallEast().getFinish();
+        assertTrue(result);
+
+        testBlock.getWallEast().setFinish(false);
+        result = testBlock.getWallEast().getFinish();
+        assertFalse(result);
+
+        testBlock = testMaze.getMazeMap().get(0);
+        testBlock.getWallWest().setBorder();
+        result= testBlock.getWallWest().getBorder();
+
+        assertTrue(result);
+    }
+
+    /**
+     * Test Abstract Block Class
+     */
+    @Test
+    public void testBlockClass()
+    {
+        Block testBlock = testMaze.getMazeMap().get(10);
+
+        // Check Directions Array
+        testBlock.setAvailableDirections(new ArrayList<>(List.of("East","South")));
+        assertSame("East", testBlock.getAvailableDirections().get(0));
+        assertSame("South", testBlock.getAvailableDirections().get(1));
+
+        // Check other unused wall assignment setters.
+        int result = testBlock.getBlockIndex();
+        assertSame(10,result);
+
+        testBlock.setWallEast(testBlock.getWallWest());
+        assertSame(testBlock.getWallEast(),testBlock.getWallWest());
+
+        testBlock.setWallSouth(testBlock.getWallNorth());
+        assertSame(testBlock.getWallSouth(),testBlock.getWallNorth());
+
+
+    }
+
+    /**
+     * Checks if the Maze map array wall object allocation shares walls correctly
+     * amongst the neighbouring blocks.
+     */
+    @Test
+
     public void arrayTest() {
 
         Block currentBlock = testMaze.getMazeMap().get(10);

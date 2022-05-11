@@ -91,6 +91,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 description_text.setEditable(true);
                 description_text.setWrapStyleWord(true);
 
+
                 //Width and Height Labels and Buttons
                 width = createLabels("Width: ");
                 width_text = createTextFields("25",textFieldSizeWidth,textFieldSizeHeight);

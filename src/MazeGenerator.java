@@ -116,7 +116,7 @@ public class MazeGenerator {
     }
 
     /**
-     * Removes wall needed to movel to the next block
+     * Removes wall needed to move to the next block
      * @param currentBlock reference block (block that you are working from).
      * @param nextDirection the direction you wish to move to for the next block "NORTH", "EAST", "SOUTH", "WEST"
      * @return the next block from the direction you chose to move.
