@@ -52,10 +52,10 @@ public class MazePanel extends JPanel {
 
             for (int i = 0; i < solution.size() - 1; i++) {
 
-                int xStart = solution.get(i).getBlockPanel().getLocation().x + 10;
-                int yStart = solution.get(i).getBlockPanel().getLocation().y + 10;
-                int xFinish = solution.get(i + 1).getBlockPanel().getLocation().x + 10;
-                int yFinish = solution.get(i + 1).getBlockPanel().getLocation().y + 10;
+                int xStart = solution.get(i).getBlockPanel().getLocation().x + solution.get(i).getBlockPanel().getWidth() / 2;
+                int yStart = solution.get(i).getBlockPanel().getLocation().y + solution.get(i).getBlockPanel().getHeight() / 2;
+                int xFinish = solution.get(i + 1).getBlockPanel().getLocation().x + solution.get(i + 1).getBlockPanel().getWidth() / 2;
+                int yFinish = solution.get(i + 1).getBlockPanel().getLocation().y + solution.get(i + 1).getBlockPanel().getHeight() / 2;
 
                 Line2D line = new Line2D.Float(xStart, yStart, xFinish, yFinish);
                 g2.setStroke(new BasicStroke(3));
