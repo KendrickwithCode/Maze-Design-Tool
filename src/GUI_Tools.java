@@ -94,10 +94,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 author_name_text = createTextFields("", 125,textFieldSizeHeight);
 
                 description = createLabels("Maze Description: ");
-                description_text = new JTextArea(10, 20);
+                description_text = new JTextArea();
                 description_text.setLineWrap(true);
                 description_text.setEditable(true);
                 description_pane = new JScrollPane( description_text );
+                description_pane.setPreferredSize(new Dimension(250,150));
                 description_pane.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
 
