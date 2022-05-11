@@ -12,6 +12,7 @@ public class Maze {
     private String mazeName;
     private final int[] size;
     private final ArrayList<Block> mazeMap;
+    private MazeGenerator mazeHolder;
 
     /**
      * Constructs and initialises a new Maze. Resulting maze is blank with only border walls activated.
