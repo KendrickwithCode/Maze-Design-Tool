@@ -11,12 +11,13 @@ import java.util.Objects;
 public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         private JButton btnCreate, btnGenerate;
-        public JCheckBox showGrid;
+        public static JCheckBox showGrid, showSolution;
         private JTextField width_text, height_text, maze_name, author_name_text;
+        private JScrollPane description_pane;
         private JTextArea  description_text;
         private JLabel width, height, name, author_name, description;
         private GUI mainGui;
-
+        private GUI_Maze guiMaze;
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -24,13 +25,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 if (src==btnCreate)
                 {
-                        showGrid.setEnabled(true);
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                 Integer.parseInt(height_text.getText()), name.getText(), false);
                 }
                 else if (src==btnGenerate)
                 {
-                        showGrid.setEnabled(true);
                         mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                               Integer.parseInt(height_text.getText()), name.getText(), true);
                 }
@@ -41,6 +40,16 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                         }
                         else {
                                 mainGui.setGrid(true);
+                        }
+
+                }
+                else if (src == showSolution)
+                {
+                        if (showSolution.isSelected()){
+                                mainGui.getMaze().mazePanel.setRenderSolution(true);
+                        }
+                        else {
+                                mainGui.getMaze().mazePanel.setRenderSolution(false);
                         }
 
                 }
@@ -85,11 +94,13 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 author_name_text = createTextFields("", 125,textFieldSizeHeight);
 
                 description = createLabels("Maze Description: ");
-                description_text = new JTextArea(10, 20);
-                description_text.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+                description_text = new JTextArea();
                 description_text.setLineWrap(true);
                 description_text.setEditable(true);
-                description_text.setWrapStyleWord(true);
+                description_pane = new JScrollPane( description_text );
+                description_pane.setPreferredSize(new Dimension(250,150));
+                description_pane.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+
 
                 //Width and Height Labels and Buttons
                 width = createLabels("Width: ");
@@ -101,16 +112,18 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Bottom buttons
                 btnCreate = createButtons("Create","Create a new blank maze.");
                 btnGenerate = createButtons("Generate","Generate a new maze..");
-
                 //Show Grid check box
                 showGrid = new JCheckBox("Show Grid", true);
                 showGrid.addActionListener(this);
-                showGrid.setEnabled(false);
+                //Show Grid check box
+                showSolution = new JCheckBox("Show Solution", false);
+                showSolution.addActionListener(this);
 
                 setStyle(name);
                 setStyle(height);
                 setStyle(width);
                 setStyle(showGrid);
+                setStyle(showSolution);
                 setStyle(author_name);
                 setStyle(description);
                 setStyle(showGrid);
@@ -123,7 +136,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.CENTER;
-                constraints.insets = new Insets(20,20,20,20);
+                constraints.insets = new Insets(17,20,17,20);
 
                 //For description text, need to anchor the text box to the top of the grid.
                 GridBagConstraints descriptionConstraints = new GridBagConstraints();
@@ -135,7 +148,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, author_name, constraints, 0, 2, 1, 1);
                 addToPanel(borderSpot, author_name_text, constraints, 1, 2, 1, 1);
                 addToPanel(borderSpot, description, constraints, 0, 3, 2, 1);
-                addToPanel(borderSpot, description_text, descriptionConstraints , 0, 4, 2, 1);
+                addToPanel(borderSpot, description_pane, descriptionConstraints , 0, 4, 2, 1);
                 addToPanel(borderSpot, width, constraints, 0,5,1,1);
                 addToPanel(borderSpot, width_text, constraints, 1,5,1,1);
                 addToPanel(borderSpot, height, constraints, 0,6,1,1);
@@ -143,6 +156,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, btnGenerate, constraints, 0,7,2,1);
                 addToPanel(borderSpot, btnCreate, constraints, 0,8,2,1);
                 addToPanel(borderSpot, showGrid, constraints, 0, 9, 2, 1);
+                addToPanel(borderSpot, showSolution, constraints, 0, 10, 2, 1);
 
         }
 

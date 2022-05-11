@@ -1,47 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
 
 /**
  * Graphic User Interface Base.
- * This is where all of the components for the GUI Tools and GUI Maze Sit on top off.
+ * This is where all of the components for the GUI Tools and GUI Maze Sit ontop off.
  */
-public class GUI extends JFrame implements ActionListener, Runnable {
+public class GUI extends JFrame{
 
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
 
-    private JMenuItem load, save, export, exit;
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
-
-        if(src==load)
-        {
-            JOptionPane.showMessageDialog(null,"Load from Database.","Load",JOptionPane.INFORMATION_MESSAGE);
-        }
-        if(src==save)
-        {
-            JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
-        }
-        if(src==export)
-        {
-            JOptionPane.showMessageDialog(null,"Export to Jpeg.","Export",JOptionPane.INFORMATION_MESSAGE);
-        }
-        if(src==exit)
-        {
-            this.dispose();
-        }
-
-    }
-
-    @Override
-    public void run() {
-
-    }
 
     /**
      * GUI Constructor. Initializes Swing frame for application
@@ -51,8 +20,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     private void initializeFrame(){
-        int menuItemWith = 120;
-        int menuItemHeight = 20;
 
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,17 +31,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         //Set Toolbar
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
-
-        load = menuItemFactory("Load",menuItemWith,menuItemHeight);
-        save = menuItemFactory("Save",menuItemWith,menuItemHeight);
-        export = menuItemFactory("Export",menuItemWith,menuItemHeight);
-        exit = menuItemFactory("Exit",menuItemWith,menuItemHeight);
-
+        JMenuItem load = new JMenuItem("Load");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem export = new JMenuItem("Export");
+        JMenuItem exit = new JMenuItem("Exit");
         file.add(load);
-        file.add(save);
-        file.addSeparator();
         file.add(export);
-        file.addSeparator();
+        file.add(save);
         file.add(exit);
         menuBar.add(file);
         this.setJMenuBar(menuBar);
@@ -95,21 +58,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
 
         setVisible(true);
-    }
-
-    /**
-     * Makes menu items.
-     * @param name  name of the menu item
-     * @param width width of the menu item
-     * @param height height of the menu item
-     * @return returns a new menuItem
-     */
-    private JMenuItem menuItemFactory(String name, int width, int height)
-    {
-        JMenuItem menuItem = new JMenuItem(name);
-        menuItem.setPreferredSize(new Dimension(width,height));
-        menuItem.addActionListener(this);
-        return menuItem;
     }
 
     /**

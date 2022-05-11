@@ -11,7 +11,9 @@ public class GUI_Maze extends JPanel{
     private final int blockSize;
     private final int wallWidth;
     private final Maze maze;
-    public JPanel mazePanel;
+    public MazePanel mazePanel;
+
+
     private static boolean mazeGrid = true;
     /**
      * Maze GUI constructor, creates layout for maze blocks and walls and displays them appropriately
@@ -49,7 +51,7 @@ public class GUI_Maze extends JPanel{
 
         //Render Maze to GUI
         renderMaze(getGrid());
-    }
+}
 
     public void renderMaze(boolean grid){
         setGrid(grid);
@@ -201,8 +203,8 @@ public class GUI_Maze extends JPanel{
         return blockPanel;
     }
 
-    private JPanel createMazePanel() {
-        JPanel panel = new JPanel();
+    private MazePanel createMazePanel() {
+        MazePanel panel = new MazePanel(maze);
         GridBagLayout mazeLayout = new GridBagLayout();
         panel.setLayout(mazeLayout);
 
