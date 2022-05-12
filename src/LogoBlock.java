@@ -107,20 +107,57 @@ public class LogoBlock extends Block{
 //        int lastIndex = mazeMap.getMazeMap().size()-1;
         if(Objects.equals(imageType, "END")){
             this.getWallEast().setFinish(true);
+
+            this.getWallEast().setActive(false);
+            this.getWallEast().setButtonEnable(false);
+            this.getWallSouth().setActive(false);
+            this.getWallSouth().setButtonEnable(false);
+
+            neighbourSE.getWallWest().setActive(false);
+            neighbourSE.getWallWest().setButtonEnable(false);
+            neighbourSE.getWallNorth().setActive(false);
+            neighbourSE.getWallNorth().setButtonEnable(false);
         }
         else if(Objects.equals(imageType, "START")){
             this.getWallEast().setStart(true);
+
+            this.getWallEast().setActive(false);
+            this.getWallEast().setButtonEnable(false);
+            this.getWallSouth().setActive(false);
+            this.getWallSouth().setButtonEnable(false);
+
+            neighbourSE.getWallWest().setActive(false);
+            neighbourSE.getWallWest().setButtonEnable(false);
+            neighbourSE.getWallNorth().setActive(false);
+            neighbourSE.getWallNorth().setButtonEnable(false);
             }
 
-        this.getWallEast().setActive(false);
-        this.getWallEast().setButtonEnable(false);
-        this.getWallSouth().setActive(false);
-        this.getWallSouth().setButtonEnable(false);
+        else if(Objects.equals(imageType, "LOGO")){
+            System.out.println(this.getBlockIndex());
 
-        neighbourSE.getWallWest().setActive(false);
-        neighbourSE.getWallWest().setButtonEnable(false);
-        neighbourSE.getWallNorth().setActive(false);
-        neighbourSE.getWallNorth().setButtonEnable(false);
+////            this.getWallNorth().setActive(false);
+////            this.getWallNorth().setButtonEnable(false);
+////            this.getWallWest().setActive(false);
+////            this.getWallWest().setButtonEnable(false);
+////
+//            neighbourN.getWallSouth().setActive(true);
+////            neighbourN.getWallSouth().getButton().setEnabled(false);
+//            neighbourW.getWallEast().setActive(true);
+//            neighbourE.getWallNorth().setActive(true);
+////            neighbourE.getWallNorth().getButton().setEnabled(false);
+//            neighbourE.getWallEast().setActive(true);
+////            neighbourE.getWallEast().setButtonEnable(false);
+//            neighbourSE.getWallEast().setActive(true);
+////            neighbourSE.getWallEast().setButtonEnable(false);
+//            neighbourSE.getWallSouth().setActive(true);
+////            neighbourSE.getWallSouth().setButtonEnable(false);
+//            neighbourS.getWallSouth().setActive(true);
+////            neighbourS.getWallSouth().setButtonEnable(false);
+//            neighbourS.getWallWest().setActive(true);
+////            neighbourS.getWallWest().setButtonEnable(false);
+        }
+
+
 
     }
 

@@ -6,6 +6,7 @@ import java.awt.image.ImageObserver;
 import java.text.AttributedCharacterIterator;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * The editable Maze part of the GUI.
@@ -418,7 +419,18 @@ public class GUI_Maze extends JPanel{
                 block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "bone", "end");
             }
         }
+
+        if(Objects.equals(maze.getMazeType(), "ADULT")) {
+            int middleBlock = maze.getMazeMap().size() / 2;
+            if (block.getBlockIndex() == middleBlock) {                     // hack conversion code to make a logo block
+                block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "mazeCo", "logo");
+            }
+
+        }
+
         return block;
+
+
     }
 
     private JPanel createBlockPanel(Block block, GridBagConstraints constraints, int[] location) throws Exception {
