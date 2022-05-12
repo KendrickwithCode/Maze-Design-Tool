@@ -1,6 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
+import java.util.Objects;
 
 /**
  * The editable Maze part of the GUI.
@@ -20,7 +24,7 @@ public class GUI_Maze extends JPanel{
      * @param maze Maze object to display
      * @param generate rue to generate maze or false to create blank canvas
      */
-    public GUI_Maze(Maze maze,boolean generate) {
+    public GUI_Maze(Maze maze,boolean generate) throws Exception {
         // Set Maze
         this.maze = maze;
 
@@ -53,7 +57,7 @@ public class GUI_Maze extends JPanel{
         renderMaze(getGrid());
 }
 
-    public void renderMaze(boolean grid){
+    public void renderMaze(boolean grid) throws Exception {
         setGrid(grid);
 
         // Set maze components common constraints
@@ -185,38 +189,289 @@ public class GUI_Maze extends JPanel{
         return southButton;
     }
 
-    private JPanel createBlockPanel(Block block, GridBagConstraints constraints, int[] location){
-        // Get block panel
-        JPanel blockPanel = block.getBlockPanel();
-        // Set block panel sizing
-        blockPanel.setPreferredSize(new Dimension(blockSize, blockSize));
-        blockPanel.setMaximumSize(new Dimension(blockSize, blockSize));
-        blockPanel.setMinimumSize(new Dimension(blockSize, blockSize));
 
-        if(block.getBlockIndex() == 5){                     // hack conversion code to make a logo block
-            block = new LogoBlock(block.getLocation(),block.getBlockIndex());
-            System.out.println(block.getClass());
+    private ImageIcon scaleImage(Image image, int size) {
+        System.out.println("W-Width: " + wallWidth);
+        int offsetX = wallWidth;
+        int offsetY = wallWidth;
+        int scale = size * 2;
 
-            if(block.getClass().getName() == "LogoBlock"){
-                Image imageIcon = new ImageIcon(((LogoBlock) block).getPictureFile()).getImage();
-                JLabel imageLabel = new JLabel();
+        if (wallWidth == 10) {
+            scale = size;
+//        offsetY = size/2 - wallWidth*2;
+//        offsetY = size/2 - wallWidth*2;
+//        offsetX = size/2;
 
-            }
+            offsetY = size / 2 - wallWidth;
+            offsetX = size / 2;
 
+
+        } else if (wallWidth == 8) {
+//        offsetY = wallWidth*3-size/6;
+//        offsetX = wallWidth/2;
+            scale = size * 2;
+
+            offsetY = size / 2;
+            offsetX = wallWidth / 2;
+
+        } else if (wallWidth == 6) {
+            offsetY = size / 2 + wallWidth * 3;
+            offsetX = wallWidth / 2;
+            scale = size * 2;
+        } else if (wallWidth == 4) {
+            offsetY = size + wallWidth * 5;
+            offsetX = wallWidth / 2;
+            scale = size * 2;
+        }
+
+        BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bi.createGraphics();
+
+        g.drawImage(image, offsetX, offsetY, scale, scale, null);
+        return new ImageIcon(bi);
+    }
+
+    private void paintObject(Graphics g, String image){
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Image i = tk.getImage(image);
+        g.drawImage(i,100,100,this);
+    }
+
+    private void logoBlockRender()
+    {
+
+    }
+
+    private JPanel createBlockPanel(Block block, GridBagConstraints constraints, int[] location) throws Exception {
+    // Get block panel
+    JPanel blockPanel = block.getBlockPanel();
+    // Set block panel sizing
+    blockPanel.setPreferredSize(new Dimension(blockSize, blockSize));
+    blockPanel.setMaximumSize(new Dimension(blockSize, blockSize));
+    blockPanel.setMinimumSize(new Dimension(blockSize, blockSize));
+
+    // Set blockPanel constraints
+    constraints.fill = GridBagConstraints.BOTH;
+    constraints.anchor = GridBagConstraints.CENTER;
+    constraints.gridwidth = 1;
+    constraints.gridheight = 1;
+    constraints.gridx = location[0];
+    constraints.gridy = location[1];
+
+    if(Objects.equals(maze.getMazeType(), "KIDS")) {
+        if (block.getBlockIndex() == 0) {                     // hack conversion code to make a logo block
+            block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "dog", "start");
+        }
+
+        int lastBlock = maze.getMazeMap().size() - maze.getSize()[0] - 2;
+        if (block.getBlockIndex() == lastBlock)              // hack conversion code to make a logo block
+        {
+            block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "bone", "end");
+        }
+    }
+        if(block.getClass().getName().equals("LogoBlock")){
+            ((LogoBlock) block).setupLogoWalls(maze);
+
+            Image image = new ImageIcon(((LogoBlock) block).getPictureFile()).getImage();
+            JLabel imageLabel = new JLabel();
+
+            ImageIcon imageIcon = scaleImage(image,blockSize);
+            blockPanel.add(imageLabel);
+            imageLabel.setIcon(imageIcon);
+//            blockPanel.setBackground(new Color(255,243,215));
+
+            constraints.gridwidth = 3;
+            constraints.gridheight = 3;
+
+            Graphics g = new Graphics() {
+                @Override
+                public Graphics create() {
+                    return null;
+                }
+
+                @Override
+                public void translate(int x, int y) {
+
+                }
+
+                @Override
+                public Color getColor() {
+                    return null;
+                }
+
+                @Override
+                public void setColor(Color c) {
+
+                }
+
+                @Override
+                public void setPaintMode() {
+
+                }
+
+                @Override
+                public void setXORMode(Color c1) {
+
+                }
+
+                @Override
+                public Font getFont() {
+                    return null;
+                }
+
+                @Override
+                public void setFont(Font font) {
+
+                }
+
+                @Override
+                public FontMetrics getFontMetrics(Font f) {
+                    return null;
+                }
+
+                @Override
+                public Rectangle getClipBounds() {
+                    return null;
+                }
+
+                @Override
+                public void clipRect(int x, int y, int width, int height) {
+
+                }
+
+                @Override
+                public void setClip(int x, int y, int width, int height) {
+
+                }
+
+                @Override
+                public Shape getClip() {
+                    return null;
+                }
+
+                @Override
+                public void setClip(Shape clip) {
+
+                }
+
+                @Override
+                public void copyArea(int x, int y, int width, int height, int dx, int dy) {
+
+                }
+
+                @Override
+                public void drawLine(int x1, int y1, int x2, int y2) {
+
+                }
+
+                @Override
+                public void fillRect(int x, int y, int width, int height) {
+
+                }
+
+                @Override
+                public void clearRect(int x, int y, int width, int height) {
+
+                }
+
+                @Override
+                public void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
+
+                }
+
+                @Override
+                public void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
+
+                }
+
+                @Override
+                public void drawOval(int x, int y, int width, int height) {
+
+                }
+
+                @Override
+                public void fillOval(int x, int y, int width, int height) {
+
+                }
+
+                @Override
+                public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
+
+                }
+
+                @Override
+                public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
+
+                }
+
+                @Override
+                public void drawPolyline(int[] xPoints, int[] yPoints, int nPoints) {
+
+                }
+
+                @Override
+                public void drawPolygon(int[] xPoints, int[] yPoints, int nPoints) {
+
+                }
+
+                @Override
+                public void fillPolygon(int[] xPoints, int[] yPoints, int nPoints) {
+
+                }
+
+                @Override
+                public void drawString(String str, int x, int y) {
+
+                }
+
+                @Override
+                public void drawString(AttributedCharacterIterator iterator, int x, int y) {
+
+                }
+
+                @Override
+                public boolean drawImage(Image img, int x, int y, ImageObserver observer) {
+                    return false;
+                }
+
+                @Override
+                public boolean drawImage(Image img, int x, int y, int width, int height, ImageObserver observer) {
+                    return false;
+                }
+
+                @Override
+                public boolean drawImage(Image img, int x, int y, Color bgcolor, ImageObserver observer) {
+                    return false;
+                }
+
+                @Override
+                public boolean drawImage(Image img, int x, int y, int width, int height, Color bgcolor, ImageObserver observer) {
+                    return false;
+                }
+
+                @Override
+                public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
+                    return false;
+                }
+
+                @Override
+                public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2, Color bgcolor, ImageObserver observer) {
+                    return false;
+                }
+
+                @Override
+                public void dispose() {
+
+                }
+            };
+            paintObject(g,((LogoBlock) block).getPictureFile());
         }
 
 
-
-        // Set blockPanel constraints
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = location[0];
-        constraints.gridy = location[1];
-
-        return blockPanel;
+    return blockPanel;
     }
+
+
 
     private MazePanel createMazePanel() {
         MazePanel panel = new MazePanel(maze);

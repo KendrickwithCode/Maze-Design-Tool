@@ -117,6 +117,13 @@ public class MazeWall {
         }
     }
 
+    public void setButtonEnable(boolean buttonState)
+    {
+        button.setEnabled(buttonState);
+        button.setVisible(buttonState);
+//        button.updateUI();
+    }
+
     private JButton createBtn () {
         Color unsetColor = Color.white;
         Color activeColor = Color.black;

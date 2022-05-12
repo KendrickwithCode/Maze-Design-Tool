@@ -21,7 +21,7 @@ public class MazeGenerator {
      * @param startPosIndex the starting block point as an index integer.
      * @param algorithm generation algorithm ("DFSIterative","DFSRecursive").
      */
-    public static void GenerateMaze(Maze maze,int startPosIndex, String algorithm){
+    public static void GenerateMaze(Maze maze,int startPosIndex, String algorithm) throws Exception {
         currentMaze = maze;
         stackList = new ArrayDeque<>();
         Block firstBlock = currentMaze.getMazeMap().get(startPosIndex);
@@ -56,7 +56,7 @@ public class MazeGenerator {
      *
      * @param firstBlock block to start from.
      */
-    private static void depthFieldSearchIterative(Block firstBlock){
+    private static void depthFieldSearchIterative(Block firstBlock) throws Exception {
         firstBlock.setVisited(true);
         stackList.push(firstBlock);
 
@@ -92,8 +92,7 @@ public class MazeGenerator {
      *
      * @param currentBlock current block that is being worked on.
      */
-    private static void depthFieldSearchRecursion(Block currentBlock)
-    {
+    private static void depthFieldSearchRecursion(Block currentBlock) throws Exception {
         if(!currentBlock.getVisited()){
             stackList.push(currentBlock);
         }
@@ -121,8 +120,7 @@ public class MazeGenerator {
      * @param nextDirection the direction you wish to move to for the next block "NORTH", "EAST", "SOUTH", "WEST"
      * @return the next block from the direction you chose to move.
      */
-    private static Block setupMoveToNextBlock(Block currentBlock, String nextDirection)
-    {
+    private static Block setupMoveToNextBlock(Block currentBlock, String nextDirection) {
         setWallState(currentBlock,nextDirection);
         return currentMaze.getNeighbourBlock(currentBlock,nextDirection);
     }
@@ -160,8 +158,7 @@ public class MazeGenerator {
      * Gets the available direction from current block. Check out of bounds and if the block has already been visited.
      * @param currentBlock is the current block of reference to get all available directions
      */
-    private static void setupDirections(Block currentBlock)
-    {
+    private static void setupDirections(Block currentBlock) {
         currentBlock.clearAvailableDirections();
         int currentBlockIndex = currentMaze.getIndex(currentBlock.getLocation());
 

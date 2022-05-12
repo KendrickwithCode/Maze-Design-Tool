@@ -1,13 +1,12 @@
 import java.util.ArrayList;
 
-import static java.lang.Boolean.TRUE;
-
 /**
  * Main class for holding all the contents and information of a maze.
  */
 public class Maze {
 
     private int difficulty;
+    private String mazeType;
     private final boolean solvable;
     private String mazeName;
     private final int[] size;
@@ -20,11 +19,12 @@ public class Maze {
      * @param sizeY size of the y-axis for the maze
      * @param name name of the maze
      */
-    public Maze(int sizeX, int sizeY, String name) {
+    public Maze(int sizeX, int sizeY, String name, String mazeType) {
         this.size = new int[]{sizeX, sizeY};
         this.mazeMap = new ArrayList<>();
         this.mazeName = name;
         this.solvable = false;
+        this.mazeType = mazeType.toUpperCase();
         resetMaze(sizeX,sizeY);
     }
 
@@ -68,13 +68,20 @@ public class Maze {
         }
     }
 
+    public String getMazeType() {
+        return mazeType;
+    }
+
+    public void setMazeType(String mazeType) {
+        this.mazeType = mazeType;
+    }
+
     /**
      * Auto generates a new maze. Destroys old maze while generating a new one
      * @param algorithm the algorithm used to generate the maze "DFSIterative", "DFSRecursive"
      * @param startPosXY the starting position int[x,y]
      */
-    public void generateNewMaze(String algorithm,int[] startPosXY)
-    {
+    public void generateNewMaze(String algorithm,int[] startPosXY) throws Exception {
         int startIndex = getIndex(startPosXY);
         resetMaze(false);
         MazeGenerator.GenerateMaze(this,startIndex,algorithm);
@@ -83,8 +90,7 @@ public class Maze {
     /**
      * Overload Auto generates a new maze. Destroys old maze while generating a new one
      */
-    public void generateNewMaze()
-    {
+    public void generateNewMaze() throws Exception {
         generateNewMaze("DFSIterative",new int[]{0,0});
     }
 

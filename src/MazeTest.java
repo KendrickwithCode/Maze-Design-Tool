@@ -14,7 +14,7 @@ public class MazeTest {
 
     @BeforeEach
     public void Before(){
-        testMaze = new Maze(7,3, "Test");
+        testMaze = new Maze(7,3, "Test","Adult");
     }
 
 
@@ -41,8 +41,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testGetNeighbourIndex()
-    {
+    public void testGetNeighbourIndex() {
         int testBlockIndex = 10;
 
         Block testBlock = testMaze.getMazeMap().get(testBlockIndex);
@@ -56,8 +55,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testGetNeighbourBlock()
-    {
+    public void testGetNeighbourBlock() {
         int testBlockIndex = 12;
 //        int testErrorBlockIndex = 20;
 
@@ -117,7 +115,7 @@ public class MazeTest {
 
 
     @Test
-    public void testMap() {
+    public void testMap() throws Exception {
         AtomicBoolean displayMazeMap = new AtomicBoolean(false);
 
         if (displayMazeMap.get()) {
