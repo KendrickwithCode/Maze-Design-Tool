@@ -237,38 +237,8 @@ public class GUI_Maze extends JPanel{
         g.drawImage(i,100,100,this);
     }
 
-    private void logoBlockRender()
+    private void logoBlockRender(Block block, JPanel blockPanel,GridBagConstraints constraints)
     {
-
-    }
-
-    private JPanel createBlockPanel(Block block, GridBagConstraints constraints, int[] location) throws Exception {
-    // Get block panel
-    JPanel blockPanel = block.getBlockPanel();
-    // Set block panel sizing
-    blockPanel.setPreferredSize(new Dimension(blockSize, blockSize));
-    blockPanel.setMaximumSize(new Dimension(blockSize, blockSize));
-    blockPanel.setMinimumSize(new Dimension(blockSize, blockSize));
-
-    // Set blockPanel constraints
-    constraints.fill = GridBagConstraints.BOTH;
-    constraints.anchor = GridBagConstraints.CENTER;
-    constraints.gridwidth = 1;
-    constraints.gridheight = 1;
-    constraints.gridx = location[0];
-    constraints.gridy = location[1];
-
-    if(Objects.equals(maze.getMazeType(), "KIDS")) {
-        if (block.getBlockIndex() == 0) {                     // hack conversion code to make a logo block
-            block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "dog", "start");
-        }
-
-        int lastBlock = maze.getMazeMap().size() - maze.getSize()[0] - 2;
-        if (block.getBlockIndex() == lastBlock)              // hack conversion code to make a logo block
-        {
-            block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "bone", "end");
-        }
-    }
         if(block.getClass().getName().equals("LogoBlock")){
             ((LogoBlock) block).setupLogoWalls(maze);
 
@@ -466,7 +436,44 @@ public class GUI_Maze extends JPanel{
             };
             paintObject(g,((LogoBlock) block).getPictureFile());
         }
+    }
 
+    private Block mazeTypeSelect(Block block) throws Exception {
+        if(Objects.equals(maze.getMazeType(), "KIDS")) {
+
+            if (block.getBlockIndex() == 0) {                     // hack conversion code to make a logo block
+                block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "dog", "start");
+
+            }
+
+            int lastBlock = maze.getMazeMap().size() - maze.getSize()[0] - 2;
+            if (block.getBlockIndex() == lastBlock)              // hack conversion code to make a logo block
+            {
+                block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "bone", "end");
+            }
+        }
+        return block;
+    }
+
+    private JPanel createBlockPanel(Block block, GridBagConstraints constraints, int[] location) throws Exception {
+    // Get block panel
+    JPanel blockPanel = block.getBlockPanel();
+    // Set block panel sizing
+    blockPanel.setPreferredSize(new Dimension(blockSize, blockSize));
+    blockPanel.setMaximumSize(new Dimension(blockSize, blockSize));
+    blockPanel.setMinimumSize(new Dimension(blockSize, blockSize));
+
+    // Set blockPanel constraints
+    constraints.fill = GridBagConstraints.BOTH;
+    constraints.anchor = GridBagConstraints.CENTER;
+    constraints.gridwidth = 1;
+    constraints.gridheight = 1;
+    constraints.gridx = location[0];
+    constraints.gridy = location[1];
+
+
+    block = mazeTypeSelect(block);
+    logoBlockRender(block,blockPanel,constraints);
 
     return blockPanel;
     }

@@ -188,7 +188,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, description, constraints, 0, 4, 2, 1);
                 addToPanel(borderSpot, description_pane, descriptionConstraints , 0, 5, 2, 1);
                 addToPanel(borderSpot, width, constraints, 0,6,1,1);
-                addToPanel(borderSpot, width_text, constraints, 1,7,1,1);
+                addToPanel(borderSpot, width_text, constraints, 1,6,1,1);
                 addToPanel(borderSpot, height, constraints, 0,7,1,1);
                 addToPanel(borderSpot, height_text, constraints, 1,7,1,1);
                 addToPanel(borderSpot, btnGenerate, constraints, 0,8,2,1);
