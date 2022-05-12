@@ -212,7 +212,7 @@ public class GUI_Maze extends JPanel{
             Image image = new ImageIcon(((LogoBlock) block).getPictureFile()).getImage();
             JLabel imageLabel = new JLabel();
 
-            ImageIcon imageIcon = scaleImage(image,blockSize);
+            ImageIcon imageIcon = scaleImage(image,blockSize*2);
             blockPanel.add(imageLabel);
             imageLabel.setIcon(imageIcon);
 //            blockPanel.setBackground(new Color(255,243,215));

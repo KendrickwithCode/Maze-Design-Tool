@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.plaf.metal.MetalComboBoxButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -201,6 +202,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JComboBox createComboBox(String[] options,int width, int height) {
                 JComboBox combo = new JComboBox<>(options);
                 combo.setPreferredSize(new Dimension(width + 80,height));
+                combo.setUI(ColorArrowUI.createUI(combo));
+
                 combo.addActionListener(this);
                 return combo;
         }
