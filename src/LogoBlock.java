@@ -103,7 +103,7 @@ public class LogoBlock extends Block{
     }
 
     public void setupLogoWalls(Maze mazeMap) {
-        System.out.println(this.getBlockIndex());
+//        System.out.println(this.getBlockIndex());
 //        int lastIndex = mazeMap.getMazeMap().size()-1;
         if(Objects.equals(imageType, "END")){
             this.getWallEast().setFinish(true);

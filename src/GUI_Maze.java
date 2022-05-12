@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.text.AttributedCharacterIterator;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -191,43 +192,77 @@ public class GUI_Maze extends JPanel{
 
 
     private ImageIcon scaleImage(Image image, int size) {
-        System.out.println("W-Width: " + wallWidth);
-        int offsetX = wallWidth;
-        int offsetY = wallWidth;
-        int scale = size * 2;
+        System.out.println("Wall-Width: " + wallWidth);
+//        HashMap <Integer,Integer> imageScale = new HashMap<>();
+//        //(Blocksize, Offset-y)
+//        imageScale.put(16,33);
+//        imageScale.put(17,33);
+//        imageScale.put(18,32);
+//        imageScale.put(19,31);
+//        imageScale.put(20,30);
+//        imageScale.put(21,29);
+//        imageScale.put(22,28);
+//        imageScale.put(23,28);
+//        imageScale.put(24,27);
+//        imageScale.put(25,25);
+//
+//        imageScale.put(26,23);
+//        imageScale.put(27,21);
+//        imageScale.put(28,19);
+//        imageScale.put(29,18);
+//        imageScale.put(33,20);
+//        imageScale.put(35,20);
+//        imageScale.put(36,20);
+//        imageScale.put(38,20);
+//        imageScale.put(40,20);
+//        imageScale.put(42,20);
+//        imageScale.put(44,15);
+//        imageScale.put(47,15);
+//        imageScale.put(50,15);
+//        imageScale.put(55,15);
+//
+//        imageScale.put(76,35);
+//        imageScale.put(85,30);
+//        imageScale.put(95,20);
+//        imageScale.put(110,10);
+//        imageScale.put(130,0);
+//        imageScale.put(160,0);
+//        imageScale.put(210,0);
+//        imageScale.put(310,0);
 
-        if (wallWidth == 10) {
-            scale = size;
-//        offsetY = size/2 - wallWidth*2;
-//        offsetY = size/2 - wallWidth*2;
-//        offsetX = size/2;
+//        int offsetX = wallWidth;
+//        int offsetY = wallWidth;
+//        int scale = size;
+//
+//        if (wallWidth == 10) {
+//            scale = size;
+////            offsetY = imageScale.get(size);
+//
+//        } else if (wallWidth == 8) {
+//            scale = size*2;
+//            offsetY = imageScale.get(size);
+//            offsetX = wallWidth / 2;
+//
+//        } else if (wallWidth == 6) {
+//            scale = size * 2;
+//            offsetY = imageScale.get(size);
+//        } else if (wallWidth == 4) {
+//            offsetY = size + wallWidth * 5;
+//            offsetX = wallWidth / 2;
+//            scale = size * 2;
+//        }
+//        System.out.println("Offset-Y: " + offsetY);
+//        System.out.println("Scale: " + scale);
+//        System.out.println("Block Size: " + size);
+//        System.out.println("-----------\n");
 
-            offsetY = size / 2 - wallWidth;
-            offsetX = size / 2;
+//        BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
 
-        } else if (wallWidth == 8) {
-//        offsetY = wallWidth*3-size/6;
-//        offsetX = wallWidth/2;
-            scale = size * 2;
-
-            offsetY = size / 2;
-            offsetX = wallWidth / 2;
-
-        } else if (wallWidth == 6) {
-            offsetY = size / 2 + wallWidth * 3;
-            offsetX = wallWidth / 2;
-            scale = size * 2;
-        } else if (wallWidth == 4) {
-            offsetY = size + wallWidth * 5;
-            offsetX = wallWidth / 2;
-            scale = size * 2;
-        }
-
-        BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB_PRE);
         Graphics2D g = bi.createGraphics();
-
-        g.drawImage(image, offsetX, offsetY, scale, scale, null);
+        g.drawImage(image, 0, 0, size, size, null);
+//        g.drawImage(image, offsetX, offsetY, scale, scale, null);
         return new ImageIcon(bi);
     }
 
@@ -443,7 +478,6 @@ public class GUI_Maze extends JPanel{
 
             if (block.getBlockIndex() == 0) {                     // hack conversion code to make a logo block
                 block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "dog", "start");
-
             }
 
             int lastBlock = maze.getMazeMap().size() - maze.getSize()[0] - 2;
@@ -470,7 +504,6 @@ public class GUI_Maze extends JPanel{
     constraints.gridheight = 1;
     constraints.gridx = location[0];
     constraints.gridy = location[1];
-
 
     block = mazeTypeSelect(block);
     logoBlockRender(block,blockPanel,constraints);
