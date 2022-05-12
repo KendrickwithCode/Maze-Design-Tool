@@ -2,7 +2,7 @@
  * Block used to store images on the maze.
  */
 public class LogoBlock extends Block{
-    private String pictureFile;
+    private String pictureFile= "img/icons/Dog.png";
     private int[] size;
     private int[][] startPictureCoor;
 
@@ -13,5 +13,13 @@ public class LogoBlock extends Block{
      */
     public LogoBlock(int[] location, int blockIndex) {
         super(location, blockIndex,false);
+    }
+
+    public String getPictureFile() {
+        return pictureFile;
+    }
+
+    public void setPictureFile(String pictureFile) {
+        this.pictureFile = pictureFile;
     }
 }

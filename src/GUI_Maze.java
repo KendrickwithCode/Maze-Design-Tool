@@ -192,6 +192,21 @@ public class GUI_Maze extends JPanel{
         blockPanel.setPreferredSize(new Dimension(blockSize, blockSize));
         blockPanel.setMaximumSize(new Dimension(blockSize, blockSize));
         blockPanel.setMinimumSize(new Dimension(blockSize, blockSize));
+
+        if(block.getBlockIndex() == 5){                     // hack conversion code to make a logo block
+            block = new LogoBlock(block.getLocation(),block.getBlockIndex());
+            System.out.println(block.getClass());
+
+            if(block.getClass().getName() == "LogoBlock"){
+                Image imageIcon = new ImageIcon(((LogoBlock) block).getPictureFile()).getImage();
+                JLabel imageLabel = new JLabel();
+
+            }
+
+        }
+
+
+
         // Set blockPanel constraints
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.CENTER;
