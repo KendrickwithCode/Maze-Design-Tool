@@ -1,66 +1,25 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import java.awt.geom.Line2D;
 
 /**
  * Graphic User Interface Base.
- * This is where all of the components for the GUI Tools and GUI Maze Sit on top off.
+ * This is where all of the components for the GUI Tools and GUI Maze Sit ontop off.
  */
-public class GUI extends JFrame implements ActionListener, Runnable {
+public class GUI extends JFrame{
 
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
-    public JMenuItem load, save, export, exit;
-    private GUI_Tools menu;
-    MazeDB mazedata;
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
-
-        if(src==load)
-        {
-            JOptionPane.showMessageDialog(null,"Load from Database.","Load",JOptionPane.INFORMATION_MESSAGE);
-        }
-        if(src==save)
-        {
-            try {
-                mazedata.addMaze(menu.maze_name.getText(), menu.author_name_text.getText(),
-                        menu.description_text.getText(), menu.width_text.getText(), menu.height_text.getText());
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
-        }
-        if(src==export)
-        {
-            JOptionPane.showMessageDialog(null,"Export to Jpeg.","Export",JOptionPane.INFORMATION_MESSAGE);
-        }
-        if(src==exit)
-        {
-            this.dispose();
-        }
-
-    }
-
-    @Override
-    public void run() {
-
-    }
 
     /**
-     * GUI Constructor. Initializes Swing frame for application. Creates Connection to DB.
+     * GUI Constructor. Initializes Swing frame for application
      */
     public GUI(){
-        this.mazedata = new MazeDB();
         initializeFrame();
     }
 
     private void initializeFrame(){
-        int menuItemWith = 120;
-        int menuItemHeight = 20;
 
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,24 +31,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         //Set Toolbar
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
-
-        load = menuItemFactory("Load",menuItemWith,menuItemHeight);
-
-        //Set Save button to grey initially before Maze Generation
-        save = menuItemFactory("Save",menuItemWith,menuItemHeight);
-        save.setEnabled(false);
-
-        export = menuItemFactory("Export",menuItemWith,menuItemHeight);
-        exit = menuItemFactory("Exit",menuItemWith,menuItemHeight);
-
-        JSeparator separator1 = new JSeparator();
-        JSeparator separator2 = new JSeparator();
-
+        JMenuItem load = new JMenuItem("Load");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem export = new JMenuItem("Export");
+        JMenuItem exit = new JMenuItem("Exit");
         file.add(load);
-        file.add(save);
-        file.add(separator1);
         file.add(export);
-        file.add(separator2);
+        file.add(save);
         file.add(exit);
         menuBar.add(file);
         this.setJMenuBar(menuBar);
@@ -102,7 +50,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         JPanel borderight = createPanel(Color.DARK_GRAY);
 
         setResizable(false);
-        menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
+        GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
         this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
         this.getContentPane().add(borderleft, BorderLayout.LINE_START);
@@ -110,21 +58,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
 
         setVisible(true);
-    }
-
-    /**
-     * Makes menu items.
-     * @param name  name of the menu item
-     * @param width width of the menu item
-     * @param height height of the menu item
-     * @return
-     */
-    private JMenuItem menuItemFactory(String name, int width, int height)
-    {
-        JMenuItem menuItem = new JMenuItem(name);
-        menuItem.setPreferredSize(new Dimension(width,height));
-        menuItem.addActionListener(this);
-        return menuItem;
     }
 
     /**
@@ -147,7 +80,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         JPanel temp = new JPanel();
         temp.setBackground(c);
         return temp;
-        }
+    }
 
     /**
      * Creates new maze and displays it in the GUI
@@ -172,10 +105,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         maze.renderMaze(toggle);
     }
 
-   public boolean getGrid(){
-       return maze.getGrid();
+    public boolean getGrid(){
+        return maze.getGrid();
     }
 
 }
-
-
