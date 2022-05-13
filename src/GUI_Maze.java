@@ -214,9 +214,16 @@ public class GUI_Maze extends JPanel{
         g.drawImage(i,100,100,this);
     }
 
+    /**
+     * Renderd the logoBlock to a JPanel in the maze.
+     * @param block current block that is beeing worked on
+     * @param blockPanel gui block panel
+     * @param constraints gui constraints
+     */
     private void logoBlockRender(Block block, JPanel blockPanel,GridBagConstraints constraints)
     {
-        if(block.getClass().getName().equals("LogoBlock")){
+
+        if(block.getBlockType().equals("LogoBlock")){
 
             String FileLocation = ((LogoBlock) block).getPictureFile();
             Image image = new ImageIcon(((LogoBlock) block).getPictureFile()).getImage();

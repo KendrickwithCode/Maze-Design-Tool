@@ -1,8 +1,5 @@
 public class MazeLogoTools {
 
-    public MazeLogoTools() {
-    }
-
     /**
      * Random placement index generator for placing logo on the maze.
      * @param mazeSize size of maze [x,y].
