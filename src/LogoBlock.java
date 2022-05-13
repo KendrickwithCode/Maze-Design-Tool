@@ -7,8 +7,6 @@ import java.util.Objects;
 public class LogoBlock extends Block{
     private String pictureFile;
     private final HashMap<String,String> images;
-    private int[] size;
-    private int[][] startPictureCoor;
     private Block neighbourNE;
     private Block neighbourN;
     private Block neighbourNW;
@@ -17,19 +15,17 @@ public class LogoBlock extends Block{
     private Block neighbourSE;
     private Block neighbourS;
     private Block neighbourSW;
-    private final boolean imageAnchorBlock;
     private final String imageType;
 
 
     /**
-     * Constructs and initialises new LogoBlock which can display logos
+     * Overload Constructor, Constructs and initialises new LogoBlock which can display logos
      * @param blockIndex Index of logoBlock
      * @param location location of block on maze
      */
-    public LogoBlock(int[] location, int blockIndex, Maze mazeMap, String picture, String imageType, boolean imageAnchorBlock) throws Exception {
+    public LogoBlock(int[] location, int blockIndex, Maze mazeMap, String picture, String imageType) throws Exception {
         super(location, blockIndex,false);
-        this.imageAnchorBlock = imageAnchorBlock;
-        setupNeighbourBlocks(mazeMap);
+//        setupNeighbourBlocks(mazeMap);
         images = new HashMap<>();
         images.put("dog","img/icons/Dog.png");
         images.put("bone","img/icons/Bone.png");
@@ -39,14 +35,6 @@ public class LogoBlock extends Block{
     }
 
 
-    /**
-     * Overload Constructor, Constructs and initialises new LogoBlock which can display logos
-     * @param blockIndex Index of logoBlock
-     * @param location location of block on maze
-     */
-    public LogoBlock(int[] location, int blockIndex, Maze mazeMap, String picture, String imageType) throws Exception {
-        this(location,blockIndex,mazeMap,picture,imageType, false);
-    }
 
     public String getPictureFile() {
         return pictureFile;
@@ -115,16 +103,12 @@ public class LogoBlock extends Block{
         }
     }
 
-    public boolean isImageAnchorBlock() {
-        return imageAnchorBlock;
-    }
-
     private void logoInnerWalls(boolean wallGuiState)
     {
-        this.getWallEast().setButtonEnableVisible(wallGuiState);
-        this.getWallSouth().setButtonEnableVisible(wallGuiState);
-        neighbourSE.getWallWest().setButtonEnableVisible(wallGuiState);
-        neighbourSE.getWallNorth().setButtonEnableVisible(wallGuiState);
+//        this.getWallEast().setButtonEnableVisible(wallGuiState);
+//        this.getWallSouth().setButtonEnableVisible(wallGuiState);
+//        neighbourSE.getWallWest().setButtonEnableVisible(wallGuiState);
+//        neighbourSE.getWallNorth().setButtonEnableVisible(wallGuiState);
     }
 
     public void setupLogoWalls(Maze mazeMap) {

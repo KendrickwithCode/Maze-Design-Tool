@@ -26,10 +26,10 @@ public class MazeGenerator {
         currentMaze = maze;
         stackList = new ArrayDeque<>();
         Block firstBlock = currentMaze.getMazeMap().get(startPosIndex);
-        if(Objects.equals(currentMaze.getMazeType(), "ADULT"))
-            randomLogoPlacer();
-        else
-            kidsLogoSetup();
+//        if(Objects.equals(currentMaze.getMazeType(), "ADULT"))
+////            MazeTools.randomLogoPlacer(currentMaze);
+//        else
+//            kidsLogoSetup();
 
         switch (algorithm.toUpperCase())
         {
@@ -45,9 +45,10 @@ public class MazeGenerator {
         }
     }
 
-
-    private static void kidsLogoSetup()
-    {
+    /**
+     * Sets the diagonal override hidden block to be no passable (marks as visited)
+     */
+    private static void kidsLogoSetup() {
         int maxX = currentMaze.getSize()[0];
         int maxY = currentMaze.getSize()[1];
 
@@ -57,38 +58,6 @@ public class MazeGenerator {
         currentMaze.getMazeMap().get(endFillBlock).setVisited(true);
         currentMaze.getMazeMap().get(startFillBlock).setVisited(true);
     }
-
-    /**
-     * Selects a random spot on the map to place the company logo.
-     * @throws Exception if trying to get out of bounds.
-     */
-    private static void randomLogoPlacer() throws Exception {
-        int minX = 1;
-        int minY = 1;
-        int maxX = currentMaze.getSize()[0]-2;
-        int maxY = currentMaze.getSize()[1]-2;
-        int randomX = (int) ((Math.random()) * (maxX-minX) + minX);
-        int randomY = (int) ((Math.random()) * (maxY-minY) + minY);
-        int randomIndex = currentMaze.getIndex(new int[]{randomX, randomY});
-
-        Block currentBlock = currentMaze.getMazeMap().get(randomIndex);
-        currentBlock = new LogoBlock(currentBlock.getLocation(),currentBlock.getBlockIndex(),currentMaze,"mazeCo", "logo");
-        currentBlock.setVisited(true);
-        currentMaze.mazeMapUpdate(currentBlock.getBlockIndex(),currentBlock);
-
-        currentBlock = currentMaze.getNeighbourBlock(currentBlock,"east");
-        currentBlock.setVisited(true);
-        currentMaze.mazeMapUpdate(currentBlock.getBlockIndex(),currentBlock);
-
-        currentBlock = currentMaze.getNeighbourBlock(currentBlock,"south");
-        currentBlock.setVisited(true);
-        currentMaze.mazeMapUpdate(currentBlock.getBlockIndex(),currentBlock);
-
-        currentBlock = currentMaze.getNeighbourBlock(currentBlock,"west");
-        currentBlock.setVisited(true);
-        currentMaze.mazeMapUpdate(currentBlock.getBlockIndex(),currentBlock);
-    }
-
 
     /**
      * Generate a maze via Depth Field Search Iterative Algorithm.

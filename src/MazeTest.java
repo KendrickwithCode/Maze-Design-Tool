@@ -13,7 +13,7 @@ public class MazeTest {
 //int[] locationBottomRight = {8,2};
 
     @BeforeEach
-    public void Before(){
+    public void Before() throws Exception {
         testMaze = new Maze(7,3, "Test","Adult");
     }
 
