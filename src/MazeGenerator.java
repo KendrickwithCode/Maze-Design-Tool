@@ -4,6 +4,7 @@
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -21,10 +22,14 @@ public class MazeGenerator {
      * @param startPosIndex the starting block point as an index integer.
      * @param algorithm generation algorithm ("DFSIterative","DFSRecursive").
      */
-    public static void GenerateMaze(Maze maze,int startPosIndex, String algorithm){
+    public static void GenerateMaze(Maze maze,int startPosIndex, String algorithm) throws Exception {
         currentMaze = maze;
         stackList = new ArrayDeque<>();
         Block firstBlock = currentMaze.getMazeMap().get(startPosIndex);
+//        if(Objects.equals(currentMaze.getMazeType(), "ADULT"))
+////            MazeTools.randomLogoPlacer(currentMaze);
+//        else
+//            kidsLogoSetup();
 
         switch (algorithm.toUpperCase())
         {
@@ -38,6 +43,20 @@ public class MazeGenerator {
                 depthFieldSearchIterative(firstBlock);
                 break;
         }
+    }
+
+    /**
+     * Sets the diagonal override hidden block to be no passable (marks as visited)
+     */
+    private static void kidsLogoSetup() {
+        int maxX = currentMaze.getSize()[0];
+        int maxY = currentMaze.getSize()[1];
+
+        int endFillBlock = currentMaze.getIndex(new int[]{(maxX-2) ,(maxY-2)});
+        int startFillBlock = maxX + 1;
+
+        currentMaze.getMazeMap().get(endFillBlock).setVisited(true);
+        currentMaze.getMazeMap().get(startFillBlock).setVisited(true);
     }
 
     /**
@@ -56,7 +75,7 @@ public class MazeGenerator {
      *
      * @param firstBlock block to start from.
      */
-    private static void depthFieldSearchIterative(Block firstBlock){
+    private static void depthFieldSearchIterative(Block firstBlock) {
         firstBlock.setVisited(true);
         stackList.push(firstBlock);
 
@@ -92,8 +111,7 @@ public class MazeGenerator {
      *
      * @param currentBlock current block that is being worked on.
      */
-    private static void depthFieldSearchRecursion(Block currentBlock)
-    {
+    private static void depthFieldSearchRecursion(Block currentBlock) {
         if(!currentBlock.getVisited()){
             stackList.push(currentBlock);
         }
@@ -121,8 +139,7 @@ public class MazeGenerator {
      * @param nextDirection the direction you wish to move to for the next block "NORTH", "EAST", "SOUTH", "WEST"
      * @return the next block from the direction you chose to move.
      */
-    private static Block setupMoveToNextBlock(Block currentBlock, String nextDirection)
-    {
+    private static Block setupMoveToNextBlock(Block currentBlock, String nextDirection) {
         setWallState(currentBlock,nextDirection);
         return currentMaze.getNeighbourBlock(currentBlock,nextDirection);
     }
@@ -160,8 +177,7 @@ public class MazeGenerator {
      * Gets the available direction from current block. Check out of bounds and if the block has already been visited.
      * @param currentBlock is the current block of reference to get all available directions
      */
-    private static void setupDirections(Block currentBlock)
-    {
+    private static void setupDirections(Block currentBlock) {
         currentBlock.clearAvailableDirections();
         int currentBlockIndex = currentMaze.getIndex(currentBlock.getLocation());
 

@@ -1,13 +1,12 @@
 import java.util.ArrayList;
 
-import static java.lang.Boolean.TRUE;
-
 /**
  * Main class for holding all the contents and information of a maze.
  */
 public class Maze {
 
     private int difficulty;
+    private String mazeType;
     private final boolean solvable;
     private String mazeName;
     private final int[] size;
@@ -20,11 +19,12 @@ public class Maze {
      * @param sizeY size of the y-axis for the maze
      * @param name name of the maze
      */
-    public Maze(int sizeX, int sizeY, String name) {
+    public Maze(int sizeX, int sizeY, String name, String mazeType) throws Exception {
         this.size = new int[]{sizeX, sizeY};
         this.mazeMap = new ArrayList<>();
         this.mazeName = name;
         this.solvable = false;
+        this.mazeType = mazeType.toUpperCase();
         resetMaze(sizeX,sizeY);
     }
 
@@ -68,13 +68,20 @@ public class Maze {
         }
     }
 
+    public String getMazeType() {
+        return mazeType;
+    }
+
+    public void setMazeType(String mazeType) {
+        this.mazeType = mazeType;
+    }
+
     /**
      * Auto generates a new maze. Destroys old maze while generating a new one
      * @param algorithm the algorithm used to generate the maze "DFSIterative", "DFSRecursive"
      * @param startPosXY the starting position int[x,y]
      */
-    public void generateNewMaze(String algorithm,int[] startPosXY)
-    {
+    public void generateNewMaze(String algorithm,int[] startPosXY) throws Exception {
         int startIndex = getIndex(startPosXY);
         resetMaze(false);
         MazeGenerator.GenerateMaze(this,startIndex,algorithm);
@@ -83,12 +90,9 @@ public class Maze {
     /**
      * Overload Auto generates a new maze. Destroys old maze while generating a new one
      */
-    public void generateNewMaze()
-    {
+    public void generateNewMaze() throws Exception {
         generateNewMaze("DFSIterative",new int[]{0,0});
     }
-
-
 
 
     /**
@@ -97,21 +101,47 @@ public class Maze {
      * @param sizeY Y-axis size of the maze
      * @param clearWalls Boolean to set internal maze walls
      */
-    public void resetMaze(int sizeX, int sizeY, Boolean clearWalls)
-    {
+    public void resetMaze(int sizeX, int sizeY, Boolean clearWalls) throws Exception {
         mazeMap.clear();
+
+        int kidsStartIndex = 0;
+        int kidsFinishIndex = MazeLogoTools.getKidsFinishIndex(this);
+        int logoBlockIndex = 0;
+        int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
+
         int currentIndex=0;
         /*
          *  Iterates through all maze Cells and makes a new empty block
          */
         for (int y =0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                mazeMap.add(new MazeBlock(new int[]{x,y},currentIndex, clearWalls));
+                if(mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "mazeCo"));
+                    logoBlockIndex = currentIndex;
+                }
+                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "dog"));
+                }
+                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex){
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "bone"));
+                }
+                else
+                {
+                    mazeMap.add(new MazeBlock(new int[]{x,y},currentIndex, clearWalls));
+                }
                 setMazeWalls(mazeMap.get(currentIndex));
                 currentIndex++;
             }
+
         }
         activateBorderWalls(sizeX,sizeY);
+
+        if (mazeType.equalsIgnoreCase("ADULT"))
+            MazeLogoTools.setupAdultLogoBlocks(mazeMap.get(logoBlockIndex),this);
+        else {
+            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsStartIndex), this,true);
+            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsFinishIndex), this,false);
+        }
     }
 
 
@@ -119,8 +149,7 @@ public class Maze {
      * Overload Resets the maze map to new clear blocks with only the outer border walls activated.
      * @param clearWalls boolean for clearing or setting walls.
      */
-    public void resetMaze(Boolean clearWalls)
-    {
+    public void resetMaze(Boolean clearWalls) throws Exception {
         this.resetMaze(size[0],size[1], clearWalls);
     }
 
@@ -129,8 +158,7 @@ public class Maze {
      * @param sizeX X-axis size of the maze
      * @param sizeY Y-axis size of the maze
      */
-    public void resetMaze(int sizeX, int sizeY)
-    {
+    public void resetMaze(int sizeX, int sizeY) throws Exception {
         this.resetMaze(sizeX,sizeY, true);
     }
 
@@ -139,8 +167,9 @@ public class Maze {
      * Sets all the walls in the maze
      * @param currentBlock current Block from mazeMap Arraylist
      */
-    private void setMazeWalls(Block currentBlock)
+    public void setMazeWalls(Block currentBlock)
     {
+        // If along the wall edge of y wall belongs to this block else get reference
         if(currentBlock.getLocation()[1] == 0)
         {
             currentBlock.setWallNorth(new MazeWall());
@@ -148,6 +177,7 @@ public class Maze {
             currentBlock.setWallNorth(getNeighbourBlock(currentBlock,"NORTH").getWallSouth());
         }
 
+        // if along the wall edge of x wall belongs to this block else get reference
         if(currentBlock.getLocation()[0] == 0)
         {
             currentBlock.setWallWest(new MazeWall());
@@ -251,6 +281,8 @@ public class Maze {
         int x = location[0];
         int y = location[1];
 
+
+
         return y*size[0]+x;
     }
 
@@ -310,5 +342,12 @@ public class Maze {
     public void setMazeName(String mazeName) {
         this.mazeName = mazeName;
     }
+
+    public void mazeMapUpdate(int index,Block currentBlock)
+    {
+        mazeMap.set(index,currentBlock);
+        setMazeWalls(currentBlock);
+    }
+
 }
 

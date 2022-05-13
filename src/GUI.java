@@ -89,19 +89,19 @@ public class GUI extends JFrame{
      * @param name Name of maze
      * @param generate true to generate maze or false to create blank canvas
      */
-    public void generateNewMaze( int width, int height, String name, boolean generate){
+    public void generateNewMaze( int width, int height, String name, boolean generate, String mazeType) throws Exception {
         // Checks if GUI already contains a maze and removes it to be replaced with new maze
         Component[] components = this.getContentPane().getComponents();
         for ( Component comp : components){
             if ( comp instanceof JScrollPane) this.getContentPane().remove(comp);
         }
         // Create new maze and add to GUI using JScrollPane for larger mazes
-        maze = new GUI_Maze(new Maze(width, height, name), generate);
+        maze = new GUI_Maze(new Maze(width, height, name, mazeType), generate);
         this.getContentPane().add(new JScrollPane(maze));
         this.revalidate();
     }
 
-    public void setGrid(boolean toggle){
+    public void setGrid(boolean toggle) throws Exception {
         maze.renderMaze(toggle);
     }
 
