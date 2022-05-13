@@ -117,12 +117,22 @@ public class MazeWall {
         }
     }
 
+    public void setButtonEnableVisible(boolean buttonState)
+    {
+        setButtonEnable(buttonState);
+        setButtonVissible(buttonState);
+    }
+
     public void setButtonEnable(boolean buttonState)
     {
         button.setEnabled(buttonState);
-        button.setVisible(buttonState);
-//        button.updateUI();
     }
+
+    public void setButtonVissible(boolean buttonState)
+    {
+        button.setVisible(buttonState);
+    }
+
 
     private JButton createBtn () {
         Color unsetColor = Color.white;

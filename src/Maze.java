@@ -316,5 +316,12 @@ public class Maze {
     public void setMazeName(String mazeName) {
         this.mazeName = mazeName;
     }
+
+    public void mazeMapUpdate(int index,Block currentBlock)
+    {
+        mazeMap.set(index,currentBlock);
+        setMazeWalls(currentBlock);
+    }
+
 }
 

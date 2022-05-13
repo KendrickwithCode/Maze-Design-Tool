@@ -191,7 +191,12 @@ public class GUI_Maze extends JPanel{
         return southButton;
     }
 
-
+    /**
+     * Scales Image and returns as ImageIcon
+     * @param image image to be scales as an image
+     * @param size size to be scaled to in pixels
+     * @return  a scaled ImageIcon
+     */
     private ImageIcon scaleImage(Image image, int size) {
         BufferedImage bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB_PRE);
         Graphics2D g = bi.createGraphics();
@@ -199,6 +204,11 @@ public class GUI_Maze extends JPanel{
         return new ImageIcon(bi);
     }
 
+    /**
+     * Paints 2d object
+     * @param g input object for graphics
+     * @param image image location as a string.
+     */
     private void paintObject(Graphics g, String image){
         Toolkit tk = Toolkit.getDefaultToolkit();
         Image i = tk.getImage(image);
@@ -207,9 +217,11 @@ public class GUI_Maze extends JPanel{
 
     private void logoBlockRender(Block block, JPanel blockPanel,GridBagConstraints constraints)
     {
+
         if(block.getClass().getName().equals("LogoBlock")){
             ((LogoBlock) block).setupLogoWalls(maze);
 
+            String FileLocation = ((LogoBlock) block).getPictureFile();
             Image image = new ImageIcon(((LogoBlock) block).getPictureFile()).getImage();
             JLabel imageLabel = new JLabel();
 
@@ -218,6 +230,7 @@ public class GUI_Maze extends JPanel{
             imageLabel.setIcon(imageIcon);
 //            blockPanel.setBackground(new Color(255,243,215));
 
+            //Stretch Panel over 2 Block (THis Panel, Border, Neighbour Panel = 3)
             constraints.gridwidth = 3;
             constraints.gridheight = 3;
 
@@ -402,7 +415,7 @@ public class GUI_Maze extends JPanel{
 
                 }
             };
-            paintObject(g,((LogoBlock) block).getPictureFile());
+            paintObject(g,FileLocation);
         }
     }
 
@@ -420,13 +433,13 @@ public class GUI_Maze extends JPanel{
             }
         }
 
-        if(Objects.equals(maze.getMazeType(), "ADULT")) {
-            int middleBlock = maze.getMazeMap().size() / 2;
-            if (block.getBlockIndex() == middleBlock) {                     // hack conversion code to make a logo block
-                block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "mazeCo", "logo");
-            }
-
-        }
+//        if(Objects.equals(maze.getMazeType(), "ADULT")) {
+//            int middleBlock = maze.getMazeMap().size() / 2;
+//            if (block.getBlockIndex() == middleBlock) {                     // hack conversion code to make a logo block
+//                block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "mazeCo", "logo");
+//            }
+//
+//        }
 
         return block;
 

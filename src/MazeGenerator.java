@@ -4,6 +4,7 @@
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -25,6 +26,10 @@ public class MazeGenerator {
         currentMaze = maze;
         stackList = new ArrayDeque<>();
         Block firstBlock = currentMaze.getMazeMap().get(startPosIndex);
+        if(Objects.equals(currentMaze.getMazeType(), "ADULT"))
+            randomLogoPlacer();
+        else
+            kidsLogoSetup();
 
         switch (algorithm.toUpperCase())
         {
@@ -39,6 +44,51 @@ public class MazeGenerator {
                 break;
         }
     }
+
+
+    private static void kidsLogoSetup()
+    {
+        int maxX = currentMaze.getSize()[0];
+        int maxY = currentMaze.getSize()[1];
+
+        int endFillBlock = currentMaze.getIndex(new int[]{(maxX-2) ,(maxY-2)});
+        int startFillBlock = maxX + 1;
+
+        currentMaze.getMazeMap().get(endFillBlock).setVisited(true);
+        currentMaze.getMazeMap().get(startFillBlock).setVisited(true);
+    }
+
+    /**
+     * Selects a random spot on the map to place the company logo.
+     * @throws Exception if trying to get out of bounds.
+     */
+    private static void randomLogoPlacer() throws Exception {
+        int minX = 1;
+        int minY = 1;
+        int maxX = currentMaze.getSize()[0]-2;
+        int maxY = currentMaze.getSize()[1]-2;
+        int randomX = (int) ((Math.random()) * (maxX-minX) + minX);
+        int randomY = (int) ((Math.random()) * (maxY-minY) + minY);
+        int randomIndex = currentMaze.getIndex(new int[]{randomX, randomY});
+
+        Block currentBlock = currentMaze.getMazeMap().get(randomIndex);
+        currentBlock = new LogoBlock(currentBlock.getLocation(),currentBlock.getBlockIndex(),currentMaze,"mazeCo", "logo");
+        currentBlock.setVisited(true);
+        currentMaze.mazeMapUpdate(currentBlock.getBlockIndex(),currentBlock);
+
+        currentBlock = currentMaze.getNeighbourBlock(currentBlock,"east");
+        currentBlock.setVisited(true);
+        currentMaze.mazeMapUpdate(currentBlock.getBlockIndex(),currentBlock);
+
+        currentBlock = currentMaze.getNeighbourBlock(currentBlock,"south");
+        currentBlock.setVisited(true);
+        currentMaze.mazeMapUpdate(currentBlock.getBlockIndex(),currentBlock);
+
+        currentBlock = currentMaze.getNeighbourBlock(currentBlock,"west");
+        currentBlock.setVisited(true);
+        currentMaze.mazeMapUpdate(currentBlock.getBlockIndex(),currentBlock);
+    }
+
 
     /**
      * Generate a maze via Depth Field Search Iterative Algorithm.
@@ -56,7 +106,7 @@ public class MazeGenerator {
      *
      * @param firstBlock block to start from.
      */
-    private static void depthFieldSearchIterative(Block firstBlock) throws Exception {
+    private static void depthFieldSearchIterative(Block firstBlock) {
         firstBlock.setVisited(true);
         stackList.push(firstBlock);
 
@@ -92,7 +142,7 @@ public class MazeGenerator {
      *
      * @param currentBlock current block that is being worked on.
      */
-    private static void depthFieldSearchRecursion(Block currentBlock) throws Exception {
+    private static void depthFieldSearchRecursion(Block currentBlock) {
         if(!currentBlock.getVisited()){
             stackList.push(currentBlock);
         }

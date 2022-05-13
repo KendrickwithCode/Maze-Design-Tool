@@ -17,15 +17,18 @@ public class LogoBlock extends Block{
     private Block neighbourSE;
     private Block neighbourS;
     private Block neighbourSW;
+    private final boolean imageAnchorBlock;
     private final String imageType;
+
 
     /**
      * Constructs and initialises new LogoBlock which can display logos
      * @param blockIndex Index of logoBlock
      * @param location location of block on maze
      */
-    public LogoBlock(int[] location, int blockIndex, Maze mazeMap, String picture, String imageType) throws Exception {
+    public LogoBlock(int[] location, int blockIndex, Maze mazeMap, String picture, String imageType, boolean imageAnchorBlock) throws Exception {
         super(location, blockIndex,false);
+        this.imageAnchorBlock = imageAnchorBlock;
         setupNeighbourBlocks(mazeMap);
         images = new HashMap<>();
         images.put("dog","img/icons/Dog.png");
@@ -33,6 +36,16 @@ public class LogoBlock extends Block{
         images.put("mazeCo","img/icons/MazeCo.png");
         pictureFile = images.get(picture);
         this.imageType = imageType.toUpperCase();
+    }
+
+
+    /**
+     * Overload Constructor, Constructs and initialises new LogoBlock which can display logos
+     * @param blockIndex Index of logoBlock
+     * @param location location of block on maze
+     */
+    public LogoBlock(int[] location, int blockIndex, Maze mazeMap, String picture, String imageType) throws Exception {
+        this(location,blockIndex,mazeMap,picture,imageType, false);
     }
 
     public String getPictureFile() {
@@ -102,63 +115,29 @@ public class LogoBlock extends Block{
         }
     }
 
+    public boolean isImageAnchorBlock() {
+        return imageAnchorBlock;
+    }
+
+    private void logoInnerWalls(boolean wallGuiState)
+    {
+        this.getWallEast().setButtonEnableVisible(wallGuiState);
+        this.getWallSouth().setButtonEnableVisible(wallGuiState);
+        neighbourSE.getWallWest().setButtonEnableVisible(wallGuiState);
+        neighbourSE.getWallNorth().setButtonEnableVisible(wallGuiState);
+    }
+
     public void setupLogoWalls(Maze mazeMap) {
-//        System.out.println(this.getBlockIndex());
-//        int lastIndex = mazeMap.getMazeMap().size()-1;
+
         if(Objects.equals(imageType, "END")){
-            this.getWallEast().setFinish(true);
-
-            this.getWallEast().setActive(false);
-            this.getWallEast().setButtonEnable(false);
-            this.getWallSouth().setActive(false);
-            this.getWallSouth().setButtonEnable(false);
-
-            neighbourSE.getWallWest().setActive(false);
-            neighbourSE.getWallWest().setButtonEnable(false);
-            neighbourSE.getWallNorth().setActive(false);
-            neighbourSE.getWallNorth().setButtonEnable(false);
+            logoInnerWalls(false);
         }
         else if(Objects.equals(imageType, "START")){
-            this.getWallEast().setStart(true);
-
-            this.getWallEast().setActive(false);
-            this.getWallEast().setButtonEnable(false);
-            this.getWallSouth().setActive(false);
-            this.getWallSouth().setButtonEnable(false);
-
-            neighbourSE.getWallWest().setActive(false);
-            neighbourSE.getWallWest().setButtonEnable(false);
-            neighbourSE.getWallNorth().setActive(false);
-            neighbourSE.getWallNorth().setButtonEnable(false);
+            logoInnerWalls(false);
             }
-
         else if(Objects.equals(imageType, "LOGO")){
-            System.out.println(this.getBlockIndex());
-
-////            this.getWallNorth().setActive(false);
-////            this.getWallNorth().setButtonEnable(false);
-////            this.getWallWest().setActive(false);
-////            this.getWallWest().setButtonEnable(false);
-////
-//            neighbourN.getWallSouth().setActive(true);
-////            neighbourN.getWallSouth().getButton().setEnabled(false);
-//            neighbourW.getWallEast().setActive(true);
-//            neighbourE.getWallNorth().setActive(true);
-////            neighbourE.getWallNorth().getButton().setEnabled(false);
-//            neighbourE.getWallEast().setActive(true);
-////            neighbourE.getWallEast().setButtonEnable(false);
-//            neighbourSE.getWallEast().setActive(true);
-////            neighbourSE.getWallEast().setButtonEnable(false);
-//            neighbourSE.getWallSouth().setActive(true);
-////            neighbourSE.getWallSouth().setButtonEnable(false);
-//            neighbourS.getWallSouth().setActive(true);
-////            neighbourS.getWallSouth().setButtonEnable(false);
-//            neighbourS.getWallWest().setActive(true);
-////            neighbourS.getWallWest().setButtonEnable(false);
+            logoInnerWalls(false);
         }
-
-
-
     }
 
 }
