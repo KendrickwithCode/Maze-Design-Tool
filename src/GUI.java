@@ -101,8 +101,8 @@ public class GUI extends JFrame{
         this.revalidate();
     }
 
-    public void setGrid(boolean toggle) throws Exception {
-        maze.renderMaze(toggle);
+    public void setGrid(boolean toggle) {
+        maze.renderMaze(toggle, true);
     }
 
    public boolean getGrid(){

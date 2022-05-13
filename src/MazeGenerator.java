@@ -22,14 +22,10 @@ public class MazeGenerator {
      * @param startPosIndex the starting block point as an index integer.
      * @param algorithm generation algorithm ("DFSIterative","DFSRecursive").
      */
-    public static void GenerateMaze(Maze maze,int startPosIndex, String algorithm) throws Exception {
+    public static void GenerateMaze(Maze maze,int startPosIndex, String algorithm) {
         currentMaze = maze;
         stackList = new ArrayDeque<>();
         Block firstBlock = currentMaze.getMazeMap().get(startPosIndex);
-//        if(Objects.equals(currentMaze.getMazeType(), "ADULT"))
-////            MazeTools.randomLogoPlacer(currentMaze);
-//        else
-//            kidsLogoSetup();
 
         switch (algorithm.toUpperCase())
         {
@@ -42,6 +38,13 @@ public class MazeGenerator {
             default:
                 depthFieldSearchIterative(firstBlock);
                 break;
+        }
+
+        if (maze.getMazeType().equalsIgnoreCase("ADULT"))
+            MazeLogoTools.setupAdultLogoBlocks(maze.getMazeMap().get(maze.getLogoBlockIndex()),maze);
+        else {
+            MazeLogoTools.setupKidsLogoBlockNeighbours(maze.getMazeMap().get(maze.getKidsStartIndex()), maze, true);
+            MazeLogoTools.setupKidsLogoBlockNeighbours(maze.getMazeMap().get(maze.getKidsFinishIndex()), maze, false);
         }
     }
 
