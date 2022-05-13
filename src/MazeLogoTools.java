@@ -74,6 +74,8 @@ public class MazeLogoTools {
         logoBlock.getWallSouth().setButtonEnableVisible(false);
         getSouthEastBlock(logoBlock,currentMaze).getWallNorth().setActive(false);
         getSouthEastBlock(logoBlock,currentMaze).getWallNorth().setButtonEnableVisible(false);
+        getSouthEastBlock(logoBlock,currentMaze).getWallWest().setActive(false);
+        getSouthEastBlock(logoBlock,currentMaze).getWallWest().setButtonEnableVisible(false);
     }
 
     /**

@@ -53,10 +53,10 @@ public class GUI_Maze extends JPanel{
         mazePanel = createMazePanel();
 
         //Render Maze to GUI
-        renderMaze(getGrid());
+        renderMaze(getGrid(),false);
 }
 
-    public void renderMaze(boolean grid) {
+    public void renderMaze(boolean grid,boolean refresh) {
         setGrid(grid);
 
         // Set maze components common constraints
@@ -112,10 +112,13 @@ public class GUI_Maze extends JPanel{
             // Add button to mazePanel with constraints
             mazePanel.add(southWallButton, mazeComponentConstraints);
 
-            // Block
-            JPanel blockPanel = createBlockPanel(block, mazeComponentConstraints, location);
-            // Add block panel to mazePanel
-            mazePanel.add(blockPanel, mazeComponentConstraints);
+            if(!refresh)
+            {
+                // Block
+                JPanel blockPanel = createBlockPanel(block, mazeComponentConstraints, location);
+                // Add block panel to mazePanel
+                mazePanel.add(blockPanel, mazeComponentConstraints);
+            }
         }
     }
 

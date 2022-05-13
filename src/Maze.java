@@ -12,6 +12,9 @@ public class Maze {
     private final int[] size;
     private final ArrayList<Block> mazeMap;
     private MazeGenerator mazeHolder;
+    private int kidsStartIndex;
+    private int kidsFinishIndex;
+    private int logoBlockIndex;
 
     /**
      * Constructs and initialises a new Maze. Resulting maze is blank with only border walls activated.
@@ -103,10 +106,10 @@ public class Maze {
      */
     public void resetMaze(int sizeX, int sizeY, Boolean clearWalls) throws Exception {
         mazeMap.clear();
+        kidsStartIndex = 0;
+        kidsFinishIndex = MazeLogoTools.getKidsFinishIndex(this);
+        logoBlockIndex = 0;
 
-        int kidsStartIndex = 0;
-        int kidsFinishIndex = MazeLogoTools.getKidsFinishIndex(this);
-        int logoBlockIndex = 0;
         int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
 
         int currentIndex=0;
@@ -349,5 +352,28 @@ public class Maze {
         setMazeWalls(currentBlock);
     }
 
+    public int getKidsStartIndex() {
+        return kidsStartIndex;
+    }
+
+    public void setKidsStartIndex(int kidsStartIndex) {
+        this.kidsStartIndex = kidsStartIndex;
+    }
+
+    public int getKidsFinishIndex() {
+        return kidsFinishIndex;
+    }
+
+    public void setKidsFinishIndex(int kidsFinishIndex) {
+        this.kidsFinishIndex = kidsFinishIndex;
+    }
+
+    public int getLogoBlockIndex() {
+        return logoBlockIndex;
+    }
+
+    public void setLogoBlockIndex(int logoBlockIndex) {
+        this.logoBlockIndex = logoBlockIndex;
+    }
 }
 
