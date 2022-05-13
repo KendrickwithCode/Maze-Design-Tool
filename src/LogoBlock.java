@@ -23,5 +23,14 @@ public class LogoBlock extends Block{
     public String getPictureFile() {
         return pictureFile;
     }
+
+    /**
+     * Return what type of block this block is
+     * @return String the type of block this is.
+     */
+    @Override
+    public String getBlockType() {
+        return "LogoBlock";
+    }
 }
 

@@ -16,13 +16,11 @@ public abstract class Block {
     private final int blockIndex;
     private boolean visited;
 
-    public boolean startingBlock = false;
-
-    public boolean finishingBlock = false;
-
     private final JPanel blockPanel;
 
     private ArrayList<String> availableDirections;    // Stores available directions to traverse from this block
+
+
 
     /**
      * Constructs and initialises new Block
@@ -45,8 +43,11 @@ public abstract class Block {
     }
 
 
-//    @Override
-//    public String getCellType();
+    /**
+     * Return what type of block this block is
+     * @return String the type of block this is.
+     */
+    public abstract String getBlockType();
 
     /**
      * Gets all available directions from objects fields
