@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Main class for holding all the contents and information of a maze.
@@ -104,10 +103,11 @@ public class Maze {
      */
     public void resetMaze(int sizeX, int sizeY, Boolean clearWalls) throws Exception {
         mazeMap.clear();
+
+        int kidsStartIndex = 0;
+        int kidsFinishIndex = MazeLogoTools.getKidsFinishIndex(this);
         int logoBlockIndex = 0;
-        int[] logoOriginXY = new int[]{999,999};
-        if (mazeType.toUpperCase().equals("ADULT"))
-            logoOriginXY = MazeTools.randomLogoPlacerIndex(size);
+        int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
 
         int currentIndex=0;
         /*
@@ -115,13 +115,20 @@ public class Maze {
          */
         for (int y =0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                if(mazeType.toUpperCase().equals("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "mazeCo", "logo"));
+                if(mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "mazeCo"));
                     logoBlockIndex = currentIndex;
                 }
+                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "dog"));
+                }
+                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex){
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "bone"));
+                }
                 else
+                {
                     mazeMap.add(new MazeBlock(new int[]{x,y},currentIndex, clearWalls));
-
+                }
                 setMazeWalls(mazeMap.get(currentIndex));
                 currentIndex++;
             }
@@ -129,8 +136,12 @@ public class Maze {
         }
         activateBorderWalls(sizeX,sizeY);
 
-        if (mazeType.toUpperCase().equals("ADULT"))
-            MazeTools.setupLogoBlockNeighbours(mazeMap.get(logoBlockIndex),this);
+        if (mazeType.equalsIgnoreCase("ADULT"))
+            MazeLogoTools.setupAdultLogoBlocks(mazeMap.get(logoBlockIndex),this);
+        else {
+            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsStartIndex), this,true);
+            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsFinishIndex), this,false);
+        }
     }
 
 
@@ -269,6 +280,8 @@ public class Maze {
     {
         int x = location[0];
         int y = location[1];
+
+
 
         return y*size[0]+x;
     }

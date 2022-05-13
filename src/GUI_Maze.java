@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.text.AttributedCharacterIterator;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Random;
 
 /**
  * The editable Maze part of the GUI.
@@ -15,7 +12,7 @@ public class GUI_Maze extends JPanel{
     private final int mazeHeight;
     private final int mazeWidth;
     private final int blockSize;
-    private final int wallWidth;
+    private final int wallThickness;
     private final Maze maze;
     public MazePanel mazePanel;
 
@@ -39,7 +36,7 @@ public class GUI_Maze extends JPanel{
 
         // Set block and wall sizing to suit amount of blocks
         blockSize = mazeBlockSize(mazeHeight, mazeWidth);
-        wallWidth = mazeWallWidth(mazeHeight, mazeWidth);
+        wallThickness = mazeWallWidth(mazeHeight, mazeWidth);
 
         if (generate)
         {
@@ -59,7 +56,7 @@ public class GUI_Maze extends JPanel{
         renderMaze(getGrid());
 }
 
-    public void renderMaze(boolean grid) throws Exception {
+    public void renderMaze(boolean grid) {
         setGrid(grid);
 
         // Set maze components common constraints
@@ -125,9 +122,8 @@ public class GUI_Maze extends JPanel{
     public boolean getGrid(){
         return mazeGrid;
     }
-    public boolean setGrid(boolean toggle){
+    public void setGrid(boolean toggle){
         mazeGrid = toggle;
-        return mazeGrid;
         }
 
     private JButton createNorthWallButton(Block block, GridBagConstraints constraints, int[] location) {
@@ -135,7 +131,7 @@ public class GUI_Maze extends JPanel{
         JButton northButton = block.getWallNorth().getButton();
 
         // Set button constraints
-        northButton.setPreferredSize(new Dimension(blockSize, wallWidth));
+        northButton.setPreferredSize(new Dimension(blockSize, wallThickness));
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.PAGE_START;
         constraints.gridx = location[0] - 1;
@@ -150,7 +146,7 @@ public class GUI_Maze extends JPanel{
         // Get West wall button
         JButton westButton = block.getWallWest().getButton();
         // Set button constraints
-                westButton.setPreferredSize(new Dimension(wallWidth, blockSize));
+                westButton.setPreferredSize(new Dimension(wallThickness, blockSize));
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.gridx = location[0] - 1;
@@ -165,7 +161,7 @@ public class GUI_Maze extends JPanel{
         // Get east wall button
         JButton eastButton = block.getWallEast().getButton();
         // Set button constraints
-        eastButton.setPreferredSize(new Dimension(wallWidth, blockSize));
+        eastButton.setPreferredSize(new Dimension(wallThickness, blockSize));
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.anchor = GridBagConstraints.LINE_END;
         constraints.gridx = location[0]  + 1;
@@ -180,7 +176,7 @@ public class GUI_Maze extends JPanel{
         // Get south wall button
         JButton southButton = block.getWallSouth().getButton();
         // Set button constraints
-        southButton.setPreferredSize(new Dimension(blockSize, wallWidth));
+        southButton.setPreferredSize(new Dimension(blockSize, wallThickness));
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.anchor = GridBagConstraints.PAGE_END;
         constraints.gridx = location[0] - 1;
@@ -217,9 +213,7 @@ public class GUI_Maze extends JPanel{
 
     private void logoBlockRender(Block block, JPanel blockPanel,GridBagConstraints constraints)
     {
-
         if(block.getClass().getName().equals("LogoBlock")){
-            ((LogoBlock) block).setupLogoWalls(maze);
 
             String FileLocation = ((LogoBlock) block).getPictureFile();
             Image image = new ImageIcon(((LogoBlock) block).getPictureFile()).getImage();
@@ -228,7 +222,6 @@ public class GUI_Maze extends JPanel{
             ImageIcon imageIcon = scaleImage(image,blockSize*2);
             blockPanel.add(imageLabel);
             imageLabel.setIcon(imageIcon);
-//            blockPanel.setBackground(new Color(255,243,215));
 
             //Stretch Panel over 2 Block (THis Panel, Border, Neighbour Panel = 3)
             constraints.gridwidth = 3;
@@ -419,34 +412,8 @@ public class GUI_Maze extends JPanel{
         }
     }
 
-    private Block mazeTypeSelect(Block block) throws Exception {
-        if(Objects.equals(maze.getMazeType(), "KIDS")) {
 
-            if (block.getBlockIndex() == 0) {                     // hack conversion code to make a logo block
-                block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "dog", "start");
-            }
-
-            int lastBlock = maze.getMazeMap().size() - maze.getSize()[0] - 2;
-            if (block.getBlockIndex() == lastBlock)              // hack conversion code to make a logo block
-            {
-                block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "bone", "end");
-            }
-        }
-
-//        if(Objects.equals(maze.getMazeType(), "ADULT")) {
-//            int middleBlock = maze.getMazeMap().size() / 2;
-//            if (block.getBlockIndex() == middleBlock) {                     // hack conversion code to make a logo block
-//                block = new LogoBlock(block.getLocation(), block.getBlockIndex(), maze, "mazeCo", "logo");
-//            }
-//
-//        }
-
-        return block;
-
-
-    }
-
-    private JPanel createBlockPanel(Block block, GridBagConstraints constraints, int[] location) throws Exception {
+    private JPanel createBlockPanel(Block block, GridBagConstraints constraints, int[] location) {
     // Get block panel
     JPanel blockPanel = block.getBlockPanel();
     // Set block panel sizing
@@ -462,7 +429,7 @@ public class GUI_Maze extends JPanel{
     constraints.gridx = location[0];
     constraints.gridy = location[1];
 
-    block = mazeTypeSelect(block);
+//    block = mazeTypeSelect(block);
     logoBlockRender(block,blockPanel,constraints);
 
     return blockPanel;
@@ -491,9 +458,9 @@ public class GUI_Maze extends JPanel{
         int amountOfCells = mazeHeight * mazeWidth;
         if(amountOfCells < 100){
             return 10;
-        } else if (amountOfCells >= 100 && amountOfCells < 400){
+        } else if (amountOfCells < 400){
             return 8;
-        } else if (amountOfCells >= 400 && amountOfCells < 2500){
+        } else if (amountOfCells < 2500){
             return 6;
         } else {
             return 4;
@@ -504,9 +471,9 @@ public class GUI_Maze extends JPanel{
         int amountOfCells = mazeHeight * mazeWidth;
         if(amountOfCells < 100){
             return (600 / mazeHeight) + 10;
-        } else if (amountOfCells >= 100 && amountOfCells < 400){
+        } else if (amountOfCells < 400){
             return (450 / mazeHeight) + 10;
-        } else if (amountOfCells >= 400 && amountOfCells < 2500){
+        } else if (amountOfCells < 2500){
             return (300 / mazeHeight)+ 10;
         } else {
             return (100 / mazeHeight) + 10;
