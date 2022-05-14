@@ -3,12 +3,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.awt.geom.Line2D;
+import javax.imageio.ImageIO;
 import java.io.Console;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Graphic User Interface Base.
- * This is where all of the components for the GUI Tools and GUI Maze Sit on top off.
+ * This is where all the components for the GUI Tools and GUI Maze Sit on top off.
  */
 public class GUI extends JFrame implements ActionListener, Runnable {
 
@@ -34,7 +38,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         if(src==export)
         {
-            JOptionPane.showMessageDialog(null,"Export to Jpeg.","Export",JOptionPane.INFORMATION_MESSAGE);
+            try{
+                if(maze != null)
+                    JOptionPane.showMessageDialog(null,jpgExport(maze),"Export",JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
         if(src==fullScr)
         {
@@ -241,6 +251,34 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     public boolean getGrid(){
         return maze.getGrid();
+    }
+
+
+    /**
+     * Creates a screenshot of the passed JFrame object and saves it to a temp file
+     * adapted from: https://stackoverflow.com/a/10796047
+     * @param Maze the GUI_Maze object that is to be exported.
+     * @return file path of the exported jpg
+     */
+    public static String jpgExport(GUI_Maze Maze) {
+        Rectangle rec = Maze.getBounds();
+        File temp = null;
+        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
+        Maze.paint(bufferedImage.getGraphics());
+
+        try {
+            // Create temp file
+            temp = File.createTempFile("screenshot", ".png");
+
+            // Use the ImageIO API to write the bufferedImage to a temporary file
+            ImageIO.write(bufferedImage, "png", temp);
+
+            // Delete temp file when program exits
+            temp.deleteOnExit();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return temp.getPath();
     }
 
 }
