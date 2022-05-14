@@ -178,9 +178,13 @@ public class MazeSolver extends JPanel{
         // reset maze visited and set maze start and finish blocks
         for ( Block block : maze.getMazeMap() ) {
             block.setVisited(false);
-//            if(isStartingBlock(block) && solution.isEmpty()){
-//                solution.add(block);
-//            }
+            if(block instanceof LogoBlock && maze.getMazeType().equalsIgnoreCase("KIDS")){
+                if(block.getBlockIndex() == 0){
+                    block.getWallSouth().setStart(true);
+                } else {
+                    block.getWallSouth().setFinish(true);
+                }
+            }
 
         }
         if(!checkForFinishingWall(maze)){setDefaultFinishingWall(maze);}

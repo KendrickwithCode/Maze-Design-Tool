@@ -65,5 +65,4 @@ public class MazePanel extends JPanel{
         }
     }
 
-
 }
