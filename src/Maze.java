@@ -33,36 +33,22 @@ public class Maze {
 
     /**
      * Activates all the wall objects that sit on the border of the maze. All the block and corresponding wall objects
-     * in the maze must have already been set.
+     * in the maze must have already been created.
      * @param sizeX size of the x-axis of the maze
      * @param sizeY size of the y-axis of the maze
      */
     private void activateBorderWalls(int sizeX, int sizeY){
         int[] current = {0,0};  //used to hold the current position and get the index in mazeMap
-        //top left corner
-        mazeMap.get(0).getWallNorth().setBorder();
-        mazeMap.get(0).getWallWest().setBorder();
-        //top right corner
-        mazeMap.get(sizeX-1).getWallNorth().setBorder();
-        mazeMap.get(sizeX-1).getWallEast().setBorder();
-        //bottom left corner
-        current[1] = sizeY - 1;
-        mazeMap.get(getIndex(current)).getWallSouth().setBorder();
-        mazeMap.get(getIndex(current)).getWallWest().setBorder();
-        //bottom right corner
-        current[0] = sizeX - 1;
-        mazeMap.get(getIndex(current)).getWallSouth().setBorder();
-        mazeMap.get(getIndex(current)).getWallEast().setBorder();
-        //set the east and west border walls between the corners
-        for(int y = 1; y < sizeY-1; y++) {
+        //set the east and west border walls
+        for(int y = 0; y < sizeY; y++) {
             current[0] = sizeX - 1;
             current[1] = y;
             mazeMap.get(getIndex(current)).getWallEast().setBorder();
             current[0] = 0;
             mazeMap.get(getIndex(current)).getWallWest().setBorder();
         }
-        //set the north and south walls between the corners
-        for(int x = 1; x < sizeX-1; x++) {
+        //set the north and south walls
+        for(int x = 0; x < sizeX; x++) {
             current[0] = x;
             current[1] = 0;
             mazeMap.get(getIndex(current)).getWallNorth().setBorder();
