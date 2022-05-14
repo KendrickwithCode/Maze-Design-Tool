@@ -23,15 +23,19 @@ public class MazeLogoTools {
      */
     public static void setupAdultLogoBlocks(Block logoBlock, Maze currentMaze)
     {
+        logoBlock.setVisited(true);
         logoBlock.getWallNorth().setBorder();
         logoBlock.getWallWest().setBorder();
 
+        currentMaze.getNeighbourBlock(logoBlock,"East").setVisited(true);
         currentMaze.getNeighbourBlock(logoBlock,"East").getWallNorth().setBorder();
         currentMaze.getNeighbourBlock(logoBlock,"East").getWallEast().setBorder();
 
+        currentMaze.getNeighbourBlock(logoBlock,"South").setVisited(true);
         currentMaze.getNeighbourBlock(logoBlock,"South").getWallSouth().setBorder();
         currentMaze.getNeighbourBlock(logoBlock,"South").getWallWest().setBorder();
 
+        MazeLogoTools.getSouthEastBlock(logoBlock,currentMaze).setVisited(true);
         MazeLogoTools.getSouthEastBlock(logoBlock,currentMaze).getWallSouth().setBorder();
         MazeLogoTools.getSouthEastBlock(logoBlock,currentMaze).getWallEast().setBorder();
 
