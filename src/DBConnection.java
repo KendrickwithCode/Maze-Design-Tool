@@ -17,7 +17,7 @@ public class DBConnection {
     private static Connection instance = null;
 
     /**
-     * Constructs and Initializes the connection to the Database
+     * Constructs and Initializes the connection to the Database. Taken from Week 6 Tutorial
      */
     private DBConnection(){
 

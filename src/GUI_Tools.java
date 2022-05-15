@@ -26,23 +26,39 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 if (src==btnCreate)
                 {
-                        mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
-                                Integer.parseInt(height_text.getText()), name.getText(), false);
+                        try {
+                                mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
+                                        Integer.parseInt(height_text.getText()), name.getText(), false,mazeType);
+                        } catch (Exception ex) {
+                                ex.printStackTrace();
+                        }
                         setShowSolution();
                 }
                 else if (src==btnGenerate)
                 {
-                        mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
-                                Integer.parseInt(height_text.getText()), name.getText(), true);
+                        try {
+                                mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
+                                        Integer.parseInt(height_text.getText()), name.getText(), true,mazeType);
+                        } catch (Exception ex) {
+                                ex.printStackTrace();
+                        }
                         setShowSolution();
                 }
                 else if (src == showGrid)
                 {
                         if (mainGui.getGrid()){
-                                mainGui.setGrid(false);
+                                try {
+                                        mainGui.setGrid(false);
+                                } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                }
                         }
                         else {
-                                mainGui.setGrid(true);
+                                try {
+                                        mainGui.setGrid(true);
+                                } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                }
                         }
 
                 }
@@ -191,7 +207,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JComboBox createComboBox(String[] options,int width, int height) {
                 JComboBox combo = new JComboBox<>(options);
                 combo.setPreferredSize(new Dimension(width + 80,height));
-                //combo.setUI(ColorArrowUI.createUI(combo));
+                combo.setUI(ColorArrowUI.createUI(combo));
 
                 combo.addActionListener(this);
                 return combo;

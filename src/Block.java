@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  *  Astract class used for Maze Block and Logo Blocks in the maze.
  */
-public abstract class Block {
+public abstract class Block implements IBlock{
 
     private MazeWall wallNorth;
     private MazeWall wallSouth;
@@ -16,13 +16,11 @@ public abstract class Block {
     private final int blockIndex;
     private boolean visited;
 
-    public boolean startingBlock = false;
-
-    public boolean finishingBlock = false;
-
     private final JPanel blockPanel;
 
     private ArrayList<String> availableDirections;    // Stores available directions to traverse from this block
+
+
 
     /**
      * Constructs and initialises new Block
@@ -43,10 +41,6 @@ public abstract class Block {
 
         availableDirections = new ArrayList<>();
     }
-
-
-//    @Override
-//    public String getCellType();
 
     /**
      * Gets all available directions from objects fields

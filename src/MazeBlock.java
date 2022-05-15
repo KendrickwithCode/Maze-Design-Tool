@@ -12,4 +12,13 @@ public class MazeBlock extends Block{
     public MazeBlock(int[] location, int blockIndex, boolean clearWalls) {
         super(location, blockIndex, clearWalls);
     }
+
+    /**
+     * Return what type of block this block is
+     * @return String the type of block this is.
+     */
+    @Override
+    public String getBlockType() {
+        return "MazeBlock";
+    }
 }

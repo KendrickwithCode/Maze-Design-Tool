@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.*;
 
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,13 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MazeTest {
     Maze testMaze;
-    DBConnection testConnection;
     int[] location = {5,2};
 //int[] locationBottomRight = {8,2};
 
     @BeforeEach
-    public void Before(){
-        testMaze = new Maze(7,3, "Test");
+    public void Before() throws Exception {
+        testMaze = new Maze(7,3, "Test","Adult");
     }
 
 
@@ -43,8 +41,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testGetNeighbourIndex()
-    {
+    public void testGetNeighbourIndex() {
         int testBlockIndex = 10;
 
         Block testBlock = testMaze.getMazeMap().get(testBlockIndex);
@@ -58,8 +55,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testGetNeighbourBlock()
-    {
+    public void testGetNeighbourBlock() {
         int testBlockIndex = 12;
 //        int testErrorBlockIndex = 20;
 
@@ -119,7 +115,7 @@ public class MazeTest {
 
 
     @Test
-    public void testMap() {
+    public void testMap() throws Exception {
         AtomicBoolean displayMazeMap = new AtomicBoolean(false);
 
         if (displayMazeMap.get()) {
@@ -191,7 +187,7 @@ public class MazeTest {
 
     @Test
     public void testDBConnection(){
-        assertNull(testConnection);
+        //assertNull(testConnection);
     }
 
     @Test
