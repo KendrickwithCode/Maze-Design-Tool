@@ -1,11 +1,12 @@
 /**
  * Standard maze block/cell used in the mazes map.
  */
-public class MazeBlock extends Block{
+public class MazeBlock extends Block {
 
     /**
      * Constructs and initialises new Block
-     * @param location location of block on maze
+     *
+     * @param location   location of block on maze
      * @param blockIndex inter index of block
      * @param clearWalls boolean sets the value for clearing walls true / false.
      */
@@ -15,6 +16,7 @@ public class MazeBlock extends Block{
 
     /**
      * Return what type of block this block is
+     *
      * @return String the type of block this is.
      */
     @Override

@@ -16,7 +16,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JTextArea  description_text;
         private JLabel width, height, name, author_name, description, mazeType_text;
         private JComboBox mazeTypeComboBox;
-        private GUI mainGui;
+        private final GUI mainGui;
         private GUI_Maze guiMaze;
         private String mazeType;
 
@@ -121,9 +121,12 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 JLabel logoLabel = new JLabel(companyLogo);
 
                 //Maze Type Selector
-                mazeType_text= createLabels("Maze Type: ");
-                String[] mazeOptions = {"Adult", "Kids"};
-                mazeTypeComboBox = createComboBox(mazeOptions, textFieldSizeHeight, textFieldSizeWidth);
+                mazeType_text = createLabels("Maze Type: ");
+                String[] mazeOptions = {"Adult","Kids"};
+//                mazeTypeComboBox = new JComboBox<>(mazeOptions);
+                mazeTypeComboBox = createComboBox(mazeOptions,textFieldSizeWidth,textFieldSizeHeight);
+//                mazeTypeComboBox.setBounds(80,50,140,20);
+
 
                 //Maze Name Label and Button
                 name = createLabels("Maze Name: ");
@@ -177,7 +180,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.CENTER;
-                constraints.insets = new Insets(17,20,17,20);
+                constraints.insets = new Insets(15,20,15,20);
 
                 //For description text, need to anchor the text box to the top of the grid.
                 GridBagConstraints descriptionConstraints = new GridBagConstraints();
@@ -200,7 +203,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, btnCreate, constraints, 0,9,2,1);
                 addToPanel(borderSpot, showGrid, constraints, 0, 10, 2, 1);
                 addToPanel(borderSpot, showSolution, constraints, 0, 11, 2, 1);
-
 
         }
 

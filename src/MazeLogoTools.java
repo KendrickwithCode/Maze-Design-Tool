@@ -98,4 +98,5 @@ public class MazeLogoTools {
 
         return currentMaze.getIndex(new int[]{posX,posY});
     }
+
 }

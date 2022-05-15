@@ -54,7 +54,7 @@ public class GUI_Maze extends JPanel{
 
         //Render Maze to GUI
         renderMaze(getGrid(),false);
-    }
+}
 
     public void renderMaze(boolean grid,boolean refresh) {
         setGrid(grid);
@@ -127,7 +127,8 @@ public class GUI_Maze extends JPanel{
     }
     public void setGrid(boolean toggle){
         mazeGrid = toggle;
-    }
+
+        }
 
     private JButton createNorthWallButton(Block block, GridBagConstraints constraints, int[] location) {
         // Get north wall button
@@ -149,6 +150,7 @@ public class GUI_Maze extends JPanel{
         // Get West wall button
         JButton westButton = block.getWallWest().getButton();
         // Set button constraints
+
         westButton.setPreferredSize(new Dimension(wallThickness, blockSize));
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.anchor = GridBagConstraints.LINE_START;
@@ -424,27 +426,26 @@ public class GUI_Maze extends JPanel{
 
 
     private JPanel createBlockPanel(Block block, GridBagConstraints constraints, int[] location) {
-        // Get block panel
-        JPanel blockPanel = block.getBlockPanel();
-        // Set block panel sizing
-        blockPanel.setPreferredSize(new Dimension(blockSize, blockSize));
-        blockPanel.setMaximumSize(new Dimension(blockSize, blockSize));
-        blockPanel.setMinimumSize(new Dimension(blockSize, blockSize));
+    // Get block panel
+    JPanel blockPanel = block.getBlockPanel();
+    // Set block panel sizing
+    blockPanel.setPreferredSize(new Dimension(blockSize, blockSize));
+    blockPanel.setMaximumSize(new Dimension(blockSize, blockSize));
+    blockPanel.setMinimumSize(new Dimension(blockSize, blockSize));
 
-        // Set blockPanel constraints
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        constraints.gridx = location[0];
-        constraints.gridy = location[1];
+    // Set blockPanel constraints
+    constraints.fill = GridBagConstraints.BOTH;
+    constraints.anchor = GridBagConstraints.CENTER;
+    constraints.gridwidth = 1;
+    constraints.gridheight = 1;
+    constraints.gridx = location[0];
+    constraints.gridy = location[1];
 
 //    block = mazeTypeSelect(block);
-        logoBlockRender(block,blockPanel,constraints);
+    logoBlockRender(block,blockPanel,constraints);
 
-        return blockPanel;
+    return blockPanel;
     }
-
 
 
     private MazePanel createMazePanel() {
