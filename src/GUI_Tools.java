@@ -1,9 +1,8 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+import javax.swing.plaf.metal.MetalComboBoxButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 /**
  * Constructs and initialises Menu items for the GUI
@@ -15,9 +14,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JTextField width_text, height_text, maze_name, author_name_text;
         private JScrollPane description_pane;
         private JTextArea  description_text;
-        private JLabel width, height, name, author_name, description;
+        private JLabel width, height, name, author_name, description, mazeType_text;
+        private JComboBox mazeTypeComboBox;
         private GUI mainGui;
         private GUI_Maze guiMaze;
+        private String mazeType;
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -48,8 +49,19 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else if (src == showSolution)
                 {
                         setShowSolution();
-
                 }
+                else if (src == mazeTypeComboBox){
+                        mazeType = (String)mazeTypeComboBox.getSelectedItem();
+                }
+//                else if(src==save)
+//                {
+//                        try {
+//                                mazedata.addMaze(menu.maze_name.getText(), menu.author_name_text.getText(),
+//                                        menu.description_text.getText(), menu.width_text.getText(), menu.height_text.getText());
+//                        } catch (SQLException ex) {
+//                                ex.printStackTrace();
+//                        }
+//                        //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
 
         }
 
@@ -75,8 +87,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         public GUI_Tools(JPanel borderComponent, GUI mainGUI){
                 toolsMenu(borderComponent);
                 this.mainGui = mainGUI;
+                this.mazeType = "Adult";
         }
-
         /**
          * Add the menu options for the Maze
          * Is called automatically from constructor
@@ -91,6 +103,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Logo image
                 ImageIcon companyLogo = new ImageIcon("img/MazeCraft-Emblem-White.png");
                 JLabel logoLabel = new JLabel(companyLogo);
+
+                //Maze Type Selector
+                mazeType_text= createLabels("Maze Type: ");
+                String[] mazeOptions = {"Adult", "Kids"};
+                mazeTypeComboBox = createComboBox(mazeOptions, textFieldSizeHeight, textFieldSizeWidth);
 
                 //Maze Name Label and Button
                 name = createLabels("Maze Name: ");
@@ -125,6 +142,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 showSolution = new JCheckBox("Show Solution", false);
                 showSolution.addActionListener(this);
 
+                setStyle(mazeType_text);
+                setStyle(mazeTypeComboBox);
                 setStyle(name);
                 setStyle(height);
                 setStyle(width);
@@ -149,21 +168,33 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 descriptionConstraints .anchor = GridBagConstraints.PAGE_START;
 
                 addToPanel(borderSpot, logoLabel, constraints, 0,0,2,1);
-                addToPanel(borderSpot, name, constraints, 0, 1, 1, 1);
-                addToPanel(borderSpot, maze_name, constraints, 1, 1, 1, 1);
-                addToPanel(borderSpot, author_name, constraints, 0, 2, 1, 1);
-                addToPanel(borderSpot, author_name_text, constraints, 1, 2, 1, 1);
-                addToPanel(borderSpot, description, constraints, 0, 3, 2, 1);
-                addToPanel(borderSpot, description_pane, descriptionConstraints , 0, 4, 2, 1);
-                addToPanel(borderSpot, width, constraints, 0,5,1,1);
-                addToPanel(borderSpot, width_text, constraints, 1,5,1,1);
-                addToPanel(borderSpot, height, constraints, 0,6,1,1);
-                addToPanel(borderSpot, height_text, constraints, 1,6,1,1);
-                addToPanel(borderSpot, btnGenerate, constraints, 0,7,2,1);
-                addToPanel(borderSpot, btnCreate, constraints, 0,8,2,1);
-                addToPanel(borderSpot, showGrid, constraints, 0, 9, 2, 1);
-                addToPanel(borderSpot, showSolution, constraints, 0, 10, 2, 1);
+                addToPanel(borderSpot, mazeType_text, constraints , 0 , 1 ,1 ,1);
+                addToPanel(borderSpot, mazeTypeComboBox, constraints , 1 , 1 ,1 ,1);
+                addToPanel(borderSpot, name, constraints, 0, 2, 1, 1);
+                addToPanel(borderSpot, maze_name, constraints, 1, 2, 1, 1);
+                addToPanel(borderSpot, author_name, constraints, 0, 3, 1, 1);
+                addToPanel(borderSpot, author_name_text, constraints, 1, 3, 1, 1);
+                addToPanel(borderSpot, description, constraints, 0, 4, 2, 1);
+                addToPanel(borderSpot, description_pane, descriptionConstraints , 0, 5, 2, 1);
+                addToPanel(borderSpot, width, constraints, 0,6,1,1);
+                addToPanel(borderSpot, width_text, constraints, 1,6,1,1);
+                addToPanel(borderSpot, height, constraints, 0,7,1,1);
+                addToPanel(borderSpot, height_text, constraints, 1,7,1,1);
+                addToPanel(borderSpot, btnGenerate, constraints, 0,8,2,1);
+                addToPanel(borderSpot, btnCreate, constraints, 0,9,2,1);
+                addToPanel(borderSpot, showGrid, constraints, 0, 10, 2, 1);
+                addToPanel(borderSpot, showSolution, constraints, 0, 11, 2, 1);
 
+
+        }
+
+        private JComboBox createComboBox(String[] options,int width, int height) {
+                JComboBox combo = new JComboBox<>(options);
+                combo.setPreferredSize(new Dimension(width + 80,height));
+                //combo.setUI(ColorArrowUI.createUI(combo));
+
+                combo.addActionListener(this);
+                return combo;
         }
 
         /**

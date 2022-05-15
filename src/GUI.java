@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 
 /**
@@ -10,6 +12,7 @@ public class GUI extends JFrame{
 
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
+
 
 
     /**
@@ -108,5 +111,4 @@ public class GUI extends JFrame{
     public boolean getGrid(){
         return maze.getGrid();
     }
-
 }
