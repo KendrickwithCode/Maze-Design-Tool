@@ -11,9 +11,12 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         private JButton btnCreate, btnGenerate;
         public static JCheckBox showGrid, showSolution;
-        private JTextField width_text, height_text, maze_name, author_name_text;
+        public static JTextField width_text;
+        public static JTextField height_text;
+        public static JTextField maze_name;
+        public static JTextField author_name_text;
         private JScrollPane description_pane;
-        private JTextArea  description_text;
+        public static JTextArea  description_text;
         private JLabel width, height, name, author_name, description, mazeType_text;
         private JComboBox mazeTypeComboBox;
         private final GUI mainGui;
@@ -69,15 +72,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else if (src == mazeTypeComboBox){
                         mazeType = (String)mazeTypeComboBox.getSelectedItem();
                 }
-//                else if(src==save)
-//                {
-//                        try {
-//                                mazedata.addMaze(menu.maze_name.getText(), menu.author_name_text.getText(),
-//                                        menu.description_text.getText(), menu.width_text.getText(), menu.height_text.getText());
-//                        } catch (SQLException ex) {
-//                                ex.printStackTrace();
-//                        }
-//                        //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
 
         }
 

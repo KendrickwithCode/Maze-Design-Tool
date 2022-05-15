@@ -1,21 +1,32 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Graphic User Interface Base.
  * This is where all of the components for the GUI Tools and GUI Maze Sit ontop off.
  */
-public class GUI extends JFrame{
+public class GUI extends JFrame implements ActionListener {
 
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
+    public JMenuItem save, load, export, exit;
+    MazeDB mazedata;
 
 
     /**
      * GUI Constructor. Initializes Swing frame for application
      */
-    public GUI(){
+    public GUI(MazeDB data){
+        this.mazedata = data;
         initializeFrame();
     }
 
@@ -31,10 +42,12 @@ public class GUI extends JFrame{
         //Set Toolbar
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
-        JMenuItem load = new JMenuItem("Load");
-        JMenuItem save = new JMenuItem("Save");
-        JMenuItem export = new JMenuItem("Export");
-        JMenuItem exit = new JMenuItem("Exit");
+        load = new JMenuItem("Load");
+        save = new JMenuItem("Save");
+        export = new JMenuItem("Export");
+        exit = new JMenuItem("Exit");
+        save.addActionListener(this);
+        export.addActionListener(this);
         file.add(load);
         file.add(export);
         file.add(save);
@@ -58,6 +71,27 @@ public class GUI extends JFrame{
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
 
         setVisible(true);
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object src = e.getSource();
+        //checks if the export button has been pressed and runs the jpgExport function if it has
+        if (src == export) {
+            try {
+                if (maze != null)
+                    System.out.println(jpgExport(maze)); //prints out the file path of the exported jpg
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (src == save) {
+            try {
+                mazedata.addMaze(GUI_Tools.maze_name.getText(), GUI_Tools.author_name_text.getText(),
+                        GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText());
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     /**
@@ -108,5 +142,33 @@ public class GUI extends JFrame{
     public boolean getGrid(){
         return maze.getGrid();
     }
+
+    /**
+     * Creates a screenshot of the passed JFrame object and saves it to a temp file
+     * adapted from: https://stackoverflow.com/a/10796047
+     * @param Maze the GUI_Maze object that is to be exported.
+     * @return file path of the exported jpg
+     */
+    public static String jpgExport(GUI_Maze Maze) {
+        Rectangle rec = Maze.getBounds();
+        File temp = null;
+        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
+        Maze.paint(bufferedImage.getGraphics());
+
+        try {
+            // Create temp file
+            temp = File.createTempFile("screenshot", ".png");
+
+            // Use the ImageIO API to write the bufferedImage to a temporary file
+            ImageIO.write(bufferedImage, "png", temp);
+
+            // Delete temp file when program exits
+            temp.deleteOnExit();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return temp.getPath();
+    }
+
 
 }

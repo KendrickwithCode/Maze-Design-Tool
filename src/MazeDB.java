@@ -20,7 +20,7 @@ public class MazeDB{
                     + "Width VARCHAR(3),"
                     + "Height VARCHAR(3)" + ");";
 
-    private Connection connection;
+    public Connection connection;
     private PreparedStatement addMaze;
     private PreparedStatement getMaze;
     private PreparedStatement deleteMaze;
@@ -30,8 +30,8 @@ public class MazeDB{
      * Constructs and Initialises connection to database
      */
     public MazeDB(){
-        connection = DBConnection.getInstance();
         try {
+            connection = DBConnection.getInstance();
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
             addMaze = connection.prepareStatement(INSERT_MAZE);

@@ -10,7 +10,7 @@ public class Main implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        new GUI();
+        new GUI(new MazeDB());
         windowTimer.stop();
         startup.dispose();
     }

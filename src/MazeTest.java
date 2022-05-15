@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MazeTest {
     Maze testMaze;
+    MazeDB connection;
     int[] location = {5,2};
 //int[] locationBottomRight = {8,2};
 
@@ -187,7 +188,7 @@ public class MazeTest {
 
     @Test
     public void testDBConnection(){
-        //assertNull(testConnection);
+        assertNull(connection);
     }
 
     @Test
