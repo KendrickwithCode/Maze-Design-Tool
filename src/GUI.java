@@ -86,8 +86,10 @@ public class GUI extends JFrame implements ActionListener {
         } else if (src == save) {
             try {
                 mazedata.addMaze(GUI_Tools.maze_name.getText(), GUI_Tools.author_name_text.getText(),
-                        GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText());
+                        GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
             } catch (SQLException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
             //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
