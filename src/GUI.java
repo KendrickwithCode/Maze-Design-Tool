@@ -19,18 +19,20 @@ public class GUI extends JFrame implements ActionListener {
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
     public JMenuItem save, load, export, exit;
+    public JSplitPane splitPane;
+    public JLabel dbitems;
     MazeDB mazedata;
 
 
     /**
      * GUI Constructor. Initializes Swing frame for application
      */
-    public GUI(MazeDB data){
+    public GUI(MazeDB data) throws SQLException {
         this.mazedata = data;
         initializeFrame();
     }
 
-    private void initializeFrame(){
+    private void initializeFrame() throws SQLException {
 
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,14 +64,30 @@ public class GUI extends JFrame implements ActionListener {
         JPanel borderleft = createPanel(Color.DARK_GRAY);
         JPanel borderight = createPanel(Color.DARK_GRAY);
 
+
         setResizable(false);
         GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
+
+        dbitems = new JLabel();
+        dbitems.setIcon(mazedata.getImage());
+        dbitems.setVisible(true);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setLeftComponent(borderleft);
+        splitPane.setRightComponent(dbitems);
+        splitPane.setDividerSize(10);
+        splitPane.setContinuousLayout(false);
+        splitPane.setOneTouchExpandable(true);
+
+        Dimension minimumSize = new Dimension(100, 50);
+        splitPane.setMinimumSize((minimumSize));
+        splitPane.setPreferredSize(new Dimension(400, 400));
+
 
         this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
         this.getContentPane().add(borderleft, BorderLayout.LINE_START);
         this.getContentPane().add(borderbottom, BorderLayout.PAGE_END);
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
-
+        this.getContentPane().add(splitPane, BorderLayout.LINE_END);
         setVisible(true);
     }
     @Override

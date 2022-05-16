@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
  */
 public class MazeDB{
 
+    public static final String SELECT = "SELECT * FROM maze WHERE idx = 1";
     private static final String INSERT_MAZE = "INSERT INTO maze (Maze_Name, Author_Name, Author_Description, Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?);";
 
     public static final String CREATE_TABLE =
@@ -28,6 +30,7 @@ public class MazeDB{
     private PreparedStatement deleteMaze;
     private PreparedStatement rowCount;
     private PreparedStatement image;
+    public Statement st;
 
     /**
      * Constructs and Initialises connection to database
@@ -35,7 +38,7 @@ public class MazeDB{
     public MazeDB(){
         try {
             connection = DBConnection.getInstance();
-            Statement st = connection.createStatement();
+            st = connection.createStatement();
             st.execute(CREATE_TABLE);
             addMaze = connection.prepareStatement(INSERT_MAZE);
             //getMaze = connection.prepareStatement(GET_PERSON);
@@ -65,46 +68,60 @@ public class MazeDB{
             addMaze.setString(4, width);
             addMaze.setString(5, height);
 
-            //Convert GUI_Maze object to image icon to be fed to blob
+//            //Convert GUI_Maze object to image icon to be fed to blob
             Rectangle rec = Maze.getBounds();
             BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
-            ImageIcon mazeImg = new ImageIcon(bufferedImage);
+            Maze.paint(bufferedImage.getGraphics());
 
-            //ImageIcons are Serializable
-            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
+            // Create temp file
+            File temp = File.createTempFile("screenshot", ".png");
 
-            // serialize the ImageIcon and create a byte array for storage
-            objectStream.writeObject(mazeImg);
-            objectStream.close();
-            byte[] data = byteStream.toByteArray();
+            // Use the ImageIO API to write the bufferedImage to a temporary file that deletes on exit
+            ImageIO.write(bufferedImage, "png", temp);
+            temp.deleteOnExit();
 
-                        // execute the INSERT PreparedStatement
-            addMaze.setBinaryStream (6, new ByteArrayInputStream(data), data.length);
+            //Upload the binary stream to database
+            FileInputStream input = new FileInputStream(temp);
+            addMaze.setBinaryStream(6,(InputStream)input, (int)temp.length());
             addMaze.execute();
     }
 
-    private ImageIcon getImage(ResultSet rs){
-        byte[] data;
-        ImageIcon Image = null;
-        try{
-            //use the getBlob method to retrieve the object from the DB
-            Blob blob = rs.getBlob("Image");
-            data = blob.getBytes(6, (int) blob.length());
-
-            //convert bytes back to object stream
-            ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
-            ObjectInputStream objectStream = new ObjectInputStream(byteStream);
-            Image = (ImageIcon) objectStream.readObject();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+    public ImageIcon getImage() throws SQLException {
+        ResultSet rs = st.executeQuery(SELECT);
+        ImageIcon printImage = new ImageIcon();
+        while (rs.next()) {
+            byte[] image = rs.getBytes("Image");
+            ImageIcon icon = new ImageIcon(image);
+            Image img = icon.getImage();
+            Image img2 = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            printImage = new ImageIcon(img2);
         }
-        return Image;
+        return printImage;
     }
+
+
+
+
+//        byte[] data;
+//        ImageIcon Image = null;
+//        try{
+//            ResultSet rs = st.executeQuery(SELECT);
+//            //use the getBlob method to retrieve the object from the DB
+//            Blob blob = rs.getBlob("Image");
+//            data = blob.getBytes(6, (int)blob.length());
+//
+//            //convert bytes back to object stream
+//            ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
+//            ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+//            Image = (ImageIcon) objectStream.readObject();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return Image;
 
 
     /**
