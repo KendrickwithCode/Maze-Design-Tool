@@ -14,7 +14,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
 
-    private JMenuItem load, save, export,fullScr, exit,logoChange,kidsStart, kidsFinish;
+    private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
 
 
     @Override
@@ -38,6 +38,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         if(src==fullScr)
         {
             this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
+        if(src==windowScr)
+        {
+            setWindowSize();
         }
         if(src==exit)
         {
@@ -113,15 +117,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private void initializeFrame(){
         int fileMenuItemWith = 120;
         int editMenuItemWith = 180;
+        int viewMenuItemWith = 120;
         int menuItemHeight = 20;
 
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1500, 1000);
-        setResizable(true);
+        setWindowSize();
+
 
         setLayout(new BorderLayout());
-        this.setLocationRelativeTo(null);
+
 
         //Set File Toolbar
         JMenuBar menuBar = new JMenuBar();
@@ -130,15 +135,12 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         load = menuItemFactory("Load",fileMenuItemWith,menuItemHeight);
         save = menuItemFactory("Save",fileMenuItemWith,menuItemHeight);
         export = menuItemFactory("Export",fileMenuItemWith,menuItemHeight);
-        fullScr = menuItemFactory("Go Full Screen",fileMenuItemWith,menuItemHeight);
         exit = menuItemFactory("Exit",fileMenuItemWith,menuItemHeight);
 
         file.add(load);
         file.add(save);
         file.addSeparator();
         file.add(export);
-        file.addSeparator();
-        file.add(fullScr);
         file.addSeparator();
         file.add(exit);
         menuBar.add(file);
@@ -160,6 +162,18 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.setJMenuBar(menuBar);
 
 
+        // Set Edit View
+        JMenu view = new JMenu("View");
+
+        fullScr = menuItemFactory("Full Screen",viewMenuItemWith,menuItemHeight);
+        windowScr = menuItemFactory("Window",viewMenuItemWith,menuItemHeight);
+        view.add(fullScr);
+        view.add(windowScr);
+
+        menuBar.add(view);
+        this.setJMenuBar(menuBar);
+
+
 
         setIconImage(icon.getImage());
 
@@ -177,6 +191,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
 
         setVisible(true);
+    }
+
+    private void setWindowSize(){
+        setSize(1500, 1000);
+        setResizable(false);
+
+
+
+        this.setLocationRelativeTo(null);
     }
 
     /**
