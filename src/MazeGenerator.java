@@ -48,19 +48,6 @@ public class MazeGenerator {
         }
     }
 
-    /**
-     * Sets the diagonal override hidden block to be no passable (marks as visited)
-     */
-    private static void kidsLogoSetup() {
-        int maxX = currentMaze.getSize()[0];
-        int maxY = currentMaze.getSize()[1];
-
-        int endFillBlock = currentMaze.getIndex(new int[]{(maxX-2) ,(maxY-2)});
-        int startFillBlock = maxX + 1;
-
-        currentMaze.getMazeMap().get(endFillBlock).setVisited(true);
-        currentMaze.getMazeMap().get(startFillBlock).setVisited(true);
-    }
 
     /**
      * Generate a maze via Depth Field Search Iterative Algorithm.
