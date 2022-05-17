@@ -3,11 +3,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.awt.geom.Line2D;
+import javax.imageio.ImageIO;
+import java.io.Console;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Graphic User Interface Base.
- * This is where all of the components for the GUI Tools and GUI Maze Sit on top off.
+ * This is where all the components for the GUI Tools and GUI Maze Sit on top off.
  */
 public class GUI extends JFrame implements ActionListener, Runnable {
 
@@ -33,7 +38,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         if(src==export)
         {
-            JOptionPane.showMessageDialog(null,"Export to Jpeg.","Export",JOptionPane.INFORMATION_MESSAGE);
+            try{
+                if(maze != null)
+                    jpgExport(maze);
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
         if(src==fullScr)
         {
@@ -88,9 +99,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * @param blockIndex index of the block for image to be changed. (must be a logo block or a kids logo block).
      * @param currentMaze the current maze that is being worked on.
      */
-    private void imageChange(int blockIndex, Maze currentMaze){
+    private void imageChange(int blockIndex, Maze currentMaze) {
         final JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png","jpg","bmp"));
+        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
 
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -104,7 +115,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             maze.renderBlocks();
         }
     }
-
 
 
     /**
@@ -264,6 +274,41 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     public boolean getGrid(){
         return maze.getGrid();
+    }
+
+
+    /**
+     * Creates a screenshot of the passed JFrame object and saves it to a temp file
+     * adapted from: https://stackoverflow.com/a/10796047
+     * @param Maze the GUI_Maze object that is to be exported.
+     * @return file path of the exported jpg
+     */
+    private String jpgExport(GUI_Maze Maze) {
+        Rectangle rec = Maze.getBounds();
+        File image = null;
+        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
+        Maze.paint(bufferedImage.getGraphics());
+        //Jfile chooser code
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileNameExtensionFilter(".jpg", "jpg"));
+        fc.setAcceptAllFileFilterUsed(false);
+        int returnVal = fc.showSaveDialog(this);
+
+        try {
+            if(returnVal == JFileChooser.APPROVE_OPTION){
+                // Create file if successful
+                image = fc.getSelectedFile();
+
+                // Use the ImageIO API to write the bufferedImage to the selected file
+                ImageIO.write(bufferedImage, "png", image);
+
+                // Delete image file when program exits
+                image.deleteOnExit();
+            } else if(returnVal==JFileChooser.CANCEL_OPTION){}
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return image.getPath();
     }
 
 }

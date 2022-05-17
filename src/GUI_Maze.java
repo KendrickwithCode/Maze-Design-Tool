@@ -249,8 +249,8 @@ public class GUI_Maze extends JPanel{
     }
 
     /**
-     * Renderd the logoBlock to a JPanel in the maze.
-     * @param block current block that is beeing worked on
+     * Render the logoBlock to a JPanel in the maze.
+     * @param block current block that is being worked on
      * @param blockPanel gui block panel
      * @param constraints gui constraints
      */
