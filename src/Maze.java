@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Maze {
 
     private int difficulty;
-    private String mazeType;
+    private final String mazeType;
     private final boolean solvable;
     private String mazeName;
     private final int[] size;
@@ -74,10 +74,6 @@ public class Maze {
 
     public String getMazeType() {
         return mazeType;
-    }
-
-    public void setMazeType(String mazeType) {
-        this.mazeType = mazeType;
     }
 
     /**
@@ -347,34 +343,23 @@ public class Maze {
         this.mazeName = mazeName;
     }
 
-    public void mazeMapUpdate(int index,Block currentBlock)
-    {
-        mazeMap.set(index,currentBlock);
-        setMazeWalls(currentBlock);
-    }
 
     public int getKidsStartIndex() {
         return kidsStartIndex;
     }
 
-    public void setKidsStartIndex(int kidsStartIndex) {
-        this.kidsStartIndex = kidsStartIndex;
-    }
+
 
     public int getKidsFinishIndex() {
         return kidsFinishIndex;
     }
 
-    public void setKidsFinishIndex(int kidsFinishIndex) {
-        this.kidsFinishIndex = kidsFinishIndex;
-    }
+
 
     public int getLogoBlockIndex() {
         return logoBlockIndex;
     }
 
-    public void setLogoBlockIndex(int logoBlockIndex) {
-        this.logoBlockIndex = logoBlockIndex;
-    }
+
 }
 
