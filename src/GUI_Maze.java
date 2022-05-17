@@ -526,4 +526,16 @@ public class GUI_Maze extends JPanel{
             return (100 / mazeHeight) + 10;
         }
     }
+
+    public int getMazeHeight() {
+        return mazeHeight;
+    }
+
+    public int getMazeWidth() {
+        return mazeWidth;
+    }
+
+    public int getWallThickness() {
+        return wallThickness;
+    }
 }

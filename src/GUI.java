@@ -4,9 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.geom.Line2D;
 import javax.imageio.ImageIO;
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 
@@ -144,7 +142,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         load = menuItemFactory("Load",fileMenuItemWith,menuItemHeight);
         save = menuItemFactory("Save",fileMenuItemWith,menuItemHeight);
-        export = menuItemFactory("Export",fileMenuItemWith,menuItemHeight);
+        export = menuItemFactory("Export to Jpg",fileMenuItemWith,menuItemHeight);
         exit = menuItemFactory("Exit",fileMenuItemWith,menuItemHeight);
 
         file.add(load);
@@ -277,19 +275,28 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
 
+//    final JFileChooser fc = new JFileChooser();
+//        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
+
+
     /**
      * Creates a screenshot of the passed JFrame object and saves it to a temp file
      * adapted from: https://stackoverflow.com/a/10796047
      * @param Maze the GUI_Maze object that is to be exported.
-     * @return file path of the exported jpg
      */
-    private String jpgExport(GUI_Maze Maze) {
+    private void jpgExport(GUI_Maze Maze) {
+
+//        int mazeSizeX = maze.getMazeWidth()* (MazeLogoTools.getCurrentMaze().getSize()[0] + (maze.getWallThickness()*2));
+//        int mazeSizeY = maze.getMazeHeight()* (MazeLogoTools.getCurrentMaze().getSize()[1] + (maze.getWallThickness()*2));
+//        Rectangle rec = new Rectangle(0,0,mazeSizeX,mazeSizeY);
+
         Rectangle rec = Maze.getBounds();
-        File image = null;
+        File image;
+
         BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
         Maze.paint(bufferedImage.getGraphics());
         //Jfile chooser code
-        final JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter(".jpg", "jpg"));
         fc.setAcceptAllFileFilterUsed(false);
         int returnVal = fc.showSaveDialog(this);
@@ -298,17 +305,18 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             if(returnVal == JFileChooser.APPROVE_OPTION){
                 // Create file if successful
                 image = fc.getSelectedFile();
+                image = new File(image.getParent(),image.getName() + ".jpg");
 
                 // Use the ImageIO API to write the bufferedImage to the selected file
                 ImageIO.write(bufferedImage, "png", image);
 
                 // Delete image file when program exits
-                image.deleteOnExit();
-            } else if(returnVal==JFileChooser.CANCEL_OPTION){}
+//                image.deleteOnExit();
+            }
+
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        return image.getPath();
     }
 
 }
