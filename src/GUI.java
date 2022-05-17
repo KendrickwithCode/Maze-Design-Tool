@@ -3,7 +3,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Console;
 import java.io.File;
 
 /**
@@ -97,7 +96,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             LogoBlock current = (LogoBlock) currentMaze.getMazeMap().get(blockIndex);
 
             current.setPictureFile(imageFile.getPath());
-            maze.renderMaze(true, false);
+
+            maze.renderBlocks();
         }
     }
 
