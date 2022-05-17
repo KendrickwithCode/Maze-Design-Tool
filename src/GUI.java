@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 /**
  * Graphic User Interface Base.
@@ -12,7 +13,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
 
-    private JMenuItem load, save, export, exit;
+    private JMenuItem load, save, export, exit,logoChange,kidsStart, kidsFinish;
 
 
     @Override
@@ -36,6 +37,27 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             this.dispose();
         }
 
+        if(src==logoChange)
+        {
+            final JFileChooser fc = new JFileChooser();
+
+            int returnVal = fc.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                File imageFile = fc.getSelectedFile();
+                System.out.println(imageFile.getName());
+            }
+        }
+        if(src==kidsStart)
+        {
+            JOptionPane.showMessageDialog(null,"Kids Start Change.","Change",JOptionPane.INFORMATION_MESSAGE);
+        }
+        if(src==kidsFinish)
+        {
+            JOptionPane.showMessageDialog(null,"Kids Finish Change.","Change",JOptionPane.INFORMATION_MESSAGE);
+        }
+
+
     }
 
     @Override
@@ -51,7 +73,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     private void initializeFrame(){
-        int menuItemWith = 120;
+        int fileMenuItemWith = 120;
+        int editMenuItemWith = 180;
         int menuItemHeight = 20;
 
         setTitle("MazeCraft");
@@ -61,14 +84,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
 
-        //Set Toolbar
+        //Set File Toolbar
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
 
-        load = menuItemFactory("Load",menuItemWith,menuItemHeight);
-        save = menuItemFactory("Save",menuItemWith,menuItemHeight);
-        export = menuItemFactory("Export",menuItemWith,menuItemHeight);
-        exit = menuItemFactory("Exit",menuItemWith,menuItemHeight);
+        load = menuItemFactory("Load",fileMenuItemWith,menuItemHeight);
+        save = menuItemFactory("Save",fileMenuItemWith,menuItemHeight);
+        export = menuItemFactory("Export",fileMenuItemWith,menuItemHeight);
+        exit = menuItemFactory("Exit",fileMenuItemWith,menuItemHeight);
 
         file.add(load);
         file.add(save);
@@ -78,6 +101,23 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         file.add(exit);
         menuBar.add(file);
         this.setJMenuBar(menuBar);
+
+        // Set Edit Toolbar
+        JMenu edit = new JMenu("Edit");
+
+        logoChange = menuItemFactory("Change logo",editMenuItemWith,menuItemHeight);
+        kidsStart = menuItemFactory("Change kids start image",editMenuItemWith,menuItemHeight);
+        kidsFinish = menuItemFactory("Change kids finish image",editMenuItemWith,menuItemHeight);
+
+        edit.add(logoChange);
+        edit.addSeparator();
+        edit.add(kidsStart);
+        edit.add(kidsFinish);
+
+        menuBar.add(edit);
+        this.setJMenuBar(menuBar);
+
+
 
         setIconImage(icon.getImage());
 
