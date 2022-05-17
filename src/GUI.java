@@ -1,7 +1,9 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Console;
 import java.io.File;
 
 /**
@@ -13,12 +15,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
 
-    private JMenuItem load, save, export, exit,logoChange,kidsStart, kidsFinish;
+    private JMenuItem load, save, export,fullScr, exit,logoChange,kidsStart, kidsFinish;
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
+
+
 
         if(src==load)
         {
@@ -32,6 +36,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         {
             JOptionPane.showMessageDialog(null,"Export to Jpeg.","Export",JOptionPane.INFORMATION_MESSAGE);
         }
+        if(src==fullScr)
+        {
+            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
         if(src==exit)
         {
             this.dispose();
@@ -39,31 +47,61 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         if(src==logoChange)
         {
-            final JFileChooser fc = new JFileChooser();
-
-            int returnVal = fc.showOpenDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION)
-            {
-                File imageFile = fc.getSelectedFile();
-                System.out.println(imageFile.getName());
+            if(MazeLogoTools.getCurrentMaze() != null) {
+                if(MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("ADULT")) {
+                    Maze currentMaze = MazeLogoTools.getCurrentMaze();
+                    imageChange(currentMaze.getLogoBlockIndex(), currentMaze);
+                }
             }
+
         }
         if(src==kidsStart)
         {
-            JOptionPane.showMessageDialog(null,"Kids Start Change.","Change",JOptionPane.INFORMATION_MESSAGE);
+            if(MazeLogoTools.getCurrentMaze() != null) {
+                if(MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")) {
+                    Maze currentMaze = MazeLogoTools.getCurrentMaze();
+                    imageChange(currentMaze.getKidsStartIndex(), currentMaze);
+                }
+            }
         }
         if(src==kidsFinish)
         {
-            JOptionPane.showMessageDialog(null,"Kids Finish Change.","Change",JOptionPane.INFORMATION_MESSAGE);
+            if(MazeLogoTools.getCurrentMaze() != null) {
+                if(MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")) {
+                    Maze currentMaze = MazeLogoTools.getCurrentMaze();
+                    imageChange(currentMaze.getKidsFinishIndex(), currentMaze);
+                }
+            }
         }
-
-
     }
 
     @Override
     public void run() {
 
     }
+
+    /**
+     * Changes images on the maze via an image selection
+     * @param blockIndex index of the block for image to be changed. (must be a logo block or a kids logo block).
+     * @param currentMaze the current maze that is being worked on.
+     */
+    private void imageChange(int blockIndex, Maze currentMaze){
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png","jpg","bmp"));
+
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+            File imageFile = fc.getSelectedFile();
+
+            LogoBlock current = (LogoBlock) currentMaze.getMazeMap().get(blockIndex);
+
+            current.setPictureFile(imageFile.getPath());
+            maze.renderMaze(true, false);
+        }
+    }
+
+
 
     /**
      * GUI Constructor. Initializes Swing frame for application
@@ -80,7 +118,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1500, 1000);
-        setResizable(false);
+        setResizable(true);
+
         setLayout(new BorderLayout());
         this.setLocationRelativeTo(null);
 
@@ -91,12 +130,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         load = menuItemFactory("Load",fileMenuItemWith,menuItemHeight);
         save = menuItemFactory("Save",fileMenuItemWith,menuItemHeight);
         export = menuItemFactory("Export",fileMenuItemWith,menuItemHeight);
+        fullScr = menuItemFactory("Go Full Screen",fileMenuItemWith,menuItemHeight);
         exit = menuItemFactory("Exit",fileMenuItemWith,menuItemHeight);
 
         file.add(load);
         file.add(save);
         file.addSeparator();
         file.add(export);
+        file.addSeparator();
+        file.add(fullScr);
         file.addSeparator();
         file.add(exit);
         menuBar.add(file);
@@ -105,9 +147,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         // Set Edit Toolbar
         JMenu edit = new JMenu("Edit");
 
-        logoChange = menuItemFactory("Change logo",editMenuItemWith,menuItemHeight);
-        kidsStart = menuItemFactory("Change kids start image",editMenuItemWith,menuItemHeight);
-        kidsFinish = menuItemFactory("Change kids finish image",editMenuItemWith,menuItemHeight);
+        logoChange = menuItemFactory("Change Logo",editMenuItemWith,menuItemHeight);
+        kidsStart = menuItemFactory("Change Kids Start Image",editMenuItemWith,menuItemHeight);
+        kidsFinish = menuItemFactory("Change Kids Finish Image",editMenuItemWith,menuItemHeight);
 
         edit.add(logoChange);
         edit.addSeparator();

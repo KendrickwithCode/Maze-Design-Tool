@@ -29,6 +29,7 @@ public class Maze {
         this.solvable = false;
         this.mazeType = mazeType.toUpperCase();
         resetMaze(sizeX,sizeY);
+        MazeLogoTools.setCurrentMaze(this);
     }
 
     /**
@@ -119,14 +120,14 @@ public class Maze {
         for (int y =0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
                 if(mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "mazeCo"));
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "logo"));
                     logoBlockIndex = currentIndex;
                 }
                 else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "dog"));
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "start"));
                 }
                 else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex){
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "bone"));
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "end"));
                 }
                 else
                 {
