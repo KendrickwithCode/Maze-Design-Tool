@@ -122,6 +122,34 @@ public class GUI_Maze extends JPanel{
         }
     }
 
+    public void renderMaze2(boolean grid,boolean refresh) {
+
+        // Set maze components common constraints
+        GridBagConstraints mazeComponentConstraints = new GridBagConstraints();
+        mazeComponentConstraints.weightx = 1;
+        mazeComponentConstraints.weighty = 1;
+
+        // Iterate through maze blocks and populate mazePanel
+        for ( Block block : maze.getMazeMap() ){
+
+            // Get location of block
+            int blockXLocation = (block.getLocation()[0] + 1) * 2 -1;
+            int blockYLocation = (block.getLocation()[1] + 1) * 2 -1;
+            int[] location = new int[] {blockXLocation, blockYLocation};
+
+
+            if(!refresh)
+            {
+                // Block
+                JPanel blockPanel = createBlockPanel(block, mazeComponentConstraints, location);
+
+                // Add block panel to mazePanel
+                mazePanel.add(blockPanel, mazeComponentConstraints);
+            }
+        }
+    }
+
+
     public boolean getGrid(){
         return mazeGrid;
     }
@@ -439,7 +467,10 @@ public class GUI_Maze extends JPanel{
     constraints.gridx = location[0];
     constraints.gridy = location[1];
 
-//    block = mazeTypeSelect(block);
+    //    block = mazeTypeSelect(block);
+
+    // clear panel
+    blockPanel.removeAll();
     logoBlockRender(block,blockPanel,constraints);
 
     return blockPanel;
