@@ -38,7 +38,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         {
             try{
                 if(maze != null)
-                    jpgExport(maze);
+                    jpgExport(maze.mazePanel);
             }
             catch (Exception ex){
                 ex.printStackTrace();
@@ -280,21 +280,17 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
 
     /**
-     * Creates a screenshot of the passed JFrame object and saves it to a temp file
+     * Creates a screenshot of the passed JPanel object and saves it
      * adapted from: https://stackoverflow.com/a/10796047
-     * @param Maze the GUI_Maze object that is to be exported.
+     * @param mazePanel the GUI_Maze object that is to be exported.
      */
-    private void jpgExport(GUI_Maze Maze) {
+    private void jpgExport(JPanel mazePanel) {
 
-//        int mazeSizeX = maze.getMazeWidth()* (MazeLogoTools.getCurrentMaze().getSize()[0] + (maze.getWallThickness()*2));
-//        int mazeSizeY = maze.getMazeHeight()* (MazeLogoTools.getCurrentMaze().getSize()[1] + (maze.getWallThickness()*2));
-//        Rectangle rec = new Rectangle(0,0,mazeSizeX,mazeSizeY);
-
-        Rectangle rec = Maze.getBounds();
+        Rectangle rec = mazePanel.getBounds();
         File image;
 
         BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
-        Maze.paint(bufferedImage.getGraphics());
+        mazePanel.paint(bufferedImage.getGraphics());
         //Jfile chooser code
         JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter(".jpg", "jpg"));
@@ -305,13 +301,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             if(returnVal == JFileChooser.APPROVE_OPTION){
                 // Create file if successful
                 image = fc.getSelectedFile();
-                image = new File(image.getParent(),image.getName() + ".jpg");
+
+                if(!image.getName().endsWith(".jpg"))
+                {
+                    image = new File(image.getParent(),image.getName() + ".jpg");
+                }
 
                 // Use the ImageIO API to write the bufferedImage to the selected file
                 ImageIO.write(bufferedImage, "png", image);
 
-                // Delete image file when program exits
-//                image.deleteOnExit();
+                JOptionPane.showMessageDialog(null,image.getName(),"Exported image of current maze view at:",JOptionPane.INFORMATION_MESSAGE);
             }
 
         } catch (IOException ioe) {
