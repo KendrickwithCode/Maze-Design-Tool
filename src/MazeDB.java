@@ -12,12 +12,16 @@ import java.util.ArrayList;
 public class MazeDB{
 
     public static final String SELECT = "SELECT * FROM maze WHERE idx = 1";
-    private static final String INSERT_MAZE = "INSERT INTO maze (Maze_Name, Author_Name, Author_Description, Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_MAZE = "INSERT INTO maze " +
+            "(Maze_Name, Maze_Type, Author_Name, Author_Description, Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS maze ("
                     + "idx INTEGER PRIMARY KEY /*!40101 AUTO_INCREMENT */ NOT NULL UNIQUE," // from https://stackoverflow.com/a/41028314
                     + "Maze_Name VARCHAR(30),"
+                    + "Maze_Type VARCHAR(5),"
+                    + "Date_Created DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                    + "Last_Edited TIMESTAMP CURRENT_TIMESTAMP,"
                     + "Author_Name VARCHAR(30),"
                     + "Author_Description VARCHAR(180),"
                     + "Width VARCHAR(3),"
@@ -61,12 +65,14 @@ public class MazeDB{
      * @param maze The maze to be added.
      * @param Maze
      */
-    public void addMaze(String maze, String author, String description, String height, String width, GUI_Maze Maze) throws SQLException, IOException {
+    public void addMaze(String maze, String type, String author,
+                        String description, String height, String width, GUI_Maze Maze) throws SQLException, IOException {
             addMaze.setString(1, maze);
-            addMaze.setString(2, author);
-            addMaze.setString(3, description);
-            addMaze.setString(4, width);
-            addMaze.setString(5, height);
+            addMaze.setString(2, type);
+            addMaze.setString(3, author);
+            addMaze.setString(4, description);
+            addMaze.setString(5, width);
+            addMaze.setString(6, height);
 
 //            //Convert GUI_Maze object to image icon to be fed to blob
             Rectangle rec = Maze.getBounds();
@@ -82,7 +88,7 @@ public class MazeDB{
 
             //Upload the binary stream to database
             FileInputStream input = new FileInputStream(temp);
-            addMaze.setBinaryStream(6,(InputStream)input, (int)temp.length());
+            addMaze.setBinaryStream(7, input, (int)temp.length());
             addMaze.execute();
     }
 

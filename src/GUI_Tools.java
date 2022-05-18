@@ -18,7 +18,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JScrollPane description_pane;
         public static JTextArea  description_text;
         private JLabel width, height, name, author_name, description, mazeType_text;
-        private JComboBox mazeTypeComboBox;
+        public static JComboBox mazeTypeComboBox;
         private final GUI mainGui;
         private GUI_Maze guiMaze;
         private String mazeType;

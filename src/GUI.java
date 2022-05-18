@@ -71,9 +71,7 @@ public class GUI extends JFrame implements ActionListener {
         dbitems = new JLabel();
         dbitems.setIcon(mazedata.getImage());
         dbitems.setVisible(true);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        splitPane.setLeftComponent(borderleft);
-        splitPane.setRightComponent(dbitems);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, borderleft, dbitems);
         splitPane.setDividerSize(10);
         splitPane.setContinuousLayout(false);
         splitPane.setOneTouchExpandable(true);
@@ -103,7 +101,8 @@ public class GUI extends JFrame implements ActionListener {
             }
         } else if (src == save) {
             try {
-                mazedata.addMaze(GUI_Tools.maze_name.getText(), GUI_Tools.author_name_text.getText(),
+                String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
+                mazedata.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
                         GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
             } catch (SQLException ex) {
                 ex.printStackTrace();
