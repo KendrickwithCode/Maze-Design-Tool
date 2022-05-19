@@ -50,6 +50,7 @@ public class GUI extends JFrame implements ActionListener {
         exit = new JMenuItem("Exit");
         save.addActionListener(this);
         export.addActionListener(this);
+        load.addActionListener(this);
         file.add(load);
         file.add(export);
         file.add(save);
@@ -69,7 +70,7 @@ public class GUI extends JFrame implements ActionListener {
         GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
         dbitems = new JLabel();
-        dbitems.setIcon(mazedata.getImage());
+        //dbitems.setIcon(mazedata.getImage());
         dbitems.setVisible(true);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, borderleft, dbitems);
         splitPane.setDividerSize(10);
@@ -110,6 +111,16 @@ public class GUI extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
             //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if (src == load){
+            try {
+                Maze load = mazedata.getMaze();
+                new GUI_Maze(load, false);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
         }
     }
 
