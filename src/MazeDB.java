@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Maze Database
@@ -12,8 +14,11 @@ import java.util.ArrayList;
 public class MazeDB{
 
     public static final String SELECT = "SELECT * FROM maze WHERE idx = 1";
+
     private static final String INSERT_MAZE = "INSERT INTO maze " +
             "(Maze_Name, Maze_Type, Author_Name, Author_Description, Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+    private static final String GET_NAMES = "SELECT Maze_Name from maze";
 
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS maze ("
@@ -30,7 +35,7 @@ public class MazeDB{
 
     public Connection connection;
     private PreparedStatement addMaze;
-    private PreparedStatement getMaze;
+    private PreparedStatement getNameList;
     private PreparedStatement deleteMaze;
     private PreparedStatement rowCount;
     private PreparedStatement image;
@@ -45,7 +50,7 @@ public class MazeDB{
             st = connection.createStatement();
             st.execute(CREATE_TABLE);
             addMaze = connection.prepareStatement(INSERT_MAZE);
-            //getMaze = connection.prepareStatement(GET_PERSON);
+            getNameList = connection.prepareStatement(GET_NAMES);
             //deleteMaze = connection.prepareStatement(DELETE_PERSON);
             //rowCount = connection.prepareStatement(COUNT_ROWS);
         } catch (SQLException ex) {
@@ -129,6 +134,26 @@ public class MazeDB{
         return printImage;
     }
 
+    /**
+     * Retrieves the Maze_Name for the list selector
+     * @return A set containing names as a string
+     */
+    public Set<String> nameSet() {
+        Set<String> names = new TreeSet<String>();
+        ResultSet rs = null;
+
+        try {
+            rs = getNameList.executeQuery();
+            while (rs.next()) {
+                names.add(rs.getString("Maze_Name"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return names;
+    }
+
 
     /**
      * Delete a Maze from the database.
@@ -153,4 +178,5 @@ public class MazeDB{
     public void close(){
 
     }
+
 }

@@ -204,7 +204,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 JComboBox combo = new JComboBox<>(options);
                 combo.setPreferredSize(new Dimension(width + 80,height));
                 combo.setUI(ColorArrowUI.createUI(combo));
-
                 combo.addActionListener(this);
                 return combo;
         }

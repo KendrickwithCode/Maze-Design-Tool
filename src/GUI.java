@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.naming.NamingException;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +27,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
     public JSplitPane splitPane;
-    public JLabel dbitems;
+    public JList dbitems;
     MazeDB mazedata;
     private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
 
@@ -210,8 +212,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         menuBar.add(view);
         this.setJMenuBar(menuBar);
 
-
-
         setIconImage(icon.getImage());
 
         JPanel borderbottom = createPanel(Color.DARK_GRAY);
@@ -223,8 +223,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         setResizable(false);
         GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
-        dbitems = new JLabel();
-        dbitems.setIcon(mazedata.getImage());
+        DefaultListModel listModel = new DefaultListModel();
+        // add the retrieved data to the list model
+        for (String name : mazedata.nameSet()) {
+            listModel.addElement(name);
+        }
+
+        dbitems = new JList(listModel);
+        dbitems.setFixedCellWidth(200);
+        //dbitems.setIcon(mazedata.getImage());
         dbitems.setVisible(true);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, GUI_Maze.mazePanel, dbitems);
         splitPane.setDividerSize(10);
@@ -247,9 +254,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private void setWindowSize(){
         setSize(1500, 1000);
         setResizable(false);
-
-
-
         this.setLocationRelativeTo(null);
     }
 
