@@ -1,5 +1,8 @@
 public class MazeLogoTools {
 
+
+    private static Maze currentMaze;
+
     /**
      * Random placement index generator for placing logo on the maze.
      * @param mazeSize size of maze [x,y].
@@ -99,4 +102,11 @@ public class MazeLogoTools {
         return currentMaze.getIndex(new int[]{posX,posY});
     }
 
+    public static Maze getCurrentMaze() {
+        return currentMaze;
+    }
+
+    public static void setCurrentMaze(Maze currentMaze) {
+        MazeLogoTools.currentMaze = currentMaze;
+    }
 }

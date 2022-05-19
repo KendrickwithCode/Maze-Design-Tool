@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,19 +10,127 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Graphic User Interface Base.
- * This is where all of the components for the GUI Tools and GUI Maze Sit ontop off.
+ * This is where all the components for the GUI Tools and GUI Maze Sit on top off.
  */
-public class GUI extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener, Runnable {
 
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
-    public JMenuItem save, load, export, exit;
     public JSplitPane splitPane;
     public JLabel dbitems;
     MazeDB mazedata;
+    private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object src = e.getSource();
+
+        //checks if the export button has been pressed and runs the jpgExport function if it has
+        if (src == export) {
+            try {
+                if (maze != null)
+                    System.out.println(jpgExport(maze)); //prints out the file path of the exported jpg
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (src == save) {
+            try {
+                String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
+                mazedata.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
+                        GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if (src == load){
+            try {
+                Maze load = mazedata.getMaze();
+                new GUI_Maze(load, false);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        if(src==fullScr)
+        {
+            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
+        if(src==windowScr)
+        {
+            setWindowSize();
+        }
+        if(src==exit)
+        {
+            this.dispose();
+        }
+
+        if(src==logoChange)
+        {
+            if(MazeLogoTools.getCurrentMaze() != null) {
+                if(MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("ADULT")) {
+                    Maze currentMaze = MazeLogoTools.getCurrentMaze();
+                    imageChange(currentMaze.getLogoBlockIndex(), currentMaze);
+                }
+            }
+
+        }
+        if(src==kidsStart)
+        {
+            if(MazeLogoTools.getCurrentMaze() != null) {
+                if(MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")) {
+                    Maze currentMaze = MazeLogoTools.getCurrentMaze();
+                    imageChange(currentMaze.getKidsStartIndex(), currentMaze);
+                }
+            }
+        }
+        if(src==kidsFinish)
+        {
+            if(MazeLogoTools.getCurrentMaze() != null) {
+                if(MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")) {
+                    Maze currentMaze = MazeLogoTools.getCurrentMaze();
+                    imageChange(currentMaze.getKidsFinishIndex(), currentMaze);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+
+    }
+
+    /**
+     * Changes images on the maze via an image selection
+     * @param blockIndex index of the block for image to be changed. (must be a logo block or a kids logo block).
+     * @param currentMaze the current maze that is being worked on.
+     */
+    private void imageChange(int blockIndex, Maze currentMaze) {
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
+
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+            File imageFile = fc.getSelectedFile();
+
+            LogoBlock current = (LogoBlock) currentMaze.getMazeMap().get(blockIndex);
+
+            current.setPictureFile(imageFile.getPath());
+
+            maze.renderBlocks();
+        }
+    }
 
 
     /**
@@ -33,15 +142,20 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     private void initializeFrame() throws SQLException {
+        int fileMenuItemWith = 120;
+        int editMenuItemWith = 180;
+        int viewMenuItemWith = 120;
+        int menuItemHeight = 20;
 
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1500, 1000);
-        setResizable(false);
-        setLayout(new BorderLayout());
-        this.setLocationRelativeTo(null);
+        setWindowSize();
 
-        //Set Toolbar
+
+        setLayout(new BorderLayout());
+
+
+        //Set File Toolbar
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
         load = new JMenuItem("Load");
@@ -51,12 +165,48 @@ public class GUI extends JFrame implements ActionListener {
         save.addActionListener(this);
         export.addActionListener(this);
         load.addActionListener(this);
+        load = menuItemFactory("Load",fileMenuItemWith,menuItemHeight);
+        save = menuItemFactory("Save",fileMenuItemWith,menuItemHeight);
+        export = menuItemFactory("Export to Jpg",fileMenuItemWith,menuItemHeight);
+        exit = menuItemFactory("Exit",fileMenuItemWith,menuItemHeight);
+
         file.add(load);
-        file.add(export);
         file.add(save);
+        file.addSeparator();
+        file.add(export);
+        file.addSeparator();
         file.add(exit);
         menuBar.add(file);
         this.setJMenuBar(menuBar);
+
+        // Set Edit Toolbar
+        JMenu edit = new JMenu("Edit");
+
+        logoChange = menuItemFactory("Change Logo",editMenuItemWith,menuItemHeight);
+        kidsStart = menuItemFactory("Change Kids Start Image",editMenuItemWith,menuItemHeight);
+        kidsFinish = menuItemFactory("Change Kids Finish Image",editMenuItemWith,menuItemHeight);
+
+        edit.add(logoChange);
+        edit.addSeparator();
+        edit.add(kidsStart);
+        edit.add(kidsFinish);
+
+        menuBar.add(edit);
+        this.setJMenuBar(menuBar);
+
+
+        // Set Edit View
+        JMenu view = new JMenu("View");
+
+        fullScr = menuItemFactory("Full Screen",viewMenuItemWith,menuItemHeight);
+        windowScr = menuItemFactory("Window",viewMenuItemWith,menuItemHeight);
+        view.add(fullScr);
+        view.add(windowScr);
+
+        menuBar.add(view);
+        this.setJMenuBar(menuBar);
+
+
 
         setIconImage(icon.getImage());
 
@@ -89,39 +239,29 @@ public class GUI extends JFrame implements ActionListener {
         this.getContentPane().add(splitPane, BorderLayout.LINE_END);
         setVisible(true);
     }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object src = e.getSource();
-        //checks if the export button has been pressed and runs the jpgExport function if it has
-        if (src == export) {
-            try {
-                if (maze != null)
-                    System.out.println(jpgExport(maze)); //prints out the file path of the exported jpg
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        } else if (src == save) {
-            try {
-                String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
-                mazedata.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
-                        GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
-        }
-        else if (src == load){
-            try {
-                Maze load = mazedata.getMaze();
-                new GUI_Maze(load, false);
 
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+    private void setWindowSize(){
+        setSize(1500, 1000);
+        setResizable(false);
 
-        }
+
+
+        this.setLocationRelativeTo(null);
+    }
+
+    /**
+     * Makes menu items.
+     * @param name  name of the menu item
+     * @param width width of the menu item
+     * @param height height of the menu item
+     * @return a new drop down menu item.
+     */
+    private JMenuItem menuItemFactory(String name, int width, int height)
+    {
+        JMenuItem menuItem = new JMenuItem(name);
+        menuItem.setPreferredSize(new Dimension(width,height));
+        menuItem.addActionListener(this);
+        return menuItem;
     }
 
     /**
@@ -165,12 +305,56 @@ public class GUI extends JFrame implements ActionListener {
         this.revalidate();
     }
 
-    public void setGrid(boolean toggle) {
+    public void setGrid(boolean toggle){
         maze.renderMaze(toggle, true);
     }
 
     public boolean getGrid(){
         return maze.getGrid();
+    }
+
+
+//    final JFileChooser fc = new JFileChooser();
+//        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
+
+
+    /**
+     * Creates a screenshot of the passed JPanel object and saves it
+     * adapted from: https://stackoverflow.com/a/10796047
+     * @param mazePanel the GUI_Maze object that is to be exported.
+     */
+    private void jpgExport(JPanel mazePanel) {
+
+        Rectangle rec = mazePanel.getBounds();
+        File image;
+
+        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
+        mazePanel.paint(bufferedImage.getGraphics());
+        //Jfile chooser code
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileNameExtensionFilter(".jpg", "jpg"));
+        fc.setAcceptAllFileFilterUsed(false);
+        int returnVal = fc.showSaveDialog(this);
+
+        try {
+            if(returnVal == JFileChooser.APPROVE_OPTION){
+                // Create file if successful
+                image = fc.getSelectedFile();
+
+                if(!image.getName().endsWith(".jpg"))
+                {
+                    image = new File(image.getParent(),image.getName() + ".jpg");
+                }
+
+                // Use the ImageIO API to write the bufferedImage to the selected file
+                ImageIO.write(bufferedImage, "png", image);
+
+                JOptionPane.showMessageDialog(null,image.getName(),"Exported image of current maze view at:",JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     /**

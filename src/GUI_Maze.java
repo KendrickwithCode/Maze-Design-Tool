@@ -56,13 +56,20 @@ public class GUI_Maze extends JPanel{
         renderMaze(getGrid(),false);
 }
 
-    public void renderMaze(boolean grid,boolean refresh) {
-        setGrid(grid);
-
+    public GridBagConstraints setupGridContraints()
+    {
         // Set maze components common constraints
         GridBagConstraints mazeComponentConstraints = new GridBagConstraints();
         mazeComponentConstraints.weightx = 1;
         mazeComponentConstraints.weighty = 1;
+        return mazeComponentConstraints;
+    }
+
+
+    public void renderMaze(boolean grid,boolean refresh) {
+        setGrid(grid);
+
+        GridBagConstraints mazeComponentConstraints = setupGridContraints();
 
         // Iterate through maze blocks and populate mazePanel
         for ( Block block : maze.getMazeMap() ){
@@ -114,13 +121,40 @@ public class GUI_Maze extends JPanel{
 
             if(!refresh)
             {
-                // Block
-                JPanel blockPanel = createBlockPanel(block, mazeComponentConstraints, location);
-                // Add block panel to mazePanel
-                mazePanel.add(blockPanel, mazeComponentConstraints);
+                renderJpanel(block,mazeComponentConstraints,location);
             }
         }
     }
+
+
+    public void renderBlocks() {
+
+        // Set maze components common constraints
+        GridBagConstraints mazeComponentConstraints = setupGridContraints();
+
+        // Iterate through maze blocks and populate mazePanel
+        for ( Block currentBlock : maze.getMazeMap() ){
+
+            // Get location of block
+            int blockXLocation = (currentBlock.getLocation()[0] + 1) * 2 -1;
+            int blockYLocation = (currentBlock.getLocation()[1] + 1) * 2 -1;
+            int[] location = new int[] {blockXLocation, blockYLocation};
+
+            renderJpanel(currentBlock,mazeComponentConstraints,location);
+
+        }
+    }
+
+
+    public void renderJpanel(Block block, GridBagConstraints mazeComponentConstraints, int[] location)
+    {
+        // Block
+        JPanel blockPanel = createBlockPanel(block, mazeComponentConstraints, location);
+        // Add block panel to mazePanel
+        mazePanel.add(blockPanel, mazeComponentConstraints);
+    }
+
+
 
     public boolean getGrid(){
         return mazeGrid;
@@ -217,8 +251,8 @@ public class GUI_Maze extends JPanel{
     }
 
     /**
-     * Renderd the logoBlock to a JPanel in the maze.
-     * @param block current block that is beeing worked on
+     * Render the logoBlock to a JPanel in the maze.
+     * @param block current block that is being worked on
      * @param blockPanel gui block panel
      * @param constraints gui constraints
      */
@@ -441,7 +475,10 @@ public class GUI_Maze extends JPanel{
     constraints.gridx = location[0];
     constraints.gridy = location[1];
 
-//    block = mazeTypeSelect(block);
+    //    block = mazeTypeSelect(block);
+
+    // clear panel
+    blockPanel.removeAll();
     logoBlockRender(block,blockPanel,constraints);
 
     return blockPanel;
@@ -489,5 +526,17 @@ public class GUI_Maze extends JPanel{
         } else {
             return (100 / mazeHeight) + 10;
         }
+    }
+
+    public int getMazeHeight() {
+        return mazeHeight;
+    }
+
+    public int getMazeWidth() {
+        return mazeWidth;
+    }
+
+    public int getWallThickness() {
+        return wallThickness;
     }
 }

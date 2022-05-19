@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.*;
 
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,12 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MazeTest {
     Maze testMaze;
     MazeDB connection;
+    Maze kidsTest;
     int[] location = {5,2};
-//int[] locationBottomRight = {8,2};
 
     @BeforeEach
     public void Before() throws Exception {
         testMaze = new Maze(7,3, "Test","Adult");
+        kidsTest = new Maze(7,3,"kidsTest","KIDS");
     }
 
 
@@ -100,7 +102,7 @@ public class MazeTest {
 
 
         // Enable if statement to see memory map
-        AtomicBoolean showMemMap = new AtomicBoolean(true);
+        AtomicBoolean showMemMap = new AtomicBoolean(false);
 
         if (showMemMap.get()) {
             for (Block current : testMaze.getMazeMap()
@@ -114,13 +116,132 @@ public class MazeTest {
         }
     }
 
+    @Test
+    public void testKidsMap() {
+        String result = kidsTest.getMazeType();
+        assertEquals("KIDS",result);
+
+    }
 
     @Test
-    public void testMap() throws Exception {
+    public void testLogos()
+    {
+        //Kids logo tests
+        LogoBlock working = (LogoBlock) kidsTest.getMazeMap().get(kidsTest.getKidsStartIndex());
+        int resultLogosIndex = kidsTest.getKidsStartIndex();
+        String blockType  = working.getBlockType();
+        assertEquals(0,resultLogosIndex);
+
+        assertEquals("LogoBlock",blockType);
+        String resultFileName  = working.getPictureFile()  ;
+        assertEquals("img/icons/Dog.png",resultFileName);
+
+        resultLogosIndex = kidsTest.getKidsFinishIndex();
+        assertEquals(12,resultLogosIndex);
+
+        working = (LogoBlock) kidsTest.getMazeMap().get(kidsTest.getKidsFinishIndex());
+        resultFileName  = working.getPictureFile()  ;
+        assertEquals("img/icons/Bone.png",resultFileName);
+
+        //Adult logo tests
+        resultLogosIndex = testMaze.getLogoBlockIndex();
+        working = (LogoBlock) testMaze.getMazeMap().get(resultLogosIndex);
+        int[] resultXY = working.getLocation();
+        assertEquals(1,resultXY[1]);
+        assertTrue(resultXY[0] >= 1 && resultXY[1] <= 6);
+        resultFileName  = working.getPictureFile()  ;
+        assertEquals("img/icons/MazeCo.png",resultFileName);
+        blockType  = working.getBlockType();
+        assertEquals("LogoBlock",blockType);
+
+        // Logo Change Test
+        working.setPictureFile("/img/icons/Bone.png");
+        resultFileName  = working.getPictureFile()  ;
+        assertEquals("/img/icons/Bone.png",resultFileName);
+    }
+
+    @Test
+    public void testMazeBlock(){
+        Block working = testMaze.getMazeMap().get(5);
+        String resultBlockType = working.getBlockType();
+        assertEquals("MazeBlock",resultBlockType);
+        assertEquals(5,working.getBlockIndex());
+
+        //Working Directions Test
+        working.clearAvailableDirections();
+        assertEquals(0,working.getAvailableDirections().size());
+        ArrayList<String> directions = new ArrayList<>();
+        directions.add("west");
+        directions.add("east");
+        working.setAvailableDirections(directions);
+        assertEquals(2,working.getAvailableDirections().size());
+    }
+
+    @Test
+    public void testSetWallsMemAloc(){
+        Block working = kidsTest.getMazeMap().get(11);
+        working.setWallSouth(working.getWallNorth());
+        working.setWallEast(working.getWallWest());
+
+        assertEquals(working.getWallWest(),working.getWallEast());
+        assertEquals(working.getWallNorth(),working.getWallSouth());
+    }
+
+    @Test
+    public void testBlockPanel(){
+        Block working = kidsTest.getMazeMap().get(11);
+
+        assertEquals(new Dimension(0,0),working.getBlockPanel().getSize());
+    }
+
+    @Test
+    public void wallTest(){
+        Block working = kidsTest.getMazeMap().get(11);
+
+        working.getWallNorth().setActive(false);
+        boolean result = working.getWallNorth().getActive();
+        assertFalse(result);
+
+        working.getWallEast().setActive(false);
+        result = working.getWallEast().getActive();
+        assertFalse(result);
+
+        working.getWallSouth().setActive(false);
+        result = working.getWallSouth().getActive();
+        assertFalse(result);
+
+        working.getWallWest().setActive(false);
+        result = working.getWallWest().getActive();
+        assertFalse(result);
+
+
+
+        working.getWallNorth().setActive(true);
+        result = working.getWallNorth().getActive();
+        assertTrue(result);
+
+        working.getWallEast().setActive(true);
+        result = working.getWallEast().getActive();
+        assertTrue(result);
+
+        working.getWallSouth().setActive(true);
+        result = working.getWallSouth().getActive();
+        assertTrue(result);
+
+        working.getWallWest().setActive(true);
+        result = working.getWallWest().getActive();
+        assertTrue(result);
+    }
+
+
+    @Test
+    public void testMazeGen() throws Exception {
         AtomicBoolean displayMazeMap = new AtomicBoolean(false);
 
+        testMaze.generateNewMaze();
+
         if (displayMazeMap.get()) {
-            testMaze.generateNewMaze();
+
 
             char C = ' ';
             char A = '=';
@@ -184,8 +305,16 @@ public class MazeTest {
                 System.out.print(item);
             }
         }
-    }
 
+        Block working = testMaze.getMazeMap().get(0);
+        int wallsCount = working.getAvailableDirections().size();
+        assertTrue(wallsCount < 4);
+
+        kidsTest.generateNewMaze("DFSRecursive",new int[]{0,0});
+        working = kidsTest.getMazeMap().get(10);
+        wallsCount = working.getAvailableDirections().size();
+        assertTrue(wallsCount < 4);
+    }
     @Test
     public void testDBConnection(){
         assertNull(connection);
@@ -193,7 +322,6 @@ public class MazeTest {
 
     @Test
     public void testDBQuery(){
-
+        String insert = "INSERT * INTO maze";
     }
-
 }
