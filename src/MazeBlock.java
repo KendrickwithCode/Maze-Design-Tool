@@ -1,7 +1,10 @@
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * Standard maze block/cell used in the mazes map.
  */
-public class MazeBlock extends Block {
+public class MazeBlock extends Block implements Serializable {
 
     /**
      * Constructs and initialises new Block

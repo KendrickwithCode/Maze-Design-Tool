@@ -1,9 +1,11 @@
+import java.io.Serial;
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * Main class for holding all the contents and information of a maze.
  */
-public class Maze {
+public class Maze implements Serializable {
 
     private int difficulty;
     private final String mazeType;

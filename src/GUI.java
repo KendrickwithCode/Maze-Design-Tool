@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import javax.naming.NamingException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -55,8 +56,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         else if (src == load){
             try {
+                clearMaze();
                 Maze load = mazedata.getMaze();
-                new GUI_Maze(load, false);
+                GUI_Maze loadedMaze = new GUI_Maze(load, false);
+                GUI_Tools.maze_name.setText(load.getMazeName());
+               // GUI_Tools.author_name_text.setText(load.getAuthorName());
+                this.getContentPane().add(new JScrollPane(loadedMaze));
+                this.revalidate();
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -150,8 +156,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setWindowSize();
-
-
         setLayout(new BorderLayout());
 
 
@@ -220,16 +224,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
         dbitems = new JLabel();
-        //dbitems.setIcon(mazedata.getImage());
+        dbitems.setIcon(mazedata.getImage());
         dbitems.setVisible(true);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, borderleft, dbitems);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, GUI_Maze.mazePanel, dbitems);
         splitPane.setDividerSize(10);
         splitPane.setContinuousLayout(false);
         splitPane.setOneTouchExpandable(true);
 
         Dimension minimumSize = new Dimension(100, 50);
         splitPane.setMinimumSize((minimumSize));
-        splitPane.setPreferredSize(new Dimension(400, 400));
+        splitPane.setPreferredSize(new Dimension(400, 1000));
 
 
         this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
@@ -286,6 +290,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         return temp;
     }
 
+    public void clearMaze(){
+        // Checks if GUI already contains a maze and removes it to be replaced with new maze
+        Component[] components = this.getContentPane().getComponents();
+        for ( Component comp : components) {
+            if (comp instanceof JScrollPane) this.getContentPane().remove(comp);
+        }
+        this.revalidate();
+    }
     /**
      * Creates new maze and displays it in the GUI
      * @param width Width of maze (in blocks)
@@ -305,7 +317,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.revalidate();
     }
 
-    public void setGrid(boolean toggle){
+    public void setGrid(boolean toggle) throws NamingException {
         maze.renderMaze(toggle, true);
     }
 

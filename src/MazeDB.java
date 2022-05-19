@@ -74,24 +74,24 @@ public class MazeDB{
             addMaze.setString(5, width);
             addMaze.setString(6, height);
 
-            //Convert GUI_Maze object to image icon to be fed to blob
-            Rectangle rec = Maze.getBounds();
-            BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
-            ImageIcon icon = new ImageIcon(bufferedImage);
-            Maze.paint(bufferedImage.getGraphics());
-
-            // Create temp file
-            File temp = File.createTempFile("screenshot", ".png");
-
-            // Use the ImageIO API to write the bufferedImage to a temporary file that deletes on exit
-            ImageIO.write(bufferedImage, "png", temp);
-            temp.deleteOnExit();
+//            //Convert GUI_Maze object to image icon to be fed to blob
+//            Rectangle rec = Maze.getBounds();
+//            BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
+//            ImageIcon icon = new ImageIcon(bufferedImage);
+//            Maze.paint(bufferedImage.getGraphics());
+//
+//            // Create temp file
+//            File temp = File.createTempFile("screenshot", ".png");
+//
+//            // Use the ImageIO API to write the bufferedImage to a temporary file that deletes on exit
+//            ImageIO.write(bufferedImage, "png", temp);
+//            temp.deleteOnExit();
 
             //Upload the binary stream to database
-            FileInputStream input = new FileInputStream(temp);
+//            FileInputStream input = new FileInputStream(temp);
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
-            //objectStream.writeObject();
+            objectStream.writeObject(MazeLogoTools.getCurrentMaze());
             byte[] data = byteStream.toByteArray();
             //addMaze.setBinaryStream(7, input, (int)temp.length());
             addMaze.setBinaryStream(7, new ByteArrayInputStream(data), data.length);
@@ -99,6 +99,7 @@ public class MazeDB{
     }
 
     public Maze getMaze() throws Exception {
+
         Maze readMaze = null;
         ResultSet rs = st.executeQuery(SELECT);
         byte[] data;

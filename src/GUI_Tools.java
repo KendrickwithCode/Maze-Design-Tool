@@ -31,7 +31,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 {
                         try {
                                 mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
-                                        Integer.parseInt(height_text.getText()), name.getText(), false,mazeType);
+                                        Integer.parseInt(height_text.getText()),  maze_name.getText(), false,mazeType);
                         } catch (Exception ex) {
                                 ex.printStackTrace();
                         }
@@ -41,7 +41,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 {
                         try {
                                 mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
-                                        Integer.parseInt(height_text.getText()), name.getText(), true,mazeType);
+                                        Integer.parseInt(height_text.getText()), maze_name.getText(), true,mazeType);
                         } catch (Exception ex) {
                                 ex.printStackTrace();
                         }

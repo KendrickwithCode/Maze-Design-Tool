@@ -4,8 +4,9 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 
-public class MazeWall {
+public class MazeWall implements Serializable {
     public boolean active;
     private boolean start;
     private boolean finish;

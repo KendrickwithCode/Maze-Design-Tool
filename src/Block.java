@@ -1,12 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 /**
  *  Astract class used for Maze Block and Logo Blocks in the maze.
  */
-public abstract class Block implements IBlock{
+public abstract class Block implements IBlock, Serializable {
 
     private MazeWall wallNorth;
     private MazeWall wallSouth;
@@ -28,7 +29,7 @@ public abstract class Block implements IBlock{
      * @param blockIndex sets the block index for the maze map ArrayList of block.
      * @param clearWalls sets the default value for the walls to be cleared (true / inactive) or set (false / active)
      */
-    public Block(int[] location, int blockIndex,Boolean clearWalls)
+    public Block(int[] location, int blockIndex, Boolean clearWalls)
     {
         this.location = location;
         this.blockIndex = blockIndex;

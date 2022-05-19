@@ -1,9 +1,10 @@
 import java.util.HashMap;
+import java.io.Serializable;
 
 /**
  * Block used to store images on the maze.
  */
-public class LogoBlock extends Block{
+public class LogoBlock extends Block implements Serializable{
     private String pictureFile;
 
     /**
