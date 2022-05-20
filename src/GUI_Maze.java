@@ -15,9 +15,13 @@ public class GUI_Maze extends JPanel{
     private final int wallThickness;
     private final Maze maze;
     public MazePanel mazePanel;
-
-
     private static boolean mazeGrid = true;
+    //variables to control the size of walls in pixels with respect to blocks at different maze sizes
+        //width in pixels when max dim is 100, should not be set to more than 15:
+        private final static int largeMazeWallSize = 4;
+        //width in pixels when max dim is 6, should not be set to more than 63:
+        private final static int smallMazeWallSize = 10;
+
     /**
      * Maze GUI constructor, creates layout for maze blocks and walls and displays them appropriately
      * @param maze Maze object to display
@@ -35,8 +39,8 @@ public class GUI_Maze extends JPanel{
         this.mazeWidth = maze.getSize()[0];
 
         // Set block and wall sizing to suit amount of blocks
-        blockSize = mazeBlockSize(mazeHeight, mazeWidth);
-        wallThickness = mazeWallWidth(mazeHeight, mazeWidth);
+        blockSize = mazeBlockSize();
+        wallThickness = mazeWallWidth();
 
         if (generate)
         {
@@ -501,30 +505,35 @@ public class GUI_Maze extends JPanel{
         return panel;
     }
 
-    private int mazeWallWidth (int mazeHeight, int mazeWidth){
-        int amountOfCells = mazeHeight * mazeWidth;
-        if(amountOfCells < 100){
-            return 10;
-        } else if (amountOfCells < 400){
-            return 8;
-        } else if (amountOfCells < 2500){
-            return 6;
-        } else {
-            return 4;
-        }
+    /**
+     * Returns the maze wall pixel width in pixels according to either mazeHeight or mazeWidth. The greater of the two is inputted to a reciprocal function which linearly scales the overall width of the maze with the number of cells in the maze. The function is scaled such that a maze with a max dimension of 6 cells results in a maze pixel width of about 380 and a maze with a max dimension of 100 cells results in about a 1600 pixel wall width.
+     * @return the pixel width of the maze walls
+     */
+    private int mazeWallWidth (){
+        final int maxDim = Math.max(mazeHeight,mazeWidth);
+        //This linear equation was calculated from the simultaneous equations of 10 = 6m + c and 4 = 100m + c
+        //10 pixel width when maxDim is 6 and 4 pixel width when maxDim is 100
+        final int d1 = 6;       //value 1 max dimension
+        final int s1 = smallMazeWallSize*d1;      //value 1 corresponding desired length in pixels
+        final int d2 = 100;     //value 2 max dimension
+        final int s2 = largeMazeWallSize*d2;     //value 1 corresponding desired length in pixels
+        return ((s2 - s1 + (-s2*d1+s1*d2)/maxDim)/(d2-d1));
     }
 
-    private int mazeBlockSize (int mazeHeight, int mazeWidth){
-        int amountOfCells = mazeHeight * mazeWidth;
-        if(amountOfCells < 100){
-            return (600 / mazeHeight) + 10;
-        } else if (amountOfCells < 400){
-            return (450 / mazeHeight) + 10;
-        } else if (amountOfCells < 2500){
-            return (300 / mazeHeight)+ 10;
-        } else {
-            return (100 / mazeHeight) + 10;
-        }
+    /**
+     * Returns the maze block width in pixels according to either mazeHeight or mazeWidth. The greater of the two is inputted to a reciprocal function which linearly scales the overall width of the maze with the number of cells in the maze. The function is scaled such that a maze with a max dimension of 6 cells results in a maze pixel width of about 380 and a maze with a max dimension of 100 cells results in about a 1600 pixel wall width.
+     * @return the pixel width of the maze walls
+     */
+    private int mazeBlockSize (){
+        final int maxDim = Math.max(mazeHeight,mazeWidth);
+        //This linear equation was calculated from the simultaneous equations of 54 = 6m + c and 12 = 100m + c
+        //54 pixel width when maxDim is 6 and 12 pixel width when maxDim is 100
+        //return (-21 * maxDim + 2664)/47;
+        final int d1 = 6;       //value 1 max dimension
+        final int s1 = (64-smallMazeWallSize)*d1;     //value 1 corresponding desired length in pixels
+        final int d2 = 100;     //value 2 max dimension
+        final int s2 = (16-largeMazeWallSize)*d2;    //value 1 corresponding desired length in pixels
+        return ((s2 - s1 + (-s2*d1+s1*d2)/maxDim)/(d2-d1));
     }
 
     public int getMazeHeight() {
