@@ -71,11 +71,6 @@ public class GUI_Maze extends JPanel{
     public void renderMaze(boolean grid,boolean refresh){
         setGrid(grid);
 
-//        Hashtable<String, Object> env = new Hashtable<String, Object>();
-//        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-//        env.put(Context.PROVIDER_URL, "ldap://localhost:389/o=JNDITutorial");
-
-//        Context ctx = new InitialContext(env);
         GridBagConstraints mazeComponentConstraints = setupGridContraints();
 
         // Iterate through maze blocks and populate mazePanel
@@ -88,9 +83,6 @@ public class GUI_Maze extends JPanel{
 
             // North wall
             JButton northWallButton = createNorthWallButton(block, mazeComponentConstraints, location);
-//            ctx.bind("cn=northWallButton", northWallButton);
-//            Button b2=(Button)ctx.lookup("cn=northWallButton");
-//            System.out.println(b2);
             //Set Grid based on "Show Grid" button.
             if (grid){
                 northWallButton.setBorderPainted(true);

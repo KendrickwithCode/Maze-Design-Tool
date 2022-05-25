@@ -28,6 +28,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
     public JSplitPane splitPane;
     public JList dbitems;
+    public JLabel leftpane, rightpane;
     MazeDB mazedata;
     DBSource mazeDB;
     private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
@@ -51,7 +52,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
                 mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
                         GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
-                //updateList();
+                //mazedata.updateList(listModel);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
@@ -152,8 +153,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     public void display(Maze maze) throws Exception {
         if (maze != null) {
-            //clearMaze();
-            //Maze load = mazedata.getMaze(dbitems.getSelectedValue().toString());
+            clearMaze();
             GUI_Tools.maze_name.setText(maze.getMazeName());
             GUI_Tools.author_name_text.setText(maze.getAuthorName());
             GUI_Tools.description_text.setText(maze.getMazeDescription());
@@ -161,9 +161,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             GUI_Tools.width_text.setText(Integer.toString(maze.getWidth()));
             Maze load = mazeDB.getGUIMaze(maze.getMazeName());
             GUI_Maze loadedMaze = new GUI_Maze(load, false);
-            // Add getters for description, etc.
-            // GUI_Tools.author_name_text.setText(load.getAuthorName());
-            this.getContentPane().add(new JScrollPane(loadedMaze));
+            leftpane.add(new JScrollPane(loadedMaze));
             this.revalidate();
         }
 
@@ -202,6 +200,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      */
     public GUI(MazeDB data) throws SQLException {
         this.mazedata = data;
+        listModel = new DefaultListModel();
         mazeDB = new DBSource();
         initializeFrame();
     }
@@ -212,10 +211,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         int viewMenuItemWith = 120;
         int menuItemHeight = 20;
 
+        leftpane = new JLabel();
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setWindowSize();
-        setLayout(new BorderLayout());
+        leftpane.setLayout(new BorderLayout());
 
 
         //Set File Toolbar
@@ -280,23 +280,21 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         setResizable(false);
         new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
-        listModel = new DefaultListModel();
         mazedata.updateList(listModel);
         dbitems = new JList(listModel);
         addNameListListener(new NameListListener());
         dbitems.setVisible(true);
-        dbitems.setBackground(Color.DARK_GRAY);
-        dbitems.setForeground(Color.WHITE);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(), dbitems);
-        splitPane.setDividerLocation(800);
+        GUI_Tools.setStyle(dbitems);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, dbitems);
+        splitPane.setDividerLocation(1250);
         splitPane.setOneTouchExpandable(false);
+        splitPane.setContinuousLayout(true);
 
-
-        this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
-        this.getContentPane().add(borderleft, BorderLayout.LINE_START);
-        this.getContentPane().add(borderbottom, BorderLayout.PAGE_END);
-        this.getContentPane().add(borderight, BorderLayout.LINE_END);
-        this.getContentPane().add(splitPane, BorderLayout.CENTER);
+        leftpane.add(bordertop, BorderLayout.PAGE_START);
+        leftpane.add(borderleft, BorderLayout.LINE_START);
+        leftpane.add(borderbottom, BorderLayout.PAGE_END);
+        //leftpane.add(borderight, BorderLayout.LINE_END);
+        add(splitPane);
         setVisible(true);
     }
 
@@ -346,6 +344,17 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     /**
+     * Clears current Maze on screen.
+     */
+    public void clearMaze(){
+            // Checks if GUI already contains a maze and removes it to be replaced with new maze
+        Component[] components = this.getContentPane().getComponents();
+        for ( Component comp : components){
+            if ( comp instanceof JScrollPane) this.getContentPane().remove(comp);
+        }
+    }
+
+    /**
      * Creates new maze and displays it in the GUI
      * @param width Width of maze (in blocks)
      * @param height Height of maze (in blocks)
@@ -361,7 +370,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         // Create new maze and add to GUI using JScrollPane for larger mazes
         maze = new GUI_Maze(new Maze(width, height, name, mazeType,
                 GUI_Tools.description_text.getText(), GUI_Tools.author_name_text.getText()), generate);
-        this.getContentPane().add(new JScrollPane(maze));
+        leftpane.add(new JScrollPane(maze));
         this.revalidate();
     }
 

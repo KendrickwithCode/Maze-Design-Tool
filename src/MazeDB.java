@@ -17,8 +17,13 @@ public class MazeDB{
      */
     public MazeDB() {
         mazedata = new DBSource();
+
     }
 
+    /**
+     * Update the JList with names from MazeDB
+     * @param l The List Model to add to.
+     */
     public void updateList(DefaultListModel l){
         for(String name : mazedata.nameSet()){
             l.addElement(name);
@@ -26,40 +31,14 @@ public class MazeDB{
     }
 
     /**
-     * Retrieves Person details from the model.
+     * Retrieves Maze from the model.
      *
      * @param key the name to retrieve.
-     * @return the Person object related to the name.
+     * @return the Maze object related to the name.
      */
     public Maze get(Object key) throws Exception {
         return mazedata.getMaze((String) key);
     }
-
-//    public Maze getPerson(String name) {
-//        //HOW TO RETRIEVE A PERSON FROM THE DATABASE AND STORE IN OBJECT
-//        Person p = new Person();
-//        ResultSet rs = null;
-//        /* BEGIN MISSING CODE */
-//        try {
-//            getPerson.setString(1, name);
-//            rs = getPerson.executeQuery();
-//            rs.next();
-//            p.setName(rs.getString("name"));
-//            p.setStreet(rs.getString("street"));
-//            p.setSuburb(rs.getString("suburb"));
-//            p.setPhone(rs.getString("phone"));
-//            p.setEmail(rs.getString("email"));
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
-//        /* END MISSING CODE */
-//        return p;
-//    }
-
-
-
-
-
 
     /**
      * Delete a Maze from the database.

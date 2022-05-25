@@ -64,9 +64,6 @@ public class DBSource implements MazeDBSource {
             m.setSize(rs.getInt("Width"), rs.getInt("Height"));
             m.setWidth(rs.getInt("Width"));
             m.setHeight(rs.getInt("Height"));
-            //Maze load = mazedata.getMaze();
-            //m.setMaze(data);
-            //m.resetMaze(rs.getInt("Width"), rs.getInt("Height"), true);
         } catch (SQLException e) {
             e.printStackTrace();
         }

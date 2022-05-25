@@ -277,7 +277,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
          * @param item The component to be set to this style.
          * @return Component with font style set.
          */
-        private Component setStyle(Component item){
+        public static Component setStyle(Component item){
                 item.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
                 item.setBackground(Color.DARK_GRAY);
                 item.setForeground(Color.WHITE);
