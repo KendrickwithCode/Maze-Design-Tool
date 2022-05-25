@@ -16,8 +16,8 @@ public class MazeTest {
 
     @BeforeEach
     public void Before() throws Exception {
-        testMaze = new Maze(7,3, "Test","Adult");
-        kidsTest = new Maze(7,3,"kidsTest","KIDS");
+        testMaze = new Maze(7,3, "Test","Adult", "Cool Maze!", "Jason");
+        kidsTest = new Maze(7,3,"kidsTest","KIDS", "Cool Maze!", "Dan");
     }
 
 

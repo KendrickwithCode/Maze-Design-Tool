@@ -29,7 +29,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     public JSplitPane splitPane;
     public JList dbitems;
     MazeDB mazedata;
+    DBSource mazeDB;
     private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
+    private DefaultListModel listModel;
 
 
     @Override
@@ -47,8 +49,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         } else if (src == save) {
             try {
                 String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
-                mazedata.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
+                mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
                         GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
+                //updateList();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
@@ -57,18 +60,23 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
         }
         else if (src == load){
-            try {
-                clearMaze();
-                Maze load = mazedata.getMaze();
-                GUI_Maze loadedMaze = new GUI_Maze(load, false);
-                GUI_Tools.maze_name.setText(load.getMazeName());
-               // GUI_Tools.author_name_text.setText(load.getAuthorName());
-                this.getContentPane().add(new JScrollPane(loadedMaze));
-                this.revalidate();
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+//            try {
+//                clearMaze();
+//                Maze load = mazedata.getMaze();
+//                GUI_Maze loadedMaze = new GUI_Maze(load, false);
+//                GUI_Tools.maze_name.setText(load.getMazeName());
+//                GUI_Tools.author_name_text.setText(load.getAuthorName());
+//                GUI_Tools.description_text.setText(load.getMazeDescription());
+//                GUI_Tools.height_text.setText(load.getHeight());
+//                GUI_Tools.width_text.setText(load.getWidth());
+//                // Add getters for description, etc.
+//               // GUI_Tools.author_name_text.setText(load.getAuthorName());
+//                this.getContentPane().add(new JScrollPane(loadedMaze));
+//                this.revalidate();
+//
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
         }
         if(src==fullScr)
         {
@@ -113,6 +121,54 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
     }
 
+    /**
+     * Adds a listener to the name list
+     */
+    private void addNameListListener(ListSelectionListener listener) {
+        dbitems.addListSelectionListener(listener);
+    }
+
+
+
+    /**
+     * Implements a ListSelectionListener for making the UI respond when a
+     * different name is selected from the list.
+     */
+    private class NameListListener implements ListSelectionListener {
+
+        /**
+         * @see ListSelectionListener#valueChanged(ListSelectionEvent)
+         */
+        public void valueChanged(ListSelectionEvent e) {
+            if (dbitems.getSelectedValue() != null) {
+                try {
+                    display(mazedata.get(dbitems.getSelectedValue()));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void display(Maze maze) throws Exception {
+        if (maze != null) {
+            //clearMaze();
+            //Maze load = mazedata.getMaze(dbitems.getSelectedValue().toString());
+            GUI_Tools.maze_name.setText(maze.getMazeName());
+            GUI_Tools.author_name_text.setText(maze.getAuthorName());
+            GUI_Tools.description_text.setText(maze.getMazeDescription());
+            GUI_Tools.height_text.setText(Integer.toString(maze.getHeight()));
+            GUI_Tools.width_text.setText(Integer.toString(maze.getWidth()));
+            Maze load = mazeDB.getGUIMaze(maze.getMazeName());
+            GUI_Maze loadedMaze = new GUI_Maze(load, false);
+            // Add getters for description, etc.
+            // GUI_Tools.author_name_text.setText(load.getAuthorName());
+            this.getContentPane().add(new JScrollPane(loadedMaze));
+            this.revalidate();
+        }
+
+    }
+
     @Override
     public void run() {
 
@@ -146,6 +202,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      */
     public GUI(MazeDB data) throws SQLException {
         this.mazedata = data;
+        mazeDB = new DBSource();
         initializeFrame();
     }
 
@@ -221,35 +278,29 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
 
         setResizable(false);
-        GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
+        new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
-        DefaultListModel listModel = new DefaultListModel();
-        // add the retrieved data to the list model
-        for (String name : mazedata.nameSet()) {
-            listModel.addElement(name);
-        }
-
+        listModel = new DefaultListModel();
+        mazedata.updateList(listModel);
         dbitems = new JList(listModel);
-        dbitems.setFixedCellWidth(200);
-        //dbitems.setIcon(mazedata.getImage());
+        addNameListListener(new NameListListener());
         dbitems.setVisible(true);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, GUI_Maze.mazePanel, dbitems);
-        splitPane.setDividerSize(10);
-        splitPane.setContinuousLayout(false);
-        splitPane.setOneTouchExpandable(true);
-
-        Dimension minimumSize = new Dimension(100, 50);
-        splitPane.setMinimumSize((minimumSize));
-        splitPane.setPreferredSize(new Dimension(400, 1000));
+        dbitems.setBackground(Color.DARK_GRAY);
+        dbitems.setForeground(Color.WHITE);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(), dbitems);
+        splitPane.setDividerLocation(800);
+        splitPane.setOneTouchExpandable(false);
 
 
         this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
         this.getContentPane().add(borderleft, BorderLayout.LINE_START);
         this.getContentPane().add(borderbottom, BorderLayout.PAGE_END);
         this.getContentPane().add(borderight, BorderLayout.LINE_END);
-        this.getContentPane().add(splitPane, BorderLayout.LINE_END);
+        this.getContentPane().add(splitPane, BorderLayout.CENTER);
         setVisible(true);
     }
+
+
 
     private void setWindowSize(){
         setSize(1500, 1000);
@@ -294,14 +345,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         return temp;
     }
 
-    public void clearMaze(){
-        // Checks if GUI already contains a maze and removes it to be replaced with new maze
-        Component[] components = this.getContentPane().getComponents();
-        for ( Component comp : components) {
-            if (comp instanceof JScrollPane) this.getContentPane().remove(comp);
-        }
-        this.revalidate();
-    }
     /**
      * Creates new maze and displays it in the GUI
      * @param width Width of maze (in blocks)
@@ -316,7 +359,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             if ( comp instanceof JScrollPane) this.getContentPane().remove(comp);
         }
         // Create new maze and add to GUI using JScrollPane for larger mazes
-        maze = new GUI_Maze(new Maze(width, height, name, mazeType), generate);
+        maze = new GUI_Maze(new Maze(width, height, name, mazeType,
+                GUI_Tools.description_text.getText(), GUI_Tools.author_name_text.getText()), generate);
         this.getContentPane().add(new JScrollPane(maze));
         this.revalidate();
     }
