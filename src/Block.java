@@ -26,13 +26,9 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
-
 
                         MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
-
-                        MazeLogoTools.getCurrentGUIMaze().renderBlocks();
-                        MazeLogoTools.getCurrentGUIMaze().renderMaze(gridStatus,true);
+                        rerenderIcons();
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -46,12 +42,9 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
 
                         MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
-
-                        MazeLogoTools.getCurrentGUIMaze().renderBlocks();
-                        MazeLogoTools.getCurrentGUIMaze().renderMaze(gridStatus,true);
+                        rerenderIcons();
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -65,28 +58,11 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
             item3.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
 
-                    MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
-                    try {
-                        MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
-                        LogoBlock working = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                        working.setLogoSizeX(4);
-                        working.setLogoSizeY(2);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-
-
-                    MazeLogoTools.getCurrentGUIMaze().renderBlocks();
-//                    MazeLogoTools.getCurrentGUIMaze().logoBlockRender(Block.this,Block.this.getBlockPanel(),MazeLogoTools.getCurrentGUIMaze().getMazeComponentConstraints(),5,5);
-
-                    MazeLogoTools.getCurrentGUIMaze().renderMaze(gridStatus,true);
-
+                    changeIconSize(1,1);
+                    rerenderIcons();
 
 //                  new IconSizeWindow();
-
-
 
                 }
             });
@@ -170,6 +146,25 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
     {
         availableDirections.clear();
     }
+
+    private void rerenderIcons() {
+        boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
+        MazeLogoTools.getCurrentGUIMaze().renderBlocks();
+        MazeLogoTools.getCurrentGUIMaze().renderMaze(gridStatus, true);
+    }
+
+    private void changeIconSize(int sizeX, int sizeY){
+        MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
+        try {
+            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
+            LogoBlock working = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+            working.setLogoSizeX(sizeX);
+            working.setLogoSizeY(sizeY);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
     /**
      * Sets available directions
