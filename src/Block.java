@@ -65,8 +65,28 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
             item3.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
 
-                  new IconSizeWindow();
+                    MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
+                    try {
+                        MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
+                        LogoBlock working = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                        working.setLogoSizeX(4);
+                        working.setLogoSizeY(2);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+
+                    MazeLogoTools.getCurrentGUIMaze().renderBlocks();
+//                    MazeLogoTools.getCurrentGUIMaze().logoBlockRender(Block.this,Block.this.getBlockPanel(),MazeLogoTools.getCurrentGUIMaze().getMazeComponentConstraints(),5,5);
+
+                    MazeLogoTools.getCurrentGUIMaze().renderMaze(gridStatus,true);
+
+
+//                  new IconSizeWindow();
+
+
 
                 }
             });
