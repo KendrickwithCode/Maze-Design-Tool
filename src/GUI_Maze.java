@@ -267,23 +267,16 @@ public class GUI_Maze extends JPanel{
     public void logoBlockRender(Block block, JPanel blockPanel,GridBagConstraints constraints,int sizeX,int sizeY)
     {
         Map<Integer,Integer> scales = new HashMap<>();
-//        scales.put(1,1);
-//        scales.put(3,2);
-//        scales.put(5,3);
-//        scales.put(7,4);
-//        scales.put(9,5);
-//        scales.put(11,6);
         scales.put(1,1);
         scales.put(2,3);
         scales.put(3,5);
         scales.put(4,7);
         scales.put(5,9);
         scales.put(6,11);
-
-        System.out.println(sizeX);
-
-//        int scaleX = (2*sizeX -1);
-//        int scaleY = (2*sizeY -1);
+        scales.put(7,13);
+        scales.put(8,15);
+        scales.put(9,17);
+        scales.put(10,19);
 
         int scaleX = blockSize * sizeX;
         int scaleY = blockSize * sizeY;

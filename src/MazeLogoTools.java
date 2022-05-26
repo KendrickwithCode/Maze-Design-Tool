@@ -141,5 +141,4 @@ public class MazeLogoTools {
         getCurrentMaze().getMazeMap().set(inputBLock.getBlockIndex(),working);
     }
 
-
 }
