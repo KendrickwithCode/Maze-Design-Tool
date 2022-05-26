@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 
 /**
@@ -514,28 +515,33 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
 
             menu.add(item);
             menu.add(item2);
-            menu.addSeparator();
-            menu.add(item3);
-            menu.add(item4);
-            menu.add(item5);
-            menu.add(item6);
-            menu.add(item7);
-            menu.add(item8);
-            menu.add(item9);
-            menu.add(item10);
-            menu.add(item11);
-            menu.add(item12);
-            menu.addSeparator();
-            menu.add(item13);
-            menu.add(item14);
-            menu.add(item15);
-            menu.add(item16);
-            menu.add(item17);
-            menu.add(item18);
-            menu.add(item19);
-            menu.add(item20);
-            menu.add(item21);
-            menu.add(item22);
+
+            if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
+            {
+                menu.addSeparator();
+                menu.add(item3);
+                menu.add(item4);
+                menu.add(item5);
+                menu.add(item6);
+                menu.add(item7);
+                menu.add(item8);
+                menu.add(item9);
+                menu.add(item10);
+                menu.add(item11);
+                menu.add(item12);
+                menu.addSeparator();
+                menu.add(item13);
+                menu.add(item14);
+                menu.add(item15);
+                menu.add(item16);
+                menu.add(item17);
+                menu.add(item18);
+                menu.add(item19);
+                menu.add(item20);
+                menu.add(item21);
+                menu.add(item22);
+            }
+
             menu.show(e.getComponent(), e.getX(), e.getY());
         }
 //
