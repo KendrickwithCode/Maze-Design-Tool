@@ -16,6 +16,7 @@ public class Maze {
     private int kidsFinishIndex;
     private int logoBlockIndex;
 
+
     /**
      * Constructs and initialises a new Maze. Resulting maze is blank with only border walls activated.
      * @param sizeX size of the x-axis for the maze

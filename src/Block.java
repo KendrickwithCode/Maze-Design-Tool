@@ -1,12 +1,105 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
+
+import java.awt.event.MouseEvent;
 
 
 /**
  *  Astract class used for Maze Block and Logo Blocks in the maze.
  */
-public abstract class Block implements IBlock{
+public abstract class Block implements IBlock, MouseListener, ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (SwingUtilities.isRightMouseButton(e)){
+            JPopupMenu menu = new JPopupMenu();
+            JMenuItem item = new JMenuItem("Place Icon Here");
+
+
+            item.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
+
+
+                        MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
+
+                        MazeLogoTools.getCurrentGUIMaze().renderBlocks();
+                        MazeLogoTools.getCurrentGUIMaze().renderMaze(gridStatus,true);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
+            JMenuItem item2 = new JMenuItem("Remove Icon Here");
+
+            item2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
+
+                        MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
+
+                        MazeLogoTools.getCurrentGUIMaze().renderBlocks();
+                        MazeLogoTools.getCurrentGUIMaze().renderMaze(gridStatus,true);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
+
+            JMenuItem item3 = new JMenuItem("Change Icon Size");
+
+            item3.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                  new IconSizeWindow();
+
+                }
+            });
+
+
+            menu.add(item);
+            menu.add(item2);
+            menu.add(item3);
+            menu.show(e.getComponent(), e.getX(), e.getY());
+        }else
+            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + this.getBlockType());
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 
     private MazeWall wallNorth;
     private MazeWall wallSouth;
@@ -16,7 +109,7 @@ public abstract class Block implements IBlock{
     private final int blockIndex;
     private boolean visited;
 
-    private final JPanel blockPanel;
+    private JPanel blockPanel;
 
     private ArrayList<String> availableDirections;    // Stores available directions to traverse from this block
 
@@ -170,11 +263,21 @@ public abstract class Block implements IBlock{
         return this.blockPanel;
     }
 
+    public void setBlockPanel(JPanel blockPanel) {
+        this.blockPanel = blockPanel;
+    }
+
+
+    public Point getBlockPanelLocation() {
+        return this.blockPanel.getLocation();
+    }
+
     private JPanel createPanel(){
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBackground(Color.white);
         panel.setBorder(BorderFactory.createLineBorder(Color.black, 0));
+        panel.addMouseListener(this);
 
         return panel;
     }
