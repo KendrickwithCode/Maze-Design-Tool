@@ -35,6 +35,10 @@ public class DBSource implements MazeDBSource {
     private PreparedStatement image;
     public Statement st;
 
+
+    /**
+     * Initialises connection and prepared statements for the database.
+     */
     public DBSource(){
         try {
             connection = DBConnection.getInstance();
@@ -70,6 +74,12 @@ public class DBSource implements MazeDBSource {
         return m;
     }
 
+    /**
+     * Reads the byte stream from the database "Image" column and converts into a Maze object.
+     * @param name The name of the Maze from the database to be searched for.
+     * @return The maze object.
+     * @throws Exception
+     */
     public Maze getGUIMaze(String name) throws Exception {
 
         Maze readMaze = null;
@@ -111,27 +121,11 @@ public class DBSource implements MazeDBSource {
         addMaze.setString(4, description);
         addMaze.setString(5, width);
         addMaze.setString(6, height);
-
-//            //Convert GUI_Maze object to image icon to be fed to blob
-//            Rectangle rec = Maze.getBounds();
-//            BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
-//            ImageIcon icon = new ImageIcon(bufferedImage);
-//            Maze.paint(bufferedImage.getGraphics());
-//
-//            // Create temp file
-//            File temp = File.createTempFile("screenshot", ".png");
-//
-//            // Use the ImageIO API to write the bufferedImage to a temporary file that deletes on exit
-//            ImageIO.write(bufferedImage, "png", temp);
-//            temp.deleteOnExit();
-
-        //Upload the binary stream to database
-//            FileInputStream input = new FileInputStream(temp);
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
         objectStream.writeObject(MazeLogoTools.getCurrentMaze());
+
         byte[] data = byteStream.toByteArray();
-        //addMaze.setBinaryStream(7, input, (int)temp.length());
         addMaze.setBinaryStream(7, new ByteArrayInputStream(data), data.length);
         addMaze.execute();
     }

@@ -6,18 +6,18 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Maze Database
+ * Maze Database Connection with getters and updates
+ * to the database through DBSource & MazeDBSource Interface.
  */
 public class MazeDB{
 
     MazeDBSource mazedata;
 
     /**
-     * Constructs and Initialises connection to database
+     * Constructs and Initialises connection to database through DBSource.
      */
     public MazeDB() {
         mazedata = new DBSource();
-
     }
 
     /**
