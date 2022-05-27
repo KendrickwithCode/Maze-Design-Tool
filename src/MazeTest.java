@@ -2,6 +2,8 @@ import org.junit.jupiter.api.*;
 
 
 import java.awt.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,12 +12,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MazeTest {
     Maze testMaze;
-    MazeDB connection;
+    DBSource connection;
     Maze kidsTest;
     int[] location = {5,2};
 
     @BeforeEach
     public void Before() throws Exception {
+
         testMaze = new Maze(7,3, "Test","Adult", "Cool Maze!", "Jason");
         kidsTest = new Maze(7,3,"kidsTest","KIDS", "Cool Maze!", "Dan");
     }
@@ -317,11 +320,14 @@ public class MazeTest {
     }
     @Test
     public void testDBConnection(){
+        connection = (DBSource) DBConnection.getInstance();
         assertNull(connection);
     }
 
-    @Test
-    public void testDBQuery(){
-        String insert = "INSERT * INTO maze";
-    }
+//    @Test
+//    public void testDBQuery() throws SQLException {
+//        final String SELECT = "SELECT * FROM maze WHERE idx = 1";
+//        PreparedStatement addMaze = connection.connection.prepareStatement(SELECT);
+//        assertTrue(addMaze.execute());
+//    }
 }
