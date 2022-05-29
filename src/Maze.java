@@ -7,7 +7,7 @@ public class Maze {
 
     private int difficulty;
     private final String mazeType;
-    private final boolean solvable;
+    private boolean solvable;
     private String mazeName;
     private final int[] size;
     private final ArrayList<Block> mazeMap;
@@ -320,6 +320,15 @@ public class Maze {
      */
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    /**
+     * Sets maze solvable
+     * @param isSolvable boolean true if maze is solvable else false if maze is not solvable
+     */
+    public void setSolvable(boolean isSolvable) {
+        this.solvable = isSolvable;
+
     }
 
     /**

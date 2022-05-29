@@ -3,6 +3,7 @@ import javax.swing.plaf.metal.MetalComboBoxButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
 
 /**
  * Constructs and initialises Menu items for the GUI
@@ -14,7 +15,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JTextField width_text, height_text, maze_name, author_name_text;
         private JScrollPane description_pane;
         private JTextArea  description_text;
-        private JLabel width, height, name, author_name, description, mazeType_text;
+        private JLabel width, height, name, author_name, description, mazeType_text, solvable, solvableBool, travelled, percentageTravelled, deadEnds, deadEndCount;
         private JComboBox mazeTypeComboBox;
         private final GUI mainGui;
         private GUI_Maze guiMaze;
@@ -67,9 +68,19 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                         setShowSolution();
 
                 }
-                else if (src == mazeTypeComboBox){
+                else if (src == mazeTypeComboBox)
+                {
                         mazeType= (String)mazeTypeComboBox.getSelectedItem();
                 }
+
+                if(MazeLogoTools.getCurrentMaze().getSolvable()){
+                        solvableBool.setBackground(Color.GREEN);
+                        solvableBool.setText("True");
+                } else {
+                        solvableBool.setBackground(Color.RED);
+                        solvableBool.setText("False");
+                }
+
 
         }
 
@@ -80,6 +91,9 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else {
                         mainGui.getMaze().mazePanel.setRenderSolution(false);
                 }
+                MazeLogoTools.getCurrentGUIMaze().mazePanel.setSolvableLabel(solvableBool);
+                MazeLogoTools.getCurrentGUIMaze().mazePanel.setPercentageDeadEndLabel(deadEndCount);
+                MazeLogoTools.getCurrentGUIMaze().mazePanel.setPercentageTravelledLabel(percentageTravelled);
         }
 
         @Override
@@ -154,6 +168,13 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 showSolution = new JCheckBox("Show Solution", false);
                 showSolution.addActionListener(this);
 
+                solvable = createLabels("Solvable:");
+                solvableBool = createLabels("");
+                travelled = createLabels("Solution Travels:");
+                percentageTravelled = createLabels("0%");
+                deadEnds = createLabels("Dead Ends:");
+                deadEndCount = createLabels("0%");
+
                 setStyle(mazeType_text);
                 setStyle(mazeTypeComboBox);
                 setStyle(name);
@@ -169,11 +190,17 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 setStyle(description_text);
                 setStyle(width_text);
                 setStyle(height_text);
+                setStyle(solvable);
+                setStyle(travelled);
+                setStyle(deadEnds);
+                setStyle(solvableBool);
+                setStyle(percentageTravelled);
+                setStyle(deadEndCount);
 
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.CENTER;
-                constraints.insets = new Insets(15,20,15,20);
+                constraints.insets = new Insets(10,20,13,20);
 
                 //For description text, need to anchor the text box to the top of the grid.
                 GridBagConstraints descriptionConstraints = new GridBagConstraints();
@@ -196,6 +223,12 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, btnCreate, constraints, 0,9,2,1);
                 addToPanel(borderSpot, showGrid, constraints, 0, 10, 2, 1);
                 addToPanel(borderSpot, showSolution, constraints, 0, 11, 2, 1);
+                addToPanel(borderSpot, solvable, constraints, 0, 12, 1, 1);
+                addToPanel(borderSpot, solvableBool, constraints, 1, 12, 1, 1);
+                addToPanel(borderSpot, travelled, constraints, 0, 13, 1, 1);
+                addToPanel(borderSpot, percentageTravelled, constraints, 1, 13, 1, 1);
+                addToPanel(borderSpot, deadEnds, constraints, 0, 14, 1, 1);
+                addToPanel(borderSpot, deadEndCount, constraints, 1, 14, 1, 1);
 
         }
 
