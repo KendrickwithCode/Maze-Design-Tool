@@ -24,9 +24,11 @@ public class MazeDB{
      * Update the JList with names from MazeDB
      * @param l The List Model to add to.
      */
-    public void updateList(DefaultListModel l){
+    public void updateList(DefaultListModel l) throws SQLException {
         for(String name : mazedata.nameSet()){
-            l.addElement(name);
+            if (!l.contains(name + " by " + mazedata.nameSet())){
+                l.addElement(name);
+            }
         }
     }
 

@@ -7,7 +7,8 @@ import java.util.ArrayList;
  */
 public class Maze implements Serializable {
 
-    private static final long serialVersionUID = 7109772352412069072L;
+    @Serial
+    private static final long serialVersionUID = 4L;
     private int difficulty;
     public String mazeName;
     private String mazeType;

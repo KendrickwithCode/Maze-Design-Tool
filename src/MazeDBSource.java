@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Set;
 
 public interface MazeDBSource {
@@ -47,5 +48,5 @@ public interface MazeDBSource {
      *
      * @return set of names.
      */
-    Set<String> nameSet();
+    public Set<String> nameSet();
 }

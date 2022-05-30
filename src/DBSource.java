@@ -12,7 +12,7 @@ public class DBSource implements MazeDBSource {
             "(Maze_Name, Maze_Type, Author_Name, Author_Description, Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
     private static final String GET_NAME = "SELECT * from maze WHERE Maze_Name=?";
-    private static final String GET_ALL_NAMES = "SELECT Maze_Name from maze";
+    private static final String GET_ALL_NAMES = "SELECT Maze_Name, Author_Name from maze";
 
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS maze ("
@@ -83,19 +83,22 @@ public class DBSource implements MazeDBSource {
     public Maze getGUIMaze(String name) throws Exception {
 
         Maze readMaze = null;
+        ResultSet rs = null;
         getMaze.setString(1, name);
-        ResultSet rs = getMaze.executeQuery();
+        rs = getMaze.executeQuery();
+        rs.next();
         byte[] data;
         data = rs.getBytes("Image");
         ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
         ObjectInputStream objectStream = new ObjectInputStream(byteStream);
-        for (; ; ) {
+        for (;;) {
             try {
                 readMaze = (Maze) objectStream.readObject();
             } catch (EOFException exc) {
                 break;
             }
         }
+        rs.close();
         return readMaze;
     }
 
@@ -110,6 +113,7 @@ public class DBSource implements MazeDBSource {
             Image img2 = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
             printImage = new ImageIcon(img2);
         }
+        rs.close();
         return printImage;
     }
 
@@ -132,7 +136,11 @@ public class DBSource implements MazeDBSource {
 
     @Override
     public void close() {
-
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**

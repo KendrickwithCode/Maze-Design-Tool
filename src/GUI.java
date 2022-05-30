@@ -43,10 +43,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
         } else if (src == save) {
             try {
-                String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
-                mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
-                        GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
-                //mazedata.updateList(listModel);
+                if (GUI_Tools.author_name_text.getText() == null || GUI_Tools.author_name_text.getText().length() == 0){
+                    JOptionPane.showMessageDialog(null,
+                            "Please Enter an Author's Name before Saving","Okay",JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
+                    mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
+                            GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
+                    mazedata.updateList(listModel);
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
@@ -342,7 +348,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * Clears current Maze on screen.
      */
     public void clearMaze(){
-            // Checks if GUI already contains a maze and removes it to be replaced with new maze
+        // Checks if GUI already contains a maze and removes it to be replaced with new maze
         Component[] components = leftpane.getComponents();
         for ( Component comp : components){
             if ( comp instanceof JScrollPane) leftpane.remove(comp);
@@ -447,6 +453,5 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         return temp.getPath();
     }
-
 
 }
