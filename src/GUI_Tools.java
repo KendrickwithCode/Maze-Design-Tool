@@ -1,9 +1,7 @@
 import javax.swing.*;
-import javax.swing.plaf.metal.MetalComboBoxButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 
 /**
  * Constructs and initialises Menu items for the GUI
@@ -18,7 +16,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JLabel width, height, name, author_name, description, mazeType_text, solvable, solvableBool, travelled, percentageTravelled, deadEnds, deadEndCount;
         private JComboBox mazeTypeComboBox;
         private final GUI mainGui;
-        private GUI_Maze guiMaze;
         private String mazeType;
 
         @Override
@@ -87,12 +84,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         }
 
         private void setShowSolution() {
-                if (showSolution.isSelected()){
-                        mainGui.getMaze().mazePanel.setRenderSolution(true);
-                }
-                else {
-                        mainGui.getMaze().mazePanel.setRenderSolution(false);
-                }
+                mainGui.getMaze().mazePanel.setRenderSolution(showSolution.isSelected());
         }
 
         private void setMazeStatsLabels() {
@@ -325,12 +317,10 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         /**
          * Sets font style to Sans Serif, bold and size 16
          * @param item The component to be set to this style.
-         * @return Component with font style set.
          */
-        private Component setStyle(Component item){
+        private void setStyle(Component item){
                 item.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
                 item.setBackground(Color.DARK_GRAY);
                 item.setForeground(Color.WHITE);
-                return item;
         }
 }
