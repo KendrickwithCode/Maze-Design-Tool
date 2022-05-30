@@ -8,7 +8,7 @@ import java.util.Queue;
  * This class produces a solution to the maze if it is solvable and stores the shortest path.
  */
 public class MazeSolver extends JPanel{
-    private int deadEndCount = 0;
+
     private static class solvingBlock {
 
         private Block block;
@@ -29,6 +29,29 @@ public class MazeSolver extends JPanel{
 
     }
 
+    /**
+     * Returns amount cells that are a dead end
+     * @return integer amount of cells that are dead ends
+     */
+    public int deadEndCount(Maze maze) {
+        int deadEndCount = 0;
+
+        for(Block block : maze.getMazeMap()){
+            int walls = 0;
+
+            if ( block.getWallSouth().getActive() || block.getWallSouth().getborder() ){walls += 1;}
+            if ( block.getWallNorth().getActive() || block.getWallNorth().getborder() ){walls += 1;}
+            if ( block.getWallEast().getActive() || block.getWallEast().getborder() ){walls += 1;}
+            if ( block.getWallWest().getActive() || block.getWallWest().getborder() ){walls += 1;}
+
+            if(walls >= 3){
+                deadEndCount += 1;
+            }
+        }
+
+        return deadEndCount;
+    }
+
     private solvingBlock createPathBFS(Maze maze){
 
         Queue<solvingBlock> queue = new LinkedList<>();
@@ -36,81 +59,49 @@ public class MazeSolver extends JPanel{
         for (Block block : maze.getMazeMap()){
             if(isStartingBlock(block)){
                 queue.add(new solvingBlock(block, null));
-            }
+            };
         }
-        solvingBlock solutionBlock = null;
 
         while (!queue.isEmpty()){
 
             solvingBlock currentBlock = queue.remove();
 
-            if(isFinishingBlock(currentBlock.getBlock())){
-                solutionBlock = new solvingBlock(currentBlock.getBlock(), currentBlock.parent);
-            }
+            if(isFinishingBlock(currentBlock.getBlock())){ return currentBlock; }
 
-            int borderCount = 4;
             if ( !currentBlock.getBlock().getWallSouth().getActive() && !currentBlock.getBlock().getWallSouth().getborder() ) {
                 Block neighborBlock = maze.getNeighbourBlock(currentBlock.getBlock(), "SOUTH");
                 if (!neighborBlock.getVisited()) {
                     neighborBlock.setVisited(true);
                     queue.add(new solvingBlock(neighborBlock, currentBlock));
-
                 }
-                borderCount -= 1;
             }
             if ( !currentBlock.getBlock().getWallEast().getActive() && !currentBlock.getBlock().getWallEast().getborder() ) {
                 Block neighborBlock = maze.getNeighbourBlock(currentBlock.getBlock(), "EAST");
                 if (!neighborBlock.getVisited()) {
                     neighborBlock.setVisited(true);
                     queue.add(new solvingBlock(neighborBlock, currentBlock));
-
                 }
-                borderCount -= 1;
             }
             if ( !currentBlock.getBlock().getWallNorth().getActive() && !currentBlock.getBlock().getWallNorth().getborder() ) {
                 Block neighborBlock = maze.getNeighbourBlock(currentBlock.getBlock(), "NORTH");
                 if (!neighborBlock.getVisited()) {
                     neighborBlock.setVisited(true);
                     queue.add(new solvingBlock(neighborBlock, currentBlock));
-
                 }
-                borderCount -= 1;
             }
             if ( !currentBlock.getBlock().getWallWest().getActive() && !currentBlock.getBlock().getWallWest().getborder() ) {
                 Block neighborBlock = maze.getNeighbourBlock(currentBlock.getBlock(), "WEST");
                 if (!neighborBlock.getVisited()) {
                     neighborBlock.setVisited(true);
                     queue.add(new solvingBlock(neighborBlock, currentBlock));
-
                 }
-                borderCount -= 1;
-            }
-
-            if(borderCount == 3 && !isStartingBlock(currentBlock.getBlock()) && !isFinishingBlock(currentBlock.getBlock())){
-                this.deadEndCount += 1;
             }
 
         }
-        if(solutionBlock != null){
-            return solutionBlock;
-        } else {
-            return null;
-        }
+
+        return null;
     }
 
-    /**
-     * Returns amount cells that are a dead end
-     * @return integer amount of cells that are dead ends
-     */
-    public int getDeadEndCount() {
-        return deadEndCount;
-    }
-
-    /**
-     * Return an array list for of locations in order to solve maze using breadth first search
-     * @param maze Maze object to solve
-     * @return Solution locations in order to solve maze
-     */
     public ArrayList<Block> solveMaze ( Maze maze){
         resetMaze(maze);
 

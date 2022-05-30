@@ -80,7 +80,7 @@ public class MazePanel extends JPanel{
         ArrayList<Block> solution = mazeSolver.solveMaze(maze);
 
         double percentageTravelled = (solution.size() / (double)totalCells) * 100;
-        double percentageDeadEnds = mazeSolver.getDeadEndCount() / (double)totalCells * 100;
+        double percentageDeadEnds = mazeSolver.deadEndCount(maze) / (double)totalCells * 100;
 
         this.percentageDeadEndLabel.setText(((int)percentageDeadEnds) + "%");
 
