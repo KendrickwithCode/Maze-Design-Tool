@@ -232,12 +232,15 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, height_text, constraints, 1,7,1,1);
                 addToPanel(borderSpot, btnGenerate, constraints, 0,8,2,1);
                 addToPanel(borderSpot, btnCreate, constraints, 0,9,2,1);
+
+                constraints.insets = new Insets(20,20,5,20);
                 addToPanel(borderSpot, showGrid, constraints, 0, 10, 2, 1);
+
+                constraints.insets = new Insets(5,20,20,20);
                 addToPanel(borderSpot, showSolution, constraints, 0, 11, 2, 1);
 
                 constraints.insets = new Insets(5,35,5,20);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
-
                 addToPanel(borderSpot, solvable, constraints, 0, 12, 1, 1);
                 addToPanel(borderSpot, travelled, constraints, 0, 13, 1, 1);
                 addToPanel(borderSpot, deadEnds, constraints, 0, 14, 1, 1);
