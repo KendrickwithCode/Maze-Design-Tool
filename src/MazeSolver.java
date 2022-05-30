@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -26,6 +27,29 @@ public class MazeSolver extends JPanel{
             return this.parent;
         }
 
+    }
+
+    /**
+     * Returns amount cells that are a dead end
+     * @return integer amount of cells that are dead ends
+     */
+    public int deadEndCount(Maze maze) {
+        int deadEndCount = 0;
+
+        for(Block block : maze.getMazeMap()){
+            int walls = 0;
+
+            if ( block.getWallSouth().getActive() || block.getWallSouth().getborder() ){walls += 1;}
+            if ( block.getWallNorth().getActive() || block.getWallNorth().getborder() ){walls += 1;}
+            if ( block.getWallEast().getActive() || block.getWallEast().getborder() ){walls += 1;}
+            if ( block.getWallWest().getActive() || block.getWallWest().getborder() ){walls += 1;}
+
+            if(walls >= 3){
+                deadEndCount += 1;
+            }
+        }
+
+        return deadEndCount;
     }
 
     private solvingBlock createPathBFS(Maze maze){
@@ -78,15 +102,10 @@ public class MazeSolver extends JPanel{
         return null;
     }
 
-    /**
-     * Return an array list for of locations in order to solve maze using breadth first search
-     * @param maze Maze object to solve
-     * @return Solution locations in order to solve maze
-     */
     public ArrayList<Block> solveMaze ( Maze maze){
         resetMaze(maze);
 
-        ArrayList<Block> solution = new ArrayList<Block>();;
+        ArrayList<Block> solution = new ArrayList<>();
 
         solvingBlock block = createPathBFS(maze);
 
@@ -95,72 +114,6 @@ public class MazeSolver extends JPanel{
         while(block != null){
             solution.add(block.getBlock());
             block = block.getParent();
-        }
-
-        return solution;
-    }
-
-    /**
-     * Return an array list for of locations in order to solve maze using depth first search
-     * @param maze Maze object to solve
-     * @return Solution locations in order to solve maze
-     */
-    public ArrayList<Block> solveMazeDFS (Maze maze){
-        resetMaze(maze);
-
-        ArrayList<Block> solution = new ArrayList<Block>();;
-
-        for (Block block : maze.getMazeMap()){
-            if(isStartingBlock(block)){
-                solution.add(block);
-                break;
-            };
-        }
-
-
-        // Get block at top of stack
-        Block currentBlock = solution.get(solution.size() - 1);
-
-        // while Stack isn't empty
-        while ( !solution.isEmpty() ){
-
-            currentBlock = solution.get(solution.size() - 1);
-
-            if(isFinishingBlock(currentBlock)){break;}
-
-            // set current block visited
-            currentBlock.setVisited(true);
-
-            if ( !currentBlock.getWallSouth().getActive() && !currentBlock.getWallSouth().getborder() ) {
-                Block neighborBlock = maze.getNeighbourBlock(currentBlock, "SOUTH");
-                if (!neighborBlock.getVisited()) {
-                    solution.add(neighborBlock);
-                    continue;
-                }
-            }
-            if ( !currentBlock.getWallEast().getActive() && !currentBlock.getWallEast().getborder() ) {
-                Block neighborBlock = maze.getNeighbourBlock(currentBlock, "EAST");
-                if (!neighborBlock.getVisited()) {
-                    solution.add(neighborBlock);
-                    continue;
-                }
-            }
-            if ( !currentBlock.getWallNorth().getActive() && !currentBlock.getWallNorth().getborder() ) {
-                Block neighborBlock = maze.getNeighbourBlock(currentBlock, "NORTH");
-                if (!neighborBlock.getVisited()) {
-                    solution.add(neighborBlock);
-                    continue;
-                }
-            }
-            if ( !currentBlock.getWallWest().getActive() && !currentBlock.getWallWest().getborder() ) {
-                Block neighborBlock = maze.getNeighbourBlock(currentBlock, "WEST");
-                if (!neighborBlock.getVisited()) {
-                    solution.add(neighborBlock);
-                    continue;
-                }
-            }
-
-            solution.remove(solution.size()-1);
         }
 
         return solution;
