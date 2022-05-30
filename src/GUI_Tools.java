@@ -34,6 +34,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                                 ex.printStackTrace();
                         }
                         setShowSolution();
+                        setMazeStatsLabels();
                 }
                 else if (src==btnGenerate)
                 {
@@ -44,6 +45,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                                 ex.printStackTrace();
                         }
                         setShowSolution();
+                        setMazeStatsLabels();
                 }
                 else if (src == showGrid)
                 {
@@ -91,9 +93,12 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else {
                         mainGui.getMaze().mazePanel.setRenderSolution(false);
                 }
-                MazeLogoTools.getCurrentGUIMaze().mazePanel.setSolvableLabel(solvableBool);
-                MazeLogoTools.getCurrentGUIMaze().mazePanel.setPercentageDeadEndLabel(deadEndCount);
-                MazeLogoTools.getCurrentGUIMaze().mazePanel.setPercentageTravelledLabel(percentageTravelled);
+        }
+
+        private void setMazeStatsLabels() {
+                mainGui.getMaze().mazePanel.setSolvableLabel(solvableBool);
+                mainGui.getMaze().mazePanel.setPercentageDeadEndLabel(deadEndCount);
+                mainGui.getMaze().mazePanel.setPercentageTravelledLabel(percentageTravelled);
         }
 
         @Override
@@ -169,11 +174,17 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 showSolution.addActionListener(this);
 
                 solvable = createLabels("Solvable:");
+                solvable.setHorizontalAlignment(SwingConstants.RIGHT);
                 solvableBool = createLabels("");
+                solvableBool.setHorizontalAlignment(SwingConstants.LEFT);
                 travelled = createLabels("Solution Travels:");
+                travelled.setHorizontalAlignment(SwingConstants.RIGHT);
                 percentageTravelled = createLabels("0%");
+                percentageTravelled.setHorizontalAlignment(SwingConstants.LEFT);
                 deadEnds = createLabels("Dead Ends:");
+                deadEnds.setHorizontalAlignment(SwingConstants.RIGHT);
                 deadEndCount = createLabels("0%");
+                deadEndCount.setHorizontalAlignment(SwingConstants.LEFT);
 
                 setStyle(mazeType_text);
                 setStyle(mazeTypeComboBox);
@@ -223,13 +234,16 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, btnCreate, constraints, 0,9,2,1);
                 addToPanel(borderSpot, showGrid, constraints, 0, 10, 2, 1);
                 addToPanel(borderSpot, showSolution, constraints, 0, 11, 2, 1);
+
+                constraints.insets = new Insets(5,35,5,20);
+                constraints.fill = GridBagConstraints.HORIZONTAL;
+
                 addToPanel(borderSpot, solvable, constraints, 0, 12, 1, 1);
-                addToPanel(borderSpot, solvableBool, constraints, 1, 12, 1, 1);
                 addToPanel(borderSpot, travelled, constraints, 0, 13, 1, 1);
-                addToPanel(borderSpot, percentageTravelled, constraints, 1, 13, 1, 1);
                 addToPanel(borderSpot, deadEnds, constraints, 0, 14, 1, 1);
                 addToPanel(borderSpot, deadEndCount, constraints, 1, 14, 1, 1);
-
+                addToPanel(borderSpot, solvableBool, constraints, 1, 12, 1, 1);
+                addToPanel(borderSpot, percentageTravelled, constraints, 1, 13, 1, 1);
         }
 
         private JComboBox createComboBox(String[] options,int width, int height) {

@@ -7,10 +7,10 @@ public class MazePanel extends JPanel{
 
     private Maze maze;
     private boolean renderSolution;
-
     private JLabel solvableLabel;
     private JLabel percentageDeadEndLabel;
     private JLabel percentageTravelledLabel;
+
 
     public MazePanel(Maze maze) {
         this.maze = maze;
@@ -50,6 +50,29 @@ public class MazePanel extends JPanel{
     public void paint(Graphics g) {
         super.paint(g);
 
+        ArrayList<Block> solution = solveMaze();
+
+       if(renderSolution){
+            Graphics2D g2 = (Graphics2D) g;
+
+            if(solution.isEmpty()) { return; }
+
+            for (int i = 0; i < solution.size() - 1; i++) {
+
+                int xStart = solution.get(i).getBlockPanel().getLocation().x + solution.get(i).getBlockPanel().getWidth() / 2;
+                int yStart = solution.get(i).getBlockPanel().getLocation().y + solution.get(i).getBlockPanel().getHeight() / 2;
+                int xFinish = solution.get(i + 1).getBlockPanel().getLocation().x + solution.get(i + 1).getBlockPanel().getWidth() / 2;
+                int yFinish = solution.get(i + 1).getBlockPanel().getLocation().y + solution.get(i + 1).getBlockPanel().getHeight() / 2;
+
+                Line2D line = new Line2D.Float(xStart, yStart, xFinish, yFinish);
+                g2.setStroke(new BasicStroke(3));
+                g2.setColor(Color.RED);
+                g2.draw(line);
+            }
+        }
+    }
+
+    private ArrayList<Block> solveMaze(){
         int totalCells = maze.getSize()[0] * maze.getSize()[1];
 
         MazeSolver mazeSolver = new MazeSolver();
@@ -73,25 +96,7 @@ public class MazePanel extends JPanel{
             percentageTravelledLabel.setText(((int)percentageTravelled) + "%");
         }
 
-        if(renderSolution){
-
-            Graphics2D g2 = (Graphics2D) g;
-
-            if(solution.isEmpty()) { return; }
-
-            for (int i = 0; i < solution.size() - 1; i++) {
-
-                int xStart = solution.get(i).getBlockPanel().getLocation().x + solution.get(i).getBlockPanel().getWidth() / 2;
-                int yStart = solution.get(i).getBlockPanel().getLocation().y + solution.get(i).getBlockPanel().getHeight() / 2;
-                int xFinish = solution.get(i + 1).getBlockPanel().getLocation().x + solution.get(i + 1).getBlockPanel().getWidth() / 2;
-                int yFinish = solution.get(i + 1).getBlockPanel().getLocation().y + solution.get(i + 1).getBlockPanel().getHeight() / 2;
-
-                Line2D line = new Line2D.Float(xStart, yStart, xFinish, yFinish);
-                g2.setStroke(new BasicStroke(3));
-                g2.setColor(Color.RED);
-                g2.draw(line);
-            }
-        }
+        return solution;
     }
 
 
