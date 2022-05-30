@@ -65,7 +65,7 @@ public class GUI_Maze extends JPanel{
         renderMaze(getGrid(),false);
 }
 
-    public GridBagConstraints setupGridContraints()
+    public GridBagConstraints setupGridConstraints()
     {
         // Set maze components common constraints
         mazeComponentConstraints = new GridBagConstraints();
@@ -78,7 +78,7 @@ public class GUI_Maze extends JPanel{
     public void renderMaze(boolean grid,boolean refresh) {
         setGrid(grid);
 
-        GridBagConstraints mazeComponentConstraints = setupGridContraints();
+        GridBagConstraints mazeComponentConstraints = setupGridConstraints();
 
         // Iterate through maze blocks and populate mazePanel
         for ( Block block : maze.getMazeMap() ){
@@ -144,7 +144,7 @@ public class GUI_Maze extends JPanel{
     public void renderBlocks() {
 
         // Set maze components common constraints
-        GridBagConstraints mazeComponentConstraints = setupGridContraints();
+        GridBagConstraints mazeComponentConstraints = setupGridConstraints();
 
         // Iterate through maze blocks and populate mazePanel
         for ( Block currentBlock : maze.getMazeMap() ){
@@ -545,12 +545,10 @@ public class GUI_Maze extends JPanel{
      */
     private int mazeWallWidth (){
         final int maxDim = Math.max(mazeHeight,mazeWidth);
-        //This linear equation was calculated from the simultaneous equations of 10 = 6m + c and 4 = 100m + c
-        //10 pixel width when maxDim is 6 and 4 pixel width when maxDim is 100
         final int d1 = 6;       //value 1 max dimension
         final int s1 = smallMazeWallSize*d1;      //value 1 corresponding desired length in pixels
         final int d2 = 100;     //value 2 max dimension
-        final int s2 = largeMazeWallSize*d2;     //value 1 corresponding desired length in pixels
+        final int s2 = largeMazeWallSize*d2;     //value 2 corresponding desired length in pixels
         return ((s2 - s1 + (-s2*d1+s1*d2)/maxDim)/(d2-d1));
     }
 
@@ -560,13 +558,10 @@ public class GUI_Maze extends JPanel{
      */
     private int mazeBlockSize (){
         final int maxDim = Math.max(mazeHeight,mazeWidth);
-        //This linear equation was calculated from the simultaneous equations of 54 = 6m + c and 12 = 100m + c
-        //54 pixel width when maxDim is 6 and 12 pixel width when maxDim is 100
-        //return (-21 * maxDim + 2664)/47;
         final int d1 = 6;       //value 1 max dimension
         final int s1 = (64-smallMazeWallSize)*d1;     //value 1 corresponding desired length in pixels
         final int d2 = 100;     //value 2 max dimension
-        final int s2 = (16-largeMazeWallSize)*d2;    //value 1 corresponding desired length in pixels
+        final int s2 = (16-largeMazeWallSize)*d2;    //value 2 corresponding desired length in pixels
         return ((s2 - s1 + (-s2*d1+s1*d2)/maxDim)/(d2-d1));
     }
 
