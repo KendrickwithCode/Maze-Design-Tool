@@ -6,7 +6,8 @@ import java.io.Serializable;
  */
 public class LogoBlock extends Block implements Serializable{
     private String pictureFile;
-
+    private int logoSizeX;
+    private int logoSizeY;
     /**
      * Overload Constructor, Constructs and initialises new LogoBlock which can display logos
      * @param blockIndex Index of logoBlock
@@ -19,6 +20,10 @@ public class LogoBlock extends Block implements Serializable{
         images.put("end","img/icons/Bone.png");
         images.put("logo","img/icons/MazeCo.png");
         pictureFile = images.get(picture);
+
+        ///Default Logo Sizes
+        logoSizeX=2;
+        logoSizeY=2;
     }
 
     public String getPictureFile() {
@@ -28,6 +33,22 @@ public class LogoBlock extends Block implements Serializable{
     public void setPictureFile(String filePath)
     {
         pictureFile = filePath;
+    }
+
+    public int getLogoSizeX() {
+        return logoSizeX;
+    }
+
+    public void setLogoSizeX(int logoSizeX) {
+        this.logoSizeX = logoSizeX;
+    }
+
+    public int getLogoSizeY() {
+        return logoSizeY;
+    }
+
+    public void setLogoSizeY(int logoSizeY) {
+        this.logoSizeY = logoSizeY;
     }
 
     /**

@@ -3,6 +3,7 @@ public class MazeLogoTools {
 
 
     private static Maze currentMaze;
+    private static GUI_Maze currentGUIMaze;
 
     /**
      * Random placement index generator for placing logo on the maze.
@@ -110,4 +111,35 @@ public class MazeLogoTools {
     public static void setCurrentMaze(Maze currentMaze) {
         MazeLogoTools.currentMaze = currentMaze;
     }
+
+    public static void setCurrentGUIMaze(GUI_Maze currentGUIMaze) {
+        MazeLogoTools.currentGUIMaze = currentGUIMaze;
+    }
+
+    public static GUI_Maze getCurrentGUIMaze() {
+        return currentGUIMaze;
+    }
+
+    public static void convertMazeBlockToLogoBlock(Block inputBLock) throws Exception {
+        LogoBlock working = new LogoBlock(inputBLock.getLocation(),inputBLock.getBlockIndex(),getCurrentMaze(),"logo");
+        working.setWallNorth(inputBLock.getWallNorth());
+        working.setWallSouth(inputBLock.getWallSouth());
+        working.setWallEast(inputBLock.getWallEast());
+        working.setWallWest(inputBLock.getWallWest());
+        working.setBlockPanel(inputBLock.getBlockPanel());
+
+        getCurrentMaze().getMazeMap().set(inputBLock.getBlockIndex(),working);
+    }
+
+    public static void convertLogoBlockToWallBlock(Block inputBLock) {
+        MazeBlock working = new MazeBlock(inputBLock.getLocation(),inputBLock.getBlockIndex(),true);
+        working.setWallNorth(inputBLock.getWallNorth());
+        working.setWallSouth(inputBLock.getWallSouth());
+        working.setWallEast(inputBLock.getWallEast());
+        working.setWallWest(inputBLock.getWallWest());
+        working.setBlockPanel(inputBLock.getBlockPanel());
+
+        getCurrentMaze().getMazeMap().set(inputBLock.getBlockIndex(),working);
+    }
+
 }

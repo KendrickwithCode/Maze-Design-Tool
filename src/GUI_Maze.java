@@ -4,8 +4,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.text.AttributedCharacterIterator;
-import java.io.Serializable;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * The editable Maze part of the GUI.
@@ -17,17 +18,24 @@ public class GUI_Maze extends JPanel{
     private final int wallThickness;
     private final Maze maze;
     public static MazePanel mazePanel;
-
-
+    
+    private GridBagConstraints mazeComponentConstraints;
     private static boolean mazeGrid = true;
+    //variables to control the size of walls in pixels with respect to blocks at different maze sizes
+        //width in pixels when max dim is 100, should not be set to more than 15:
+        private final static int largeMazeWallSize = 4;
+        //width in pixels when max dim is 6, should not be set to more than 63:
+        private final static int smallMazeWallSize = 10;
+
     /**
      * Maze GUI constructor, creates layout for maze blocks and walls and displays them appropriately
      * @param maze Maze object to display
-     * @param generate rue to generate maze or false to create blank canvas
+     * @param generate true to generate maze or false to create blank canvas
      */
     public GUI_Maze(Maze maze,boolean generate)throws Exception {
         // Set Maze
         this.maze = maze;
+        MazeLogoTools.setCurrentGUIMaze(this);
 
         //Read current Maze Grid boolean
         mazeGrid = getGrid();
@@ -37,8 +45,8 @@ public class GUI_Maze extends JPanel{
         this.mazeWidth = maze.getSize()[0];
 
         // Set block and wall sizing to suit amount of blocks
-        blockSize = mazeBlockSize(mazeHeight, mazeWidth);
-        wallThickness = mazeWallWidth(mazeHeight, mazeWidth);
+        blockSize = mazeBlockSize();
+        wallThickness = mazeWallWidth();
 
         if (generate)
         {
@@ -58,10 +66,10 @@ public class GUI_Maze extends JPanel{
         renderMaze(getGrid(),false);
 }
 
-    public GridBagConstraints setupGridContraints()
+    public GridBagConstraints setupGridConstraints()
     {
         // Set maze components common constraints
-        GridBagConstraints mazeComponentConstraints = new GridBagConstraints();
+        mazeComponentConstraints = new GridBagConstraints();
         mazeComponentConstraints.weightx = 1;
         mazeComponentConstraints.weighty = 1;
         return mazeComponentConstraints;
@@ -71,7 +79,7 @@ public class GUI_Maze extends JPanel{
     public void renderMaze(boolean grid,boolean refresh){
         setGrid(grid);
 
-        GridBagConstraints mazeComponentConstraints = setupGridContraints();
+        GridBagConstraints mazeComponentConstraints = setupGridConstraints();
 
         // Iterate through maze blocks and populate mazePanel
         for ( Block block : maze.getMazeMap() ){
@@ -81,45 +89,8 @@ public class GUI_Maze extends JPanel{
             int blockYLocation = (block.getLocation()[1] + 1) * 2 -1;
             int[] location = new int[] {blockXLocation, blockYLocation};
 
-            // North wall
-            JButton northWallButton = createNorthWallButton(block, mazeComponentConstraints, location);
-            //Set Grid based on "Show Grid" button.
-            if (grid){
-                northWallButton.setBorderPainted(true);
-                northWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-            } else { northWallButton.setBorderPainted(false);}
-            // Add button to mazePanel with constraints
-            mazePanel.add(northWallButton, mazeComponentConstraints);
-
-            // West wall
-            JButton westWallButton = createWestWallButton(block, mazeComponentConstraints, location);
-            //Set Grid based on "Show Grid" button.
-            if (grid){
-                westWallButton.setBorderPainted(true);
-                westWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-            } else { westWallButton.setBorderPainted(false);}
-            // Add button to mazePanel with constraints
-            mazePanel.add(westWallButton, mazeComponentConstraints);
-
-            // East wall
-            JButton eastWallButton = createEastWallButton(block, mazeComponentConstraints, location);
-            //Set Grid based on "Show Grid" button.
-            if (grid){
-                eastWallButton.setBorderPainted(true);
-                eastWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-            } else { eastWallButton.setBorderPainted(false);}
-            // Add button to mazePanel with constraints
-            mazePanel.add(eastWallButton, mazeComponentConstraints);
-
-            // South wall
-            JButton southWallButton = createSouthWallButton(block, mazeComponentConstraints, location);
-            //Set Grid based on "Show Grid" button.
-            if (grid){
-                southWallButton.setBorderPainted(true);
-                southWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-            } else { southWallButton.setBorderPainted(false);}
-            // Add button to mazePanel with constraints
-            mazePanel.add(southWallButton, mazeComponentConstraints);
+            // Setup Walls
+            setupWalls(block, mazeComponentConstraints,location,grid);
 
             if(!refresh)
             {
@@ -128,11 +99,53 @@ public class GUI_Maze extends JPanel{
         }
     }
 
+    public void setupWalls(Block block, GridBagConstraints mazeComponentConstraints, int[] location, boolean grid)
+    {
+        // North wall
+        JButton northWallButton = createNorthWallButton(block, mazeComponentConstraints, location);
+        //Set Grid based on "Show Grid" button.
+        if (grid){
+            northWallButton.setBorderPainted(true);
+            northWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        } else { northWallButton.setBorderPainted(false);}
+        // Add button to mazePanel with constraints
+        mazePanel.add(northWallButton, mazeComponentConstraints);
+
+        // West wall
+        JButton westWallButton = createWestWallButton(block, mazeComponentConstraints, location);
+        //Set Grid based on "Show Grid" button.
+        if (grid){
+            westWallButton.setBorderPainted(true);
+            westWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        } else { westWallButton.setBorderPainted(false);}
+        // Add button to mazePanel with constraints
+        mazePanel.add(westWallButton, mazeComponentConstraints);
+
+        // East wall
+        JButton eastWallButton = createEastWallButton(block, mazeComponentConstraints, location);
+        //Set Grid based on "Show Grid" button.
+        if (grid){
+            eastWallButton.setBorderPainted(true);
+            eastWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        } else { eastWallButton.setBorderPainted(false);}
+        // Add button to mazePanel with constraints
+        mazePanel.add(eastWallButton, mazeComponentConstraints);
+
+        // South wall
+        JButton southWallButton = createSouthWallButton(block, mazeComponentConstraints, location);
+        //Set Grid based on "Show Grid" button.
+        if (grid){
+            southWallButton.setBorderPainted(true);
+            southWallButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        } else { southWallButton.setBorderPainted(false);}
+        // Add button to mazePanel with constraints
+        mazePanel.add(southWallButton, mazeComponentConstraints);
+    }
 
     public void renderBlocks() {
 
         // Set maze components common constraints
-        GridBagConstraints mazeComponentConstraints = setupGridContraints();
+        GridBagConstraints mazeComponentConstraints = setupGridConstraints();
 
         // Iterate through maze blocks and populate mazePanel
         for ( Block currentBlock : maze.getMazeMap() ){
@@ -155,7 +168,6 @@ public class GUI_Maze extends JPanel{
         // Add block panel to mazePanel
         mazePanel.add(blockPanel, mazeComponentConstraints);
     }
-
 
 
     public boolean getGrid(){
@@ -231,13 +243,14 @@ public class GUI_Maze extends JPanel{
     /**
      * Scales Image and returns as ImageIcon
      * @param image image to be scales as an image
-     * @param size size to be scaled to in pixels
+     * @param sizeX sizeX to be scaled to in pixels
+     * @param sizeY sizeY to be scaled to in pixels
      * @return  a scaled ImageIcon
      */
-    private ImageIcon scaleImage(Image image, int size) {
-        BufferedImage bi = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB_PRE);
+    private ImageIcon scaleImage(Image image, int sizeX, int sizeY) {
+        BufferedImage bi = new BufferedImage(sizeX, sizeY, BufferedImage.TYPE_INT_ARGB_PRE);
         Graphics2D g = bi.createGraphics();
-        g.drawImage(image, 0, 0, size, size, null);
+        g.drawImage(image, 0, 0, sizeX, sizeY, null);
         return new ImageIcon(bi);
     }
 
@@ -258,8 +271,22 @@ public class GUI_Maze extends JPanel{
      * @param blockPanel gui block panel
      * @param constraints gui constraints
      */
-    private void logoBlockRender(Block block, JPanel blockPanel,GridBagConstraints constraints)
+    public void logoBlockRender(Block block, JPanel blockPanel,GridBagConstraints constraints,int sizeX,int sizeY)
     {
+        Map<Integer,Integer> scales = new HashMap<>();
+        scales.put(1,1);
+        scales.put(2,3);
+        scales.put(3,5);
+        scales.put(4,7);
+        scales.put(5,9);
+        scales.put(6,11);
+        scales.put(7,13);
+        scales.put(8,15);
+        scales.put(9,17);
+        scales.put(10,19);
+
+        int scaleX = blockSize * sizeX;
+        int scaleY = blockSize * sizeY;
 
         if(block.getBlockType().equals("LogoBlock")){
 
@@ -267,13 +294,13 @@ public class GUI_Maze extends JPanel{
             Image image = new ImageIcon(((LogoBlock) block).getPictureFile()).getImage();
             JLabel imageLabel = new JLabel();
 
-            ImageIcon imageIcon = scaleImage(image,blockSize*2);
+            ImageIcon imageIcon = scaleImage(image,scaleX,scaleY);
             blockPanel.add(imageLabel);
             imageLabel.setIcon(imageIcon);
 
             //Stretch Panel over 2 Block (THis Panel, Border, Neighbour Panel = 3)
-            constraints.gridwidth = 3;
-            constraints.gridheight = 3;
+            constraints.gridwidth = scales.get(sizeX);
+            constraints.gridheight = scales.get(sizeY);
 
             Graphics g = new Graphics() {
                 @Override
@@ -478,10 +505,20 @@ public class GUI_Maze extends JPanel{
     constraints.gridy = location[1];
 
     //    block = mazeTypeSelect(block);
+    int sizeX = 3;
+    int sizeY = 3;
 
     // clear panel
     blockPanel.removeAll();
-    logoBlockRender(block,blockPanel,constraints);
+    if(Objects.equals(block.getBlockType(), "LogoBlock"))
+    {
+        LogoBlock workingBlock = (LogoBlock) block;
+        sizeX = workingBlock.getLogoSizeX();
+        sizeY = workingBlock.getLogoSizeY();
+//        System.out.println("Size Change :" + " Block : X" + location[0] + ",Y" + location[1]+" Size: " + sizeX);
+
+    }
+    logoBlockRender(block,blockPanel,constraints,sizeX,sizeY);
 
     return blockPanel;
     }
@@ -504,30 +541,34 @@ public class GUI_Maze extends JPanel{
         return panel;
     }
 
-    private int mazeWallWidth (int mazeHeight, int mazeWidth){
-        int amountOfCells = mazeHeight * mazeWidth;
-        if(amountOfCells < 100){
-            return 10;
-        } else if (amountOfCells < 400){
-            return 8;
-        } else if (amountOfCells < 2500){
-            return 6;
-        } else {
-            return 4;
-        }
+    /**
+     * Returns the maze wall pixel width in pixels according to either mazeHeight or mazeWidth. The greater of the two is inputted to a reciprocal function which linearly scales the overall width of the maze with the number of cells in the maze. The function is scaled such that a maze with a max dimension of 6 cells results in a maze pixel width of about 380 and a maze with a max dimension of 100 cells results in about a 1600 pixel wall width.
+     * @return the pixel width of the maze walls
+     */
+    private int mazeWallWidth (){
+        final int maxDim = Math.max(mazeHeight,mazeWidth);
+        final int d1 = 6;       //value 1 max dimension
+        final int s1 = smallMazeWallSize*d1;      //value 1 corresponding desired length in pixels
+        final int d2 = 100;     //value 2 max dimension
+        final int s2 = largeMazeWallSize*d2;     //value 2 corresponding desired length in pixels
+        return ((s2 - s1 + (-s2*d1+s1*d2)/maxDim)/(d2-d1));
     }
 
-    private int mazeBlockSize (int mazeHeight, int mazeWidth){
-        int amountOfCells = mazeHeight * mazeWidth;
-        if(amountOfCells < 100){
-            return (600 / mazeHeight) + 10;
-        } else if (amountOfCells < 400){
-            return (450 / mazeHeight) + 10;
-        } else if (amountOfCells < 2500){
-            return (300 / mazeHeight)+ 10;
-        } else {
-            return (100 / mazeHeight) + 10;
-        }
+    /**
+     * Returns the maze block width in pixels according to either mazeHeight or mazeWidth. The greater of the two is inputted to a reciprocal function which linearly scales the overall width of the maze with the number of cells in the maze. The function is scaled such that a maze with a max dimension of 6 cells results in a maze pixel width of about 380 and a maze with a max dimension of 100 cells results in about a 1600 pixel wall width.
+     * @return the pixel width of the maze walls
+     */
+    private int mazeBlockSize (){
+        final int maxDim = Math.max(mazeHeight,mazeWidth);
+        final int d1 = 6;       //value 1 max dimension
+        final int s1 = (64-smallMazeWallSize)*d1;     //value 1 corresponding desired length in pixels
+        final int d2 = 100;     //value 2 max dimension
+        final int s2 = (16-largeMazeWallSize)*d2;    //value 2 corresponding desired length in pixels
+        return ((s2 - s1 + (-s2*d1+s1*d2)/maxDim)/(d2-d1));
+    }
+
+    public GridBagConstraints getMazeComponentConstraints() {
+        return mazeComponentConstraints;
     }
 
     public int getMazeHeight() {

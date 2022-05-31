@@ -22,7 +22,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
     public JSplitPane splitPane;
     public JList dbitems;
-    public JLabel leftpane, rightpane;
+    public JLabel leftpane;
     MazeDB mazedata;
     DBSource mazeDB;
     private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
@@ -145,6 +145,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 try {
                     clearMaze();
                     display(mazedata.get(dbitems.getSelectedValue()));
+
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -161,7 +162,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             GUI_Tools.height_text.setText(Integer.toString(maze.getHeight()));
             GUI_Tools.width_text.setText(Integer.toString(maze.getWidth()));
             Maze load = mazeDB.getGUIMaze(maze.getMazeName());
+            //MazeLogoTools.setCurrentMaze(maze);
             GUI_Maze loadedMaze = new GUI_Maze(load, false);
+            setMaze(loadedMaze);
+            //MazeLogoTools.setCurrentGUIMaze(loadedMaze);
             leftpane.add(new JScrollPane(loadedMaze));
             this.revalidate();
         }

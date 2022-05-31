@@ -1,0 +1,60 @@
+<project name="MazeCraft">
+    <target name="compile">
+        <mkdir dir="target" />
+        <javac srcdir="src" destdir="target" includeantruntime="false"/>
+    </target>
+
+    <path id="junit.classpath">
+        <fileset dir="lib">
+            <include name="lib/*.jar" />
+        </fileset>
+    </path>
+
+    <target name="test" depends="compile">
+        <mkdir dir="testresults"/>
+        <javac srcdir="test" destdir="target" includeantruntime="false">
+            <classpath refid="junit.classpath" />
+        </javac>
+        <junitlauncher printsummary="true" failureproperty="junit.failure">
+            <classpath location="target" />
+            <classpath refid="junit.classpath" />
+            <testclasses outputdir="testresults">
+                <fileset dir="target"  includes="**/*.class"/>
+                <listener type="legacy-plain" />
+            </testclasses>
+        </junitlauncher>
+        <fail if="junit.failure"/>
+    </target>
+
+    <target name="documentation">
+        <mkdir dir="doc" />
+        <javadoc destdir="doc">
+            <fileset dir="." />
+        </javadoc>
+    </target>
+
+    <target name="jar" depends="compile,test">
+        <delete dir="artifacts"/>
+        <mkdir dir="artifacts" />
+        <jar jarfile="artifacts/MazeCraft.jar" basedir="target">
+            <manifest>
+                <!-- Who is building this jar? -->
+                <attribute name="Built-By" value="${user.name}"/>
+                <!-- Information about the program itself -->
+                <attribute name="Implementation-Vendor" value="Group 127"/>
+                <attribute name="Implementation-Title" value="MazeCraft"/>
+                <attribute name="Implementation-Version" value="1.0.0"/>
+                <!-- The application entry point -->
+                <attribute name="Main-Class" value="question.Simulation"/>
+            </manifest>
+        </jar>
+        <copy todir="artifacts">
+            <fileset dir="." includes="img/**" />
+        </copy>
+    </target>
+
+    <target name="clean">
+        <delete dir="target" quiet="true"/>
+        <delete dir="testresults" quiet="true"/>
+    </target>
+</project>

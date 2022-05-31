@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.plaf.metal.MetalComboBoxButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,10 +16,9 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         public static JTextField author_name_text;
         private JScrollPane description_pane;
         public static JTextArea  description_text;
-        private JLabel width, height, name, author_name, description, mazeType_text;
+        private JLabel width, height, name, author_name, description, mazeType_text, solvable, solvableBool, travelled, percentageTravelled, deadEnds, deadEndCount;
         public static JComboBox mazeTypeComboBox;
         private final GUI mainGui;
-        private GUI_Maze guiMaze;
         private String mazeType;
 
         @Override
@@ -36,6 +34,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                                 ex.printStackTrace();
                         }
                         setShowSolution();
+                        setMazeStatsLabels();
                 }
                 else if (src==btnGenerate)
                 {
@@ -46,6 +45,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                                 ex.printStackTrace();
                         }
                         setShowSolution();
+                        setMazeStatsLabels();
                 }
                 else if (src == showGrid)
                 {
@@ -73,15 +73,25 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                         mazeType = (String)mazeTypeComboBox.getSelectedItem();
                 }
 
+                if(MazeLogoTools.getCurrentMaze().getSolvable()){
+                        solvableBool.setBackground(Color.GREEN);
+                        solvableBool.setText("True");
+                } else {
+                        solvableBool.setBackground(Color.RED);
+                        solvableBool.setText("False");
+                }
+
+
         }
 
-        private void setShowSolution() {
-                if (showSolution.isSelected()){
-                        mainGui.getMaze().mazePanel.setRenderSolution(true);
-                }
-                else {
-                        mainGui.getMaze().mazePanel.setRenderSolution(false);
-                }
+        public void setShowSolution() {
+                mainGui.getMaze().mazePanel.setRenderSolution(showSolution.isSelected());
+        }
+
+        public void setMazeStatsLabels() {
+                mainGui.getMaze().mazePanel.setSolvableLabel(solvableBool);
+                mainGui.getMaze().mazePanel.setPercentageDeadEndLabel(deadEndCount);
+                mainGui.getMaze().mazePanel.setPercentageTravelledLabel(percentageTravelled);
         }
 
         @Override
@@ -155,6 +165,19 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 showSolution = new JCheckBox("Show Solution", false);
                 showSolution.addActionListener(this);
 
+                solvable = createLabels("Solvable:");
+                solvable.setHorizontalAlignment(SwingConstants.RIGHT);
+                solvableBool = createLabels("");
+                solvableBool.setHorizontalAlignment(SwingConstants.LEFT);
+                travelled = createLabels("Solution Travels:");
+                travelled.setHorizontalAlignment(SwingConstants.RIGHT);
+                percentageTravelled = createLabels("0%");
+                percentageTravelled.setHorizontalAlignment(SwingConstants.LEFT);
+                deadEnds = createLabels("Dead Ends:");
+                deadEnds.setHorizontalAlignment(SwingConstants.RIGHT);
+                deadEndCount = createLabels("0%");
+                deadEndCount.setHorizontalAlignment(SwingConstants.LEFT);
+
                 setStyle(mazeType_text);
                 setStyle(mazeTypeComboBox);
                 setStyle(name);
@@ -170,11 +193,17 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 setStyle(description_text);
                 setStyle(width_text);
                 setStyle(height_text);
+                setStyle(solvable);
+                setStyle(travelled);
+                setStyle(deadEnds);
+                setStyle(solvableBool);
+                setStyle(percentageTravelled);
+                setStyle(deadEndCount);
 
                 GridBagConstraints constraints = new GridBagConstraints();
                 constraints.fill = GridBagConstraints.NONE;
                 constraints.anchor = GridBagConstraints.CENTER;
-                constraints.insets = new Insets(15,20,15,20);
+                constraints.insets = new Insets(10,20,13,20);
 
                 //For description text, need to anchor the text box to the top of the grid.
                 GridBagConstraints descriptionConstraints = new GridBagConstraints();
@@ -195,9 +224,21 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, height_text, constraints, 1,7,1,1);
                 addToPanel(borderSpot, btnGenerate, constraints, 0,8,2,1);
                 addToPanel(borderSpot, btnCreate, constraints, 0,9,2,1);
+
+                constraints.insets = new Insets(20,20,5,20);
                 addToPanel(borderSpot, showGrid, constraints, 0, 10, 2, 1);
+
+                constraints.insets = new Insets(5,20,20,20);
                 addToPanel(borderSpot, showSolution, constraints, 0, 11, 2, 1);
 
+                constraints.insets = new Insets(5,35,5,20);
+                constraints.fill = GridBagConstraints.HORIZONTAL;
+                addToPanel(borderSpot, solvable, constraints, 0, 12, 1, 1);
+                addToPanel(borderSpot, travelled, constraints, 0, 13, 1, 1);
+                addToPanel(borderSpot, deadEnds, constraints, 0, 14, 1, 1);
+                addToPanel(borderSpot, deadEndCount, constraints, 1, 14, 1, 1);
+                addToPanel(borderSpot, solvableBool, constraints, 1, 12, 1, 1);
+                addToPanel(borderSpot, percentageTravelled, constraints, 1, 13, 1, 1);
         }
 
         private JComboBox createComboBox(String[] options,int width, int height) {
@@ -275,7 +316,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         /**
          * Sets font style to Sans Serif, bold and size 16
          * @param item The component to be set to this style.
-         * @return Component with font style set.
          */
         public static Component setStyle(Component item){
                 item.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));

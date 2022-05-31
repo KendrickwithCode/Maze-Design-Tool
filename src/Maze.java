@@ -24,6 +24,7 @@ public class Maze implements Serializable {
     private int kidsFinishIndex;
     private int logoBlockIndex;
 
+
     /**
      * Constructs and initialises a new Maze. Resulting maze is blank with only border walls activated.
      *
@@ -388,6 +389,15 @@ public class Maze implements Serializable {
      */
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    /**
+     * Sets maze solvable
+     * @param isSolvable boolean true if maze is solvable else false if maze is not solvable
+     */
+    public void setSolvable(boolean isSolvable) {
+        this.solvable = isSolvable;
+
     }
 
     /**
