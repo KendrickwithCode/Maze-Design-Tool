@@ -8,6 +8,8 @@ import java.util.HashMap;
  */
 public class LogoBlock extends Block{
     private String pictureFile;
+    private String logoType;
+    private boolean logoStart;
     private int logoSizeX;
     private int logoSizeY;
     /**
@@ -15,13 +17,27 @@ public class LogoBlock extends Block{
      * @param blockIndex Index of logoBlock
      * @param location location of block on maze
      */
-    public LogoBlock(int[] location, int blockIndex, Maze mazeMap, String picture) throws Exception {
+    public LogoBlock(int[] location, int blockIndex, String picture) throws Exception {
         super(location, blockIndex,false);
         HashMap<String, String> images = new HashMap<>();
         images.put("start","img/icons/Dog.png");
         images.put("end","img/icons/Bone.png");
         images.put("logo","img/icons/MazeCo.png");
+        picture = picture.toLowerCase();
+
         pictureFile = images.get(picture);
+
+        if(picture.equals("start") || picture.equals("finish"))
+        {
+            logoType = "kids";
+            if(picture.equals("start"))
+                logoStart = true;
+            else
+                logoStart = false;
+
+        }
+        else
+            logoType = "adult";
 
         ///Default Logo Sizes
         logoSizeX=2;
@@ -34,16 +50,11 @@ public class LogoBlock extends Block{
 
         int returnVal = fc.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-
             File imageFile = fc.getSelectedFile();
-
-//            LogoBlock current = (LogoBlock) currentMaze.getMazeMap().get(blockIndex);
-
             pictureFile = imageFile.getPath();
 
             MazeLogoTools.getCurrentGUIMaze().renderBlocks();
             rerenderIcons();
-            //maze.renderBlocks();
         }
     }
 
@@ -72,6 +83,22 @@ public class LogoBlock extends Block{
 
     public void setLogoSizeY(int logoSizeY) {
         this.logoSizeY = logoSizeY;
+    }
+
+    public String getLogoType() {
+        return logoType;
+    }
+
+    public void setLogoType(String logoType) {
+        this.logoType = logoType;
+    }
+
+    public boolean isLogoStart() {
+        return logoStart;
+    }
+
+    public void setLogoStart(boolean logoStart) {
+        this.logoStart = logoStart;
     }
 
     /**

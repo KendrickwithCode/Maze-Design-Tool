@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
 
 /**
@@ -126,13 +127,14 @@ public class MazeSolver extends JPanel{
     private void setDefaultFinishingWall(Maze maze){
         maze.getMazeMap().get(maze.getMazeMap().size() - 1).getWallSouth().setFinish(true);
     }
-
+//==========================================================================================================================
     private void resetMaze(Maze maze) {
         // reset maze visited and set maze start and finish blocks
         for ( Block block : maze.getMazeMap() ) {
             block.setVisited(false);
             if(block instanceof LogoBlock && maze.getMazeType().equalsIgnoreCase("KIDS")){
-                if(block.getBlockIndex() == 0){
+//                if(block.getBlockIndex() == 0){
+                if(((LogoBlock) block).isLogoStart()){
                     block.getWallSouth().setStart(true);
                 } else {
                     block.getWallSouth().setFinish(true);
@@ -144,6 +146,8 @@ public class MazeSolver extends JPanel{
 
         if(!checkForStartingWall(maze)){setDefaultStartingWall(maze);}
     }
+//==========================================================================================================================
+
 
     private boolean checkForStartingWall(Maze maze){
         boolean startingWall = false;
