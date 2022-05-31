@@ -133,11 +133,7 @@ public class MazeSolver extends JPanel{
         for ( Block block : maze.getMazeMap() ) {
             block.setVisited(false);
             if(block instanceof LogoBlock && maze.getMazeType().equalsIgnoreCase("KIDS")){
-
-                System.out.println("LogoType: " + ((LogoBlock) block).getLogoType());
-                //                if(block.getBlockIndex() == 0){
                 if(((LogoBlock) block).getLogoType().equalsIgnoreCase("kids")) {
-                    System.out.println("Kids-Type: " + ((LogoBlock) block).isLogoStart());
                     if (((LogoBlock) block).isLogoStart()) {
                         block.getWallSouth().setStart(true);
                     } else {

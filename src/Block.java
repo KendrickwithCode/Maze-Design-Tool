@@ -690,7 +690,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             menu.show(e.getComponent(), e.getX(), e.getY());
         }
 
-        else debugTools();
+//        else debugTools();
 
 
     }
