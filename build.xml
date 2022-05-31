@@ -48,6 +48,7 @@
     <target name="jar" depends="compile,test">
         <delete dir="artifacts"/>
         <mkdir dir="artifacts" />
+        <mkdir dir="artifacts/lib"/>
         <jar jarfile="artifacts/MazeCraft.jar" basedir="target">
             <manifest>
                 <!-- Who is building this jar? -->
@@ -57,6 +58,7 @@
                 <attribute name="Implementation-Title" value="MazeCraft"/>
                 <attribute name="Implementation-Version" value="1.0.0"/>
                 <!-- The application entry point -->
+                <attribute name="Class-Path" value="lib/sqlite-jdbc-3.30.1.jar"/>
                 <attribute name="Main-Class" value="Main"/>
             </manifest>
         </jar>
@@ -64,6 +66,13 @@
 <!--            <fileset dir="." includes="*.db"/>-->
             <fileset dir="." includes="img/**" />
         </copy>
+        <copy todir="artifacts/lib">
+            <fileset dir="lib" includes="sqlite-jdbc-3.30.1.jar"/>
+        </copy>
+        <copy todir="artifacts">
+            <fileset dir="." includes="db.props"/>
+        </copy>
+
     </target>
 
     <target name="clean">
