@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Main implements ActionListener{
 
@@ -9,7 +11,11 @@ public class Main implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        new GUI();
+        try {
+            new GUI(new MazeDB());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         windowTimer.stop();
         startup.dispose();
     }

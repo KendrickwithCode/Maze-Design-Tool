@@ -11,12 +11,26 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         private JButton btnCreate, btnGenerate;
         public static JCheckBox showGrid, showSolution;
-        private JTextField width_text, height_text, maze_name, author_name_text;
+        public static JTextField width_text;
+        public static JTextField height_text;
+        public static JTextField maze_name;
+        public static JTextField author_name_text;
         private JScrollPane description_pane;
-        private JTextArea  description_text;
-        private JLabel width, height, name, author_name, description, mazeType_text, solvable, solvableBool, travelled, percentageTravelled, deadEnds, deadEndCount;
-        private JComboBox mazeTypeComboBox;
-        private final GUI mainGui;
+        public static JTextArea  description_text;
+        private JLabel width;
+        private JLabel height;
+        private JLabel name;
+        private JLabel author_name;
+        private JLabel description;
+        private JLabel mazeType_text;
+        private JLabel solvable;
+        private static JLabel solvableBool;
+        private JLabel travelled;
+        private static JLabel percentageTravelled;
+        private JLabel deadEnds;
+        private static JLabel deadEndCount;
+        public static JComboBox mazeTypeComboBox;
+        private static GUI mainGui;
         private String mazeType;
 
         @Override
@@ -27,7 +41,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 {
                         try {
                                 mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
-                                        Integer.parseInt(height_text.getText()), name.getText(), false,mazeType);
+                                        Integer.parseInt(height_text.getText()),  maze_name.getText(), false,mazeType);
                         } catch (Exception ex) {
                                 ex.printStackTrace();
                         }
@@ -38,7 +52,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 {
                         try {
                                 mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
-                                      Integer.parseInt(height_text.getText()), name.getText(), true,mazeType);
+                                        Integer.parseInt(height_text.getText()), maze_name.getText(), true,mazeType);
                         } catch (Exception ex) {
                                 ex.printStackTrace();
                         }
@@ -66,7 +80,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else if (src == showSolution)
                 {
                         setShowSolution();
-
                 }
                 else if (src == mazeTypeComboBox)
                 {
@@ -85,11 +98,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         }
 
-        private void setShowSolution() {
+        public static void setShowSolution() {
                 mainGui.getMaze().mazePanel.setRenderSolution(showSolution.isSelected());
         }
 
-        private void setMazeStatsLabels() {
+        public static void setMazeStatsLabels() {
                 mainGui.getMaze().mazePanel.setSolvableLabel(solvableBool);
                 mainGui.getMaze().mazePanel.setPercentageDeadEndLabel(deadEndCount);
                 mainGui.getMaze().mazePanel.setPercentageTravelledLabel(percentageTravelled);
@@ -110,7 +123,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 this.mainGui = mainGUI;
                 this.mazeType = "Adult";
         }
-
         /**
          * Add the menu options for the Maze
          * Is called automatically from constructor
@@ -247,7 +259,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 JComboBox combo = new JComboBox<>(options);
                 combo.setPreferredSize(new Dimension(width + 80,height));
                 combo.setUI(ColorArrowUI.createUI(combo));
-
                 combo.addActionListener(this);
                 return combo;
         }
@@ -320,9 +331,10 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
          * Sets font style to Sans Serif, bold and size 16
          * @param item The component to be set to this style.
          */
-        private void setStyle(Component item){
+        public static Component setStyle(Component item){
                 item.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
                 item.setBackground(Color.DARK_GRAY);
                 item.setForeground(Color.WHITE);
+                return item;
         }
 }

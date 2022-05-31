@@ -17,8 +17,9 @@ public class GUI_Maze extends JPanel{
     private final int blockSize;
     private final int wallThickness;
     private final Maze maze;
+    public static MazePanel mazePanel;
+    
     private GridBagConstraints mazeComponentConstraints;
-    public MazePanel mazePanel;
     private static boolean mazeGrid = true;
     //variables to control the size of walls in pixels with respect to blocks at different maze sizes
         //width in pixels when max dim is 100, should not be set to more than 15:
@@ -31,7 +32,7 @@ public class GUI_Maze extends JPanel{
      * @param maze Maze object to display
      * @param generate true to generate maze or false to create blank canvas
      */
-    public GUI_Maze(Maze maze,boolean generate) throws Exception {
+    public GUI_Maze(Maze maze,boolean generate)throws Exception {
         // Set Maze
         this.maze = maze;
         MazeLogoTools.setCurrentGUIMaze(this);
@@ -75,7 +76,7 @@ public class GUI_Maze extends JPanel{
     }
 
 
-    public void renderMaze(boolean grid,boolean refresh) {
+    public void renderMaze(boolean grid,boolean refresh){
         setGrid(grid);
 
         GridBagConstraints mazeComponentConstraints = setupGridConstraints();
@@ -174,6 +175,7 @@ public class GUI_Maze extends JPanel{
     }
     public void setGrid(boolean toggle){
         mazeGrid = toggle;
+
         }
 
     private JButton createNorthWallButton(Block block, GridBagConstraints constraints, int[] location) {
@@ -196,7 +198,8 @@ public class GUI_Maze extends JPanel{
         // Get West wall button
         JButton westButton = block.getWallWest().getButton();
         // Set button constraints
-                westButton.setPreferredSize(new Dimension(wallThickness, blockSize));
+
+        westButton.setPreferredSize(new Dimension(wallThickness, blockSize));
         constraints.fill = GridBagConstraints.VERTICAL;
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.gridx = location[0] - 1;
@@ -519,7 +522,6 @@ public class GUI_Maze extends JPanel{
 
     return blockPanel;
     }
-
 
 
     private MazePanel createMazePanel() {

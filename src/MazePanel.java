@@ -14,10 +14,14 @@ public class MazePanel extends JPanel{
 
     public MazePanel(Maze maze) {
         this.maze = maze;
+        percentageDeadEndLabel = new JLabel();
+        percentageTravelledLabel = new JLabel();
+        solvableLabel = new JLabel();
     }
 
     public void setRenderSolution(boolean setValue){
         this.renderSolution = setValue;
+
         repaint();
     }
 

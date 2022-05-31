@@ -4,8 +4,12 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
+import java.io.Serializable;
 
-public class MazeWall {
+public class MazeWall implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 5L;
     public boolean active;
     private boolean start;
     private boolean finish;
@@ -155,6 +159,7 @@ public class MazeWall {
     {
         button.setVisible(buttonState);
     }
+
 
 
     private JButton createBtn () {
