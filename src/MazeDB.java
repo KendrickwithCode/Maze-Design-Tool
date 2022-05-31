@@ -26,7 +26,7 @@ public class MazeDB{
      */
     public void updateList(DefaultListModel l) throws SQLException {
         for(String name : mazedata.nameSet()){
-            if (!l.contains(name + " by " + mazedata.nameSet())){
+            if (!l.contains(name)){
                 l.addElement(name);
             }
         }
