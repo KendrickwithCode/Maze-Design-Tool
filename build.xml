@@ -1,23 +1,35 @@
-<project name="MazeCraft">
+
+<project name="MazeCraft" basedir=".">
+    <property name="build.dir" location="target"/>
+
+    <path id="junit.class.path">
+        <pathelement location="lib/apiguardian-api-1.1.2.jar"/>
+        <pathelement location="lib/junit-jupiter-5.8.2.jar"/>
+        <pathelement location="lib/junit-jupiter-api-5.8.2.jar"/>
+        <pathelement location="lib/junit-jupiter-engine-5.8.2.jar"/>
+        <pathelement location="lib/junit-jupiter-params-5.8.2.jar"/>
+        <pathelement location="lib/junit-platform-commons-1.8.2.jar"/>
+        <pathelement location="lib/junit-platform-engine-1.8.2.jar"/>
+        <pathelement location="lib/junit-platform-launcher-1.8.2.jar"/>
+        <pathelement location="lib/opentest4j-1.2.0.jar"/>
+        <pathelement location="${build.dir}"/>
+    </path>
+
+
     <target name="compile">
         <mkdir dir="target" />
         <javac srcdir="src" destdir="target" includeantruntime="false"/>
     </target>
 
-    <path id="junit.classpath">
-        <fileset dir="lib">
-            <include name="lib/*.jar" />
-        </fileset>
-    </path>
 
     <target name="test" depends="compile">
         <mkdir dir="testresults"/>
         <javac srcdir="test" destdir="target" includeantruntime="false">
-            <classpath refid="junit.classpath" />
+            <classpath refid="junit.class.path" />
         </javac>
         <junitlauncher printsummary="true" failureproperty="junit.failure">
+            <classpath refid="junit.class.path" />
             <classpath location="target" />
-            <classpath refid="junit.classpath" />
             <testclasses outputdir="testresults">
                 <fileset dir="target"  includes="**/*.class"/>
                 <listener type="legacy-plain" />
@@ -45,10 +57,11 @@
                 <attribute name="Implementation-Title" value="MazeCraft"/>
                 <attribute name="Implementation-Version" value="1.0.0"/>
                 <!-- The application entry point -->
-                <attribute name="Main-Class" value="question.Simulation"/>
+                <attribute name="Main-Class" value="Main"/>
             </manifest>
         </jar>
         <copy todir="artifacts">
+<!--            <fileset dir="." includes="*.db"/>-->
             <fileset dir="." includes="img/**" />
         </copy>
     </target>

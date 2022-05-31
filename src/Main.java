@@ -15,6 +15,7 @@ public class Main implements ActionListener{
             new GUI(new MazeDB());
         } catch (SQLException ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.INFORMATION_MESSAGE);
         }
         windowTimer.stop();
         startup.dispose();
@@ -22,7 +23,7 @@ public class Main implements ActionListener{
 
     public Main()
     {
-        windowTimer = new Timer(1,this);    // Timer in 3 seconds
+        windowTimer = new Timer(1500,this);    // Timer in 1.5 seconds (1500)
         windowTimer.start();
         startup = new StartupWindow();
     }

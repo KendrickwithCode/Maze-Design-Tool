@@ -43,7 +43,5 @@
     </orderEntry>
     <orderEntry type="library" name="xerial.sqlite.jdbc" level="project" />
     <orderEntry type="library" name="junit.jupiter" level="project" />
-    <orderEntry type="library" name="junit.platform.commons" level="project" />
-    <orderEntry type="library" name="junit.platform.launcher" level="project" />
   </component>
 </module>
