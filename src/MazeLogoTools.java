@@ -22,29 +22,82 @@ public class MazeLogoTools {
 
     /**
      * Configure the logo block walls and cells for the Adult maze type
-     * @param logoBlock block to be the origin point for a logo block
-     * @param currentMaze maze object that the logo-block lives in.
+     * @param logoBlock block to be the origin point for a logo block*
      */
-    public static void setupAdultLogoBlocks(Block logoBlock, Maze currentMaze)
+    public static void setupAdultLogoBlocks(Block logoBlock,int sizeX, int sizeY)
     {
-        logoBlock.setVisited(true);
-        logoBlock.getWallNorth().setBorder();
-        logoBlock.getWallWest().setBorder();
 
-        currentMaze.getNeighbourBlock(logoBlock,"East").setVisited(true);
-        currentMaze.getNeighbourBlock(logoBlock,"East").getWallNorth().setBorder();
-        currentMaze.getNeighbourBlock(logoBlock,"East").getWallEast().setBorder();
+        int currentY = logoBlock.getLocation()[1];
+        int currentX = logoBlock.getLocation()[0];
+        int endY = currentY+sizeY-1;
+        int endX = currentX+sizeX-1;
 
-        currentMaze.getNeighbourBlock(logoBlock,"South").setVisited(true);
-        currentMaze.getNeighbourBlock(logoBlock,"South").getWallSouth().setBorder();
-        currentMaze.getNeighbourBlock(logoBlock,"South").getWallWest().setBorder();
+        int indexEast = currentMaze.getIndex(new int[]{endX,currentY});
+        setWallsEastWest(endY,logoBlock.getBlockIndex(),true);
+        setWallsEastWest(endY,indexEast,false);
 
-        MazeLogoTools.getSouthEastBlock(logoBlock,currentMaze).setVisited(true);
-        MazeLogoTools.getSouthEastBlock(logoBlock,currentMaze).getWallSouth().setBorder();
-        MazeLogoTools.getSouthEastBlock(logoBlock,currentMaze).getWallEast().setBorder();
+        int indexSth = currentMaze.getIndex(new int[]{currentX,endY});
+        setWallsNorthSouth(endX,logoBlock.getBlockIndex(),true);
+        setWallsNorthSouth(endX,indexSth,false);
 
-        clearLogoBlockCenter(logoBlock,currentMaze);
+
+////        logoBlock.setVisited(true);
+//        logoBlock.getWallNorth().setBorder();
+//        logoBlock.getWallWest().setBorder();
+//
+////        currentMaze.getNeighbourBlock(logoBlock,"East").setVisited(true);
+//        currentMaze.getNeighbourBlock(logoBlock,"East").getWallNorth().setBorder();
+//        currentMaze.getNeighbourBlock(logoBlock,"East").getWallEast().setBorder();
+//
+////        currentMaze.getNeighbourBlock(logoBlock,"South").setVisited(true);
+//        currentMaze.getNeighbourBlock(logoBlock,"South").getWallSouth().setBorder();
+//        currentMaze.getNeighbourBlock(logoBlock,"South").getWallWest().setBorder();
+//
+////        MazeLogoTools.getSouthEastBlock(logoBlock,currentMaze).setVisited(true);
+//        MazeLogoTools.getSouthEastBlock(logoBlock,currentMaze).getWallSouth().setBorder();
+//        MazeLogoTools.getSouthEastBlock(logoBlock,currentMaze).getWallEast().setBorder();
+//
+////        clearLogoBlockCenter(logoBlock,currentMaze);
     }
+
+    private static void setWallsEastWest(int endY, int currentIndexY, boolean westWall)
+    {
+        Block workingBlock = currentMaze.getMazeMap().get(currentIndexY);
+        int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"south");
+        int currentY = workingBlock.getLocation()[1];
+        if(westWall)
+            workingBlock.getWallWest().setActive(true);
+        else
+            workingBlock.getWallEast().setActive(true);
+        System.out.println(currentIndexY + " - "+ nextIndex + " - " + workingBlock.getLocation()[0] + "," + workingBlock.getLocation()[1]);
+
+        if (endY == currentY)                       //base Case
+            return;
+        setWallsEastWest(endY,nextIndex,westWall);     //Recurse
+    }
+
+
+    private static void setWallsNorthSouth(int endX, int currentIndexX, boolean northWall)
+    {
+
+        Block workingBlock = currentMaze.getMazeMap().get(currentIndexX);
+        int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"east");
+        int currentX = workingBlock.getLocation()[0];
+
+        if(northWall)
+            workingBlock.getWallNorth().setActive(true);
+        else
+            workingBlock.getWallSouth().setActive(true);
+//        System.out.println(currentIndexX + " - "+ nextIndex + " - " + workingBlock.getLocation()[0] + "," + workingBlock.getLocation()[0]);
+//        System.out.println("CurrentX: "+currentX);
+//        System.out.println("EndX: " + endX);
+
+        if (endX == currentX)                       //base Case
+            return;
+
+        setWallsNorthSouth(endX,nextIndex,northWall);               //Recurse
+    }
+
 
     /**
      * Configure the logo block walls and cells for the Kids maze type

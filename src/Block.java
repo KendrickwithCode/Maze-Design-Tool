@@ -250,6 +250,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     try {
 
                         MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
+                        MazeLogoTools.setupAdultLogoBlocks(Block.this,2,2);
                         rerenderIcons();
 
                     } catch (Exception ex) {
@@ -265,8 +266,10 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
                     try {
 
-                        MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
+                        changeIconSize(1, 1);
                         rerenderIcons();
+                        MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
+                        rerenderIcons();                                                     //needed to do twice
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -283,6 +286,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(1, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,1,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -295,6 +299,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(2, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,2,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -308,6 +313,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(3, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,3,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -320,6 +326,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(4, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,4,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -333,6 +340,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(5, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,5,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -346,6 +354,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(6, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,6,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -358,6 +367,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(7, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,7,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -370,6 +380,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(8, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,8,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -382,6 +393,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(9, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,9,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -394,6 +406,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(10, currentSizeY);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,10,currentSizeY);
                     rerenderIcons();
                 }
             });
@@ -410,6 +423,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 1);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,1);
                     rerenderIcons();
                 }
             });
@@ -421,6 +435,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 2);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,2);
                     rerenderIcons();
                 }
             });
@@ -432,6 +447,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 3);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,3);
                     rerenderIcons();
                 }
             });
@@ -443,6 +459,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 4);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,4);
                     rerenderIcons();
                 }
             });
@@ -454,6 +471,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 5);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,5);
                     rerenderIcons();
                 }
             });
@@ -465,6 +483,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 6);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,6);
                     rerenderIcons();
                 }
             });
@@ -476,6 +495,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 7);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,7);
                     rerenderIcons();
                 }
             });
@@ -487,6 +507,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 8);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,8);
                     rerenderIcons();
                 }
             });
@@ -498,6 +519,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 9);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,9);
                     rerenderIcons();
                 }
             });
@@ -509,15 +531,27 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 10);
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,10);
                     rerenderIcons();
                 }
             });
 
+
+            JMenuItem item23 = new JMenuItem("Change Icon");
+            item23.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                }
+            });
+
+
             menu.add(item);
-            menu.add(item2);
+
 
             if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
             {
+                menu.add(item2);
+                menu.add(item23);
                 menu.addSeparator();
                 menu.add(item3);
                 menu.add(item4);
@@ -544,9 +578,9 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
 
             menu.show(e.getComponent(), e.getX(), e.getY());
         }
-//
-//        else
-//            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex));
+
+        else
+            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex));
 
     }
 

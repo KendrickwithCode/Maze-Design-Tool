@@ -40,12 +40,12 @@ public class MazeGenerator {
                 break;
         }
 
-        if (maze.getMazeType().equalsIgnoreCase("ADULT"))
-            MazeLogoTools.setupAdultLogoBlocks(maze.getMazeMap().get(maze.getLogoBlockIndex()),maze);
-        else {
-            MazeLogoTools.setupKidsLogoBlockNeighbours(maze.getMazeMap().get(maze.getKidsStartIndex()), maze, true);
-            MazeLogoTools.setupKidsLogoBlockNeighbours(maze.getMazeMap().get(maze.getKidsFinishIndex()), maze, false);
-        }
+//        if (maze.getMazeType().equalsIgnoreCase("ADULT"))
+//            MazeLogoTools.setupAdultLogoBlocks(maze.getMazeMap().get(maze.getLogoBlockIndex()),maze);
+//        else {
+//            MazeLogoTools.setupKidsLogoBlockNeighbours(maze.getMazeMap().get(maze.getKidsStartIndex()), maze, true);
+//            MazeLogoTools.setupKidsLogoBlockNeighbours(maze.getMazeMap().get(maze.getKidsFinishIndex()), maze, false);
+//        }
     }
 
 

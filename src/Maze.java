@@ -90,11 +90,11 @@ public class Maze {
      */
     public void resetMaze(int sizeX, int sizeY, Boolean clearWalls) throws Exception {
         mazeMap.clear();
-        kidsStartIndex = 0;
-        kidsFinishIndex = MazeLogoTools.getKidsFinishIndex(this);
-        logoBlockIndex = 0;
+//        kidsStartIndex = 0;
+//        kidsFinishIndex = MazeLogoTools.getKidsFinishIndex(this);
+//        logoBlockIndex = 0;
 
-        int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
+//        int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
 
         int currentIndex=0;
         /*
@@ -102,20 +102,20 @@ public class Maze {
          */
         for (int y =0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                if(mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "logo"));
-                    logoBlockIndex = currentIndex;
-                }
-                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "start"));
-                }
-                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex){
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "end"));
-                }
-                else
-                {
+//                if(mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
+//                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "logo"));
+//                    logoBlockIndex = currentIndex;
+//                }
+//                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
+//                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "start"));
+//                }
+//                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex){
+//                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "end"));
+//                }
+//                else
+//                {
                     mazeMap.add(new MazeBlock(new int[]{x,y},currentIndex, clearWalls));
-                }
+//                }
                 setMazeWalls(mazeMap.get(currentIndex));
                 currentIndex++;
             }
@@ -123,12 +123,12 @@ public class Maze {
         }
         activateBorderWalls(sizeX,sizeY);
 
-        if (mazeType.equalsIgnoreCase("ADULT"))
-            MazeLogoTools.setupAdultLogoBlocks(mazeMap.get(logoBlockIndex),this);
-        else {
-            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsStartIndex), this,true);
-            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsFinishIndex), this,false);
-        }
+//        if (mazeType.equalsIgnoreCase("ADULT"))
+//            MazeLogoTools.setupAdultLogoBlocks(mazeMap.get(logoBlockIndex),this);
+//        else {
+//            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsStartIndex), this,true);
+//            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsFinishIndex), this,false);
+//        }
     }
 
 
