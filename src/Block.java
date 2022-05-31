@@ -93,9 +93,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
     }
 
     private void changeIconSize(int sizeX, int sizeY){
-//        MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
         try {
-//            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
             LogoBlock working = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
             working.setLogoSizeX(sizeX);
             working.setLogoSizeY(sizeY);

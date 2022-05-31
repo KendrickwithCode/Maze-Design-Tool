@@ -275,10 +275,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
 
-//    final JFileChooser fc = new JFileChooser();
-//        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
-
-
     /**
      * Creates a screenshot of the passed JPanel object and saves it
      * adapted from: https://stackoverflow.com/a/10796047

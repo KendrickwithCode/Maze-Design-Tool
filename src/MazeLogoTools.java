@@ -20,6 +20,10 @@ public class MazeLogoTools {
         return new int[]{randomX,randomY};
     }
 
+    /**
+     * Resets walls back to previous wall state.
+     * @param working block to reset walls to previous state.
+     */
     public static void resetWalls(LogoBlock working){
         int sizeX = working.getLogoSizeX();
         int sizeY = working.getLogoSizeY();
@@ -29,22 +33,21 @@ public class MazeLogoTools {
         int endY = currentY+sizeY-1;
         int endX = currentX+sizeX-1;
 
-        System.out.println("Sx:" + sizeX + " Sy:" + sizeY);
-        System.out.println("Cidx:" + working.getLocation()[0] + " Cidy:" + working.getLocation()[1]);
-        System.out.println("Ex:" + endX + " Ey:" + endY);
-
         int indexEast = currentMaze.getIndex(new int[]{endX,currentY});
         resetWallsEastWest(endY,working.getBlockIndex(),true);
         resetWallsEastWest(endY,indexEast,false);
 
-
         int indexSth = currentMaze.getIndex(new int[]{currentX,endY});
         resetWallsNorthSouth(endX,working.getBlockIndex(),true);
         resetWallsNorthSouth(endX,indexSth,false);
-
-
     }
 
+    /**
+     * Resets East or West walls to previous state.
+     * @param endY end off cell Y-axis.
+     * @param currentIndexY current index
+     * @param westWall west wall if true to reset or false will do east wall.
+     */
     private static void resetWallsEastWest(int endY, int currentIndexY, boolean westWall)
     {
         Block workingBlock = currentMaze.getMazeMap().get(currentIndexY);
@@ -60,7 +63,12 @@ public class MazeLogoTools {
         resetWallsEastWest(endY,nextIndex,westWall);     //Recurse
     }
 
-
+    /**
+     * Resets North or South walls to previous state.
+     * @param endX end off cell X-axis.
+     * @param currentIndexX current index
+     * @param northWall north wall if true to reset or false will do south wall.
+     */
     private static void resetWallsNorthSouth(int endX, int currentIndexX, boolean northWall)
     {
 
@@ -78,8 +86,6 @@ public class MazeLogoTools {
 
         resetWallsNorthSouth(endX,nextIndex,northWall);               //Recurse
     }
-
-
 
     /**
      * Configure the logo block walls and cells for the Adult maze type.
@@ -103,6 +109,13 @@ public class MazeLogoTools {
         setWallsNorthSouth(endX,indexSth,false);
     }
 
+
+    /**
+     * Sets East or West walls active.
+     * @param endY end off cell Y-axis.
+     * @param currentIndexY current index
+     * @param westWall set west wall active if true else east wall will be set to active
+     */
     private static void setWallsEastWest(int endY, int currentIndexY, boolean westWall)
     {
         Block workingBlock = currentMaze.getMazeMap().get(currentIndexY);
@@ -118,7 +131,12 @@ public class MazeLogoTools {
         setWallsEastWest(endY,nextIndex,westWall);     //Recurse
     }
 
-
+    /**
+     * Sets North or South walls active.
+     * @param endX end off cell X-axis.
+     * @param currentIndexX current index
+     * @param northWall set north wall active if true else south wall will be set to active
+     */
     private static void setWallsNorthSouth(int endX, int currentIndexX, boolean northWall)
     {
 
