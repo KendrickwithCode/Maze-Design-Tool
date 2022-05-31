@@ -14,6 +14,9 @@ public class DBSource implements MazeDBSource {
 
     private static final String GET_NAME = "SELECT * from maze WHERE Maze_Name=?";
     private static final String GET_ALL_NAMES = "SELECT Maze_Name, Author_Name from maze";
+    private static final String GETDATE = "SELECT Date_Created from maze WHERE Maze_Name =?";
+    private static final String GETEDITED = "SELECT Last_Edited from maze WHERE Maze_Name =?";
+
 
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS maze ("
@@ -29,11 +32,7 @@ public class DBSource implements MazeDBSource {
                     + "Image LONGBLOB" + ");";
 
     public Connection connection;
-    private PreparedStatement addMaze;
-    private PreparedStatement getMaze;
-    private PreparedStatement getAllMaze;
-    private PreparedStatement rowCount;
-    private PreparedStatement image;
+    private PreparedStatement addMaze, getMaze, getAllMaze, getDateCreated, getLastEdited;
     public Statement st;
 
 
@@ -48,6 +47,8 @@ public class DBSource implements MazeDBSource {
             addMaze = connection.prepareStatement(INSERT_MAZE);
             getMaze = connection.prepareStatement(GET_NAME);
             getAllMaze = connection.prepareStatement(GET_ALL_NAMES);
+            getDateCreated = connection.prepareStatement(GETDATE);
+            getLastEdited = connection.prepareStatement(GETEDITED);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -78,6 +79,21 @@ public class DBSource implements MazeDBSource {
         return m;
     }
 
+    public String getDateCreated(String name) throws SQLException {
+        ResultSet rs = null;
+        try {
+            getDateCreated.setString(1, name);
+            rs = getDateCreated.executeQuery();
+            rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs.getString("Date_Created");
+    }
+
+    public String getLastEdited(String name){
+        return "";
+    }
 
     /**
      * Reads the byte stream from the database "Image" column and converts into a Maze object.

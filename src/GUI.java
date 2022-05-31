@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.naming.NamingException;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -299,11 +300,32 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         dbitems = new JList(listModel);
         addNameListListener(new NameListListener());
         dbitems.setVisible(true);
-        GUI_Tools.setStyle(dbitems);
+
+        JPanel controls = new JPanel(new BorderLayout());
         clear = new JButton("Clear");
+        JLabel date = new JLabel("Date Created", SwingConstants.CENTER);
+        JLabel edited = new JLabel("Last Edited", SwingConstants.CENTER);
+        edited.setBorder(new EmptyBorder(10, 0, 0, 0));
+        date.setBorder(new EmptyBorder(10, 0, 0, 0));
+        //clear.setBorder(new EmptyBorder(10, 0, 10, 0));
+        controls.add(clear, BorderLayout.SOUTH);
+        controls.add(date, BorderLayout.NORTH);
+        controls.add(edited, BorderLayout.CENTER);
+        GUI_Tools.setStyle(dbitems);
+        GUI_Tools.setStyle(clear);
+        GUI_Tools.setStyle(controls);
+        GUI_Tools.setStyle(date);
+        GUI_Tools.setStyle(edited);
+
         clear.addActionListener(this);
-        JSplitPane embed = new JSplitPane(JSplitPane.VERTICAL_SPLIT, clear, dbitems);
+        JSplitPane embed = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controls, dbitems);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, embed);
+
+        //Makes the split pane unmovable
+        embed.setEnabled(true);
+        embed.setDividerLocation(200);
+        splitPane.setEnabled(false);
+
         splitPane.setDividerLocation(1250);
         splitPane.setOneTouchExpandable(false);
         splitPane.setContinuousLayout(true);
