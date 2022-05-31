@@ -1,30 +1,46 @@
 import javax.swing.*;
+import java.awt.*;
+import java.io.*;
+import java.sql.*;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
- * Maze Database
+ * Maze Database Connection with getters and updates
+ * to the database through DBSource & MazeDBSource Interface.
  */
 public class MazeDB{
-    /**
-     * Constructs and Initialises connection to database
-     */
-    private MazeDB(){
 
+    MazeDBSource mazedata;
+
+    /**
+     * Constructs and Initialises connection to database through DBSource.
+     */
+    public MazeDB() {
+        mazedata = new DBSource();
     }
 
     /**
-     * Attempts to read data saved from previous invocations of the application
+     * Update the JList with names from MazeDB
+     * @param l The List Model to add to.
      */
-    public void mazeData(){
-
+    public void updateList(DefaultListModel l) throws SQLException {
+        for(String name : mazedata.nameSet()){
+            if (!l.contains(name)){
+                l.addElement(name);
+            }
+        }
     }
 
     /**
-     * Add a maze to the database.
-     * @param maze The maze to be added.
+     * Retrieves Maze from the model.
+     *
+     * @param key the name to retrieve.
+     * @return the Maze object related to the name.
      */
-    public void addMaze(Maze maze){
+    public Maze get(Object key) throws Exception {
+        return mazedata.getMaze((String) key);
     }
-
 
     /**
      * Delete a Maze from the database.
@@ -34,19 +50,11 @@ public class MazeDB{
 
     }
 
-
-    /**
-     * Retrieve a Maze from the database.
-     * @param key The maze to be retrieved.
-     */
-    public void getMaze(Object key){
-
-    }
-
     /**
      * Close connection to database
      */
     public void close(){
 
     }
+
 }

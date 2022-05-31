@@ -1,12 +1,16 @@
+import javax.imageio.ImageIO;
+import javax.naming.NamingException;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Graphic User Interface Base.
@@ -16,33 +20,65 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
-
+    public JSplitPane splitPane;
+    public JList dbitems;
+    public JLabel leftpane;
+    MazeDB mazedata;
+    DBSource mazeDB;
+    private JButton clear;
     private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
+    private DefaultListModel listModel;
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-
-
-        if(src==load)
-        {
-            JOptionPane.showMessageDialog(null,"Load from Database.","Load",JOptionPane.INFORMATION_MESSAGE);
-        }
-        if(src==save)
-        {
-            JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
-        }
-        if(src==export)
-        {
-            try{
-                if(maze != null)
-                    jpgExport(maze.mazePanel);
-            }
-            catch (Exception ex){
+        //checks if the export button has been pressed and runs the jpgExport function if it has
+        if (src == export) {
+            try {
+                if (maze != null)
+                    System.out.println(jpgExport(maze)); //prints out the file path of the exported jpg
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        } else if (src == save) {
+            try {
+                if (GUI_Tools.author_name_text.getText() == null || GUI_Tools.author_name_text.getText().length() == 0){
+                    JOptionPane.showMessageDialog(null,
+                            "Please Enter an Author's Name before Saving","Okay",JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
+                    mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
+                            GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
+                    mazedata.updateList(listModel);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
+        }
+        else if (src == load){
+//            try {
+//                clearMaze();
+//                Maze load = mazedata.getMaze();
+//                GUI_Maze loadedMaze = new GUI_Maze(load, false);
+//                GUI_Tools.maze_name.setText(load.getMazeName());
+//                GUI_Tools.author_name_text.setText(load.getAuthorName());
+//                GUI_Tools.description_text.setText(load.getMazeDescription());
+//                GUI_Tools.height_text.setText(load.getHeight());
+//                GUI_Tools.width_text.setText(load.getWidth());
+//                // Add getters for description, etc.
+//               // GUI_Tools.author_name_text.setText(load.getAuthorName());
+//                this.getContentPane().add(new JScrollPane(loadedMaze));
+//                this.revalidate();
+//
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
         }
         if(src==fullScr)
         {
@@ -85,6 +121,65 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 }
             }
         }
+        if(src==clear){
+            if(MazeLogoTools.getCurrentGUIMaze() != null){
+                clearMaze();
+                dbitems.clearSelection();
+                this.repaint();
+                this.revalidate();
+            }
+        }
+    }
+
+    /**
+     * Adds a listener to the name list
+     */
+    private void addNameListListener(ListSelectionListener listener) {
+        dbitems.addListSelectionListener(listener);
+    }
+
+
+
+    /**
+     * Implements a ListSelectionListener for making the UI respond when a
+     * different name is selected from the list.
+     */
+    private class NameListListener implements ListSelectionListener {
+
+        /**
+         * @see ListSelectionListener#valueChanged(ListSelectionEvent)
+         */
+        public void valueChanged(ListSelectionEvent e) {
+            if (dbitems.getSelectedValue() != null) {
+                try {
+                    display(mazedata.get(dbitems.getSelectedValue()));
+                    GUI_Tools.setShowSolution();
+                    GUI_Tools.setMazeStatsLabels();
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void display(Maze maze) throws Exception {
+        if (maze != null) {
+            clearMaze();
+            GUI_Tools.maze_name.setText(maze.getMazeName());
+            GUI_Tools.author_name_text.setText(maze.getAuthorName());
+            GUI_Tools.description_text.setText(maze.getMazeDescription());
+            GUI_Tools.height_text.setText(Integer.toString(maze.getHeight()));
+            GUI_Tools.width_text.setText(Integer.toString(maze.getWidth()));
+            Maze load = mazeDB.getGUIMaze(maze.getMazeName());
+            //MazeLogoTools.setCurrentMaze(maze);
+            GUI_Maze loadedMaze = new GUI_Maze(load, false);
+            setMaze(loadedMaze);
+            //MazeLogoTools.setCurrentGUIMaze(loadedMaze);
+            leftpane.add(new JScrollPane(loadedMaze));
+            this.revalidate();
+        }
+
     }
 
     @Override
@@ -118,28 +213,36 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     /**
      * GUI Constructor. Initializes Swing frame for application
      */
-    public GUI(){
+    public GUI(MazeDB data) throws SQLException {
+        this.mazedata = data;
+        listModel = new DefaultListModel();
+        mazeDB = new DBSource();
         initializeFrame();
     }
 
-    private void initializeFrame(){
+    private void initializeFrame() throws SQLException {
         int fileMenuItemWith = 120;
         int editMenuItemWith = 180;
         int viewMenuItemWith = 120;
         int menuItemHeight = 20;
 
+        leftpane = new JLabel();
         setTitle("MazeCraft");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setWindowSize();
-
-
-        setLayout(new BorderLayout());
+        leftpane.setLayout(new BorderLayout());
 
 
         //Set File Toolbar
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
-
+        load = new JMenuItem("Load");
+        save = new JMenuItem("Save");
+        export = new JMenuItem("Export");
+        exit = new JMenuItem("Exit");
+        save.addActionListener(this);
+        export.addActionListener(this);
+        load.addActionListener(this);
         load = menuItemFactory("Load",fileMenuItemWith,menuItemHeight);
         save = menuItemFactory("Save",fileMenuItemWith,menuItemHeight);
         export = menuItemFactory("Export to Jpg",fileMenuItemWith,menuItemHeight);
@@ -181,8 +284,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         menuBar.add(view);
         this.setJMenuBar(menuBar);
 
-
-
         setIconImage(icon.getImage());
 
         JPanel borderbottom = createPanel(Color.DARK_GRAY);
@@ -190,23 +291,36 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         JPanel borderleft = createPanel(Color.DARK_GRAY);
         JPanel borderight = createPanel(Color.DARK_GRAY);
 
+
         setResizable(false);
-        GUI_Tools menu = new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
+        new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
-        this.getContentPane().add(bordertop, BorderLayout.PAGE_START);
-        this.getContentPane().add(borderleft, BorderLayout.LINE_START);
-        this.getContentPane().add(borderbottom, BorderLayout.PAGE_END);
-        this.getContentPane().add(borderight, BorderLayout.LINE_END);
+        mazedata.updateList(listModel);
+        dbitems = new JList(listModel);
+        addNameListListener(new NameListListener());
+        dbitems.setVisible(true);
+        GUI_Tools.setStyle(dbitems);
+        clear = new JButton("Clear");
+        clear.addActionListener(this);
+        JSplitPane embed = new JSplitPane(JSplitPane.VERTICAL_SPLIT, clear, dbitems);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, embed);
+        splitPane.setDividerLocation(1250);
+        splitPane.setOneTouchExpandable(false);
+        splitPane.setContinuousLayout(true);
 
+        leftpane.add(bordertop, BorderLayout.PAGE_START);
+        leftpane.add(borderleft, BorderLayout.LINE_START);
+        leftpane.add(borderbottom, BorderLayout.PAGE_END);
+        //leftpane.add(borderight, BorderLayout.LINE_END);
+        add(splitPane);
         setVisible(true);
     }
+
+
 
     private void setWindowSize(){
         setSize(1500, 1000);
         setResizable(false);
-
-
-
         this.setLocationRelativeTo(null);
     }
 
@@ -248,6 +362,22 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     /**
+     * Clears current Maze on screen.
+     */
+    public void clearMaze(){
+        // Checks if GUI already contains a maze and removes it to be replaced with new maze
+        GUI_Tools.maze_name.setText("Maze");
+        GUI_Tools.height_text.setText("25");
+        GUI_Tools.width_text.setText("25");
+        GUI_Tools.author_name_text.setText("");
+        GUI_Tools.description_text.setText("");
+        Component[] components = leftpane.getComponents();
+        for ( Component comp : components){
+            if ( comp instanceof JScrollPane) leftpane.remove(comp);
+        }
+    }
+
+    /**
      * Creates new maze and displays it in the GUI
      * @param width Width of maze (in blocks)
      * @param height Height of maze (in blocks)
@@ -256,17 +386,18 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      */
     public void generateNewMaze( int width, int height, String name, boolean generate, String mazeType) throws Exception {
         // Checks if GUI already contains a maze and removes it to be replaced with new maze
-        Component[] components = this.getContentPane().getComponents();
+        Component[] components = leftpane.getComponents();
         for ( Component comp : components){
-            if ( comp instanceof JScrollPane) this.getContentPane().remove(comp);
+            if ( comp instanceof JScrollPane) leftpane.remove(comp);
         }
         // Create new maze and add to GUI using JScrollPane for larger mazes
-        maze = new GUI_Maze(new Maze(width, height, name, mazeType), generate);
-        this.getContentPane().add(new JScrollPane(maze));
+        maze = new GUI_Maze(new Maze(width, height, name, mazeType,
+                GUI_Tools.description_text.getText(), GUI_Tools.author_name_text.getText()), generate);
+        leftpane.add(new JScrollPane(maze));
         this.revalidate();
     }
 
-    public void setGrid(boolean toggle){
+    public void setGrid(boolean toggle) throws NamingException {
         maze.renderMaze(toggle, true);
     }
 
@@ -318,6 +449,31 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
     }
 
+    /**
+     * Creates a screenshot of the passed JFrame object and saves it to a temp file
+     * adapted from: https://stackoverflow.com/a/10796047
+     * @param Maze the GUI_Maze object that is to be exported.
+     * @return file path of the exported jpg
+     */
+    public static String jpgExport(GUI_Maze Maze) {
+        Rectangle rec = Maze.getBounds();
+        File temp = null;
+        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
+        Maze.paint(bufferedImage.getGraphics());
+
+        try {
+            // Create temp file
+            temp = File.createTempFile("screenshot", ".png");
+
+            // Use the ImageIO API to write the bufferedImage to a temporary file
+            ImageIO.write(bufferedImage, "png", temp);
+
+            // Delete temp file when program exits
+            temp.deleteOnExit();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return temp.getPath();
+    }
+
 }
-
-

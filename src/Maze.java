@@ -1,16 +1,24 @@
+import java.io.*;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
  * Main class for holding all the contents and information of a maze.
  */
-public class Maze {
+public class Maze implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 4L;
     private int difficulty;
-    private final String mazeType;
+    public String mazeName;
+    private String mazeType;
+    private String mazeDescription;
+    private int mazeHeight;
+    private int mazeWidth;
+    private String authorName;
     private boolean solvable;
-    private String mazeName;
-    private final int[] size;
-    private final ArrayList<Block> mazeMap;
+    private int[] size;
+    private ArrayList<Block> mazeMap;
     private MazeGenerator mazeHolder;
     private int kidsStartIndex;
     private int kidsFinishIndex;
@@ -19,30 +27,80 @@ public class Maze {
 
     /**
      * Constructs and initialises a new Maze. Resulting maze is blank with only border walls activated.
+     *
      * @param sizeX size of the x-axis for the maze
      * @param sizeY size of the y-axis for the maze
-     * @param name name of the maze
+     * @param name  name of the maze
      */
-    public Maze(int sizeX, int sizeY, String name, String mazeType) throws Exception {
+    public Maze(int sizeX, int sizeY, String name, String mazeType, String mazeDescription, String authorName) throws Exception {
         this.size = new int[]{sizeX, sizeY};
+        this.mazeWidth = sizeX;
+        this.mazeHeight = sizeY;
+        this.mazeDescription = mazeDescription;
+        this.authorName = authorName;
         this.mazeMap = new ArrayList<>();
         this.mazeName = name;
         this.solvable = false;
         this.mazeType = mazeType.toUpperCase();
-        resetMaze(sizeX,sizeY);
+        resetMaze(sizeX, sizeY);
         MazeLogoTools.setCurrentMaze(this);
+    }
+
+
+    public void setMazeType(String mazeType) {
+        this.mazeType = mazeType;
+    }
+
+    public void setSize(int width, int height){
+        this.size = new int[]{width, height};
+    }
+
+    public int getWidth() {
+        return mazeWidth;
+    }
+
+    public String getWidthAsString(){ return Integer.toString(mazeWidth);}
+
+    public int getHeight() {
+        return mazeHeight;
+    }
+    public String getHeightAsString(){ return Integer.toString(mazeHeight);}
+
+    public String getMazeDescription() {
+        return mazeDescription;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public void setMazeDescription(String mazeDescription) {
+        this.mazeDescription = mazeDescription;
+    }
+
+    public void setWidth(int mazeWidth) {
+        this.mazeWidth = mazeWidth;
+    }
+
+    public void setHeight(int mazeHeight) {
+        this.mazeHeight = mazeHeight;
     }
 
     /**
      * Activates all the wall objects that sit on the border of the maze. All the block and corresponding wall objects
      * in the maze must have already been created.
+     *
      * @param sizeX size of the x-axis of the maze
      * @param sizeY size of the y-axis of the maze
      */
-    private void activateBorderWalls(int sizeX, int sizeY){
-        int[] current = {0,0};  //used to hold the current position and get the index in mazeMap
+    private void activateBorderWalls(int sizeX, int sizeY) {
+        int[] current = {0, 0};  //used to hold the current position and get the index in mazeMap
         //set the east and west border walls
-        for(int y = 0; y < sizeY; y++) {
+        for (int y = 0; y < sizeY; y++) {
             current[0] = sizeX - 1;
             current[1] = y;
             mazeMap.get(getIndex(current)).getWallEast().setBorder();
@@ -50,7 +108,7 @@ public class Maze {
             mazeMap.get(getIndex(current)).getWallWest().setBorder();
         }
         //set the north and south walls
-        for(int x = 0; x < sizeX; x++) {
+        for (int x = 0; x < sizeX; x++) {
             current[0] = x;
             current[1] = 0;
             mazeMap.get(getIndex(current)).getWallNorth().setBorder();
@@ -59,33 +117,31 @@ public class Maze {
         }
     }
 
-    public String getMazeType() {
-        return mazeType;
-    }
-
     /**
      * Auto generates a new maze. Destroys old maze while generating a new one
-     * @param algorithm the algorithm used to generate the maze "DFSIterative", "DFSRecursive"
+     *
+     * @param algorithm  the algorithm used to generate the maze "DFSIterative", "DFSRecursive"
      * @param startPosXY the starting position int[x,y]
      */
-    public void generateNewMaze(String algorithm,int[] startPosXY) throws Exception {
+    public void generateNewMaze(String algorithm, int[] startPosXY) throws Exception {
         int startIndex = getIndex(startPosXY);
         resetMaze(false);
-        MazeGenerator.GenerateMaze(this,startIndex,algorithm);
+        MazeGenerator.GenerateMaze(this, startIndex, algorithm);
     }
 
     /**
      * Overload Auto generates a new maze. Destroys old maze while generating a new one
      */
     public void generateNewMaze() throws Exception {
-        generateNewMaze("DFSIterative",new int[]{0,0});
+        generateNewMaze("DFSIterative", new int[]{0, 0});
     }
 
 
     /**
      * Resets the maze map to new clear blocks with only the outer border walls activated.
-     * @param sizeX X-axis size of the maze
-     * @param sizeY Y-axis size of the maze
+     *
+     * @param sizeX      X-axis size of the maze
+     * @param sizeY      Y-axis size of the maze
      * @param clearWalls Boolean to set internal maze walls
      */
     public void resetMaze(int sizeX, int sizeY, Boolean clearWalls) throws Exception {
@@ -96,101 +152,99 @@ public class Maze {
 
         int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
 
-        int currentIndex=0;
+        int currentIndex = 0;
         /*
          *  Iterates through all maze Cells and makes a new empty block
          */
-        for (int y =0; y < sizeY; y++) {
+        for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                if(mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
+                if (mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
                     mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "logo"));
                     logoBlockIndex = currentIndex;
-                }
-                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
+                } else if (mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex) {
                     mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "start"));
-                }
-                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex){
+                } else if (mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex) {
                     mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "end"));
-                }
-                else
-                {
-                    mazeMap.add(new MazeBlock(new int[]{x,y},currentIndex, clearWalls));
+                } else {
+                    mazeMap.add(new MazeBlock(new int[]{x, y}, currentIndex, clearWalls));
                 }
                 setMazeWalls(mazeMap.get(currentIndex));
                 currentIndex++;
             }
 
         }
-        activateBorderWalls(sizeX,sizeY);
+        activateBorderWalls(sizeX, sizeY);
 
         if (mazeType.equalsIgnoreCase("ADULT"))
-            MazeLogoTools.setupAdultLogoBlocks(mazeMap.get(logoBlockIndex),this);
+            MazeLogoTools.setupAdultLogoBlocks(mazeMap.get(logoBlockIndex), this);
         else {
-            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsStartIndex), this,true);
-            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsFinishIndex), this,false);
+            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsStartIndex), this, true);
+            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsFinishIndex), this, false);
         }
     }
 
 
     /**
      * Overload Resets the maze map to new clear blocks with only the outer border walls activated.
+     *
      * @param clearWalls boolean for clearing or setting walls.
      */
     public void resetMaze(Boolean clearWalls) throws Exception {
-        this.resetMaze(size[0],size[1], clearWalls);
+        this.resetMaze(size[0], size[1], clearWalls);
     }
 
     /**
      * Overload resetMaze - Passes a default true Parameter to resetMaze
+     *
      * @param sizeX X-axis size of the maze
      * @param sizeY Y-axis size of the maze
      */
     public void resetMaze(int sizeX, int sizeY) throws Exception {
-        this.resetMaze(sizeX,sizeY, true);
+        this.resetMaze(sizeX, sizeY, true);
     }
 
 
     /**
      * Sets all the walls in the maze
+     *
      * @param currentBlock current Block from mazeMap Arraylist
      */
-    public void setMazeWalls(Block currentBlock)
-    {
+    public void setMazeWalls(Block currentBlock) {
         // If along the wall edge of y wall belongs to this block else get reference
-        if(currentBlock.getLocation()[1] == 0)
-        {
+        if (currentBlock.getLocation()[1] == 0) {
             currentBlock.setWallNorth(new MazeWall());
-        }else{
-            currentBlock.setWallNorth(getNeighbourBlock(currentBlock,"NORTH").getWallSouth());
+        } else {
+            currentBlock.setWallNorth(getNeighbourBlock(currentBlock, "NORTH").getWallSouth());
         }
 
         // if along the wall edge of x wall belongs to this block else get reference
-        if(currentBlock.getLocation()[0] == 0)
-        {
+        if (currentBlock.getLocation()[0] == 0) {
             currentBlock.setWallWest(new MazeWall());
-        }else
-        {
-            currentBlock.setWallWest(getNeighbourBlock(currentBlock,"WEST").getWallEast());
+        } else {
+            currentBlock.setWallWest(getNeighbourBlock(currentBlock, "WEST").getWallEast());
         }
     }
 
 
     /**
      * Return the index of requested neighbouring block "NORTH", "EAST", "SOUTH" ," WEST"
+     *
      * @param referenceBlock origin maze block
-     * @param direction neighbouring block direction "NORTH", "EAST", "SOUTH" ," WEST"
+     * @param direction      neighbouring block direction "NORTH", "EAST", "SOUTH" ," WEST"
      * @return the index or -1 for out of maze map boundary or -2 for direction invalid entry
      */
-    public int getNeighbourIndex(Block referenceBlock, String direction){
+    public int getNeighbourIndex(Block referenceBlock, String direction) {
 
         int[] newLocation = referenceBlock.getLocation().clone();
 
-        if(outOfBounds(getIndex(newLocation),direction)){return -1;}
+        if (outOfBounds(getIndex(newLocation), direction)) {
+            return -1;
+        }
 
         /*
          * Updates newLocation [x,y] according to parameter direction
          */
-        switch (direction.toUpperCase()){
+        switch (direction.toUpperCase()) {
             case "NORTH":
                 newLocation[1] -= 1;
                 break;
@@ -212,12 +266,12 @@ public class Maze {
 
     /**
      * Check's if neighbour block is out of the mazes boundary
-     * @param index array index number
+     *
+     * @param index     array index number
      * @param direction neighbouring block direction "NORTH", "EAST", "SOUTH" ," WEST"
      * @return boolean true if out of bounds or false if not
      */
-    public Boolean outOfBounds(int index, String direction )
-    {
+    public Boolean outOfBounds(int index, String direction) {
 
         switch (direction.toUpperCase()) {
             case "EAST":
@@ -248,33 +302,34 @@ public class Maze {
 
     /**
      * Return the index of requested neighbouring block "NORTH", "EAST", "SOUTH" ," WEST"
+     *
      * @param referenceBlock referenceBlock origin maze block
-     * @param direction neighbouring block direction "NORTH", "EAST", "SOUTH" ," WEST"
+     * @param direction      neighbouring block direction "NORTH", "EAST", "SOUTH" ," WEST"
      * @return returns the neighbour block
      */
-    public Block getNeighbourBlock(Block referenceBlock, String direction){
+    public Block getNeighbourBlock(Block referenceBlock, String direction) {
 
-        return mazeMap.get(getNeighbourIndex(referenceBlock,direction));
+        return mazeMap.get(getNeighbourIndex(referenceBlock, direction));
 
     }
 
     /**
      * Gets the ArrayList index of the asked location
+     *
      * @param location [x,y] of the cell you like to know the Arraylist index
      * @return the index of the supplied location2
      */
-    public int getIndex(int[] location)
-    {
+    public int getIndex(int[] location) {
         int x = location[0];
         int y = location[1];
 
 
-
-        return y*size[0]+x;
+        return y * size[0] + x;
     }
 
     /**
      * Returns current difficulty level
+     *
      * @return difficulty level
      */
 
@@ -284,6 +339,7 @@ public class Maze {
 
     /**
      * Returns a boolean value of if the maze is currently solvable
+     *
      * @return if maze is solvable ture or false
      */
     public boolean getSolvable() {
@@ -292,14 +348,21 @@ public class Maze {
 
     /**
      * Returns current maze name
+     *
      * @return mazes name
      */
     public String getMazeName() {
         return mazeName;
     }
 
+    public String getMazeType() {
+        return mazeType;
+    }
+
+
     /**
      * Returns the ArrayList mazes map
+     *
      * @return maze map as an ArrayList
      */
     public ArrayList<Block> getMazeMap() {
@@ -308,6 +371,7 @@ public class Maze {
 
     /**
      * Returns current maze size as copy
+     *
      * @return current maze size [x,y]
      */
     public int[] getSize() {
@@ -316,6 +380,7 @@ public class Maze {
 
     /**
      * Sets difficulty level
+     *
      * @param difficulty new level for difficulty
      */
     public void setDifficulty(int difficulty) {
@@ -333,6 +398,7 @@ public class Maze {
 
     /**
      * Sets the maze name
+     *
      * @param mazeName The new name for maze
      */
     public void setMazeName(String mazeName) {
@@ -345,17 +411,17 @@ public class Maze {
     }
 
 
-
     public int getKidsFinishIndex() {
         return kidsFinishIndex;
     }
-
 
 
     public int getLogoBlockIndex() {
         return logoBlockIndex;
     }
 
+    public void setLogoBlockIndex(int logoBlockIndex) {
+        this.logoBlockIndex = logoBlockIndex;
+    }
 
 }
-

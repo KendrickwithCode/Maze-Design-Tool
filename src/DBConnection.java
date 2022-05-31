@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 /**
@@ -13,12 +14,13 @@ public class DBConnection {
     /**
      * The singleton instance of the database connection. For each thread to access DB.
      */
-    private static Connection instance = null;
+    public static Connection instance = null;
 
     /**
-     * Constructs and Initializes the connection to the Database
+     * Constructs and Initializes the connection to the Database. Taken from Week 6 Tutorial
      */
     private DBConnection(){
+
         Properties props = new Properties();
         FileInputStream in = null;
         try {
@@ -35,8 +37,10 @@ public class DBConnection {
             // get a connection
             instance = DriverManager.getConnection(url + "/" + schema, username,
                     password);
-        } catch (SQLException | FileNotFoundException sqle) {
+        } catch (SQLException sqle) {
             System.err.println(sqle);
+        } catch (FileNotFoundException fnfe) {
+            System.err.println(fnfe);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
 /**
  *  Astract class used for Maze Block and Logo Blocks in the maze.
  */
-public abstract class Block implements IBlock, MouseListener, ActionListener {
+public abstract class Block implements IBlock, Serializable, MouseListener, ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -56,7 +57,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
      * @param blockIndex sets the block index for the maze map ArrayList of block.
      * @param clearWalls sets the default value for the walls to be cleared (true / inactive) or set (false / active)
      */
-    public Block(int[] location, int blockIndex,Boolean clearWalls)
+    public Block(int[] location, int blockIndex, Boolean clearWalls)
     {
         this.location = location;
         this.blockIndex = blockIndex;
@@ -235,7 +236,6 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
 
         return panel;
     }
-
 
     @Override
     public void mouseClicked(MouseEvent e) {

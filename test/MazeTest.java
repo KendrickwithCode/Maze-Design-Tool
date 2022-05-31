@@ -1,7 +1,9 @@
 import org.junit.jupiter.api.*;
-
-
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,12 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MazeTest {
     Maze testMaze;
     Maze kidsTest;
+    DBSource data;
     int[] location = {5,2};
 
     @BeforeEach
     public void Before() throws Exception {
-        testMaze = new Maze(7,3, "Test","Adult");
-        kidsTest = new Maze(7,3,"kidsTest","KIDS");
+        data = new DBSource();
+        testMaze = new Maze(7,3, "Test","Adult", "Cool Maze!", "Jason");
+        kidsTest = new Maze(7,3,"kidsTest","KIDS", "Cool Maze!", "Dan");
     }
 
 
@@ -314,8 +318,48 @@ public class MazeTest {
         wallsCount = working.getAvailableDirections().size();
         assertTrue(wallsCount < 4);
     }
+    @Test
+    public void testDBConnection(){
+        assertNotNull(data.connection);
+    }
 
+    @Test
+    public void testDBAdd() throws Exception {
+        ResultSet rs = null;
+        final String TEST = "Select Maze_Name FROM maze WHERE Maze_Name = 'Test'";
+        data.addMaze(testMaze.getMazeName(), testMaze.getMazeType(), testMaze.getAuthorName(), testMaze.getMazeDescription(),
+                testMaze.getHeightAsString(), testMaze.getWidthAsString(), new GUI_Maze(testMaze, false));
+        PreparedStatement testAdd = data.connection.prepareStatement(TEST);
+        rs = testAdd.executeQuery();
+        rs.next();
+        assertEquals("Test", rs.getString("Maze_Name"), "Cannot Add Entry To Database");
+    }
 
+    @Test
+    public void testDBUpdate() throws Exception{
+        testDBAdd();
+        ResultSet rs = null;
+        final String TEST = "UPDATE maze SET Maze_Type = 'KIDS' WHERE Maze_Name = 'Test'";
+        final String SELECT = "Select Maze_Type FROM maze WHERE Maze_Name = 'Test'";
+        PreparedStatement testUpdate = data.connection.prepareStatement(TEST);
+        PreparedStatement testSelect = data.connection.prepareStatement(SELECT);
+        testUpdate.execute();
+        rs = testSelect.executeQuery();
+        rs.next();
+        assertEquals("KIDS", rs.getString("Maze_Type"), "Cannot Update Entry to Database");
+        rs.close();
+    }
 
-
+    @AfterEach @Test
+    public void testDBDelete() throws Exception{
+        ResultSet rs = null;
+        final String TEST = "DELETE FROM maze WHERE Maze_Name = 'Test'";
+        final String SELECT = "Select Maze_Type FROM maze WHERE Maze_Name = 'Test'";
+        PreparedStatement testDelete = data.connection.prepareStatement(TEST);
+        PreparedStatement testSelect = data.connection.prepareStatement(SELECT);
+        testDelete.execute();
+        rs = testSelect.executeQuery();
+        assertFalse(rs.next());
+        rs.close();
+    }
 }
