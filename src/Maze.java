@@ -46,10 +46,6 @@ public class Maze implements Serializable {
         MazeLogoTools.setCurrentMaze(this);
     }
 
-    public Maze() throws Exception {
-        this.mazeMap = new ArrayList<>();
-       MazeLogoTools.setCurrentMaze(this);
-    }
 
     public void setMazeType(String mazeType) {
         this.mazeType = mazeType;

@@ -55,20 +55,23 @@ public class DBSource implements MazeDBSource {
 
     @Override
     public Maze getMaze(String name) throws Exception {
-        Maze m = new Maze();
+        Maze m = null;
         ResultSet rs = null;
 
         try {
             getMaze.setString(1, name);
             rs = getMaze.executeQuery();
             rs.next();
-            m.setMazeName(rs.getString("Maze_Name"));
-            m.setMazeType(rs.getString("Maze_Type"));
-            m.setAuthorName(rs.getString("Author_Name"));
-            m.setMazeDescription(rs.getString("Author_Description"));
-            m.setSize(rs.getInt("Width"), rs.getInt("Height"));
-            m.setWidth(rs.getInt("Width"));
-            m.setHeight(rs.getInt("Height"));
+            //(int sizeX, int sizeY, String name, String mazeType, String mazeDescription, String authorName)
+            m = new Maze(rs.getInt("Width"), rs.getInt("Height"), rs.getString("Maze_Name"), rs.getString("Maze_Type"),
+                    rs.getString("Author_Description"), rs.getString("Author_Name"));
+//            m.setMazeName(rs.getString("Maze_Name"));
+//            m.setMazeType(rs.getString("Maze_Type"));
+//            m.setAuthorName(rs.getString("Author_Name"));
+//            m.setMazeDescription(rs.getString("Author_Description"));
+//            m.setSize(rs.getInt("Width"), rs.getInt("Height"));
+//            m.setWidth(rs.getInt("Width"));
+//            m.setHeight(rs.getInt("Height"));
         } catch (SQLException e) {
             e.printStackTrace();
         }

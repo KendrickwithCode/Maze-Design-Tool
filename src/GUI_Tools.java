@@ -16,9 +16,20 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         public static JTextField author_name_text;
         private JScrollPane description_pane;
         public static JTextArea  description_text;
-        private JLabel width, height, name, author_name, description, mazeType_text, solvable, solvableBool, travelled, percentageTravelled, deadEnds, deadEndCount;
+        private JLabel width;
+        private JLabel height;
+        private JLabel name;
+        private JLabel author_name;
+        private JLabel description;
+        private JLabel mazeType_text;
+        private JLabel solvable;
+        private static JLabel solvableBool;
+        private JLabel travelled;
+        private static JLabel percentageTravelled;
+        private JLabel deadEnds;
+        private static JLabel deadEndCount;
         public static JComboBox mazeTypeComboBox;
-        private final GUI mainGui;
+        private static GUI mainGui;
         private String mazeType;
 
         @Override
@@ -84,11 +95,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         }
 
-        public void setShowSolution() {
+        public static void setShowSolution() {
                 mainGui.getMaze().mazePanel.setRenderSolution(showSolution.isSelected());
         }
 
-        public void setMazeStatsLabels() {
+        public static void setMazeStatsLabels() {
                 mainGui.getMaze().mazePanel.setSolvableLabel(solvableBool);
                 mainGui.getMaze().mazePanel.setPercentageDeadEndLabel(deadEndCount);
                 mainGui.getMaze().mazePanel.setPercentageTravelledLabel(percentageTravelled);

@@ -25,6 +25,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     public JLabel leftpane;
     MazeDB mazedata;
     DBSource mazeDB;
+    private JButton clear;
     private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
     private DefaultListModel listModel;
 
@@ -120,6 +121,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 }
             }
         }
+        if(src==clear){
+            if(MazeLogoTools.getCurrentGUIMaze() != null){
+                clearMaze();
+                dbitems.clearSelection();
+                this.repaint();
+                this.revalidate();
+            }
+        }
     }
 
     /**
@@ -143,8 +152,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         public void valueChanged(ListSelectionEvent e) {
             if (dbitems.getSelectedValue() != null) {
                 try {
-                    clearMaze();
                     display(mazedata.get(dbitems.getSelectedValue()));
+                    GUI_Tools.setShowSolution();
+                    GUI_Tools.setMazeStatsLabels();
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -290,7 +300,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         addNameListListener(new NameListListener());
         dbitems.setVisible(true);
         GUI_Tools.setStyle(dbitems);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, dbitems);
+        clear = new JButton("Clear");
+        clear.addActionListener(this);
+        JSplitPane embed = new JSplitPane(JSplitPane.VERTICAL_SPLIT, clear, dbitems);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, embed);
         splitPane.setDividerLocation(1250);
         splitPane.setOneTouchExpandable(false);
         splitPane.setContinuousLayout(true);
@@ -353,6 +366,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      */
     public void clearMaze(){
         // Checks if GUI already contains a maze and removes it to be replaced with new maze
+        GUI_Tools.maze_name.setText("Maze");
+        GUI_Tools.height_text.setText("25");
+        GUI_Tools.width_text.setText("25");
+        GUI_Tools.author_name_text.setText("");
+        GUI_Tools.description_text.setText("");
         Component[] components = leftpane.getComponents();
         for ( Component comp : components){
             if ( comp instanceof JScrollPane) leftpane.remove(comp);
