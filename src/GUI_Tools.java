@@ -71,7 +71,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else if (src == mazeTypeComboBox)
                 {
                         mazeType= Objects.requireNonNull(mazeTypeComboBox.getSelectedItem()).toString().toUpperCase();
-                        System.out.println(mazeType);
                         MazeLogoTools.getCurrentMaze().setMazeType(mazeType);
                 }
 

@@ -60,7 +60,7 @@ public class MazeSolver extends JPanel{
         for (Block block : maze.getMazeMap()){
             if(isStartingBlock(block)){
                 queue.add(new solvingBlock(block, null));
-            };
+            }
         }
 
         while (!queue.isEmpty()){
@@ -127,17 +127,22 @@ public class MazeSolver extends JPanel{
     private void setDefaultFinishingWall(Maze maze){
         maze.getMazeMap().get(maze.getMazeMap().size() - 1).getWallSouth().setFinish(true);
     }
-//==========================================================================================================================
+
     private void resetMaze(Maze maze) {
         // reset maze visited and set maze start and finish blocks
         for ( Block block : maze.getMazeMap() ) {
             block.setVisited(false);
             if(block instanceof LogoBlock && maze.getMazeType().equalsIgnoreCase("KIDS")){
-//                if(block.getBlockIndex() == 0){
-                if(((LogoBlock) block).isLogoStart()){
-                    block.getWallSouth().setStart(true);
-                } else {
-                    block.getWallSouth().setFinish(true);
+
+                System.out.println("LogoType: " + ((LogoBlock) block).getLogoType());
+                //                if(block.getBlockIndex() == 0){
+                if(((LogoBlock) block).getLogoType().equalsIgnoreCase("kids")) {
+                    System.out.println("Kids-Type: " + ((LogoBlock) block).isLogoStart());
+                    if (((LogoBlock) block).isLogoStart()) {
+                        block.getWallSouth().setStart(true);
+                    } else {
+                        block.getWallSouth().setFinish(true);
+                    }
                 }
             }
 
@@ -146,7 +151,7 @@ public class MazeSolver extends JPanel{
 
         if(!checkForStartingWall(maze)){setDefaultStartingWall(maze);}
     }
-//==========================================================================================================================
+
 
 
     private boolean checkForStartingWall(Maze maze){

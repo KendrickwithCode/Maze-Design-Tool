@@ -142,21 +142,6 @@ public class MazeTest {
         resultFileName  = working.getPictureFile()  ;
         assertEquals("img/icons/Bone.png",resultFileName);
 
-        //Adult logo tests
-        resultLogosIndex = testMaze.getLogoBlockIndex();
-        working = (LogoBlock) testMaze.getMazeMap().get(resultLogosIndex);
-        int[] resultXY = working.getLocation();
-        assertEquals(1,resultXY[1]);
-        assertTrue(resultXY[0] >= 1 && resultXY[1] <= 6);
-        resultFileName  = working.getPictureFile()  ;
-        assertEquals("img/icons/MazeCo.png",resultFileName);
-        blockType  = working.getBlockType();
-        assertEquals("LogoBlock",blockType);
-
-        // Logo Change Test
-        working.setPictureFile("/img/icons/Bone.png");
-        resultFileName  = working.getPictureFile()  ;
-        assertEquals("/img/icons/Bone.png",resultFileName);
     }
 
     @Test

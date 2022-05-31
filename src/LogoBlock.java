@@ -27,7 +27,7 @@ public class LogoBlock extends Block{
 
         pictureFile = images.get(picture);
 
-        if(picture.equals("start") || picture.equals("finish"))
+        if(picture.equals("start") || picture.equals("end"))
         {
             logoType = "kids";
             if(picture.equals("start"))

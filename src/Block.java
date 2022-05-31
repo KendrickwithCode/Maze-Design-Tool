@@ -702,6 +702,8 @@ private void debugTools(){
                 {
                     LogoBlock current = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     System.out.println("Img: " + current.getPictureFile());
+                    System.out.println("LogoType: " + current.getLogoType());
+                    System.out.println("LogoKidsIstart: " + current.isLogoStart());
                 }
 }
 
