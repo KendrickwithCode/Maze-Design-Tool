@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 /**
  * Constructs and initialises Menu items for the GUI
@@ -80,8 +81,10 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 {
                         setShowSolution();
                 }
-                else if (src == mazeTypeComboBox){
-                        mazeType = (String)mazeTypeComboBox.getSelectedItem();
+                else if (src == mazeTypeComboBox)
+                {
+                        mazeType= Objects.requireNonNull(mazeTypeComboBox.getSelectedItem()).toString().toUpperCase();
+                        MazeLogoTools.getCurrentMaze().setMazeType(mazeType);
                 }
 
                 if(MazeLogoTools.getCurrentMaze().getSolvable()){

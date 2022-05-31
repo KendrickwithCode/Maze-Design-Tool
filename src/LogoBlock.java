@@ -1,3 +1,6 @@
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
 import java.util.HashMap;
 import java.io.Serializable;
 
@@ -6,6 +9,8 @@ import java.io.Serializable;
  */
 public class LogoBlock extends Block implements Serializable{
     private String pictureFile;
+    private String logoType;
+    private boolean logoStart;
     private int logoSizeX;
     private int logoSizeY;
     /**
@@ -13,18 +18,48 @@ public class LogoBlock extends Block implements Serializable{
      * @param blockIndex Index of logoBlock
      * @param location location of block on maze
      */
-    public LogoBlock(int[] location, int blockIndex, Maze mazeMap, String picture) throws Exception {
+    public LogoBlock(int[] location, int blockIndex, String picture) throws Exception {
         super(location, blockIndex,false);
         HashMap<String, String> images = new HashMap<>();
         images.put("start","img/icons/Dog.png");
         images.put("end","img/icons/Bone.png");
         images.put("logo","img/icons/MazeCo.png");
+        picture = picture.toLowerCase();
+
         pictureFile = images.get(picture);
+
+        if(picture.equals("start") || picture.equals("end"))
+        {
+            logoType = "kids";
+            if(picture.equals("start"))
+                logoStart = true;
+            else
+                logoStart = false;
+
+        }
+        else
+            logoType = "adult";
 
         ///Default Logo Sizes
         logoSizeX=2;
         logoSizeY=2;
     }
+
+    public void changeLogo() {
+        final JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
+
+        int returnVal = fc.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File imageFile = fc.getSelectedFile();
+            pictureFile = imageFile.getPath();
+
+            MazeLogoTools.getCurrentGUIMaze().renderBlocks();
+            rerenderIcons();
+        }
+    }
+
+
 
     public String getPictureFile() {
         return pictureFile;
@@ -49,6 +84,22 @@ public class LogoBlock extends Block implements Serializable{
 
     public void setLogoSizeY(int logoSizeY) {
         this.logoSizeY = logoSizeY;
+    }
+
+    public String getLogoType() {
+        return logoType;
+    }
+
+    public void setLogoType(String logoType) {
+        this.logoType = logoType;
+    }
+
+    public boolean isLogoStart() {
+        return logoStart;
+    }
+
+    public void setLogoStart(boolean logoStart) {
+        this.logoStart = logoStart;
     }
 
     /**

@@ -15,6 +15,7 @@ public class MazeWall implements Serializable {
     private boolean finish;
     private final JButton button;
     private boolean border;
+    private boolean oldWallState;
 
     /**
      * Maze wall constructor
@@ -32,11 +33,33 @@ public class MazeWall implements Serializable {
         return active;
     }
 
+    public void resetWall(){
+        setActive(oldWallState);
+    }
+
+    public boolean getOldWallState() {
+        return oldWallState;
+    }
+
     /**
+     * Overlaod
      * Sets if the current wall is an Active wall that can't be passed
      * @param active boolean of the active wall if it is true (enable / can't pass) / False can pass.
      */
     public void setActive(boolean active) {
+        setActive(active,true);
+    }
+
+    /**
+     * Sets if the current wall is an Active wall that can't be passed
+     * @param active boolean of the active wall if it is true (enable / can't pass) / False can pass.
+     * @param updateOldState when set it will update the oldWallState to current wall state.
+     */
+    public void setActive(boolean active, boolean updateOldState ) {
+        if(updateOldState)
+        {
+            this.oldWallState = active;
+        }
         this.active = active;
         setButtonColor();
     }

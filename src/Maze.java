@@ -148,9 +148,9 @@ public class Maze implements Serializable {
         mazeMap.clear();
         kidsStartIndex = 0;
         kidsFinishIndex = MazeLogoTools.getKidsFinishIndex(this);
-        logoBlockIndex = 0;
+//        logoBlockIndex = 0;
 
-        int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
+//        int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
 
         int currentIndex = 0;
         /*
@@ -158,15 +158,19 @@ public class Maze implements Serializable {
          */
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                if (mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "logo"));
-                    logoBlockIndex = currentIndex;
-                } else if (mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex) {
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "start"));
-                } else if (mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex) {
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "end"));
-                } else {
-                    mazeMap.add(new MazeBlock(new int[]{x, y}, currentIndex, clearWalls));
+//                if(mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
+//                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "logo"));
+//                    logoBlockIndex = currentIndex;
+//                }
+                if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "start"));
+                }
+                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex){
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "end"));
+                }
+                else
+                {
+                    mazeMap.add(new MazeBlock(new int[]{x,y},currentIndex, clearWalls));
                 }
                 setMazeWalls(mazeMap.get(currentIndex));
                 currentIndex++;
@@ -174,13 +178,6 @@ public class Maze implements Serializable {
 
         }
         activateBorderWalls(sizeX, sizeY);
-
-        if (mazeType.equalsIgnoreCase("ADULT"))
-            MazeLogoTools.setupAdultLogoBlocks(mazeMap.get(logoBlockIndex), this);
-        else {
-            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsStartIndex), this, true);
-            MazeLogoTools.setupKidsLogoBlockNeighbours(mazeMap.get(kidsFinishIndex), this, false);
-        }
     }
 
 
@@ -423,5 +420,11 @@ public class Maze implements Serializable {
     public void setLogoBlockIndex(int logoBlockIndex) {
         this.logoBlockIndex = logoBlockIndex;
     }
+    public void setKidsStartIndex(int kidsStartIndex) {
+        this.kidsStartIndex = kidsStartIndex;
+    }
 
+    public void setKidsFinishIndex(int kidsFinishIndex) {
+        this.kidsFinishIndex = kidsFinishIndex;
+    }
 }

@@ -258,20 +258,20 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         menuBar.add(file);
         this.setJMenuBar(menuBar);
 
-        // Set Edit Toolbar
-        JMenu edit = new JMenu("Edit");
-
-        logoChange = menuItemFactory("Change Logo",editMenuItemWith,menuItemHeight);
-        kidsStart = menuItemFactory("Change Kids Start Image",editMenuItemWith,menuItemHeight);
-        kidsFinish = menuItemFactory("Change Kids Finish Image",editMenuItemWith,menuItemHeight);
-
-        edit.add(logoChange);
-        edit.addSeparator();
-        edit.add(kidsStart);
-        edit.add(kidsFinish);
-
-        menuBar.add(edit);
-        this.setJMenuBar(menuBar);
+//        // Set Edit Toolbar
+//        JMenu edit = new JMenu("Edit");
+//
+//        logoChange = menuItemFactory("Change Logo",editMenuItemWith,menuItemHeight);
+//        kidsStart = menuItemFactory("Change Kids Start Image",editMenuItemWith,menuItemHeight);
+//        kidsFinish = menuItemFactory("Change Kids Finish Image",editMenuItemWith,menuItemHeight);
+//
+//        edit.add(logoChange);
+//        edit.addSeparator();
+//        edit.add(kidsStart);
+//        edit.add(kidsFinish);
+//
+//        menuBar.add(edit);
+//        this.setJMenuBar(menuBar);
 
 
         // Set Edit View
@@ -426,10 +426,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     public boolean getGrid(){
         return maze.getGrid();
     }
-
-
-//    final JFileChooser fc = new JFileChooser();
-//        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
 
 
     /**
