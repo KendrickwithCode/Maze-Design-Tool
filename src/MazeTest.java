@@ -337,6 +337,7 @@ public class MazeTest {
 
     @Test
     public void testDBUpdate() throws Exception{
+        testDBAdd();
         ResultSet rs = null;
         final String TEST = "UPDATE maze SET Maze_Type = 'KIDS' WHERE Maze_Name = 'Test'";
         final String SELECT = "Select Maze_Type FROM maze WHERE Maze_Name = 'Test'";
@@ -346,9 +347,10 @@ public class MazeTest {
         rs = testSelect.executeQuery();
         rs.next();
         assertEquals("KIDS", rs.getString("Maze_Type"), "Cannot Update Entry to Database");
+        rs.close();
     }
 
-    @Test
+    @AfterEach @Test
     public void testDBDelete() throws Exception{
         ResultSet rs = null;
         final String TEST = "DELETE FROM maze WHERE Maze_Name = 'Test'";
@@ -358,5 +360,6 @@ public class MazeTest {
         testDelete.execute();
         rs = testSelect.executeQuery();
         assertFalse(rs.next());
+        rs.close();
     }
 }
