@@ -86,16 +86,16 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
         availableDirections.clear();
     }
 
-    private void rerenderIcons() {
+    protected void rerenderIcons() {
         boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
         MazeLogoTools.getCurrentGUIMaze().renderBlocks();
         MazeLogoTools.getCurrentGUIMaze().renderMaze(gridStatus, true);
     }
 
     private void changeIconSize(int sizeX, int sizeY){
-        MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
+//        MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
         try {
-            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
+//            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
             LogoBlock working = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
             working.setLogoSizeX(sizeX);
             working.setLogoSizeY(sizeY);
@@ -541,12 +541,34 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
             item23.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    LogoBlock currentBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(Block.this.blockIndex);
+                    currentBlock.changeLogo();
+                }
+            });
+
+            JMenuItem item24 = new JMenuItem("Place Kids Start");
+            item24.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                }
+            });
+
+            JMenuItem item25 = new JMenuItem("Place Kids Finish");
+            item25.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
                 }
             });
 
 
             menu.add(item);
 
+            if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeType(), "KIDS"))
+            {
+                menu.addSeparator();
+                menu.add(item24);
+                menu.add(item25);
+            }
 
             if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
             {
@@ -581,6 +603,11 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
 
         else
             System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex));
+            if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
+                {
+                    LogoBlock current = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    System.out.println("Img: " + current.getPictureFile());
+                }
 
     }
 
