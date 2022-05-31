@@ -14,7 +14,7 @@ public class DBConnection {
     /**
      * The singleton instance of the database connection. For each thread to access DB.
      */
-    private static Connection instance = null;
+    public static Connection instance = null;
 
     /**
      * Constructs and Initializes the connection to the Database. Taken from Week 6 Tutorial

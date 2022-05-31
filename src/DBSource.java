@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -73,6 +74,7 @@ public class DBSource implements MazeDBSource {
         }
         return m;
     }
+
 
     /**
      * Reads the byte stream from the database "Image" column and converts into a Maze object.

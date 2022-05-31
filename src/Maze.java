@@ -62,9 +62,12 @@ public class Maze implements Serializable {
         return mazeWidth;
     }
 
+    public String getWidthAsString(){ return Integer.toString(mazeWidth);}
+
     public int getHeight() {
         return mazeHeight;
     }
+    public String getHeightAsString(){ return Integer.toString(mazeHeight);}
 
     public String getMazeDescription() {
         return mazeDescription;
