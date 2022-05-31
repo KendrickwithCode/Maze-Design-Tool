@@ -280,6 +280,9 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
                     try {
 
+                        LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                        MazeLogoTools.resetWalls(workingBlock);
+
                         changeIconSize(1, 1);
                         rerenderIcons();
                         Block.this.clearStarts();
@@ -300,6 +303,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(1, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -314,6 +318,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(2, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -329,6 +334,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(3, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -343,6 +349,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(4, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -358,6 +365,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(5, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -373,6 +381,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(6, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -387,6 +396,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(7, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -401,6 +411,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(8, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -415,6 +426,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(9, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -429,6 +441,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 public void actionPerformed(ActionEvent e) {
 
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeY = workingBlock.getLogoSizeY();
                     changeIconSize(10, currentSizeY);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -447,6 +460,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 1);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -460,6 +474,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 2);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -473,6 +488,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 3);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -486,6 +502,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 4);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -499,6 +516,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 5);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -512,6 +530,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 6);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -525,6 +544,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 7);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -538,6 +558,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 8);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -551,6 +572,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 9);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -564,6 +586,7 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    MazeLogoTools.resetWalls(workingBlock);
                     int currentSizeX = workingBlock.getLogoSizeX();
                     changeIconSize(currentSizeX, 10);
                     if(Objects.equals(workingBlock.getLogoType(), "adult"))
@@ -668,17 +691,20 @@ public abstract class Block implements IBlock, MouseListener, ActionListener {
             menu.show(e.getComponent(), e.getX(), e.getY());
         }
 
-//        else
-//            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex));
-//        System.out.println(MazeLogoTools.getCurrentMaze().getMazeType());
-//            if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
-//                {
-//                    LogoBlock current = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-//                    System.out.println("Img: " + current.getPictureFile());
-//                }
+        else debugTools();
+
 
     }
 
-
+private void debugTools(){
+            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex));
+            System.out.println(MazeLogoTools.getCurrentMaze().getMazeType());
+            System.out.println("CurentWall: " +  this.getWallNorth().getActive() + " Old: " + this.getWallNorth().getOldWallState());
+            if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
+                {
+                    LogoBlock current = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    System.out.println("Img: " + current.getPictureFile());
+                }
+}
 
 }

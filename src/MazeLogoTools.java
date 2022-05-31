@@ -20,6 +20,67 @@ public class MazeLogoTools {
         return new int[]{randomX,randomY};
     }
 
+    public static void resetWalls(LogoBlock working){
+        int sizeX = working.getLogoSizeX();
+        int sizeY = working.getLogoSizeY();
+
+        int currentY = working.getLocation()[1];
+        int currentX = working.getLocation()[0];
+        int endY = currentY+sizeY-1;
+        int endX = currentX+sizeX-1;
+
+        System.out.println("Sx:" + sizeX + " Sy:" + sizeY);
+        System.out.println("Cidx:" + working.getLocation()[0] + " Cidy:" + working.getLocation()[1]);
+        System.out.println("Ex:" + endX + " Ey:" + endY);
+
+        int indexEast = currentMaze.getIndex(new int[]{endX,currentY});
+        resetWallsEastWest(endY,working.getBlockIndex(),true);
+        resetWallsEastWest(endY,indexEast,false);
+
+
+        int indexSth = currentMaze.getIndex(new int[]{currentX,endY});
+        resetWallsNorthSouth(endX,working.getBlockIndex(),true);
+        resetWallsNorthSouth(endX,indexSth,false);
+
+
+    }
+
+    private static void resetWallsEastWest(int endY, int currentIndexY, boolean westWall)
+    {
+        Block workingBlock = currentMaze.getMazeMap().get(currentIndexY);
+        int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"south");
+        int currentY = workingBlock.getLocation()[1];
+        if(westWall)
+            workingBlock.getWallWest().resetWall();
+        else
+            workingBlock.getWallEast().resetWall();
+
+        if (endY == currentY)                       //base Case
+            return;
+        resetWallsEastWest(endY,nextIndex,westWall);     //Recurse
+    }
+
+
+    private static void resetWallsNorthSouth(int endX, int currentIndexX, boolean northWall)
+    {
+
+        Block workingBlock = currentMaze.getMazeMap().get(currentIndexX);
+        int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"east");
+        int currentX = workingBlock.getLocation()[0];
+
+        if(northWall)
+            workingBlock.getWallNorth().resetWall();
+        else
+            workingBlock.getWallSouth().resetWall();
+
+        if (endX == currentX)                       //base Case
+            return;
+
+        resetWallsNorthSouth(endX,nextIndex,northWall);               //Recurse
+    }
+
+
+
     /**
      * Configure the logo block walls and cells for the Adult maze type.
      * @param logoBlock block to be the origin point for a logo block.
@@ -28,7 +89,6 @@ public class MazeLogoTools {
      */
     public static void setupAdultLogoBlocks(Block logoBlock,int sizeX, int sizeY)
     {
-
         int currentY = logoBlock.getLocation()[1];
         int currentX = logoBlock.getLocation()[0];
         int endY = currentY+sizeY-1;
@@ -49,9 +109,9 @@ public class MazeLogoTools {
         int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"south");
         int currentY = workingBlock.getLocation()[1];
         if(westWall)
-            workingBlock.getWallWest().setActive(true);
+            workingBlock.getWallWest().setActive(true,false);
         else
-            workingBlock.getWallEast().setActive(true);
+            workingBlock.getWallEast().setActive(true,false);
 
         if (endY == currentY)                       //base Case
             return;
@@ -67,9 +127,9 @@ public class MazeLogoTools {
         int currentX = workingBlock.getLocation()[0];
 
         if(northWall)
-            workingBlock.getWallNorth().setActive(true);
+            workingBlock.getWallNorth().setActive(true,false);
         else
-            workingBlock.getWallSouth().setActive(true);
+            workingBlock.getWallSouth().setActive(true,false);
 
         if (endX == currentX)                       //base Case
             return;
