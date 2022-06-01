@@ -33,7 +33,7 @@ public interface MazeDBSource {
      * @throws SQLException
      * @throws IOException
      */
-    void addMaze(String maze, String type, String author,
+    boolean addMaze(String maze, String type, String author,
                  String description, String height, String width) throws SQLException, IOException;
 
     /**

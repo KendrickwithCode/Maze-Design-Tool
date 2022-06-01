@@ -167,15 +167,16 @@ public class DBSource implements MazeDBSource {
         return printImage;
     }
 
+
     @Override
-    public void addMaze(String maze, String type, String author, String description, String height, String width) throws SQLException, IOException {
+    public boolean addMaze(String maze, String type, String author, String description, String height, String width) throws SQLException, IOException {
         checkEntries.setString(1, maze);
         ResultSet rs = checkEntries.executeQuery();
         if (rs.getInt("Count(Maze_Name)") > 0){
                 updateMaze(maze, type, author, description, height, width);
             JOptionPane.showMessageDialog(null,
                     "Maze Successfully Updated.","Okay",JOptionPane.INFORMATION_MESSAGE);
-                return;
+            return false;
         }
         addMaze.setString(1, maze);
         addMaze.setString(2, type);
@@ -189,6 +190,7 @@ public class DBSource implements MazeDBSource {
         byte[] data = byteStream.toByteArray();
         addMaze.setBinaryStream(7, new ByteArrayInputStream(data), data.length);
         addMaze.execute();
+        return true;
     }
 
     private void updateMaze(String maze, String type, String author, String description, String height, String width) throws SQLException, IOException {

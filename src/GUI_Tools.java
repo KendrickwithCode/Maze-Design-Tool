@@ -105,6 +105,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 percentageTravelled.setText("0%");
                 deadEndCount.setText("0%");
                 solvableBool.setText("");
+                mainGui.lastEdited.setText("");
+                mainGui.dateCreated.setText("");
         }
         public static void setShowSolution() {
                 mainGui.getMaze().mazePanel.setRenderSolution(showSolution.isSelected());

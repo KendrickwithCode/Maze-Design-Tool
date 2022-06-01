@@ -1,7 +1,5 @@
 import javax.imageio.ImageIO;
-import javax.naming.NamingException;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -22,13 +20,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
     public JSplitPane splitPane;
-    public JList dbitems;
+    public JList<Object> dbitems;
     public JLabel leftpane, date, edited, lastEdited, dateCreated;
     MazeDB mazedata;
     DBSource mazeDB;
     private JButton reset;
     private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
-    private DefaultListModel listModel;
+    private final DefaultListModel<Object> listModel;
 
 
     @Override
@@ -51,13 +49,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 }
                 else{
                     String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
-                    mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
+                    boolean added = mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
                             GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText());
                     mazedata.updateList(listModel);
+                    if (!added){
+                        lastEdited.setText(mazeDB.getLastEdited(GUI_Tools.maze_name.getText()));
+                    }
                 }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            } catch (IOException ex) {
+            } catch (SQLException | IOException ex) {
                 ex.printStackTrace();
             }
             //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
@@ -128,7 +127,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 GUI_Tools.showSolution.setEnabled(false);
                 clearMaze();
                 dbitems.clearSelection();
-                MazeLogoTools.deleteMazeObj();
+//                MazeLogoTools.deleteMazeObj();
                 GUI_Tools.clearStats();
                 this.repaint();
                 this.revalidate();
@@ -229,7 +228,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      */
     public GUI(MazeDB data) throws SQLException {
         this.mazedata = data;
-        listModel = new DefaultListModel();
+        listModel = new DefaultListModel<>();
         mazeDB = new DBSource();
         initializeFrame();
     }
@@ -310,7 +309,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         new GUI_Tools(borderleft, this); //<-- Call GUI_Tools to set menu items on left side
 
         mazedata.updateList(listModel);
-        dbitems = new JList(listModel);
+        dbitems = new JList<>(listModel);
         addNameListListener(new NameListListener());
         dbitems.setVisible(true);
 
