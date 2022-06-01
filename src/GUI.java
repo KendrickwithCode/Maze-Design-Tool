@@ -23,7 +23,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
     public JSplitPane splitPane;
     public JList dbitems;
-    public JLabel leftpane;
+    public JLabel leftpane, date, edited, lastEdited, dateCreated;
     MazeDB mazedata;
     DBSource mazeDB;
     private JButton reset;
@@ -52,7 +52,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 else{
                     String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
                     mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
-                            GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText(), maze);
+                            GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText());
                     mazedata.updateList(listModel);
                 }
             } catch (SQLException ex) {
@@ -178,6 +178,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             GUI_Tools.description_text.setText(maze.getMazeDescription());
             GUI_Tools.height_text.setText(Integer.toString(maze.getHeight()));
             GUI_Tools.width_text.setText(Integer.toString(maze.getWidth()));
+            dateCreated.setText(mazeDB.getDateCreated(maze.getMazeName()));
+            lastEdited.setText(mazeDB.getLastEdited(maze.getMazeName()));
             Maze load = mazeDB.getGUIMaze(maze.getMazeName());
             //MazeLogoTools.setCurrentMaze(maze);
             GUI_Maze loadedMaze = new GUI_Maze(load, false);
@@ -307,16 +309,20 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         addNameListListener(new NameListListener());
         dbitems.setVisible(true);
 
-        JPanel controls = new JPanel(new BorderLayout());
+        JPanel controls = new JPanel();
+        date = new JLabel("Date Created");
+        dateCreated = new JLabel("");
+        edited = new JLabel("Last Edited");
+        lastEdited = new JLabel("");
         reset = new JButton("Reset Selections");
-        JLabel date = new JLabel("Date Created", SwingConstants.CENTER);
-        JLabel edited = new JLabel("Last Edited", SwingConstants.CENTER);
-        edited.setBorder(new EmptyBorder(10, 0, 0, 0));
-        date.setBorder(new EmptyBorder(10, 0, 0, 0));
-        //clear.setBorder(new EmptyBorder(10, 0, 10, 0));
-        controls.add(reset, BorderLayout.SOUTH);
-        controls.add(date, BorderLayout.NORTH);
-        controls.add(edited, BorderLayout.CENTER);
+        controls.add(date);
+        controls.add(dateCreated);
+        controls.add(edited);
+        controls.add(lastEdited);
+        controls.add(reset);
+        controls.setLayout(new GridLayout(5, 0));
+        GUI_Tools.setStyle(dateCreated);
+        GUI_Tools.setStyle(lastEdited);
         GUI_Tools.setStyle(dbitems);
         GUI_Tools.setStyle(reset);
         GUI_Tools.setStyle(controls);
@@ -324,14 +330,14 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         GUI_Tools.setStyle(edited);
 
         reset.addActionListener(this);
-        JSplitPane embed = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controls, dbitems);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, embed);
+        JSplitPane embeddedSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controls, dbitems);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, embeddedSplit);
 
         //Makes the split pane unmovable
-        embed.setEnabled(true);
+        embeddedSplit.setEnabled(true);
         splitPane.setEnabled(false);
 
-        embed.setDividerLocation(200);
+        embeddedSplit.setDividerLocation(200);
         splitPane.setDividerLocation(1250);
         splitPane.setOneTouchExpandable(false);
         splitPane.setContinuousLayout(true);
@@ -344,7 +350,12 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         setVisible(true);
     }
 
+    public void getDateCreated(){
 
+    }
+    public void getLastEdited(){
+
+    }
 
     private void setWindowSize(){
         setSize(1500, 1000);

@@ -25,7 +25,7 @@ public class MazeDB{
      * @param l The List Model to add to.
      */
     public void updateList(DefaultListModel l) throws SQLException {
-        for(String name : mazedata.nameSet()){
+        for(String name : mazedata.nameList()){
             if (!l.contains(name)){
                 l.addElement(name);
             }

@@ -313,7 +313,7 @@ public class MazeTest {
         ResultSet rs = null;
         final String TEST = "Select Maze_Name FROM maze WHERE Maze_Name = 'Test'";
         data.addMaze(testMaze.getMazeName(), testMaze.getMazeType(), testMaze.getAuthorName(), testMaze.getMazeDescription(),
-                testMaze.getHeightAsString(), testMaze.getWidthAsString(), new GUI_Maze(testMaze, false));
+                testMaze.getHeightAsString(), testMaze.getWidthAsString());
         PreparedStatement testAdd = data.connection.prepareStatement(TEST);
         rs = testAdd.executeQuery();
         rs.next();

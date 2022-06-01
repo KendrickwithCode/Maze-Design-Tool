@@ -1,21 +1,29 @@
+import org.junit.jupiter.api.DisplayNameGenerator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class DBSource implements MazeDBSource {
-    public static final String SELECT = "SELECT * FROM maze WHERE idx = 1";
 
+    public static final String SELECT = "SELECT * FROM maze WHERE idx = 1";
     private static final String INSERT_MAZE = "INSERT INTO maze " +
             "(Maze_Name, Maze_Type, Author_Name, Author_Description, Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?, ?);";
-
+    private static final String UPDATE_MAZE = "UPDATE maze " +
+            "SET Maze_Name = ?, Maze_Type = ?, Author_Name = ?, Author_Description = ?, Width = ?, Height = ?, Image = ? WHERE Maze_Name = ?;";
     private static final String GET_NAME = "SELECT * from maze WHERE Maze_Name=?";
     private static final String GET_ALL_NAMES = "SELECT Maze_Name, Author_Name from maze";
-    private static final String GETDATE = "SELECT Date_Created from maze WHERE Maze_Name =?";
-    private static final String GETEDITED = "SELECT Last_Edited from maze WHERE Maze_Name =?";
+    private static final String GET_DATE = "SELECT Date_Created from maze WHERE Maze_Name =?";
+    private static final String GET_EDITED = "SELECT Last_Edited from maze WHERE Maze_Name =?";
+    private static final String UPDATE_DATE = "UPDATE maze SET Last_Edited = CURRENT_TIMESTAMP WHERE Maze_Name = ?";
+    private static final String CHECK_ENTRIES = "SELECT COUNT(Maze_Name) FROM maze WHERE Maze_Name =?";
 
 
     public static final String CREATE_TABLE =
@@ -23,7 +31,7 @@ public class DBSource implements MazeDBSource {
                     + "idx INTEGER PRIMARY KEY /*!40101 AUTO_INCREMENT */ NOT NULL UNIQUE," // from https://stackoverflow.com/a/41028314
                     + "Maze_Name VARCHAR(30),"
                     + "Maze_Type VARCHAR(5),"
-                    + "Date_Created DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                    + "Date_Created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                     + "Last_Edited TIMESTAMP CURRENT_TIMESTAMP,"
                     + "Author_Name VARCHAR(30),"
                     + "Author_Description VARCHAR(180),"
@@ -32,7 +40,8 @@ public class DBSource implements MazeDBSource {
                     + "Image LONGBLOB" + ");";
 
     public Connection connection;
-    private PreparedStatement addMaze, getMaze, getAllMaze, getDateCreated, getLastEdited;
+    private PreparedStatement addMaze, updateMaze, getMaze, getAllMaze,
+            getDateCreated, getLastEdited, updateLastEdited, checkEntries;
     public Statement st;
 
 
@@ -47,8 +56,11 @@ public class DBSource implements MazeDBSource {
             addMaze = connection.prepareStatement(INSERT_MAZE);
             getMaze = connection.prepareStatement(GET_NAME);
             getAllMaze = connection.prepareStatement(GET_ALL_NAMES);
-            getDateCreated = connection.prepareStatement(GETDATE);
-            getLastEdited = connection.prepareStatement(GETEDITED);
+            getDateCreated = connection.prepareStatement(GET_DATE);
+            getLastEdited = connection.prepareStatement(GET_EDITED);
+            updateMaze = connection.prepareStatement(UPDATE_MAZE);
+            updateLastEdited = connection.prepareStatement(UPDATE_DATE);
+            checkEntries = connection.prepareStatement(CHECK_ENTRIES);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -63,36 +75,53 @@ public class DBSource implements MazeDBSource {
             getMaze.setString(1, name);
             rs = getMaze.executeQuery();
             rs.next();
-            //(int sizeX, int sizeY, String name, String mazeType, String mazeDescription, String authorName)
-            m = new Maze(rs.getInt("Width"), rs.getInt("Height"), rs.getString("Maze_Name"), rs.getString("Maze_Type"),
+            m = new Maze(rs.getInt("Width"), rs.getInt("Height"),
+                    rs.getString("Maze_Name"), rs.getString("Maze_Type"),
                     rs.getString("Author_Description"), rs.getString("Author_Name"));
-//            m.setMazeName(rs.getString("Maze_Name"));
-//            m.setMazeType(rs.getString("Maze_Type"));
-//            m.setAuthorName(rs.getString("Author_Name"));
-//            m.setMazeDescription(rs.getString("Author_Description"));
-//            m.setSize(rs.getInt("Width"), rs.getInt("Height"));
-//            m.setWidth(rs.getInt("Width"));
-//            m.setHeight(rs.getInt("Height"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return m;
     }
 
-    public String getDateCreated(String name) throws SQLException {
+    public String getDateCreated(String name) {
         ResultSet rs = null;
+        String dateCreated = "";
         try {
             getDateCreated.setString(1, name);
             rs = getDateCreated.executeQuery();
             rs.next();
+            dateCreated = rs.getString("Date_Created");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs.getString("Date_Created");
+        return dateCreated;
     }
 
     public String getLastEdited(String name){
-        return "";
+        ResultSet rs = null;
+        String lastEdited = "";
+        try {
+            getLastEdited.setString(1, name);
+            rs = getLastEdited.executeQuery();
+            rs.next();
+            lastEdited = rs.getString("Last_Edited");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (lastEdited == null){
+            return "N/A";
+        }
+        return lastEdited;
+    }
+
+    public void setLastEdited(String name){
+        try {
+            updateLastEdited.setString(1, name);
+            updateLastEdited.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -139,7 +168,15 @@ public class DBSource implements MazeDBSource {
     }
 
     @Override
-    public void addMaze(String maze, String type, String author, String description, String height, String width, GUI_Maze Maze) throws SQLException, IOException {
+    public void addMaze(String maze, String type, String author, String description, String height, String width) throws SQLException, IOException {
+        checkEntries.setString(1, maze);
+        ResultSet rs = checkEntries.executeQuery();
+        if (rs.getInt("Count(Maze_Name)") > 0){
+                updateMaze(maze, type, author, description, height, width);
+            JOptionPane.showMessageDialog(null,
+                    "Maze Successfully Updated.","Okay",JOptionPane.INFORMATION_MESSAGE);
+                return;
+        }
         addMaze.setString(1, maze);
         addMaze.setString(2, type);
         addMaze.setString(3, author);
@@ -149,11 +186,28 @@ public class DBSource implements MazeDBSource {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
         objectStream.writeObject(MazeLogoTools.getCurrentMaze());
-
         byte[] data = byteStream.toByteArray();
         addMaze.setBinaryStream(7, new ByteArrayInputStream(data), data.length);
         addMaze.execute();
     }
+
+    private void updateMaze(String maze, String type, String author, String description, String height, String width) throws SQLException, IOException {
+        updateMaze.setString(8, maze);
+        updateMaze.setString(1, maze);
+        updateMaze.setString(2, type);
+        updateMaze.setString(3, author);
+        updateMaze.setString(4, description);
+        updateMaze.setString(5, width);
+        updateMaze.setString(6, height);
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
+        objectStream.writeObject(MazeLogoTools.getCurrentMaze());
+        byte[] data = byteStream.toByteArray();
+        updateMaze.setBinaryStream(7, new ByteArrayInputStream(data), data.length);
+        setLastEdited(maze);
+        updateMaze.execute();
+    }
+
 
     @Override
     public void close() {
@@ -170,8 +224,8 @@ public class DBSource implements MazeDBSource {
      * @return A set containing names as a string
      */
     @Override
-    public Set<String> nameSet() {
-        Set<String> names = new TreeSet<String>();
+    public ArrayList<String> nameList() {
+        ArrayList<String> names = new ArrayList<String>();
         ResultSet rs = null;
 
         try {
