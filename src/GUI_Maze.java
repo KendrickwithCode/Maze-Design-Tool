@@ -66,6 +66,10 @@ public class GUI_Maze extends JPanel{
         renderMaze(getGrid(),false);
 }
 
+    public MazePanel getMazePanel() {
+        return mazePanel;
+    }
+
     public GridBagConstraints setupGridConstraints()
     {
         // Set maze components common constraints

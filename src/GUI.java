@@ -39,7 +39,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         if (src == export) {
             try {
                 if (maze != null)
-                    System.out.println(jpgExport(maze)); //prints out the file path of the exported jpg
+                    jpgExport(maze.getMazePanel());
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -436,7 +436,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.revalidate();
     }
 
-    public void setGrid(boolean toggle) throws NamingException {
+    public void setGrid(boolean toggle) {
         maze.renderMaze(toggle, true);
     }
 
@@ -483,32 +483,4 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             ioe.printStackTrace();
         }
     }
-
-    /**
-     * Creates a screenshot of the passed JFrame object and saves it to a temp file
-     * adapted from: https://stackoverflow.com/a/10796047
-     * @param Maze the GUI_Maze object that is to be exported.
-     * @return file path of the exported jpg
-     */
-    public static String jpgExport(GUI_Maze Maze) {
-        Rectangle rec = Maze.getBounds();
-        File temp = null;
-        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
-        Maze.paint(bufferedImage.getGraphics());
-
-        try {
-            // Create temp file
-            temp = File.createTempFile("screenshot", ".png");
-
-            // Use the ImageIO API to write the bufferedImage to a temporary file
-            ImageIO.write(bufferedImage, "png", temp);
-
-            // Delete temp file when program exits
-            temp.deleteOnExit();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        return temp.getPath();
-    }
-
 }
