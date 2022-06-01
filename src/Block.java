@@ -248,7 +248,6 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-
                         MazeLogoTools.convertMazeBlockToLogoBlock(Block.this);
                         rerenderIcons();
 

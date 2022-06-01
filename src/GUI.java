@@ -178,6 +178,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             Maze load = mazeDB.getGUIMaze(maze.getMazeName());
             //MazeLogoTools.setCurrentMaze(maze);
             GUI_Maze loadedMaze = new GUI_Maze(load, false);
+            MazeLogoTools.setCurrentGUIMaze(loadedMaze);
+            MazeLogoTools.setCurrentMaze(load);
             setMaze(loadedMaze);
             //MazeLogoTools.setCurrentGUIMaze(loadedMaze);
             leftpane.add(new JScrollPane(loadedMaze));
