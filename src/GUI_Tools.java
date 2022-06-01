@@ -51,6 +51,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else if (src==btnGenerate)
                 {
                         try {
+                                showGrid.setEnabled(true);
+                                showSolution.setEnabled(true);
                                 mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                         Integer.parseInt(height_text.getText()), maze_name.getText(), true,mazeType);
                         } catch (Exception ex) {
@@ -175,9 +177,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Show Grid check box
                 showGrid = new JCheckBox("Show Grid", true);
                 showGrid.addActionListener(this);
+                showGrid.setEnabled(false);
                 //Show Grid check box
                 showSolution = new JCheckBox("Show Solution", false);
                 showSolution.addActionListener(this);
+                showSolution.setEnabled(false);
 
                 solvable = createLabels("Solvable:");
                 solvable.setHorizontalAlignment(SwingConstants.RIGHT);

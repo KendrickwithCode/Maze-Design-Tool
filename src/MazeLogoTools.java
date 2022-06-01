@@ -184,6 +184,11 @@ public class MazeLogoTools {
         return currentGUIMaze;
     }
 
+    public static void removeMaze(){
+        currentMaze = null;
+        currentGUIMaze = null;
+    }
+
     /**
      * converts a Maze block to a Logo block.
      * @param inputBLock block to be converted.

@@ -26,7 +26,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     public JLabel leftpane;
     MazeDB mazedata;
     DBSource mazeDB;
-    private JButton clear;
+    private JButton reset;
     private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
     private DefaultListModel listModel;
 
@@ -122,10 +122,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 }
             }
         }
-        if(src==clear){
+        if(src== reset){
             if(MazeLogoTools.getCurrentGUIMaze() != null){
+                GUI_Tools.showGrid.setEnabled(false);
+                GUI_Tools.showSolution.setEnabled(false);
                 clearMaze();
                 dbitems.clearSelection();
+                MazeLogoTools.removeMaze();
                 this.repaint();
                 this.revalidate();
             }
@@ -153,6 +156,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         public void valueChanged(ListSelectionEvent e) {
             if (dbitems.getSelectedValue() != null) {
                 try {
+                    GUI_Tools.showGrid.setEnabled(true);
+                    GUI_Tools.showSolution.setEnabled(true);
                     display(mazedata.get(dbitems.getSelectedValue()));
                     GUI_Tools.setShowSolution();
                     GUI_Tools.setMazeStatsLabels();
@@ -302,22 +307,22 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         dbitems.setVisible(true);
 
         JPanel controls = new JPanel(new BorderLayout());
-        clear = new JButton("Clear");
+        reset = new JButton("Reset Selections");
         JLabel date = new JLabel("Date Created", SwingConstants.CENTER);
         JLabel edited = new JLabel("Last Edited", SwingConstants.CENTER);
         edited.setBorder(new EmptyBorder(10, 0, 0, 0));
         date.setBorder(new EmptyBorder(10, 0, 0, 0));
         //clear.setBorder(new EmptyBorder(10, 0, 10, 0));
-        controls.add(clear, BorderLayout.SOUTH);
+        controls.add(reset, BorderLayout.SOUTH);
         controls.add(date, BorderLayout.NORTH);
         controls.add(edited, BorderLayout.CENTER);
         GUI_Tools.setStyle(dbitems);
-        GUI_Tools.setStyle(clear);
+        GUI_Tools.setStyle(reset);
         GUI_Tools.setStyle(controls);
         GUI_Tools.setStyle(date);
         GUI_Tools.setStyle(edited);
 
-        clear.addActionListener(this);
+        reset.addActionListener(this);
         JSplitPane embed = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controls, dbitems);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, embed);
 
@@ -384,7 +389,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     /**
-     * Clears current Maze on screen.
+     * Clears current Maze and details in text boxes.
      */
     public void clearMaze(){
         // Checks if GUI already contains a maze and removes it to be replaced with new maze
