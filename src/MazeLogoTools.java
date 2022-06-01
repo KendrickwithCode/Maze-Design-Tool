@@ -184,7 +184,7 @@ public class MazeLogoTools {
         return currentGUIMaze;
     }
 
-    public static void removeMaze(){
+    public static void deleteMazeObj(){
         currentMaze = null;
         currentGUIMaze = null;
     }

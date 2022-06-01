@@ -128,7 +128,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 GUI_Tools.showSolution.setEnabled(false);
                 clearMaze();
                 dbitems.clearSelection();
-                MazeLogoTools.removeMaze();
+                MazeLogoTools.deleteMazeObj();
+                GUI_Tools.clearStats();
                 this.repaint();
                 this.revalidate();
             }
@@ -328,9 +329,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         //Makes the split pane unmovable
         embed.setEnabled(true);
-        embed.setDividerLocation(200);
         splitPane.setEnabled(false);
 
+        embed.setDividerLocation(200);
         splitPane.setDividerLocation(1250);
         splitPane.setOneTouchExpandable(false);
         splitPane.setContinuousLayout(true);

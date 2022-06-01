@@ -24,11 +24,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         private JLabel description;
         private JLabel mazeType_text;
         private JLabel solvable;
-        private static JLabel solvableBool;
+        static JLabel solvableBool;
         private JLabel travelled;
-        private static JLabel percentageTravelled;
+        static JLabel percentageTravelled;
         private JLabel deadEnds;
-        private static JLabel deadEndCount;
+        static JLabel deadEndCount;
         public static JComboBox mazeTypeComboBox;
         private static GUI mainGui;
         private String mazeType;
@@ -100,6 +100,11 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         }
 
+        public static void clearStats(){
+                percentageTravelled.setText("0%");
+                deadEndCount.setText("0%");
+                solvableBool.setText("");
+        }
         public static void setShowSolution() {
                 mainGui.getMaze().mazePanel.setRenderSolution(showSolution.isSelected());
         }
@@ -151,7 +156,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 //Maze Name Label and Button
                 name = createLabels("Maze Name: ");
                 maze_name = createTextFields("Maze",125,textFieldSizeHeight);
-
                 author_name = createLabels("Author Name: ");
                 author_name_text = createTextFields("", 125,textFieldSizeHeight);
 
@@ -159,6 +163,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 description_text = new JTextArea();
                 description_text.setLineWrap(true);
                 description_text.setEditable(true);
+                description_text.setCaretColor(Color.WHITE);
                 description_pane = new JScrollPane( description_text );
                 description_pane.setPreferredSize(new Dimension(250,150));
                 description_pane.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
@@ -276,6 +281,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
          */
         private JTextField createTextFields(String defaultValue,int width, int height) {
                 JTextField textField = new JTextField(defaultValue);
+                textField.setCaretColor(Color.WHITE);
                 textField.setPreferredSize(new Dimension(width,height));
                 return textField;
         }
