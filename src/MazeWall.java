@@ -1,19 +1,15 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class MazeWall implements Serializable {
+public class MazeWall extends JButton implements Serializable {
     @Serial
     private static final long serialVersionUID = 5L;
-    public boolean active;
+    private boolean active;
     private boolean start;
     private boolean finish;
-    private final JButton button;
     private boolean border;
     private boolean oldWallState;
 
@@ -21,7 +17,7 @@ public class MazeWall implements Serializable {
      * Maze wall constructor
      */
     public MazeWall() {
-        this.button = createBtn();
+        addListeners();
     }
 
 
@@ -114,63 +110,57 @@ public class MazeWall implements Serializable {
         return this.border;
     }
 
-    /**
-     * Returns button associated with this wall
-     * @return JButton object
-     */
-    public JButton getButton(){
-        return this.button;
-    }
-
-    private void setButtonColor(){
+    public void setButtonColor(){
         Color unsetColor = Color.white;
         Color activeColor = Color.black;
         Color startingColor = Color.green;
         Color finishingColor = Color.red;
 
-        button.setContentAreaFilled(true);
+        this.setContentAreaFilled(true);
 
         if (start) {
-            this.button.setBackground(startingColor);
+            setBackground(startingColor);
         } else if (finish) {
-            this.button.setBackground(finishingColor);
+            setBackground(finishingColor);
         } else if(border){
-            button.setBackground(activeColor);
+            setBackground(activeColor);
         } else if(active){
-            this.button.setBackground(activeColor);
+            setBackground(activeColor);
         }  else {
-            this.button.setContentAreaFilled(false);
-            this.button.setBackground(unsetColor);
+            setContentAreaFilled(false);
+            setBackground(unsetColor);
         }
     }
 
     public void setButtonEnableVisible(boolean buttonState)
     {
         setButtonEnable(buttonState);
-        setButtonVissible(buttonState);
+        setButtonVisible(buttonState);
     }
 
     public void setButtonEnable(boolean buttonState)
     {
-        button.setEnabled(buttonState);
+        setEnabled(buttonState);
     }
 
-    public void setButtonVissible(boolean buttonState)
+    public void setButtonVisible(boolean buttonState)
     {
-        button.setVisible(buttonState);
+        setVisible(buttonState);
     }
 
+    public void addListeners() {
 
+        MouseListener[] listeners  = getMouseListeners();
+        for (MouseListener mouseListener : listeners) {
+            removeMouseListener(mouseListener);
+        }
 
-    private JButton createBtn () {
         Color unsetColor = Color.white;
         Color activeColor = Color.black;
         Color hoverColor = Color.gray;
 
-        JButton btn = new JButton();
-
-        btn.setFocusPainted(false);
-        btn.setRolloverEnabled(false);
+        setFocusPainted(false);
+        setRolloverEnabled(false);
 
         if(border) {
             setButtonColor();
@@ -178,10 +168,10 @@ public class MazeWall implements Serializable {
         }
 
         if(!border) {
-            btn.addMouseListener(new MouseAdapter() {
+            addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    MazePanel mazePanel = (MazePanel) btn.getParent();
+                    MazePanel mazePanel = (MazePanel) getParent();
 
                     super.mouseClicked(e);
                     if (SwingUtilities.isRightMouseButton(e)){
@@ -218,8 +208,8 @@ public class MazeWall implements Serializable {
                 public void mouseEntered(MouseEvent e) {
                     super.mouseEntered(e);
                     if(border || active) return;
-                    btn.setBackground(hoverColor);
-                    btn.setContentAreaFilled(true);
+                    setBackground(hoverColor);
+                    setContentAreaFilled(true);
                 }
 
                 @Override
@@ -227,10 +217,9 @@ public class MazeWall implements Serializable {
                     super.mouseExited(e);
                     if(border) return;
                     setButtonColor();
-                    btn.getParent().repaint();
+                    getParent().repaint();
                 }
             });
         }
-        return btn;
     }
 }

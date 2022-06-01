@@ -37,6 +37,13 @@ public class GUI_Maze extends JPanel{
         this.maze = maze;
         MazeLogoTools.setCurrentGUIMaze(this);
 
+        for(Block block : maze.getMazeMap()){
+            block.getWallSouth().addListeners();
+            block.getWallNorth().addListeners();
+            block.getWallEast().addListeners();
+            block.getWallWest().addListeners();
+        }
+
         //Read current Maze Grid boolean
         mazeGrid = getGrid();
 
@@ -184,7 +191,7 @@ public class GUI_Maze extends JPanel{
 
     private JButton createNorthWallButton(Block block, GridBagConstraints constraints, int[] location) {
         // Get north wall button
-        JButton northButton = block.getWallNorth().getButton();
+        JButton northButton = block.getWallNorth();
 
         // Set button constraints
         northButton.setPreferredSize(new Dimension(blockSize, wallThickness));
@@ -200,7 +207,7 @@ public class GUI_Maze extends JPanel{
 
     private JButton createWestWallButton(Block block, GridBagConstraints constraints, int[] location){
         // Get West wall button
-        JButton westButton = block.getWallWest().getButton();
+        JButton westButton = block.getWallWest();
         // Set button constraints
 
         westButton.setPreferredSize(new Dimension(wallThickness, blockSize));
@@ -216,7 +223,7 @@ public class GUI_Maze extends JPanel{
 
     private JButton createEastWallButton(Block block, GridBagConstraints constraints, int[] location){
         // Get east wall button
-        JButton eastButton = block.getWallEast().getButton();
+        JButton eastButton = block.getWallEast();
         // Set button constraints
         eastButton.setPreferredSize(new Dimension(wallThickness, blockSize));
         constraints.fill = GridBagConstraints.VERTICAL;
@@ -231,7 +238,7 @@ public class GUI_Maze extends JPanel{
 
     private JButton createSouthWallButton(Block block, GridBagConstraints constraints, int[] location){
         // Get south wall button
-        JButton southButton = block.getWallSouth().getButton();
+        JButton southButton = block.getWallSouth();
         // Set button constraints
         southButton.setPreferredSize(new Dimension(blockSize, wallThickness));
         constraints.fill = GridBagConstraints.HORIZONTAL;

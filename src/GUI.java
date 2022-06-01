@@ -155,6 +155,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
          * @see ListSelectionListener#valueChanged(ListSelectionEvent)
          */
         public void valueChanged(ListSelectionEvent e) {
+            if(e.getValueIsAdjusting()){
+                return;
+            }
             if (dbitems.getSelectedValue() != null) {
                 try {
                     GUI_Tools.showGrid.setEnabled(true);
@@ -183,6 +186,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             Maze load = mazeDB.getGUIMaze(maze.getMazeName());
             //MazeLogoTools.setCurrentMaze(maze);
             GUI_Maze loadedMaze = new GUI_Maze(load, false);
+            MazeLogoTools.setCurrentGUIMaze(loadedMaze);
+            MazeLogoTools.setCurrentMaze(load);
             setMaze(loadedMaze);
             //MazeLogoTools.setCurrentGUIMaze(loadedMaze);
             leftpane.add(new JScrollPane(loadedMaze));
@@ -412,7 +417,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         GUI_Tools.description_text.setText("");
         Component[] components = leftpane.getComponents();
         for ( Component comp : components){
-            if ( comp instanceof JScrollPane) leftpane.remove(comp);
+            if ( comp instanceof JScrollPane) {
+                leftpane.remove(comp);
+            }
         }
     }
 
@@ -427,7 +434,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         // Checks if GUI already contains a maze and removes it to be replaced with new maze
         Component[] components = leftpane.getComponents();
         for ( Component comp : components){
-            if ( comp instanceof JScrollPane) leftpane.remove(comp);
+            if ( comp instanceof JScrollPane) {
+                leftpane.remove(comp);
+            }
         }
         // Create new maze and add to GUI using JScrollPane for larger mazes
         maze = new GUI_Maze(new Maze(width, height, name, mazeType,
