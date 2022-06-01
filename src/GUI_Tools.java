@@ -77,7 +77,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                                         ex.printStackTrace();
                                 }
                         }
-
+                        MazeLogoTools.getCurrentGUIMaze().revalidate();
+                        MazeLogoTools.getCurrentGUIMaze().repaint();
                 }
                 else if (src == showSolution)
                 {
