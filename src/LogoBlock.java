@@ -56,6 +56,8 @@ public class LogoBlock extends Block implements Serializable{
 
             MazeLogoTools.getCurrentGUIMaze().renderBlocks();
             rerenderIcons();
+            MazeLogoTools.getCurrentGUIMaze().revalidate();
+            MazeLogoTools.getCurrentGUIMaze().repaint();
         }
     }
 
