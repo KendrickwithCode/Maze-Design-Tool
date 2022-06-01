@@ -1,9 +1,6 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -13,14 +10,12 @@ public class MazeWall extends JButton implements Serializable {
     private boolean active;
     private boolean start;
     private boolean finish;
-//    private final JButton button;
     private boolean border;
 
     /**
      * Maze wall constructor
      */
     public MazeWall() {
-//        this.button = createBtn();
         addListeners();
     }
 
@@ -92,15 +87,7 @@ public class MazeWall extends JButton implements Serializable {
         return this.border;
     }
 
-    /**
-     * Returns button associated with this wall
-     * @return JButton object
-     */
-//    public JButton getButton(){
-//        return this.button;
-//    }
-
-    private void setButtonColor(){
+    public void setButtonColor(){
         Color unsetColor = Color.white;
         Color activeColor = Color.black;
         Color startingColor = Color.green;
@@ -138,9 +125,13 @@ public class MazeWall extends JButton implements Serializable {
         setVisible(buttonState);
     }
 
+    public void addListeners() {
 
+        MouseListener[] listeners  = getMouseListeners();
+        for (MouseListener mouseListener : listeners) {
+            removeMouseListener(mouseListener);
+        }
 
-    private void addListeners() {
         Color unsetColor = Color.white;
         Color activeColor = Color.black;
         Color hoverColor = Color.gray;

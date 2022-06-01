@@ -544,10 +544,6 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
 
             menu.show(e.getComponent(), e.getX(), e.getY());
         }
-//
-//        else
-//            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex));
-
     }
 
 

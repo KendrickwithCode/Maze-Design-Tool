@@ -37,6 +37,13 @@ public class GUI_Maze extends JPanel{
         this.maze = maze;
         MazeLogoTools.setCurrentGUIMaze(this);
 
+        for(Block block : maze.getMazeMap()){
+            block.getWallSouth().addListeners();
+            block.getWallNorth().addListeners();
+            block.getWallEast().addListeners();
+            block.getWallWest().addListeners();
+        }
+
         //Read current Maze Grid boolean
         mazeGrid = getGrid();
 

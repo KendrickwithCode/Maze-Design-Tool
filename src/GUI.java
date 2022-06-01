@@ -151,6 +151,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
          * @see ListSelectionListener#valueChanged(ListSelectionEvent)
          */
         public void valueChanged(ListSelectionEvent e) {
+            if(e.getValueIsAdjusting()){
+                return;
+            }
             if (dbitems.getSelectedValue() != null) {
                 try {
                     display(mazedata.get(dbitems.getSelectedValue()));
@@ -395,7 +398,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         GUI_Tools.description_text.setText("");
         Component[] components = leftpane.getComponents();
         for ( Component comp : components){
-            if ( comp instanceof JScrollPane) leftpane.remove(comp);
+            if ( comp instanceof JScrollPane) {
+                leftpane.remove(comp);
+            }
         }
     }
 
@@ -410,7 +415,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         // Checks if GUI already contains a maze and removes it to be replaced with new maze
         Component[] components = leftpane.getComponents();
         for ( Component comp : components){
-            if ( comp instanceof JScrollPane) leftpane.remove(comp);
+            if ( comp instanceof JScrollPane) {
+                leftpane.remove(comp);
+            }
         }
         // Create new maze and add to GUI using JScrollPane for larger mazes
         maze = new GUI_Maze(new Maze(width, height, name, mazeType,
