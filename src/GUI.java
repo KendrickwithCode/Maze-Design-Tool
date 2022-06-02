@@ -451,6 +451,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         //Jfile chooser code
         JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter(".jpg", "jpg"));
+        fc.setSelectedFile(new File(GUI_Tools.maze_name.getText()));
         fc.setAcceptAllFileFilterUsed(false);
         int returnVal = fc.showSaveDialog(this);
 
