@@ -1,4 +1,4 @@
-<project name="MazeCraft">
+<project name="MazeCraft" default="Test">
     <property name="build.dir" location="target/classes" />
     <property name="buildBase.dir" location="target" />
     <property name="src.dir" location="src" />
