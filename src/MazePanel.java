@@ -18,6 +18,7 @@ public class MazePanel extends JPanel{
         percentageDeadEndLabel = new JLabel();
         percentageTravelledLabel = new JLabel();
         solvableLabel = new JLabel();
+        setBackground(Color.white);
     }
 
     public void setRenderSolution(boolean setValue){
