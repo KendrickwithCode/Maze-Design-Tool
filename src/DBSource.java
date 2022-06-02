@@ -264,10 +264,14 @@ public class DBSource implements MazeDBSource {
         checkEntries.setString(1, maze);
         ResultSet rs = checkEntries.executeQuery();
         if (rs.getInt("Count(Maze_Name)") > 0){
+            int update = JOptionPane.showConfirmDialog
+                    (null, "Overwrite " + GUI_Tools.maze_name.getText() + "?", "WARNING", JOptionPane.YES_NO_OPTION);
+            if(update == JOptionPane.YES_OPTION){
                 updateMaze(maze, type, author, description, height, width);
-            JOptionPane.showMessageDialog(null,
-                    "Maze Successfully Updated.","Okay",JOptionPane.INFORMATION_MESSAGE);
-            return false;
+                JOptionPane.showMessageDialog(null,
+                        "Maze Successfully Updated.","Okay",JOptionPane.INFORMATION_MESSAGE);
+                return false;
+            }
         }
         addMaze.setString(1, maze);
         addMaze.setString(2, type);

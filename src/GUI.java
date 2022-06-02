@@ -119,11 +119,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                         enableCheckboxes(false);
                         enableButtons(false);
                         GUI_Tools.clearStats();
-                        this.repaint();
-                        this.revalidate();
                         listModel.removeElement(dbitems.getSelectedValue());
                         mazedata.updateList(listModel);
-                        dbitems.clearSelection();
+                        MazeLogoTools.deleteMazeObj();
+                        this.repaint();
+                        this.revalidate();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -131,6 +131,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
         }
     }
+
+    /**
+     * Save or Update Maze details (depending on if the Maze Name already exists in the DB) to the Database.
+     */
     private void saveMaze(){
         try {
             if (GUI_Tools.author_name_text.getText() == null || GUI_Tools.author_name_text.getText().length() == 0){
@@ -139,17 +143,19 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
             else{
                 String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
+                //boolean is true if the entry is new to the db, false if it's an updating entry.
                 boolean added = mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
                         GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText());
                 mazedata.updateList(listModel);
                 if (!added){
-                    lastEdited.setText(mazeDB.getLastEdited(GUI_Tools.maze_name.getText()));
+                        lastEdited.setText(mazeDB.getLastEdited(GUI_Tools.maze_name.getText()));
                 }
+                //set list selection to new or updated entry
+                dbitems.setSelectedIndex(listModel.indexOf(GUI_Tools.maze_name.getText()));
             }
         } catch (SQLException | IOException ex) {
             ex.printStackTrace();
         }
-        //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
     }
     /**
      * Adds a listener to the name list
@@ -162,7 +168,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     /**
      * Implements a ListSelectionListener for making the UI respond when a
-     * different name is selected from the list.
+     * different name is selected from the list. Adapted from CAB302 Tutorials.
      */
     private class NameListListener implements ListSelectionListener {
 
@@ -185,15 +191,30 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
         }
     }
+
+    /**
+     * Enable Show Grid and Show Solution checkboxes
+     * @param toggle True to activate checkboxes, False to grey them out.
+     */
     public void enableCheckboxes(boolean toggle){
         GUI_Tools.showGrid.setEnabled(toggle);
         GUI_Tools.showSolution.setEnabled(toggle);
     }
 
+    /**
+     * Enable Delete Selection and Reset Selections buttons.
+     * @param toggle True to activate buttons, False to grey them out.
+     */
     public void enableButtons(boolean toggle){
         delete.setEnabled(toggle);
         reset.setEnabled(toggle);
     }
+
+    /**
+     * Display the Maze from the Database to the GUI including all details about the Maze in text fields.
+     * @param maze The Maze object to be displayed
+     * @throws Exception
+     */
     public void display(Maze maze) throws Exception {
         if (maze != null) {
             clearMaze();
