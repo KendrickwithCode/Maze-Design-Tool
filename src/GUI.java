@@ -24,7 +24,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     public JLabel leftpane, date, edited, lastEdited, dateCreated;
     MazeDB mazedata;
     DBSource mazeDB;
-    private JButton reset;
+    private JButton reset, delete;
     private JMenuItem save, export, fullScr, windowScr, exit, logoChange, kidsStart, kidsFinish;
     private final DefaultListModel<Object> listModel;
 
@@ -46,15 +46,23 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 ex.printStackTrace();
             }
         } else if (src == save) {
-            saveMaze();
+            if(MazeLogoTools.getCurrentGUIMaze() != null){
+                saveMaze();
+            }
+            else{
+                JOptionPane.showMessageDialog(null,
+                        "Generate a Maze before Saving!","Okay",JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         if(src==fullScr)
         {
-            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            this.setExtendedState(MAXIMIZED_BOTH);
+            splitPane.setDividerLocation(4000);
         }
         if(src==windowScr)
         {
             setWindowSize();
+            splitPane.setDividerLocation(1250);
         }
         if(src==exit)
         {
@@ -91,8 +99,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         if(src== reset){
             if(MazeLogoTools.getCurrentGUIMaze() != null){
-                GUI_Tools.showGrid.setEnabled(false);
-                GUI_Tools.showSolution.setEnabled(false);
+                enableCheckboxes(false);
+                enableButtons(false);
                 clearMaze();
                 dbitems.clearSelection();
                 GUI_Tools.clearStats();
@@ -100,8 +108,29 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 this.revalidate();
             }
         }
+        if(src==delete){
+            if(MazeLogoTools.getCurrentGUIMaze() != null){
+                int delete = JOptionPane.showConfirmDialog
+                        (null, "Are you sure you want to delete?", "WARNING", JOptionPane.YES_NO_OPTION);
+                if(delete == JOptionPane.YES_OPTION){
+                    mazeDB.deleteEntry(dbitems.getSelectedValue().toString());
+                    try {
+                        clearMaze();
+                        enableCheckboxes(false);
+                        enableButtons(false);
+                        GUI_Tools.clearStats();
+                        this.repaint();
+                        this.revalidate();
+                        listModel.removeElement(dbitems.getSelectedValue());
+                        mazedata.updateList(listModel);
+                        dbitems.clearSelection();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        }
     }
-
     private void saveMaze(){
         try {
             if (GUI_Tools.author_name_text.getText() == null || GUI_Tools.author_name_text.getText().length() == 0){
@@ -146,8 +175,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
             if (dbitems.getSelectedValue() != null) {
                 try {
-                    GUI_Tools.showGrid.setEnabled(true);
-                    GUI_Tools.showSolution.setEnabled(true);
+                    enableButtons(true);
                     display(mazedata.get(dbitems.getSelectedValue()));
 
 
@@ -157,7 +185,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
         }
     }
+    public void enableCheckboxes(boolean toggle){
+        GUI_Tools.showGrid.setEnabled(toggle);
+        GUI_Tools.showSolution.setEnabled(toggle);
+    }
 
+    public void enableButtons(boolean toggle){
+        delete.setEnabled(toggle);
+        reset.setEnabled(toggle);
+    }
     public void display(Maze maze) throws Exception {
         if (maze != null) {
             clearMaze();
@@ -302,12 +338,17 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         edited = new JLabel("Last Edited");
         lastEdited = new JLabel("");
         reset = new JButton("Reset Selections");
+        delete = new JButton("Delete Selection");
+        reset.setEnabled(false);
+        delete.setEnabled(false);
         controls.add(date);
         controls.add(dateCreated);
         controls.add(edited);
         controls.add(lastEdited);
         controls.add(reset);
-        controls.setLayout(new GridLayout(5, 0));
+        controls.add(delete);
+        controls.setLayout(new GridLayout(6, 0));
+        GUI_Tools.setStyle(delete);
         GUI_Tools.setStyle(dateCreated);
         GUI_Tools.setStyle(lastEdited);
         GUI_Tools.setStyle(dbitems);
@@ -316,15 +357,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         GUI_Tools.setStyle(date);
         GUI_Tools.setStyle(edited);
 
+        delete.addActionListener(this);
         reset.addActionListener(this);
         JSplitPane embeddedSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controls, dbitems);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, embeddedSplit);
 
         //Makes the split pane unmovable
-        embeddedSplit.setEnabled(true);
+        embeddedSplit.setEnabled(false);
         splitPane.setEnabled(false);
 
-        embeddedSplit.setDividerLocation(200);
+        embeddedSplit.setDividerLocation(250);
         splitPane.setDividerLocation(1250);
         splitPane.setOneTouchExpandable(false);
         splitPane.setContinuousLayout(true);
@@ -335,13 +377,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         //leftpane.add(borderight, BorderLayout.LINE_END);
         add(splitPane);
         setVisible(true);
-    }
-
-    public void getDateCreated(){
-
-    }
-    public void getLastEdited(){
-
     }
 
     private void setWindowSize(){
@@ -411,8 +446,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * @param height Height of maze (in blocks)
      * @param name Name of maze
      * @param generate true to generate maze or false to create blank canvas
+     * @throws Exception with the message Invalid Dimension when the height or width passed does not fall between 4 and 100
      */
     public void generateNewMaze( int width, int height, String name, boolean generate, String mazeType) throws Exception {
+        final int maxDim = 100; //the maximum height or width allowed for the maze
+        final int minDim = 4;   //the minimum height or width allowed for the maze
+        //check if an appropriate height and width for the maze has been passed
+        if(height < minDim || height > maxDim || width < minDim || width > maxDim ){
+            throw new Exception("Invalid Dimension");
+        }
         // Checks if GUI already contains a maze and removes it to be replaced with new maze
         Component[] components = leftpane.getComponents();
         for ( Component comp : components){

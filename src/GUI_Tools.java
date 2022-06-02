@@ -40,12 +40,15 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 if (src==btnCreate)
                 {
                         try {
-                                GUI_Tools.showGrid.setEnabled(true);
-                                GUI_Tools.showSolution.setEnabled(true);
                                 mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                         Integer.parseInt(height_text.getText()),  maze_name.getText(), false,mazeType);
+                                mainGui.enableCheckboxes(true);
                         } catch (Exception ex) {
-                                ex.printStackTrace();
+                                if(ex.getMessage() == "Invalid Dimension"){
+                                        JOptionPane.showMessageDialog(null,
+                                                "You must enter an integer between 4 and 100 inclusive for both width and height to generate a maze.","Invalid Dimension",JOptionPane.INFORMATION_MESSAGE);
+                                }
+                                else ex.printStackTrace();
                         }
                         setShowSolution();
                         setMazeStatsLabels();
@@ -53,12 +56,15 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else if (src==btnGenerate)
                 {
                         try {
-                                showGrid.setEnabled(true);
-                                showSolution.setEnabled(true);
                                 mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                         Integer.parseInt(height_text.getText()), maze_name.getText(), true,mazeType);
+                                mainGui.enableCheckboxes(true);
                         } catch (Exception ex) {
-                                ex.printStackTrace();
+                                if(ex.getMessage() == "Invalid Dimension"){
+                                        JOptionPane.showMessageDialog(null,
+                                                "You must enter an integer between 4 and 100 inclusive for width and height","Invalid Dimension",JOptionPane.INFORMATION_MESSAGE);
+                                }
+                                else ex.printStackTrace();
                         }
                         setShowSolution();
                         setMazeStatsLabels();
