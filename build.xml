@@ -9,6 +9,7 @@
     <property name="projectLib.dir" location="lib" />
     <property name="docs.dir" location="docs" />
 
+
         <path id="junit.class.path">
             <pathelement location="lib/apiguardian-api-1.1.2.jar"/>
             <pathelement location="lib/junit-jupiter-5.8.2.jar"/>
@@ -20,6 +21,7 @@
             <pathelement location="lib/junit-platform-launcher-1.8.2.jar"/>
             <pathelement location="lib/opentest4j-1.2.0.jar"/>
             <pathelement location="${build.dir}"/>
+            <fileset dir="lib" includes="**/*.jar" />
         </path>
 
     <target name="All" depends="Compile,Documentation,Build Jar"/>
