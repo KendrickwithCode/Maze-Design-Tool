@@ -446,8 +446,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * @param height Height of maze (in blocks)
      * @param name Name of maze
      * @param generate true to generate maze or false to create blank canvas
+     * @throws Exception with the message Invalid Dimension when the height or width passed does not fall between 4 and 100
      */
     public void generateNewMaze( int width, int height, String name, boolean generate, String mazeType) throws Exception {
+        final int maxDim = 100; //the maximum height or width allowed for the maze
+        final int minDim = 4;   //the minimum height or width allowed for the maze
+        //check if an appropriate height and width for the maze has been passed
+        if(height < minDim || height > maxDim || width < minDim || width > maxDim ){
+            throw new Exception("Invalid Dimension");
+        }
         // Checks if GUI already contains a maze and removes it to be replaced with new maze
         Component[] components = leftpane.getComponents();
         for ( Component comp : components){
