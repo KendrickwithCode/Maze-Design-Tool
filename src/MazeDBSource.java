@@ -36,6 +36,7 @@ public interface MazeDBSource {
     boolean addMaze(String maze, String type, String author,
                  String description, String height, String width) throws SQLException, IOException;
 
+
     /**
      * Finalizes any resources used by the data source and ensures data
      * persists.

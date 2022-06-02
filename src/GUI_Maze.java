@@ -113,7 +113,8 @@ public class GUI_Maze extends JPanel{
     public void setupWalls(Block block, GridBagConstraints mazeComponentConstraints, int[] location, boolean grid)
     {
         // North wall
-        JButton northWallButton = createNorthWallButton(block, mazeComponentConstraints, location);
+        JButton northWallButton = createNorthWallButton(
+                block, mazeComponentConstraints, location);
         //Set Grid based on "Show Grid" button.
         if (grid){
             northWallButton.setBorderPainted(true);
@@ -192,7 +193,6 @@ public class GUI_Maze extends JPanel{
     private JButton createNorthWallButton(Block block, GridBagConstraints constraints, int[] location) {
         // Get north wall button
         JButton northButton = block.getWallNorth();
-
         // Set button constraints
         northButton.setPreferredSize(new Dimension(blockSize, wallThickness));
         constraints.fill = GridBagConstraints.HORIZONTAL;

@@ -42,24 +42,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 ex.printStackTrace();
             }
         } else if (src == save) {
-            try {
-                if (GUI_Tools.author_name_text.getText() == null || GUI_Tools.author_name_text.getText().length() == 0){
-                    JOptionPane.showMessageDialog(null,
-                            "Please Enter an Author's Name before Saving","Okay",JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
-                    String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
-                    boolean added = mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
-                            GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText());
-                    mazedata.updateList(listModel);
-                    if (!added){
-                        lastEdited.setText(mazeDB.getLastEdited(GUI_Tools.maze_name.getText()));
-                    }
-                }
-            } catch (SQLException | IOException ex) {
-                ex.printStackTrace();
-            }
-            //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
+            saveMaze();
         }
         else if (src == load){
 //            try {
@@ -127,7 +110,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 GUI_Tools.showSolution.setEnabled(false);
                 clearMaze();
                 dbitems.clearSelection();
-//                MazeLogoTools.deleteMazeObj();
                 GUI_Tools.clearStats();
                 this.repaint();
                 this.revalidate();
@@ -135,6 +117,26 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
     }
 
+    private void saveMaze(){
+        try {
+            if (GUI_Tools.author_name_text.getText() == null || GUI_Tools.author_name_text.getText().length() == 0){
+                JOptionPane.showMessageDialog(null,
+                        "Please Enter an Author's Name before Saving","Okay",JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
+                boolean added = mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
+                        GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText());
+                mazedata.updateList(listModel);
+                if (!added){
+                    lastEdited.setText(mazeDB.getLastEdited(GUI_Tools.maze_name.getText()));
+                }
+            }
+        } catch (SQLException | IOException ex) {
+            ex.printStackTrace();
+        }
+        //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
+    }
     /**
      * Adds a listener to the name list
      */
@@ -159,6 +161,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
             if (dbitems.getSelectedValue() != null) {
                 try {
+//                    if (MazeLogoTools.getCurrentMaze() != null ){
+//                        int save = JOptionPane.showConfirmDialog(null,
+//                                "Would you like to save changes?","Save",JOptionPane.YES_NO_OPTION);
+//                        if (save == JOptionPane.YES_OPTION){
+//                            saveMaze();
+//                        }
+//                    }
                     GUI_Tools.showGrid.setEnabled(true);
                     GUI_Tools.showSolution.setEnabled(true);
                     display(mazedata.get(dbitems.getSelectedValue()));
