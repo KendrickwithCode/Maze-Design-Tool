@@ -1,8 +1,10 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class MazeWall extends JButton implements Serializable {
     @Serial
@@ -74,7 +76,7 @@ public class MazeWall extends JButton implements Serializable {
      */
     public void setStart(boolean start) {
         this.start = start;
-        setButtonColor();
+        getParent().repaint();
     }
 
     /**
@@ -91,7 +93,7 @@ public class MazeWall extends JButton implements Serializable {
      */
     public void setFinish(boolean finish) {
         this.finish = finish;
-        setButtonColor();
+        getParent().repaint();
     }
 
     /**
@@ -113,16 +115,10 @@ public class MazeWall extends JButton implements Serializable {
     public void setButtonColor(){
         Color unsetColor = Color.white;
         Color activeColor = Color.black;
-        Color startingColor = Color.green;
-        Color finishingColor = Color.red;
 
         this.setContentAreaFilled(true);
 
-        if (start) {
-            setBackground(startingColor);
-        } else if (finish) {
-            setBackground(finishingColor);
-        } else if(border){
+        if(border){
             setBackground(activeColor);
         } else if(active){
             setBackground(activeColor);
@@ -200,6 +196,7 @@ public class MazeWall extends JButton implements Serializable {
                         if(border) return;
                         setButtonColor();
                         setActive(!active);
+                        getParent().repaint();
                     }
 
                 }
@@ -220,6 +217,13 @@ public class MazeWall extends JButton implements Serializable {
                     getParent().repaint();
                 }
             });
+        }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        if(!start && !finish){
+            super.paint(g);
         }
     }
 }
