@@ -37,6 +37,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         if (src == export) {
             try {
                 if (maze != null)
+                    //Iterate over multiple selections from the list if bulk jpg saving.
                     for(Object obj : dbitems.getSelectedValuesList()){
                         display(mazedata.get(obj));
                         jpgExport(maze.getMazePanel());
@@ -148,8 +149,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                     GUI_Tools.showGrid.setEnabled(true);
                     GUI_Tools.showSolution.setEnabled(true);
                     display(mazedata.get(dbitems.getSelectedValue()));
-                    GUI_Tools.setShowSolution();
-                    GUI_Tools.setMazeStatsLabels();
+
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -169,12 +169,12 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             dateCreated.setText(mazeDB.getDateCreated(maze.getMazeName()));
             lastEdited.setText(mazeDB.getLastEdited(maze.getMazeName()));
             Maze load = mazeDB.getGUIMaze(maze.getMazeName());
-            //MazeLogoTools.setCurrentMaze(maze);
             GUI_Maze loadedMaze = new GUI_Maze(load, false);
             MazeLogoTools.setCurrentGUIMaze(loadedMaze);
             MazeLogoTools.setCurrentMaze(load);
+            GUI_Tools.setShowSolution();
+            GUI_Tools.setMazeStatsLabels();
             setMaze(loadedMaze);
-            //MazeLogoTools.setCurrentGUIMaze(loadedMaze);
             leftpane.add(new JScrollPane(loadedMaze));
             this.revalidate();
         }
