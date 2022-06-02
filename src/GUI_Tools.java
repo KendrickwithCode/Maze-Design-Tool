@@ -84,20 +84,24 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 {
                         setShowSolution();
                 }
+
                 else if (src == mazeTypeComboBox)
                 {
-                        mazeType= Objects.requireNonNull(mazeTypeComboBox.getSelectedItem()).toString().toUpperCase();
-                        MazeLogoTools.getCurrentMaze().setMazeType(mazeType);
+                        if(MazeLogoTools.getCurrentMaze() != null) {
+                                mazeType = Objects.requireNonNull(mazeTypeComboBox.getSelectedItem()).toString().toUpperCase();
+                                MazeLogoTools.getCurrentMaze().setMazeType(mazeType);
+                        }
                 }
 
-                if(MazeLogoTools.getCurrentMaze().getSolvable()){
-                        solvableBool.setBackground(Color.GREEN);
-                        solvableBool.setText("True");
-                } else {
-                        solvableBool.setBackground(Color.RED);
-                        solvableBool.setText("False");
+                if(MazeLogoTools.getCurrentMaze() != null) {
+                        if (MazeLogoTools.getCurrentMaze().getSolvable()) {
+                                solvableBool.setBackground(Color.GREEN);
+                                solvableBool.setText("True");
+                        } else {
+                                solvableBool.setBackground(Color.RED);
+                                solvableBool.setText("False");
+                        }
                 }
-
 
         }
 
