@@ -187,12 +187,13 @@ public class DBSource implements MazeDBSource {
             getLastEdited.setString(1, name);
             rs = getLastEdited.executeQuery();
             rs.next();
-            lastEdited = dateTimeZoneFix(rs.getString("Last_Edited"),10);
+            if (rs.getString("Last_Edited") != null){
+                lastEdited = dateTimeZoneFix(rs.getString("Last_Edited"),10);
+            } else {
+                return "N/A";
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        if (lastEdited == null){
-            return "N/A";
         }
         return lastEdited;
     }
