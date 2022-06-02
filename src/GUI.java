@@ -183,6 +183,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             if (dbitems.getSelectedValue() != null) {
                 try {
                     enableButtons(true);
+                    enableCheckboxes(true);
                     display(mazedata.get(dbitems.getSelectedValue()));
 
 
