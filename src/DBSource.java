@@ -85,6 +85,85 @@ public class DBSource implements MazeDBSource {
         return m;
     }
 
+    /**
+     * Checks if the year is a leap year
+     * @param year to check if leapyear
+     * @return true if leap year false if it is a normal year.
+     */
+    private boolean isLeapYear(int year){
+            int leapYearCheck = 0;
+
+            if (year %4 == 0 )
+            {
+                leapYearCheck = 1;
+            }
+
+            if (year %100 == 0 && year %400 != 0 )
+            {
+                leapYearCheck = 0;
+            }
+
+        return leapYearCheck == 1;
+        }
+
+    /**
+     * Adds timezone offset to java date times.
+     * @param inputDate date to change to localtime
+     * @param offsetHrs time offset form GMT
+     * @return GMT Offset date time
+     */
+    public String dateTimeZoneFix(String inputDate,int offsetHrs){
+        int [] dayMonths = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
+
+//        System.out.println(inputDate);
+        String date = inputDate.split(" ")[0];
+
+        String day = date.split("-")[2];
+        String month = date.split("-")[1];
+        String year = date.split("-")[0];
+
+
+        int workingDay = Integer.parseInt(day);
+        int workingMonth = Integer.parseInt(month);
+        int workingYear = Integer.parseInt(year);
+
+        if(isLeapYear(workingYear))
+        {
+            dayMonths[1] = 29;
+        }
+
+        String time = inputDate.split(" ")[1];
+        String hrs = time.split(":")[0];
+        String mins = time.split(":")[1];
+        String secs = time.split(":")[2];
+
+        int workingHrs = Integer.parseInt(hrs) + offsetHrs;
+
+        if(workingHrs > 24)
+        {
+            workingHrs -= 24;
+            workingDay += 1;
+            if(workingDay > dayMonths[workingMonth-1])
+            {
+                workingDay = 1;
+                workingMonth++;
+                if(workingMonth > 12)
+                {
+                    workingMonth = 1;
+                    workingYear++;
+                }
+            }
+        }
+
+        hrs = String.valueOf(workingHrs);
+        year = String.valueOf(workingYear);
+        month = String.valueOf(workingMonth);
+        day = String.valueOf(workingDay);
+
+        inputDate= year + "-" + month + "-" + day +  " " + hrs + ":" + mins + ":" + secs;
+        return  inputDate;
+    }
+
     public String getDateCreated(String name) {
         ResultSet rs = null;
         String dateCreated = "";
@@ -92,7 +171,9 @@ public class DBSource implements MazeDBSource {
             getDateCreated.setString(1, name);
             rs = getDateCreated.executeQuery();
             rs.next();
-            dateCreated = rs.getString("Date_Created");
+            dateCreated =   dateTimeZoneFix(rs.getString("Date_Created"),10);
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,7 +187,7 @@ public class DBSource implements MazeDBSource {
             getLastEdited.setString(1, name);
             rs = getLastEdited.executeQuery();
             rs.next();
-            lastEdited = rs.getString("Last_Edited");
+            lastEdited = dateTimeZoneFix(rs.getString("Last_Edited"),10);
         } catch (SQLException e) {
             e.printStackTrace();
         }
