@@ -46,7 +46,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 ex.printStackTrace();
             }
         } else if (src == save) {
-            saveMaze();
+            if(MazeLogoTools.getCurrentGUIMaze() != null){
+                saveMaze();
+            }
+            else{
+                JOptionPane.showMessageDialog(null,
+                        "Generate a Maze before Saving!","Okay",JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         if(src==fullScr)
         {
@@ -104,18 +110,23 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         if(src==delete){
             if(MazeLogoTools.getCurrentGUIMaze() != null){
-                mazeDB.deleteEntry(dbitems.getSelectedValue().toString());
-                try {
-                    clearMaze();
-                    enableCheckboxes(false);
-                    enableButtons(false);
-                    this.repaint();
-                    this.revalidate();
-                    listModel.removeElement(dbitems.getSelectedValue());
-                    mazedata.updateList(listModel);
-                    dbitems.clearSelection();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                int delete = JOptionPane.showConfirmDialog
+                        (null, "Are you sure you want to delete?", "WARNING", JOptionPane.YES_NO_OPTION);
+                if(delete == JOptionPane.YES_OPTION){
+                    mazeDB.deleteEntry(dbitems.getSelectedValue().toString());
+                    try {
+                        clearMaze();
+                        enableCheckboxes(false);
+                        enableButtons(false);
+                        GUI_Tools.clearStats();
+                        this.repaint();
+                        this.revalidate();
+                        listModel.removeElement(dbitems.getSelectedValue());
+                        mazedata.updateList(listModel);
+                        dbitems.clearSelection();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         }
