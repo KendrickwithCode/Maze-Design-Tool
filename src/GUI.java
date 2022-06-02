@@ -56,7 +56,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         if(src==fullScr)
         {
-            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            this.setExtendedState(MAXIMIZED_BOTH);
             splitPane.setDividerLocation(4000);
         }
         if(src==windowScr)
