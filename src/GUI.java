@@ -25,7 +25,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     MazeDB mazedata;
     DBSource mazeDB;
     private JButton reset;
-    private JMenuItem load, save, export,fullScr, windowScr, exit,logoChange,kidsStart, kidsFinish;
+    private JMenuItem save, export, fullScr, windowScr, exit, logoChange, kidsStart, kidsFinish;
     private final DefaultListModel<Object> listModel;
 
 
@@ -37,31 +37,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         if (src == export) {
             try {
                 if (maze != null)
-                    jpgExport(maze.getMazePanel());
+                    for(Object obj : dbitems.getSelectedValuesList()){
+                        display(mazedata.get(obj));
+                        jpgExport(maze.getMazePanel());
+                    }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         } else if (src == save) {
             saveMaze();
-        }
-        else if (src == load){
-//            try {
-//                clearMaze();
-//                Maze load = mazedata.getMaze();
-//                GUI_Maze loadedMaze = new GUI_Maze(load, false);
-//                GUI_Tools.maze_name.setText(load.getMazeName());
-//                GUI_Tools.author_name_text.setText(load.getAuthorName());
-//                GUI_Tools.description_text.setText(load.getMazeDescription());
-//                GUI_Tools.height_text.setText(load.getHeight());
-//                GUI_Tools.width_text.setText(load.getWidth());
-//                // Add getters for description, etc.
-//               // GUI_Tools.author_name_text.setText(load.getAuthorName());
-//                this.getContentPane().add(new JScrollPane(loadedMaze));
-//                this.revalidate();
-//
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//            }
         }
         if(src==fullScr)
         {
@@ -161,13 +145,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
             if (dbitems.getSelectedValue() != null) {
                 try {
-//                    if (MazeLogoTools.getCurrentMaze() != null ){
-//                        int save = JOptionPane.showConfirmDialog(null,
-//                                "Would you like to save changes?","Save",JOptionPane.YES_NO_OPTION);
-//                        if (save == JOptionPane.YES_OPTION){
-//                            saveMaze();
-//                        }
-//                    }
                     GUI_Tools.showGrid.setEnabled(true);
                     GUI_Tools.showSolution.setEnabled(true);
                     display(mazedata.get(dbitems.getSelectedValue()));
@@ -258,19 +235,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         //Set File Toolbar
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
-        load = new JMenuItem("Load");
         save = new JMenuItem("Save");
         export = new JMenuItem("Export");
         exit = new JMenuItem("Exit");
         save.addActionListener(this);
         export.addActionListener(this);
-        load.addActionListener(this);
-        load = menuItemFactory("Load",fileMenuItemWith,menuItemHeight);
         save = menuItemFactory("Save",fileMenuItemWith,menuItemHeight);
         export = menuItemFactory("Export to Jpg",fileMenuItemWith,menuItemHeight);
         exit = menuItemFactory("Exit",fileMenuItemWith,menuItemHeight);
 
-        file.add(load);
         file.add(save);
         file.addSeparator();
         file.add(export);
@@ -319,6 +292,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         mazedata.updateList(listModel);
         dbitems = new JList<>(listModel);
+        dbitems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         addNameListListener(new NameListListener());
         dbitems.setVisible(true);
 
