@@ -40,8 +40,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 if (src==btnCreate)
                 {
                         try {
-                                GUI_Tools.showGrid.setEnabled(true);
-                                GUI_Tools.showSolution.setEnabled(true);
+                                mainGui.enableCheckboxes(true);
                                 mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                         Integer.parseInt(height_text.getText()),  maze_name.getText(), false,mazeType);
                         } catch (Exception ex) {
@@ -53,8 +52,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else if (src==btnGenerate)
                 {
                         try {
-                                showGrid.setEnabled(true);
-                                showSolution.setEnabled(true);
+                                mainGui.enableCheckboxes(true);
                                 mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
                                         Integer.parseInt(height_text.getText()), maze_name.getText(), true,mazeType);
                         } catch (Exception ex) {

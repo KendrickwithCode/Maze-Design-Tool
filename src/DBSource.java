@@ -24,7 +24,7 @@ public class DBSource implements MazeDBSource {
     private static final String GET_EDITED = "SELECT Last_Edited from maze WHERE Maze_Name =?";
     private static final String UPDATE_DATE = "UPDATE maze SET Last_Edited = CURRENT_TIMESTAMP WHERE Maze_Name = ?";
     private static final String CHECK_ENTRIES = "SELECT COUNT(Maze_Name) FROM maze WHERE Maze_Name =?";
-
+    private static final String DELETE_ENTRY = "DELETE FROM maze WHERE Maze_Name = ?";
 
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS maze ("
@@ -41,7 +41,7 @@ public class DBSource implements MazeDBSource {
 
     public Connection connection;
     private PreparedStatement addMaze, updateMaze, getMaze, getAllMaze,
-            getDateCreated, getLastEdited, updateLastEdited, checkEntries;
+            getDateCreated, getLastEdited, updateLastEdited, checkEntries, deleteEntry;
     public Statement st;
 
 
@@ -61,6 +61,7 @@ public class DBSource implements MazeDBSource {
             updateMaze = connection.prepareStatement(UPDATE_MAZE);
             updateLastEdited = connection.prepareStatement(UPDATE_DATE);
             checkEntries = connection.prepareStatement(CHECK_ENTRIES);
+            deleteEntry = connection.prepareStatement(DELETE_ENTRY);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -115,6 +116,14 @@ public class DBSource implements MazeDBSource {
         return lastEdited;
     }
 
+    public void deleteEntry(String name){
+        try {
+            deleteEntry.setString(1, name);
+            deleteEntry.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void setLastEdited(String name){
         try {
             updateLastEdited.setString(1, name);

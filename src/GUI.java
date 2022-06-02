@@ -24,7 +24,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     public JLabel leftpane, date, edited, lastEdited, dateCreated;
     MazeDB mazedata;
     DBSource mazeDB;
-    private JButton reset;
+    private JButton reset, delete;
     private JMenuItem save, export, fullScr, windowScr, exit, logoChange, kidsStart, kidsFinish;
     private final DefaultListModel<Object> listModel;
 
@@ -93,8 +93,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
         if(src== reset){
             if(MazeLogoTools.getCurrentGUIMaze() != null){
-                GUI_Tools.showGrid.setEnabled(false);
-                GUI_Tools.showSolution.setEnabled(false);
+                enableCheckboxes(false);
+                enableButtons(false);
                 clearMaze();
                 dbitems.clearSelection();
                 GUI_Tools.clearStats();
@@ -102,8 +102,24 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 this.revalidate();
             }
         }
+        if(src==delete){
+            if(MazeLogoTools.getCurrentGUIMaze() != null){
+                mazeDB.deleteEntry(dbitems.getSelectedValue().toString());
+                try {
+                    clearMaze();
+                    enableCheckboxes(false);
+                    enableButtons(false);
+                    this.repaint();
+                    this.revalidate();
+                    listModel.removeElement(dbitems.getSelectedValue());
+                    mazedata.updateList(listModel);
+                    dbitems.clearSelection();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
-
     private void saveMaze(){
         try {
             if (GUI_Tools.author_name_text.getText() == null || GUI_Tools.author_name_text.getText().length() == 0){
@@ -148,8 +164,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
             if (dbitems.getSelectedValue() != null) {
                 try {
-                    GUI_Tools.showGrid.setEnabled(true);
-                    GUI_Tools.showSolution.setEnabled(true);
+                    enableButtons(true);
                     display(mazedata.get(dbitems.getSelectedValue()));
 
 
@@ -159,7 +174,15 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
         }
     }
+    public void enableCheckboxes(boolean toggle){
+        GUI_Tools.showGrid.setEnabled(toggle);
+        GUI_Tools.showSolution.setEnabled(toggle);
+    }
 
+    public void enableButtons(boolean toggle){
+        delete.setEnabled(toggle);
+        reset.setEnabled(toggle);
+    }
     public void display(Maze maze) throws Exception {
         if (maze != null) {
             clearMaze();
@@ -304,12 +327,17 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         edited = new JLabel("Last Edited");
         lastEdited = new JLabel("");
         reset = new JButton("Reset Selections");
+        delete = new JButton("Delete Selection");
+        reset.setEnabled(false);
+        delete.setEnabled(false);
         controls.add(date);
         controls.add(dateCreated);
         controls.add(edited);
         controls.add(lastEdited);
         controls.add(reset);
-        controls.setLayout(new GridLayout(5, 0));
+        controls.add(delete);
+        controls.setLayout(new GridLayout(6, 0));
+        GUI_Tools.setStyle(delete);
         GUI_Tools.setStyle(dateCreated);
         GUI_Tools.setStyle(lastEdited);
         GUI_Tools.setStyle(dbitems);
@@ -318,15 +346,16 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         GUI_Tools.setStyle(date);
         GUI_Tools.setStyle(edited);
 
+        delete.addActionListener(this);
         reset.addActionListener(this);
         JSplitPane embeddedSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controls, dbitems);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftpane, embeddedSplit);
 
         //Makes the split pane unmovable
-        embeddedSplit.setEnabled(true);
+        embeddedSplit.setEnabled(false);
         splitPane.setEnabled(false);
 
-        embeddedSplit.setDividerLocation(200);
+        embeddedSplit.setDividerLocation(250);
         splitPane.setDividerLocation(1250);
         splitPane.setOneTouchExpandable(false);
         splitPane.setContinuousLayout(true);
@@ -337,13 +366,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         //leftpane.add(borderight, BorderLayout.LINE_END);
         add(splitPane);
         setVisible(true);
-    }
-
-    public void getDateCreated(){
-
-    }
-    public void getLastEdited(){
-
     }
 
     private void setWindowSize(){
