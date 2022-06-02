@@ -21,7 +21,7 @@
             <pathelement location="lib/junit-platform-launcher-1.8.2.jar"/>
             <pathelement location="lib/opentest4j-1.2.0.jar"/>
             <pathelement location="${build.dir}"/>
-            <fileset dir="lib" includes="**/*.jar" />
+            <fileset dir="${projectLib.dir}" includes="**/*.jar" />
         </path>
 
     <target name="All" depends="Compile,Documentation,Build Jar"/>
