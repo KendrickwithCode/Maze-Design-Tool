@@ -17,11 +17,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    - name: Build, Test, Docs and Deploy
-      run: ant -noinput -lib lib -lib libCI -buildfile build.xml
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build and Test
+        run: ant -noinput -lib lib -lib libCI -buildfile build.xml
+
+      - name: Save artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: MazeCraft
+          path: artifacts/
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: MazeCraft
