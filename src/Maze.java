@@ -163,10 +163,10 @@ public class Maze implements Serializable {
 //                    logoBlockIndex = currentIndex;
 //                }
                 if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "start"));
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "start",clearWalls));
                 }
                 else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex){
-                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "end"));
+                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "end",clearWalls));
                 }
                 else
                 {

@@ -17,9 +17,10 @@ public class LogoBlock extends Block implements Serializable{
      * Overload Constructor, Constructs and initialises new LogoBlock which can display logos
      * @param blockIndex Index of logoBlock
      * @param location location of block on maze
+     * @param clearWalls true will clear walls on creation, false will activate them.
      */
-    public LogoBlock(int[] location, int blockIndex, String picture) throws Exception {
-        super(location, blockIndex,false);
+    public LogoBlock(int[] location, int blockIndex, String picture, boolean clearWalls) throws Exception {
+        super(location, blockIndex,clearWalls);
         HashMap<String, String> images = new HashMap<>();
         images.put("start","img/icons/Dog.png");
         images.put("end","img/icons/Bone.png");
@@ -31,10 +32,7 @@ public class LogoBlock extends Block implements Serializable{
         if(picture.equals("start") || picture.equals("end"))
         {
             logoType = "kids";
-            if(picture.equals("start"))
-                logoStart = true;
-            else
-                logoStart = false;
+            logoStart = picture.equals("start");
 
         }
         else

@@ -196,7 +196,7 @@ public class MazeLogoTools {
      * @throws Exception on error of logoBLock creation.
      */
     public static void convertMazeBlockToLogoBlock(Block inputBLock,String logoType) throws Exception {
-        LogoBlock working = new LogoBlock(inputBLock.getLocation(),inputBLock.getBlockIndex(),logoType);
+        LogoBlock working = new LogoBlock(inputBLock.getLocation(),inputBLock.getBlockIndex(),logoType,true);
         working.setWallNorth(inputBLock.getWallNorth());
         working.setWallSouth(inputBLock.getWallSouth());
         working.setWallEast(inputBLock.getWallEast());
