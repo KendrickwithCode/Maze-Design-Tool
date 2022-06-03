@@ -23,5 +23,5 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Build with Ant
+    - name: Test
       run: ant -noinput -lib lib -lib libCI -buildfile build.xml
