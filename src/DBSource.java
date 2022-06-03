@@ -267,6 +267,8 @@ public class DBSource implements MazeDBSource {
             int update = JOptionPane.showConfirmDialog
                     (null, "Overwrite " + GUI_Tools.maze_name.getText() + "?", "WARNING", JOptionPane.YES_NO_OPTION);
             if(update == JOptionPane.YES_OPTION) {
+                //Overwrite Maze
+                updateMaze(maze, type, author, description, height, width);
                 JOptionPane.showMessageDialog(null,
                         "Maze Successfully Updated.", "Okay", JOptionPane.INFORMATION_MESSAGE);
                 return false;
