@@ -44,7 +44,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                                         Integer.parseInt(height_text.getText()),  maze_name.getText(), false,mazeType);
                                 mainGui.enableCheckboxes(true);
                         } catch (Exception ex) {
-                                if(ex.getMessage() == "Invalid Dimension"){
+                                if(ex.getMessage().equals("Invalid Dimension")){
                                         JOptionPane.showMessageDialog(null,
                                                 "You must enter an integer between 4 and 100 inclusive for both width and height to generate a maze.","Invalid Dimension",JOptionPane.INFORMATION_MESSAGE);
                                 }
@@ -60,7 +60,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                                         Integer.parseInt(height_text.getText()), maze_name.getText(), true,mazeType);
                                 mainGui.enableCheckboxes(true);
                         } catch (Exception ex) {
-                                if(ex.getMessage() == "Invalid Dimension"){
+                                if(ex.getMessage().equals("Invalid Dimension")){
                                         JOptionPane.showMessageDialog(null,
                                                 "You must enter an integer between 4 and 100 inclusive for width and height","Invalid Dimension",JOptionPane.INFORMATION_MESSAGE);
                                 }
@@ -120,10 +120,17 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 mainGui.lastEdited.setText("");
                 mainGui.dateCreated.setText("");
         }
+
+        /**
+         *
+         */
         public static void setShowSolution() {
                 mainGui.getMaze().mazePanel.setRenderSolution(showSolution.isSelected());
         }
 
+        /**
+         * sets the maze stats labels in the GUI
+         */
         public static void setMazeStatsLabels() {
                 mainGui.getMaze().mazePanel.setSolvableLabel(solvableBool);
                 mainGui.getMaze().mazePanel.setPercentageDeadEndLabel(deadEndCount);

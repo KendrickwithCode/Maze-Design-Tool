@@ -9,7 +9,7 @@ import java.util.Objects;
 
 
 /**
- *  Astract class used for Maze Block and Logo Blocks in the maze.
+ *  Abstract class used for Maze Block and Logo Blocks in the maze.
  */
 public abstract class Block implements IBlock, Serializable, MouseListener, ActionListener{
     @Override
@@ -242,7 +242,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
         getWallWest().setStart(false);
     }
 
-    void clearFinishs(){
+    void clearFinish(){
         getWallNorth().setFinish(false);
         getWallEast().setFinish(false);
         getWallSouth().setFinish(false);
@@ -285,7 +285,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
                         changeIconSize(1, 1);
                         rerenderIcons();
                         Block.this.clearStarts();
-                        Block.this.clearFinishs();
+                        Block.this.clearFinish();
                         MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
                         rerenderIcons();                                                     //needed to do twice
 
@@ -632,7 +632,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
                     try {
                         Block oldFinish =  MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getKidsFinishIndex());
                         MazeLogoTools.convertLogoBlockToWallBlock(oldFinish);                               //Remove Old Icon
-                        oldFinish.clearFinishs();
+                        oldFinish.clearFinish();
                         MazeLogoTools.convertMazeBlockToLogoBlock(Block.this,"end");
                         MazeLogoTools.getCurrentMaze().setKidsFinishIndex(Block.this.blockIndex);
 
@@ -698,13 +698,13 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
 private void debugTools(){
             System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex));
             System.out.println(MazeLogoTools.getCurrentMaze().getMazeType());
-            System.out.println("CurentWall: " +  this.getWallNorth().getActive() + " Old: " + this.getWallNorth().getOldWallState());
+            System.out.println("CurrentWall: " +  this.getWallNorth().getActive() + " Old: " + this.getWallNorth().getOldWallState());
             if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
                 {
                     LogoBlock current = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     System.out.println("Img: " + current.getPictureFile());
                     System.out.println("LogoType: " + current.getLogoType());
-                    System.out.println("LogoKidsIstart: " + current.isLogoStart());
+                    System.out.println("LogoKidsStart: " + current.isLogoStart());
                 }
 }
 

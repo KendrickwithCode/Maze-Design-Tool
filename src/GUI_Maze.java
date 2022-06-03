@@ -73,11 +73,14 @@ public class GUI_Maze extends JPanel{
         renderMaze(getGrid(),false);
 }
 
+    /**
+     * @return the mazePanel which holds the actual maze display
+     */
     public MazePanel getMazePanel() {
         return mazePanel;
     }
 
-    public GridBagConstraints setupGridConstraints()
+    private GridBagConstraints setupGridConstraints()
     {
         // Set maze components common constraints
         mazeComponentConstraints = new GridBagConstraints();
@@ -86,7 +89,11 @@ public class GUI_Maze extends JPanel{
         return mazeComponentConstraints;
     }
 
-
+    /**
+     * Renders the maze
+     * @param grid True if the maze is to be rendered with grid showing
+     * @param refresh True if the maze is to rendered on the GUI
+     */
     public void renderMaze(boolean grid,boolean refresh){
         setGrid(grid);
 
@@ -110,7 +117,7 @@ public class GUI_Maze extends JPanel{
         }
     }
 
-    public void setupWalls(Block block, GridBagConstraints mazeComponentConstraints, int[] location, boolean grid)
+    private void setupWalls(Block block, GridBagConstraints mazeComponentConstraints, int[] location, boolean grid)
     {
         // North wall
         JButton northWallButton = createNorthWallButton(
@@ -154,6 +161,9 @@ public class GUI_Maze extends JPanel{
         mazePanel.add(southWallButton, mazeComponentConstraints);
     }
 
+    /**
+     * renders the maze blocks
+     */
     public void renderBlocks() {
 
         // Set maze components common constraints
@@ -173,7 +183,7 @@ public class GUI_Maze extends JPanel{
     }
 
 
-    public void renderJpanel(Block block, GridBagConstraints mazeComponentConstraints, int[] location)
+    private void renderJpanel(Block block, GridBagConstraints mazeComponentConstraints, int[] location)
     {
         // Block
         JPanel blockPanel = createBlockPanel(block, mazeComponentConstraints, location);
@@ -181,11 +191,15 @@ public class GUI_Maze extends JPanel{
         mazePanel.add(blockPanel, mazeComponentConstraints);
     }
 
-
+    /**
+     * Gets the mazeGrid value
+     * @return boolean mazeGrid value. True if grid is enabled and false if not.
+     */
     public boolean getGrid(){
         return mazeGrid;
     }
-    public void setGrid(boolean toggle){
+
+    private void setGrid(boolean toggle){
         mazeGrid = toggle;
 
         }
@@ -282,7 +296,7 @@ public class GUI_Maze extends JPanel{
      * @param blockPanel gui block panel
      * @param constraints gui constraints
      */
-    public void logoBlockRender(Block block, JPanel blockPanel,GridBagConstraints constraints,int sizeX,int sizeY)
+    private void logoBlockRender(Block block, JPanel blockPanel,GridBagConstraints constraints,int sizeX,int sizeY)
     {
         Map<Integer,Integer> scales = new HashMap<>();
         scales.put(1,1);
