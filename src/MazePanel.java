@@ -111,7 +111,7 @@ public class MazePanel extends JPanel{
 
             if(startWall.getborder()){
                 if(startWallLocation == "north"){
-                    int triangleWidth = startWall.getHeight() / 2 + 2;
+                    int triangleWidth = startWall.getHeight() / 2;
                     int point1X = startWallX - triangleWidth;
                     int point1Y = startWallY - triangleWidth + 2;
                     int point2X = startWallX + triangleWidth;
@@ -128,7 +128,7 @@ public class MazePanel extends JPanel{
                     g3.draw(path);
                     g3.fill(path);
                 } else if(startWallLocation == "south"){
-                    int triangleWidth = startWall.getHeight() / 2 + 2;
+                    int triangleWidth = startWall.getHeight() / 2;
                     int point1X = startWallX - triangleWidth;
                     int point1Y = startWallY + triangleWidth - 2;
                     int point2X = startWallX + triangleWidth;
@@ -145,7 +145,7 @@ public class MazePanel extends JPanel{
                     g3.draw(path);
                     g3.fill(path);
                 } else if(startWallLocation == "east"){
-                    int triangleWidth = startWall.getWidth() / 2 + 2;
+                    int triangleWidth = startWall.getWidth() / 2;
                     int point1X = startWallX + triangleWidth - 2;
                     int point1Y = startWallY - triangleWidth;
                     int point2X = startWallX + triangleWidth - 2;
@@ -162,7 +162,7 @@ public class MazePanel extends JPanel{
                     g3.draw(path);
                     g3.fill(path);
                 } else if(startWallLocation == "west"){
-                    int triangleWidth = startWall.getWidth() / 2 + 2;
+                    int triangleWidth = startWall.getWidth() / 2;
                     int point1X = startWallX - triangleWidth + 2;
                     int point1Y = startWallY - triangleWidth;
                     int point2X = startWallX - triangleWidth + 2;
@@ -182,9 +182,9 @@ public class MazePanel extends JPanel{
             } else {
                 int triangleWidth = 0;
                 if(startWallLocation == "south" || startWallLocation == "north"){
-                    triangleWidth = startWall.getHeight() / 2 + 2;
+                    triangleWidth = startWall.getHeight() / 2;
                 } else {
-                    triangleWidth = startWall.getWidth() / 2 + 2;
+                    triangleWidth = startWall.getWidth() / 2;
                 }
                 int point1X = startWallX;
                 int point1Y = startWallY - triangleWidth;
@@ -208,7 +208,7 @@ public class MazePanel extends JPanel{
 
             if(finishWall.getborder()){
                 if(finishWallLocation == "south"){
-                    int triangleWidth = finishWall.getHeight() / 2 + 2;
+                    int triangleWidth = finishWall.getHeight() / 2;
                     int point1X = finishWallX - triangleWidth;
                     int point1Y = finishWallY - triangleWidth - 2;
                     int point2X = finishWallX + triangleWidth;
@@ -225,7 +225,7 @@ public class MazePanel extends JPanel{
                     g3.draw(path);
                     g3.fill(path);
                 } else if(finishWallLocation == "north"){
-                    int triangleWidth = finishWall.getHeight() / 2 + 2;
+                    int triangleWidth = finishWall.getHeight() / 2;
                     int point1X = finishWallX - triangleWidth;
                     int point1Y = finishWallY + triangleWidth + 2;
                     int point2X = finishWallX + triangleWidth;
@@ -242,7 +242,7 @@ public class MazePanel extends JPanel{
                     g3.draw(path);
                     g3.fill(path);
                 } else if(finishWallLocation == "west"){
-                    int triangleWidth = finishWall.getWidth() / 2 + 2;
+                    int triangleWidth = finishWall.getWidth() / 2;
                     int point1X = finishWallX + triangleWidth + 2;
                     int point1Y = finishWallY - triangleWidth;
                     int point2X = finishWallX + triangleWidth + 2;
@@ -259,7 +259,7 @@ public class MazePanel extends JPanel{
                     g3.draw(path);
                     g3.fill(path);
                 } else if(finishWallLocation == "east"){
-                    int triangleWidth = finishWall.getWidth() / 2 + 2;
+                    int triangleWidth = finishWall.getWidth() / 2;
                     int point1X = finishWallX - triangleWidth - 2;
                     int point1Y = finishWallY - triangleWidth;
                     int point2X = finishWallX - triangleWidth - 2;

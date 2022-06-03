@@ -22,7 +22,6 @@ public class MazeWall extends JButton implements Serializable {
         addListeners();
     }
 
-
     /**
      * returns if the current wall is an Active wall that can't be passed
      * @return boolean of the active wall if it is ture (enable / can't pass) / False can pass.
@@ -31,10 +30,17 @@ public class MazeWall extends JButton implements Serializable {
         return active;
     }
 
+    /**
+     *  Resets this wall to its previous wall state (saved due to placement of logo block)
+     */
     public void resetWall(){
         setActive(oldWallState);
     }
 
+    /**
+     * Returns previous wall state (saved due to placement of logo block)
+     * @return old wall state
+     */
     public boolean getOldWallState() {
         return oldWallState;
     }
@@ -112,7 +118,8 @@ public class MazeWall extends JButton implements Serializable {
         return this.border;
     }
 
-    public void setButtonColor(){
+
+    private void setButtonColor(){
         Color unsetColor = Color.white;
         Color activeColor = Color.black;
 
@@ -128,22 +135,9 @@ public class MazeWall extends JButton implements Serializable {
         }
     }
 
-    public void setButtonEnableVisible(boolean buttonState)
-    {
-        setButtonEnable(buttonState);
-        setButtonVisible(buttonState);
-    }
-
-    public void setButtonEnable(boolean buttonState)
-    {
-        setEnabled(buttonState);
-    }
-
-    public void setButtonVisible(boolean buttonState)
-    {
-        setVisible(buttonState);
-    }
-
+    /**
+     * Add Mouse listeners to mazeWall JButton (This is public as loading now mazes in requires listeners to be reset)
+     */
     public void addListeners() {
 
         MouseListener[] listeners  = getMouseListeners();
@@ -151,8 +145,6 @@ public class MazeWall extends JButton implements Serializable {
             removeMouseListener(mouseListener);
         }
 
-        Color unsetColor = Color.white;
-        Color activeColor = Color.black;
         Color hoverColor = Color.gray;
 
         setFocusPainted(false);
@@ -170,7 +162,6 @@ public class MazeWall extends JButton implements Serializable {
 
                 super.mouseClicked(e);
                 if (SwingUtilities.isRightMouseButton(e)){
-                    System.out.println("right clicked");
                     JPopupMenu menu = new JPopupMenu();
                     JMenuItem item = new JMenuItem("Set as starting wall");
                     item.addActionListener(e1 -> {
