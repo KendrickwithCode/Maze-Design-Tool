@@ -87,6 +87,31 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
         availableDirections.clear();
     }
 
+    private void iconSizeChangeEvent(int newSize, boolean xAxis){
+        LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+
+        int currentSizeY = workingBlock.getLogoSizeY();
+        int currentSizeX = workingBlock.getLogoSizeX();
+        if(xAxis) {
+            if(checkIconResizeInbounds(newSize,currentSizeY)) {
+                MazeLogoTools.resetWalls(workingBlock);
+                changeIconSize(newSize, currentSizeY);
+                if (Objects.equals(workingBlock.getLogoType(), "adult"))
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock, newSize, currentSizeY);
+                rerenderIcons();
+            }
+        }else{
+            if(checkIconResizeInbounds(currentSizeX,newSize)) {
+                MazeLogoTools.resetWalls(workingBlock);
+                changeIconSize(currentSizeX, newSize);
+                if (Objects.equals(workingBlock.getLogoType(), "adult"))
+                    MazeLogoTools.setupAdultLogoBlocks(workingBlock, currentSizeX, newSize);
+                rerenderIcons();
+            }
+        }
+
+    }
+
     protected void rerenderIcons() {
         boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
         MazeLogoTools.getCurrentGUIMaze().renderBlocks();
@@ -103,6 +128,19 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
         }
     }
 
+    private boolean checkIconResizeInbounds(int endOffsetX, int endOffsetY)
+    {
+        int mazeSizeX = MazeLogoTools.getCurrentMaze().getSize()[0];
+        int mazeSizeY = MazeLogoTools.getCurrentMaze().getSize()[1];
+        int newX = location[0] + endOffsetX;
+        int newY = location[1] + endOffsetY;
+
+        if( newX > mazeSizeX || newY > mazeSizeY) {
+            JOptionPane.showMessageDialog(null, "Invalid placement or sizing for image.", "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Sets available directions
@@ -260,14 +298,17 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    try {
+                    System.out.println(MazeLogoTools.getCurrentMaze().getSize()[0] +  ", "+ MazeLogoTools.getCurrentMaze().getSize()[1]);
+                    if(checkIconResizeInbounds(2,2))
+                    {
+                        try {
+                            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this,"logo");
+                            MazeLogoTools.setupAdultLogoBlocks(Block.this,2,2);
+                            rerenderIcons();
 
-                        MazeLogoTools.convertMazeBlockToLogoBlock(Block.this,"logo");
-                        MazeLogoTools.setupAdultLogoBlocks(Block.this,2,2);
-                        rerenderIcons();
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -300,14 +341,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item3.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(1, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,1,currentSizeY);
-                    rerenderIcons();
+                    iconSizeChangeEvent(1,true);
                 }
             });
 
@@ -315,14 +349,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item4.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(2, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,2,currentSizeY);
-                    rerenderIcons();
+                    iconSizeChangeEvent(2,true);
                 }
             });
 
@@ -331,14 +358,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item5.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(3, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,3,currentSizeY);
-                    rerenderIcons();
+                    iconSizeChangeEvent(3,true);
                 }
             });
 
@@ -346,14 +366,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item6.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(4, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,4,currentSizeY);
-                    rerenderIcons();
+                    iconSizeChangeEvent(4,true);
                 }
             });
 
@@ -362,14 +375,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item7.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(5, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,5,currentSizeY);
-                    rerenderIcons();
+                        iconSizeChangeEvent(5,true);
                 }
             });
 
@@ -378,14 +384,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item8.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(6, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,6,currentSizeY);
-                    rerenderIcons();
+                    iconSizeChangeEvent(6,true);
                 }
             });
 
@@ -393,14 +392,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item9.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(7, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,7,currentSizeY);
-                    rerenderIcons();
+                    iconSizeChangeEvent(7,true);
                 }
             });
 
@@ -408,14 +400,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item10.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(8, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,8,currentSizeY);
-                    rerenderIcons();
+                    iconSizeChangeEvent(8,true);
                 }
             });
 
@@ -423,14 +408,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item11.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(9, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,9,currentSizeY);
-                    rerenderIcons();
+                    iconSizeChangeEvent(9,true);
                 }
             });
 
@@ -438,14 +416,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item12.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeY = workingBlock.getLogoSizeY();
-                    changeIconSize(10, currentSizeY);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,10,currentSizeY);
-                    rerenderIcons();
+                    iconSizeChangeEvent(10,true);
                 }
             });
 
@@ -458,13 +429,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item13.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 1);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,1);
-                    rerenderIcons();
+                    iconSizeChangeEvent(1,false);
                 }
             });
 
@@ -472,13 +437,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item14.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 2);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,2);
-                    rerenderIcons();
+                    iconSizeChangeEvent(2,false);
                 }
             });
 
@@ -486,13 +445,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item15.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 3);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,3);
-                    rerenderIcons();
+                    iconSizeChangeEvent(3,false);
                 }
             });
 
@@ -500,13 +453,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item16.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 4);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,4);
-                    rerenderIcons();
+                    iconSizeChangeEvent(4,false);
                 }
             });
 
@@ -514,13 +461,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item17.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 5);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,5);
-                    rerenderIcons();
+                    iconSizeChangeEvent(5,false);
                 }
             });
 
@@ -528,13 +469,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item18.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 6);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,6);
-                    rerenderIcons();
+                    iconSizeChangeEvent(6,false);
                 }
             });
 
@@ -542,13 +477,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item19.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 7);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,7);
-                    rerenderIcons();
+                    iconSizeChangeEvent(7,false);
                 }
             });
 
@@ -556,13 +485,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item20.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 8);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,8);
-                    rerenderIcons();
+                    iconSizeChangeEvent(8,false);
                 }
             });
 
@@ -570,13 +493,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item21.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 9);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,9);
-                    rerenderIcons();
+                    iconSizeChangeEvent(9,false);
                 }
             });
 
@@ -584,13 +501,7 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item22.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    MazeLogoTools.resetWalls(workingBlock);
-                    int currentSizeX = workingBlock.getLogoSizeX();
-                    changeIconSize(currentSizeX, 10);
-                    if(Objects.equals(workingBlock.getLogoType(), "adult"))
-                        MazeLogoTools.setupAdultLogoBlocks(workingBlock,currentSizeX,10);
-                    rerenderIcons();
+                    iconSizeChangeEvent(10,false);
                 }
             });
 
@@ -608,18 +519,20 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item24.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    try {
+                    if(checkIconResizeInbounds(2,2)) {
+                        try {
 
-                        Block oldStart =  MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getKidsStartIndex());
-                        MazeLogoTools.convertLogoBlockToWallBlock(oldStart);                                //Remove Old Icon
-                        oldStart.clearStarts();
-                        MazeLogoTools.convertMazeBlockToLogoBlock(Block.this,"start");
-                        MazeLogoTools.getCurrentMaze().setKidsStartIndex(Block.this.blockIndex);
+                            Block oldStart = MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getKidsStartIndex());
+                            MazeLogoTools.convertLogoBlockToWallBlock(oldStart);                                //Remove Old Icon
+                            oldStart.clearStarts();
+                            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this, "start");
+                            MazeLogoTools.getCurrentMaze().setKidsStartIndex(Block.this.blockIndex);
 
-                        rerenderIcons();
+                            rerenderIcons();
 
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -628,21 +541,22 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item25.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    if(checkIconResizeInbounds(2,2)) {
+                        try {
+                            Block oldFinish = MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getKidsFinishIndex());
+                            MazeLogoTools.convertLogoBlockToWallBlock(oldFinish);                               //Remove Old Icon
+                            oldFinish.clearFinish();
+                            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this, "end");
+                            MazeLogoTools.getCurrentMaze().setKidsFinishIndex(Block.this.blockIndex);
 
-                    try {
-                        Block oldFinish =  MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getKidsFinishIndex());
-                        MazeLogoTools.convertLogoBlockToWallBlock(oldFinish);                               //Remove Old Icon
-                        oldFinish.clearFinish();
-                        MazeLogoTools.convertMazeBlockToLogoBlock(Block.this,"end");
-                        MazeLogoTools.getCurrentMaze().setKidsFinishIndex(Block.this.blockIndex);
+                            //Clear default finish line
+                            MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getMazeMap().size() - 1).getWallSouth().setFinish(false);
 
-                        //Clear default finish line
-                        MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getMazeMap().size()-1).getWallSouth().setFinish(false);
+                            rerenderIcons();
 
-                        rerenderIcons();
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
 
