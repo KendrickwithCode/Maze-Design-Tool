@@ -160,7 +160,7 @@ public class DBSource implements MazeDBSource {
         month = String.valueOf(workingMonth);
         day = String.valueOf(workingDay);
 
-        inputDate= year + "-" + month + "-" + day +  " " + hrs + ":" + mins + ":" + secs;
+        inputDate= "    " + day + "/" + month + "/" + year +  "       " + hrs + ":" + mins + ":" + secs;
         return  inputDate;
     }
 
