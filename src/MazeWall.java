@@ -163,61 +163,54 @@ public class MazeWall extends JButton implements Serializable {
             setBorder();
         }
 
-        if(!border) {
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    MazePanel mazePanel = (MazePanel) getParent();
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MazePanel mazePanel = (MazePanel) getParent();
 
-                    super.mouseClicked(e);
-                    if (SwingUtilities.isRightMouseButton(e)){
-                        JPopupMenu menu = new JPopupMenu();
-                        JMenuItem item = new JMenuItem("Set as starting wall");
-                        item.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                mazePanel.resetStartWalls();
-                                setStart(!start);
-                            }
-                        });
-                        JMenuItem item2 = new JMenuItem("Set as finishing wall");
-                        item2.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                mazePanel.resetFinishWalls();
-                                setFinish(true);
-                            }
-                        });
-                        menu.add(item);
-                        menu.add(item2);
-                        menu.show(e.getComponent(), e.getX(), e.getY());
-                    } else {
-                        Object src = e.getSource();
-                        if(border) return;
-                        setButtonColor();
-                        setActive(!active);
-                        getParent().repaint();
-                    }
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    super.mouseEntered(e);
-                    if(border || active) return;
-                    setBackground(hoverColor);
-                    setContentAreaFilled(true);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    super.mouseExited(e);
+                super.mouseClicked(e);
+                if (SwingUtilities.isRightMouseButton(e)){
+                    System.out.println("right clicked");
+                    JPopupMenu menu = new JPopupMenu();
+                    JMenuItem item = new JMenuItem("Set as starting wall");
+                    item.addActionListener(e1 -> {
+                        mazePanel.resetStartWalls();
+                        setStart(!start);
+                    });
+                    JMenuItem item2 = new JMenuItem("Set as finishing wall");
+                    item2.addActionListener(e12 -> {
+                        mazePanel.resetFinishWalls();
+                        setFinish(true);
+                    });
+                    menu.add(item);
+                    menu.add(item2);
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                } else {
                     if(border) return;
                     setButtonColor();
+                    setActive(!active);
                     getParent().repaint();
                 }
-            });
-        }
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                if(border || active) return;
+                setBackground(hoverColor);
+                setContentAreaFilled(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                if(border) return;
+                setButtonColor();
+                getParent().repaint();
+            }
+        });
+
     }
 
     @Override
