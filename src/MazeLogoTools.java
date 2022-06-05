@@ -56,11 +56,13 @@ public class MazeLogoTools {
         int currentY = workingBlock.getLocation()[1];
         if(westWall) {
             workingBlock.getWallWest().resetWall();
-            workingBlock.getWallWest().setBorder(false);
+            if(workingBlock.getLocation()[0] != 0)
+                workingBlock.getWallWest().setBorder(false);
         }
         else {
             workingBlock.getWallEast().resetWall();
-            workingBlock.getWallEast().setBorder(false);
+            if(workingBlock.getLocation()[0] != currentMaze.getWidth())
+                workingBlock.getWallEast().setBorder(false);
         }
 
         if (endY == currentY)                       //base Case
@@ -83,11 +85,13 @@ public class MazeLogoTools {
 
         if(northWall) {
             workingBlock.getWallNorth().resetWall();
-            workingBlock.getWallNorth().setBorder(false);
+            if(workingBlock.getLocation()[1] != 0)
+                workingBlock.getWallNorth().setBorder(false);
         }
         else {
             workingBlock.getWallSouth().resetWall();
-            workingBlock.getWallSouth().setBorder(false);
+            if(workingBlock.getLocation()[1] != currentMaze.getHeight())
+                workingBlock.getWallSouth().setBorder(false);
         }
 
         if (endX == currentX)                       //base Case
