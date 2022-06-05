@@ -24,7 +24,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     MazeDB mazeData;
     DBSource mazeDB;
     private JButton reset, delete;
-    private JMenuItem save, export, fullScr, windowScr, exit, logoChange, kidsStart, kidsFinish;
+    private JMenuItem save, export, fullScr, windowScr, exit;
     private final DefaultListModel<Object> listModel;
 
 
@@ -68,34 +68,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             this.dispose();
         }
 
-        if(src==logoChange)
-        {
-            if(MazeLogoTools.getCurrentMaze() != null) {
-                if(MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("ADULT")) {
-                    Maze currentMaze = MazeLogoTools.getCurrentMaze();
-                    imageChange(currentMaze.getLogoBlockIndex(), currentMaze);
-                }
-            }
-
-        }
-        if(src==kidsStart)
-        {
-            if(MazeLogoTools.getCurrentMaze() != null) {
-                if(MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")) {
-                    Maze currentMaze = MazeLogoTools.getCurrentMaze();
-                    imageChange(currentMaze.getKidsStartIndex(), currentMaze);
-                }
-            }
-        }
-        if(src==kidsFinish)
-        {
-            if(MazeLogoTools.getCurrentMaze() != null) {
-                if(MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")) {
-                    Maze currentMaze = MazeLogoTools.getCurrentMaze();
-                    imageChange(currentMaze.getKidsFinishIndex(), currentMaze);
-                }
-            }
-        }
         if(src== reset){
             if(MazeLogoTools.getCurrentGUIMaze() != null){
                 enableCheckboxes(false);
@@ -281,20 +253,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         menuBar.add(file);
         this.setJMenuBar(menuBar);
 
-//        // Set Edit Toolbar
-//        JMenu edit = new JMenu("Edit");
-//
-//        logoChange = menuItemFactory("Change Logo",editMenuItemWith,menuItemHeight);
-//        kidsStart = menuItemFactory("Change Kids Start Image",editMenuItemWith,menuItemHeight);
-//        kidsFinish = menuItemFactory("Change Kids Finish Image",editMenuItemWith,menuItemHeight);
-//
-//        edit.add(logoChange);
-//        edit.addSeparator();
-//        edit.add(kidsStart);
-//        edit.add(kidsFinish);
-//
-//        menuBar.add(edit);
-//        this.setJMenuBar(menuBar);
 
 
         // Set Edit View

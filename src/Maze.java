@@ -22,7 +22,6 @@ public class Maze implements Serializable {
     private MazeGenerator mazeHolder;
     private int kidsStartIndex;
     private int kidsFinishIndex;
-    private int logoBlockIndex;
 
 
     /**
@@ -49,10 +48,6 @@ public class Maze implements Serializable {
 
     public void setMazeType(String mazeType) {
         this.mazeType = mazeType;
-    }
-
-    public void setSize(int width, int height){
-        this.size = new int[]{width, height};
     }
 
     public int getWidth() {
@@ -413,13 +408,6 @@ public class Maze implements Serializable {
     }
 
 
-    public int getLogoBlockIndex() {
-        return logoBlockIndex;
-    }
-
-    public void setLogoBlockIndex(int logoBlockIndex) {
-        this.logoBlockIndex = logoBlockIndex;
-    }
     public void setKidsStartIndex(int kidsStartIndex) {
         this.kidsStartIndex = kidsStartIndex;
     }

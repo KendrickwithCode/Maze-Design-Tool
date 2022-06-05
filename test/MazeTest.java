@@ -39,6 +39,31 @@ public class MazeTest {
         assertEquals(3,result);
     }
 
+    @Test
+    public void testMaze(){
+        testMaze.setMazeType("kids");
+        assertEquals("kids",testMaze.getMazeType());
+        testMaze.setMazeType("adult");
+        assertEquals("adult",testMaze.getMazeType());
+    }
+
+    @Test
+    public void testWidthHeight(){
+        testMaze.setWidth(6);
+        testMaze.setHeight(2);
+        assertEquals(6,testMaze.getWidth());
+        assertEquals("6",testMaze.getWidthAsString());
+        assertEquals(2,testMaze.getHeight());
+        assertEquals("2",testMaze.getHeightAsString());
+    }
+
+    @Test
+    public void testAuthorAndDescription(){
+        testMaze.setAuthorName("testMan");
+        assertEquals("testMan",testMaze.getAuthorName());
+        testMaze.setMazeDescription("Test mans first maze.");
+        assertEquals("Test mans first maze.",testMaze.getMazeDescription());
+    }
 
     @Test
     public void testGetIndex(){
@@ -127,7 +152,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testLogos()
+    public void testKidsLogos()
     {
         //Kids logo tests
         LogoBlock working = (LogoBlock) kidsTest.getMazeMap().get(kidsTest.getKidsStartIndex());
@@ -145,6 +170,42 @@ public class MazeTest {
         working = (LogoBlock) kidsTest.getMazeMap().get(kidsTest.getKidsFinishIndex());
         resultFileName  = working.getPictureFile()  ;
         assertEquals("img/icons/Bone.png",resultFileName);
+
+        testMaze.setKidsStartIndex(2);
+        assertEquals(2,testMaze.getKidsStartIndex());
+
+        testMaze.setKidsFinishIndex(4);
+        assertEquals(4,testMaze.getKidsFinishIndex());
+    }
+
+    @Test
+    public void testBlockConversions() throws Exception {
+        MazeLogoTools.setCurrentMaze(testMaze);
+        MazeLogoTools.convertMazeBlockToLogoBlock(testMaze.getMazeMap().get(5),"logo");
+        LogoBlock currentTestLogoBlock = (LogoBlock) testMaze.getMazeMap().get(5);
+        assertEquals("LogoBlock", testMaze.getMazeMap().get(5).getBlockType());
+        assertEquals("img/icons/MazeCo.png",currentTestLogoBlock.getPictureFile());
+        MazeLogoTools.setupAdultLogoBlocks(testMaze.getMazeMap().get(5),2,2);
+        assertTrue(currentTestLogoBlock.getWallWest().getActive());
+        assertTrue(currentTestLogoBlock.getWallWest().getborder());
+
+        MazeLogoTools.resetWalls((LogoBlock) testMaze.getMazeMap().get(5));
+        MazeLogoTools.convertLogoBlockToWallBlock(testMaze.getMazeMap().get(5));
+        MazeBlock currentMazeBlock = (MazeBlock) testMaze.getMazeMap().get(5);
+        assertEquals("MazeBlock", testMaze.getMazeMap().get(5).getBlockType());
+        assertFalse(currentTestLogoBlock.getWallWest().getActive());
+        assertFalse(currentTestLogoBlock.getWallWest().getborder());
+    }
+
+
+    @Test
+    public void testMazeReturns() throws Exception {
+
+        GUI_Maze testMazeGui = new GUI_Maze(testMaze,false);
+        MazeLogoTools.setCurrentMaze(testMaze);
+        MazeLogoTools.setCurrentGUIMaze(testMazeGui);
+        assertEquals(testMazeGui, MazeLogoTools.getCurrentGUIMaze());
+        assertEquals(testMaze, MazeLogoTools.getCurrentMaze());
 
     }
 
