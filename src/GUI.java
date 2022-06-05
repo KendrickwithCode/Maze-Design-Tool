@@ -4,8 +4,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -161,37 +160,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     /**
      * Adds a listener to the name list
      */
-    private void addNameListListener(ListSelectionListener listener) {
-        dbitems.addListSelectionListener(listener);
-    }
-
-
-
-    /**
-     * Implements a ListSelectionListener for making the UI respond when a
-     * different name is selected from the list. Adapted from CAB302 Tutorials.
-     */
-    private class NameListListener implements ListSelectionListener {
-
-        /**
-         * @see ListSelectionListener#valueChanged(ListSelectionEvent)
-         */
-        public void valueChanged(ListSelectionEvent e) {
-            if(e.getValueIsAdjusting()){
-                return;
-            }
-            if (dbitems.getSelectedValue() != null) {
-                try {
-                    enableButtons(true);
-                    enableCheckboxes(true);
-                    display(mazeData.get(dbitems.getSelectedValue()));
-
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
+    private void addNameListListener( MouseListener e) {
+        dbitems.addMouseListener(e);
     }
 
     /**
@@ -352,7 +322,37 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         mazeData.updateList(listModel);
         dbitems = new JList<>(listModel);
         dbitems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        addNameListListener(new NameListListener());
+        addNameListListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    enableButtons(true);
+                    enableCheckboxes(true);
+                    display(mazeData.get(dbitems.getSelectedValue()));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
         dbitems.setVisible(true);
 
         JPanel controls = new JPanel();

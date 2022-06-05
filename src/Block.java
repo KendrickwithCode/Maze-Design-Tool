@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
@@ -12,6 +12,10 @@ import java.util.Objects;
  *  Abstract class used for Maze Block and Logo Blocks in the maze.
  */
 public abstract class Block implements IBlock, Serializable, MouseListener, ActionListener{
+
+    @Serial
+    private static final long serialVersionUID = 6L;
+
     @Override
     public void actionPerformed(ActionEvent e) {
 

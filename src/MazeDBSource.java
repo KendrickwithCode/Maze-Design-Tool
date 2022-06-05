@@ -2,9 +2,10 @@ import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 
+/**
+ * Database Interface methods
+ */
 public interface MazeDBSource {
     /**
      * Extracts all the details of a Maze from the database based on the
@@ -49,5 +50,5 @@ public interface MazeDBSource {
      *
      * @return set of names.
      */
-    public ArrayList<String> nameList();
+    ArrayList<String> nameList();
 }
