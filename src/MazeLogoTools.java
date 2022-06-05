@@ -6,22 +6,6 @@ public class MazeLogoTools {
     private static GUI_Maze currentGUIMaze;
 
     /**
-     * Random placement index generator for placing logo on the maze.
-     * @param mazeSize size of maze [x,y].
-     * @return index for maze map ArrayList.
-     */
-    public static int[] randomLogoPlacerIndex(int[] mazeSize){
-        int minX = 1;
-        int minY = 1;
-        int maxX = mazeSize[0]-2;
-        int maxY = mazeSize[1]-2;
-        int randomX = (int) ((Math.random()) * (maxX-minX) + minX);
-        int randomY = (int) ((Math.random()) * (maxY-minY) + minY);
-
-        return new int[]{randomX,randomY};
-    }
-
-    /**
      * Resets walls back to previous wall state.
      * @param working block to reset walls to previous state.
      */
