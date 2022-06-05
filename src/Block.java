@@ -298,7 +298,6 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
             item1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println(MazeLogoTools.getCurrentMaze().getSize()[0] +  ", "+ MazeLogoTools.getCurrentMaze().getSize()[1]);
                     if(checkIconResizeInbounds(2,2))
                     {
                         try {

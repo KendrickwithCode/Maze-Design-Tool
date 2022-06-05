@@ -104,9 +104,10 @@ public class MazeWall extends JButton implements Serializable {
 
     /**
      * Sets wall GUI and variables if wall is a border
+     * @param state True will set as boarder wall. False will clear the boarder wall state.
      */
-    public void setBorder(){
-        this.border = true;
+    public void setBorder(boolean state){
+        this.border = state;
         setButtonColor();
     }
 
@@ -152,7 +153,7 @@ public class MazeWall extends JButton implements Serializable {
 
         if(border) {
             setButtonColor();
-            setBorder();
+            setBorder(true);
         }
 
         addMouseListener(new MouseAdapter() {

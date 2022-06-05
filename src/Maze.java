@@ -103,17 +103,17 @@ public class Maze implements Serializable {
         for (int y = 0; y < sizeY; y++) {
             current[0] = sizeX - 1;
             current[1] = y;
-            mazeMap.get(getIndex(current)).getWallEast().setBorder();
+            mazeMap.get(getIndex(current)).getWallEast().setBorder(true);
             current[0] = 0;
-            mazeMap.get(getIndex(current)).getWallWest().setBorder();
+            mazeMap.get(getIndex(current)).getWallWest().setBorder(true);
         }
         //set the north and south walls
         for (int x = 0; x < sizeX; x++) {
             current[0] = x;
             current[1] = 0;
-            mazeMap.get(getIndex(current)).getWallNorth().setBorder();
+            mazeMap.get(getIndex(current)).getWallNorth().setBorder(true);
             current[1] = sizeY - 1;
-            mazeMap.get(getIndex(current)).getWallSouth().setBorder();
+            mazeMap.get(getIndex(current)).getWallSouth().setBorder(true);
         }
     }
 

@@ -54,10 +54,14 @@ public class MazeLogoTools {
         Block workingBlock = currentMaze.getMazeMap().get(currentIndexY);
         int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"south");
         int currentY = workingBlock.getLocation()[1];
-        if(westWall)
+        if(westWall) {
             workingBlock.getWallWest().resetWall();
-        else
+            workingBlock.getWallWest().setBorder(false);
+        }
+        else {
             workingBlock.getWallEast().resetWall();
+            workingBlock.getWallEast().setBorder(false);
+        }
 
         if (endY == currentY)                       //base Case
             return;
@@ -77,10 +81,14 @@ public class MazeLogoTools {
         int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"east");
         int currentX = workingBlock.getLocation()[0];
 
-        if(northWall)
+        if(northWall) {
             workingBlock.getWallNorth().resetWall();
-        else
+            workingBlock.getWallNorth().setBorder(false);
+        }
+        else {
             workingBlock.getWallSouth().resetWall();
+            workingBlock.getWallSouth().setBorder(false);
+        }
 
         if (endX == currentX)                       //base Case
             return;
@@ -122,10 +130,14 @@ public class MazeLogoTools {
         Block workingBlock = currentMaze.getMazeMap().get(currentIndexY);
         int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"south");
         int currentY = workingBlock.getLocation()[1];
-        if(westWall)
-            workingBlock.getWallWest().setActive(true,false);
-        else
-            workingBlock.getWallEast().setActive(true,false);
+        if(westWall) {
+            workingBlock.getWallWest().setActive(true, false);
+            workingBlock.getWallWest().setBorder(true);
+        }
+        else {
+            workingBlock.getWallEast().setActive(true, false);
+            workingBlock.getWallEast().setBorder(true);
+        }
 
         if (endY == currentY)                       //base Case
             return;
@@ -145,10 +157,14 @@ public class MazeLogoTools {
         int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"east");
         int currentX = workingBlock.getLocation()[0];
 
-        if(northWall)
-            workingBlock.getWallNorth().setActive(true,false);
-        else
-            workingBlock.getWallSouth().setActive(true,false);
+        if(northWall) {
+            workingBlock.getWallNorth().setActive(true, false);
+            workingBlock.getWallNorth().setBorder(true);
+        }
+        else {
+            workingBlock.getWallSouth().setActive(true, false);
+            workingBlock.getWallSouth().setBorder(true);
+        }
 
         if (endX == currentX)                       //base Case
             return;
