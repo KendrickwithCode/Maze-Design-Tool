@@ -18,8 +18,7 @@ public class GUI_Maze extends JPanel{
     private final int wallThickness;
     private final Maze maze;
     public static MazePanel mazePanel;
-    
-    private GridBagConstraints mazeComponentConstraints;
+
     private static boolean mazeGrid = true;
     //variables to control the size of walls in pixels with respect to blocks at different maze sizes
         //width in pixels when max dim is 100, should not be set to more than 15:
@@ -83,7 +82,7 @@ public class GUI_Maze extends JPanel{
     private GridBagConstraints setupGridConstraints()
     {
         // Set maze components common constraints
-        mazeComponentConstraints = new GridBagConstraints();
+        GridBagConstraints mazeComponentConstraints = new GridBagConstraints();
         mazeComponentConstraints.weightx = 1;
         mazeComponentConstraints.weighty = 1;
         return mazeComponentConstraints;
@@ -112,7 +111,7 @@ public class GUI_Maze extends JPanel{
 
             if(!refresh)
             {
-                renderJpanel(block,mazeComponentConstraints,location);
+                renderPanel(block,mazeComponentConstraints,location);
             }
         }
     }
@@ -177,13 +176,13 @@ public class GUI_Maze extends JPanel{
             int blockYLocation = (currentBlock.getLocation()[1] + 1) * 2 -1;
             int[] location = new int[] {blockXLocation, blockYLocation};
 
-            renderJpanel(currentBlock,mazeComponentConstraints,location);
+            renderPanel(currentBlock,mazeComponentConstraints,location);
 
         }
     }
 
 
-    private void renderJpanel(Block block, GridBagConstraints mazeComponentConstraints, int[] location)
+    private void renderPanel(Block block, GridBagConstraints mazeComponentConstraints, int[] location)
     {
         // Block
         JPanel blockPanel = createBlockPanel(block, mazeComponentConstraints, location);
@@ -484,7 +483,7 @@ public class GUI_Maze extends JPanel{
                 }
 
                 @Override
-                public boolean drawImage(Image img, int x, int y, Color bgcolor, ImageObserver observer) {
+                public boolean drawImage(Image img, int x, int y, Color color, ImageObserver observer) {
                     return false;
                 }
 
@@ -590,21 +589,5 @@ public class GUI_Maze extends JPanel{
         final int d2 = 100;     //value 2 max dimension
         final int s2 = (16-largeMazeWallSize)*d2;    //value 2 corresponding desired length in pixels
         return ((s2 - s1 + (-s2*d1+s1*d2)/maxDim)/(d2-d1));
-    }
-
-    public GridBagConstraints getMazeComponentConstraints() {
-        return mazeComponentConstraints;
-    }
-
-    public int getMazeHeight() {
-        return mazeHeight;
-    }
-
-    public int getMazeWidth() {
-        return mazeWidth;
-    }
-
-    public int getWallThickness() {
-        return wallThickness;
     }
 }
