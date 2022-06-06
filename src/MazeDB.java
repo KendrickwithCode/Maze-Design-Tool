@@ -1,9 +1,5 @@
 import javax.swing.*;
-import java.awt.*;
-import java.io.*;
 import java.sql.*;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Maze Database Connection with getters and updates
