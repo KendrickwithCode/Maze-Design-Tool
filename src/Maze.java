@@ -268,9 +268,8 @@ public class Maze implements Serializable {
     private int mazeWidth;
     private String authorName;
     private boolean solvable;
-    private int[] size;
-    private ArrayList<Block> mazeMap;
-    private MazeGenerator mazeHolder;
+    private final int[] size;
+    private final ArrayList<Block> mazeMap;
     private int kidsStartIndex;
     private int kidsFinishIndex;
 
@@ -440,9 +439,6 @@ public class Maze implements Serializable {
         mazeMap.clear();
         kidsStartIndex = 0;
         kidsFinishIndex = MazeTools.getKidsFinishIndex(this);
-//        logoBlockIndex = 0;
-
-//        int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
 
         int currentIndex = 0;
         /*
@@ -450,10 +446,6 @@ public class Maze implements Serializable {
          */
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-//                if(mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
-//                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "logo"));
-//                    logoBlockIndex = currentIndex;
-//                }
                 if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
                     mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "start",clearWalls));
                 }

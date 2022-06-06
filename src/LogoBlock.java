@@ -53,7 +53,7 @@ public class LogoBlock extends Block implements Serializable{
             pictureFile = imageFile.getPath();
 
             Maze.MazeTools.getCurrentGUIMaze().renderBlocks();
-            rerenderIcons();
+            renderIcons();
             Maze.MazeTools.getCurrentGUIMaze().revalidate();
             Maze.MazeTools.getCurrentGUIMaze().repaint();
         }

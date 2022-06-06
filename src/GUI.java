@@ -155,7 +155,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     /**
      * Display the Maze from the Database to the GUI including all details about the Maze in text fields.
      * @param maze The Maze object to be displayed
-     * @throws Exception
+     * @throws Exception Write something here
      */
     public void display(Maze maze) throws Exception {
         if (maze != null) {
