@@ -56,7 +56,7 @@ public class MazePanel extends JPanel{
     public void paint(Graphics g) {
         super.paint(g);
         ArrayList<Block> solution = solveMaze();
-        if(!MazeLogoTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")){
+        if(!Maze.MazeTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")){
 
             MazeWall startWall = new MazeWall();
             MazeWall finishWall= new MazeWall();

@@ -35,7 +35,7 @@ public class GUI_Maze extends JPanel{
     public GUI_Maze(Maze maze,boolean generate)throws Exception {
         // Set Maze
         this.maze = maze;
-        MazeLogoTools.setCurrentGUIMaze(this);
+        Maze.MazeTools.setCurrentGUIMaze(this);
 
         for(Block block : maze.getMazeMap()){
             block.getWallSouth().addListeners();

@@ -1,7 +1,5 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
@@ -45,7 +43,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 ex.printStackTrace();
             }
         } else if (src == save) {
-            if(MazeLogoTools.getCurrentGUIMaze() != null){
+            if(Maze.MazeTools.getCurrentGUIMaze() != null){
                 saveMaze();
             }
             else{
@@ -69,7 +67,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         }
 
         if(src== reset){
-            if(MazeLogoTools.getCurrentGUIMaze() != null){
+            if(Maze.MazeTools.getCurrentGUIMaze() != null){
                 enableCheckboxes(false);
                 enableButtons(false);
                 clearMaze();
@@ -80,7 +78,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             }
         }
         if(src==delete){
-            if(MazeLogoTools.getCurrentGUIMaze() != null){
+            if(Maze.MazeTools.getCurrentGUIMaze() != null){
                 int delete = JOptionPane.showConfirmDialog
                         (null, "Are you sure you want to delete?", "WARNING", JOptionPane.YES_NO_OPTION);
                 if(delete == JOptionPane.YES_OPTION){
@@ -92,7 +90,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                         GUI_Tools.clearStats();
                         listModel.removeElement(dbitems.getSelectedValue());
                         mazeData.updateList(listModel);
-                        MazeLogoTools.deleteMazeObj();
+                        Maze.MazeTools.deleteMazeObj();
                         this.repaint();
                         this.revalidate();
                     } catch (SQLException ex) {
@@ -171,8 +169,8 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             lastEdited.setText(mazeDB.getLastEdited(maze.getMazeName()));
             Maze load = mazeDB.getGUIMaze(maze.getMazeName());
             GUI_Maze loadedMaze = new GUI_Maze(load, false);
-            MazeLogoTools.setCurrentGUIMaze(loadedMaze);
-            MazeLogoTools.setCurrentMaze(load);
+            Maze.MazeTools.setCurrentGUIMaze(loadedMaze);
+            Maze.MazeTools.setCurrentMaze(load);
             GUI_Tools.setShowSolution();
             GUI_Tools.setMazeStatsLabels();
             setMaze(loadedMaze);

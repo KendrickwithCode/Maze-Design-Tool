@@ -85,8 +85,8 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                                         ex.printStackTrace();
                                 }
                         }
-                        MazeLogoTools.getCurrentGUIMaze().revalidate();
-                        MazeLogoTools.getCurrentGUIMaze().repaint();
+                        Maze.MazeTools.getCurrentGUIMaze().revalidate();
+                        Maze.MazeTools.getCurrentGUIMaze().repaint();
                 }
                 else if (src == showSolution)
                 {
@@ -96,13 +96,13 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 else if (src == mazeTypeComboBox)
                 {
                         mazeType = Objects.requireNonNull(mazeTypeComboBox.getSelectedItem()).toString().toUpperCase();
-                        if(MazeLogoTools.getCurrentMaze() != null) {
-                                MazeLogoTools.getCurrentMaze().setMazeType(mazeType);
+                        if(Maze.MazeTools.getCurrentMaze() != null) {
+                                Maze.MazeTools.getCurrentMaze().setMazeType(mazeType);
                         }
                 }
 
-                if(MazeLogoTools.getCurrentMaze() != null) {
-                        if (MazeLogoTools.getCurrentMaze().getSolvable()) {
+                if(Maze.MazeTools.getCurrentMaze() != null) {
+                        if (Maze.MazeTools.getCurrentMaze().getSolvable()) {
                                 solvableBool.setBackground(Color.GREEN);
                                 solvableBool.setText("True");
                         } else {

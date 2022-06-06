@@ -260,7 +260,7 @@ public class DBSource implements MazeDBSource {
         addMaze.setString(6, height);
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
-        objectStream.writeObject(MazeLogoTools.getCurrentMaze());
+        objectStream.writeObject(Maze.MazeTools.getCurrentMaze());
         byte[] data = byteStream.toByteArray();
         addMaze.setBinaryStream(7, new ByteArrayInputStream(data), data.length);
         addMaze.execute();
@@ -279,7 +279,7 @@ public class DBSource implements MazeDBSource {
         updateMaze.setString(6, height);
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
-        objectStream.writeObject(MazeLogoTools.getCurrentMaze());
+        objectStream.writeObject(Maze.MazeTools.getCurrentMaze());
         byte[] data = byteStream.toByteArray();
         updateMaze.setBinaryStream(7, new ByteArrayInputStream(data), data.length);
         setLastEdited(maze);
