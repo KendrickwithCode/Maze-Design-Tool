@@ -98,24 +98,24 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
     }
 
     private void iconSizeChangeEvent(int newSize, boolean xAxis){
-        LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+        LogoBlock workingBlock = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
 
         int currentSizeY = workingBlock.getLogoSizeY();
         int currentSizeX = workingBlock.getLogoSizeX();
         if(xAxis) {
             if(checkIconResizeInbounds(newSize,currentSizeY)) {
-                MazeLogoTools.resetWalls(workingBlock);
+                Maze.MazeTools.resetWalls(workingBlock);
                 changeIconSize(newSize, currentSizeY);
                 if (Objects.equals(workingBlock.getLogoType(), "adult"))
-                    MazeLogoTools.setupAdultLogoBlocks(workingBlock, newSize, currentSizeY);
+                    Maze.MazeTools.setupAdultLogoBlocks(workingBlock, newSize, currentSizeY);
                 rerenderIcons();
             }
         }else{
             if(checkIconResizeInbounds(currentSizeX,newSize)) {
-                MazeLogoTools.resetWalls(workingBlock);
+                Maze.MazeTools.resetWalls(workingBlock);
                 changeIconSize(currentSizeX, newSize);
                 if (Objects.equals(workingBlock.getLogoType(), "adult"))
-                    MazeLogoTools.setupAdultLogoBlocks(workingBlock, currentSizeX, newSize);
+                    Maze.MazeTools.setupAdultLogoBlocks(workingBlock, currentSizeX, newSize);
                 rerenderIcons();
             }
         }
@@ -123,14 +123,14 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
     }
 
     protected void rerenderIcons() {
-        boolean gridStatus = MazeLogoTools.getCurrentGUIMaze().getGrid();
-        MazeLogoTools.getCurrentGUIMaze().renderBlocks();
-        MazeLogoTools.getCurrentGUIMaze().renderMaze(gridStatus, true);
+        boolean gridStatus = Maze.MazeTools.getCurrentGUIMaze().getGrid();
+        Maze.MazeTools.getCurrentGUIMaze().renderBlocks();
+        Maze.MazeTools.getCurrentGUIMaze().renderMaze(gridStatus, true);
     }
 
     private void changeIconSize(int sizeX, int sizeY){
         try {
-            LogoBlock working = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+            LogoBlock working = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
             working.setLogoSizeX(sizeX);
             working.setLogoSizeY(sizeY);
         } catch (Exception ex) {
@@ -140,8 +140,8 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
 
     private boolean checkIconResizeInbounds(int endOffsetX, int endOffsetY)
     {
-        int mazeSizeX = MazeLogoTools.getCurrentMaze().getSize()[0];
-        int mazeSizeY = MazeLogoTools.getCurrentMaze().getSize()[1];
+        int mazeSizeX = Maze.MazeTools.getCurrentMaze().getSize()[0];
+        int mazeSizeY = Maze.MazeTools.getCurrentMaze().getSize()[1];
         int newX = location[0] + endOffsetX;
         int newY = location[1] + endOffsetY;
 
@@ -311,8 +311,8 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                     if(checkIconResizeInbounds(2,2))
                     {
                         try {
-                            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this,"logo");
-                            MazeLogoTools.setupAdultLogoBlocks(Block.this,2,2);
+                            Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this,"logo");
+                            Maze.MazeTools.setupAdultLogoBlocks(Block.this,2,2);
                             rerenderIcons();
 
                         } catch (Exception ex) {
@@ -329,14 +329,14 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                 public void actionPerformed(ActionEvent e) {
                     try {
 
-                        LogoBlock workingBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                        MazeLogoTools.resetWalls(workingBlock);
+                        LogoBlock workingBlock = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                        Maze.MazeTools.resetWalls(workingBlock);
 
                         changeIconSize(1, 1);
                         rerenderIcons();
                         Block.this.clearStarts();
                         Block.this.clearFinish();
-                        MazeLogoTools.convertLogoBlockToWallBlock(Block.this);
+                        Maze.MazeTools.convertLogoBlockToWallBlock(Block.this);
                         rerenderIcons();                                                     //needed to do twice
 
                     } catch (Exception ex) {
@@ -519,7 +519,7 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
             item23.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    LogoBlock currentBlock = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(Block.this.blockIndex);
+                    LogoBlock currentBlock = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(Block.this.blockIndex);
                     currentBlock.changeLogo();
                 }
             });
@@ -531,11 +531,11 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                     if(checkIconResizeInbounds(2,2)) {
                         try {
 
-                            Block oldStart = MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getKidsStartIndex());
-                            MazeLogoTools.convertLogoBlockToWallBlock(oldStart);                                //Remove Old Icon
+                            Block oldStart = Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getKidsStartIndex());
+                            Maze.MazeTools.convertLogoBlockToWallBlock(oldStart);                                //Remove Old Icon
                             oldStart.clearStarts();
-                            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this, "start");
-                            MazeLogoTools.getCurrentMaze().setKidsStartIndex(Block.this.blockIndex);
+                            Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this, "start");
+                            Maze.MazeTools.getCurrentMaze().setKidsStartIndex(Block.this.blockIndex);
 
                             rerenderIcons();
 
@@ -552,14 +552,14 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                 public void actionPerformed(ActionEvent e) {
                     if(checkIconResizeInbounds(2,2)) {
                         try {
-                            Block oldFinish = MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getKidsFinishIndex());
-                            MazeLogoTools.convertLogoBlockToWallBlock(oldFinish);                               //Remove Old Icon
+                            Block oldFinish = Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getKidsFinishIndex());
+                            Maze.MazeTools.convertLogoBlockToWallBlock(oldFinish);                               //Remove Old Icon
                             oldFinish.clearFinish();
-                            MazeLogoTools.convertMazeBlockToLogoBlock(Block.this, "end");
-                            MazeLogoTools.getCurrentMaze().setKidsFinishIndex(Block.this.blockIndex);
+                            Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this, "end");
+                            Maze.MazeTools.getCurrentMaze().setKidsFinishIndex(Block.this.blockIndex);
 
                             //Clear default finish line
-                            MazeLogoTools.getCurrentMaze().getMazeMap().get(MazeLogoTools.getCurrentMaze().getMazeMap().size() - 1).getWallSouth().setFinish(false);
+                            Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getMazeMap().size() - 1).getWallSouth().setFinish(false);
 
                             rerenderIcons();
 
@@ -572,17 +572,17 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
             });
 
 
-            if(!Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
+            if(!Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
                 menu.add(item1);
 
 
-            if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeType(), "KIDS"))
+            if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeType(), "KIDS"))
             {
                 menu.add(item24);
                 menu.add(item25);
             }
 
-            if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
+            if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
             {
                 menu.add(item2);
                 menu.add(item23);
@@ -618,12 +618,12 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
     }
 
     private void debugTools(){
-            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex));
-            System.out.println(MazeLogoTools.getCurrentMaze().getMazeType());
+            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex));
+            System.out.println(Maze.MazeTools.getCurrentMaze().getMazeType());
             System.out.println("CurrentWall: " +  this.getWallNorth().getActive() + " Old: " + this.getWallNorth().getOldWallState());
-            if(Objects.equals(MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
+            if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
                 {
-                    LogoBlock current = (LogoBlock) MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    LogoBlock current = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
                     System.out.println("Img: " + current.getPictureFile());
                     System.out.println("LogoType: " + current.getLogoType());
                     System.out.println("LogoKidsStart: " + current.isLogoStart());

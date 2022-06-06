@@ -1,9 +1,7 @@
 import org.junit.jupiter.api.*;
 import java.awt.*;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -180,17 +178,17 @@ public class MazeTest {
 
     @Test
     public void testBlockConversions() throws Exception {
-        MazeLogoTools.setCurrentMaze(testMaze);
-        MazeLogoTools.convertMazeBlockToLogoBlock(testMaze.getMazeMap().get(5),"logo");
+        Maze.MazeTools.setCurrentMaze(testMaze);
+        Maze.MazeTools.convertMazeBlockToLogoBlock(testMaze.getMazeMap().get(5),"logo");
         LogoBlock currentTestLogoBlock = (LogoBlock) testMaze.getMazeMap().get(5);
         assertEquals("LogoBlock", testMaze.getMazeMap().get(5).getBlockType());
         assertEquals("img/icons/MazeCo.png",currentTestLogoBlock.getPictureFile());
-        MazeLogoTools.setupAdultLogoBlocks(testMaze.getMazeMap().get(5),2,2);
+        Maze.MazeTools.setupAdultLogoBlocks(testMaze.getMazeMap().get(5),2,2);
         assertTrue(currentTestLogoBlock.getWallWest().getActive());
         assertTrue(currentTestLogoBlock.getWallWest().getborder());
 
-        MazeLogoTools.resetWalls((LogoBlock) testMaze.getMazeMap().get(5));
-        MazeLogoTools.convertLogoBlockToWallBlock(testMaze.getMazeMap().get(5));
+        Maze.MazeTools.resetWalls((LogoBlock) testMaze.getMazeMap().get(5));
+        Maze.MazeTools.convertLogoBlockToWallBlock(testMaze.getMazeMap().get(5));
         MazeBlock currentMazeBlock = (MazeBlock) testMaze.getMazeMap().get(5);
         assertEquals("MazeBlock", testMaze.getMazeMap().get(5).getBlockType());
         assertFalse(currentTestLogoBlock.getWallWest().getActive());
@@ -202,10 +200,10 @@ public class MazeTest {
     public void testMazeReturns() throws Exception {
 
         GUI_Maze testMazeGui = new GUI_Maze(testMaze,false);
-        MazeLogoTools.setCurrentMaze(testMaze);
-        MazeLogoTools.setCurrentGUIMaze(testMazeGui);
-        assertEquals(testMazeGui, MazeLogoTools.getCurrentGUIMaze());
-        assertEquals(testMaze, MazeLogoTools.getCurrentMaze());
+        Maze.MazeTools.setCurrentMaze(testMaze);
+        Maze.MazeTools.setCurrentGUIMaze(testMazeGui);
+        assertEquals(testMazeGui, Maze.MazeTools.getCurrentGUIMaze());
+        assertEquals(testMaze, Maze.MazeTools.getCurrentMaze());
 
     }
 
