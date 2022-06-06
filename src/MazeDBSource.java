@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,12 +15,6 @@ public interface MazeDBSource {
      */
     Maze getMaze(String name) throws Exception;
 
-    /**
-     * Adds an ImageIcon of the Maze to the database
-     * @return The ImageIcon of the Maze
-     * @throws SQLException
-     */
-    ImageIcon getImage() throws SQLException;
 
     /**
      * Adds a Maze entry to the database.
@@ -37,6 +30,53 @@ public interface MazeDBSource {
     boolean addMaze(String maze, String type, String author,
                  String description, String height, String width) throws SQLException, IOException;
 
+    /**
+     * Adds a Maze entry to the database.
+     * @param maze The name of the Maze
+     * @param type The type of Maze - Adult/Kids
+     * @param author The author's name who created the maze.
+     * @param description A description of the maze - can be an empty string
+     * @param height The height as a String
+     * @param width The width as a String
+     * @throws SQLException
+     * @throws IOException
+     */
+    void updateMaze(String maze, String type, String author,
+                    String description, String height, String width) throws SQLException, IOException;
+
+    /**
+     * Get the "Last Edited" column from the database.
+     * @param name The name of the Maze
+     * @return The date as a string
+     */
+    String getLastEdited(String name);
+
+    /**
+     * Set the "Last Edited" column from the database.
+     * @param name The name of the Maze
+     */
+    void setLastEdited(String name);
+
+    /**
+     * Delete the row in the database found by the name of the maze.
+     * @param name The name of the maze to be searched for.
+     */
+    void deleteEntry(String name);
+
+    /**
+     * Get the "Date Created" column from the database.
+     * @param name The name of the Maze
+     * @return The date as a string
+     */
+    String getDateCreated(String name);
+
+    /**
+     * Reads the byte stream from the database "Image" column and converts into a Maze object.
+     * @param name The name of the Maze from the database to be searched for.
+     * @return The maze object.
+     * @throws Exception
+     */
+    Maze getGUIMaze(String name) throws Exception;
 
     /**
      * Finalizes any resources used by the data source and ensures data
