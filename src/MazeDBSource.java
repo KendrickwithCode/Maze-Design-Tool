@@ -24,8 +24,6 @@ public interface MazeDBSource {
      * @param description A description of the maze - can be an empty string
      * @param height The height as a String
      * @param width The width as a String
-     * @throws SQLException
-     * @throws IOException
      */
     boolean addMaze(String maze, String type, String author,
                  String description, String height, String width) throws SQLException, IOException;
@@ -38,8 +36,6 @@ public interface MazeDBSource {
      * @param description A description of the maze - can be an empty string
      * @param height The height as a String
      * @param width The width as a String
-     * @throws SQLException
-     * @throws IOException
      */
     void updateMaze(String maze, String type, String author,
                     String description, String height, String width) throws SQLException, IOException;
@@ -74,7 +70,6 @@ public interface MazeDBSource {
      * Reads the byte stream from the database "Image" column and converts into a Maze object.
      * @param name The name of the Maze from the database to be searched for.
      * @return The maze object.
-     * @throws Exception
      */
     Maze getGUIMaze(String name) throws Exception;
 

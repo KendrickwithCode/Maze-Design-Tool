@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class MazeWall extends JButton implements Serializable {
     @Serial
@@ -37,16 +35,16 @@ public class MazeWall extends JButton implements Serializable {
         setActive(oldWallState);
     }
 
-    /**
-     * Returns previous wall state (saved due to placement of logo block)
-     * @return old wall state
-     */
-    public boolean getOldWallState() {
-        return oldWallState;
-    }
+//    /**
+//     * Returns previous wall state (saved due to placement of logo block)
+//     * @return old wall state
+//     */
+//    public boolean getOldWallState() {
+//        return oldWallState;
+//    }
 
     /**
-     * Overlaod
+     * Overload
      * Sets if the current wall is an Active wall that can't be passed
      * @param active boolean of the active wall if it is true (enable / can't pass) / False can pass.
      */
@@ -115,7 +113,7 @@ public class MazeWall extends JButton implements Serializable {
      * Returns if wall is border wall
      * @return Boolean - is wall a border wall
      */
-    public boolean getborder(){
+    public boolean getIsBorder(){
         return this.border;
     }
 

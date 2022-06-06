@@ -15,19 +15,9 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         public static JTextField height_text;
         public static JTextField maze_name;
         public static JTextField author_name_text;
-        private JScrollPane description_pane;
         public static JTextArea  description_text;
-        private JLabel width;
-        private JLabel height;
-        private JLabel name;
-        private JLabel author_name;
-        private JLabel description;
-        private JLabel mazeType_text;
-        private JLabel solvable;
         static JLabel solvableBool;
-        private JLabel travelled;
         static JLabel percentageTravelled;
-        private JLabel deadEnds;
         static JLabel deadEndCount;
         public static JComboBox mazeTypeComboBox;
         private static GUI mainGui;
@@ -125,16 +115,16 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
          *
          */
         public static void setShowSolution() {
-                mainGui.getMaze().mazePanel.setRenderSolution(showSolution.isSelected());
+                GUI_Maze.mazePanel.setRenderSolution(showSolution.isSelected());
         }
 
         /**
          * sets the maze stats labels in the GUI
          */
         public static void setMazeStatsLabels() {
-                mainGui.getMaze().mazePanel.setSolvableLabel(solvableBool);
-                mainGui.getMaze().mazePanel.setPercentageDeadEndLabel(deadEndCount);
-                mainGui.getMaze().mazePanel.setPercentageTravelledLabel(percentageTravelled);
+                GUI_Maze.mazePanel.setSolvableLabel(solvableBool);
+                GUI_Maze.mazePanel.setPercentageDeadEndLabel(deadEndCount);
+                GUI_Maze.mazePanel.setPercentageTravelledLabel(percentageTravelled);
         }
 
         @Override
@@ -149,7 +139,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
          */
         public GUI_Tools(JPanel borderComponent, GUI mainGUI){
                 toolsMenu(borderComponent);
-                this.mainGui = mainGUI;
+                mainGui = mainGUI;
                 this.mazeType = "Adult";
         }
         /**
@@ -168,7 +158,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 JLabel logoLabel = new JLabel(companyLogo);
 
                 //Maze Type Selector
-                mazeType_text = createLabels("Maze Type: ");
+                JLabel mazeType_text = createLabels("Maze Type: ");
                 String[] mazeOptions = {"Adult","Kids"};
 //                mazeTypeComboBox = new JComboBox<>(mazeOptions);
                 mazeTypeComboBox = createComboBox(mazeOptions,textFieldSizeWidth,textFieldSizeHeight);
@@ -176,26 +166,26 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
 
                 //Maze Name Label and Button
-                name = createLabels("Maze Name: ");
+                JLabel name = createLabels("Maze Name: ");
                 maze_name = createTextFields("Maze",125,textFieldSizeHeight);
-                author_name = createLabels("Author Name: ");
+                JLabel author_name = createLabels("Author Name: ");
                 author_name_text = createTextFields("", 125,textFieldSizeHeight);
 
-                description = createLabels("Maze Description: ");
+                JLabel description = createLabels("Maze Description: ");
                 description_text = new JTextArea();
                 description_text.setLineWrap(true);
                 description_text.setEditable(true);
                 description_text.setCaretColor(Color.WHITE);
-                description_pane = new JScrollPane( description_text );
+                JScrollPane description_pane = new JScrollPane(description_text);
                 description_pane.setPreferredSize(new Dimension(250,150));
                 description_pane.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
 
                 //Width and Height Labels and Buttons
-                width = createLabels("Width: ");
+                JLabel width = createLabels("Width: ");
                 width_text = createTextFields("25",textFieldSizeWidth,textFieldSizeHeight);
 
-                height = createLabels("Height: ");
+                JLabel height = createLabels("Height: ");
                 height_text = createTextFields("25",textFieldSizeWidth,textFieldSizeHeight);
 
                 //Bottom buttons
@@ -210,15 +200,15 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 showSolution.addActionListener(this);
                 showSolution.setEnabled(false);
 
-                solvable = createLabels("Solvable:");
+                JLabel solvable = createLabels("Solvable:");
                 solvable.setHorizontalAlignment(SwingConstants.RIGHT);
                 solvableBool = createLabels("");
                 solvableBool.setHorizontalAlignment(SwingConstants.LEFT);
-                travelled = createLabels("Solution Travels:");
+                JLabel travelled = createLabels("Solution Travels:");
                 travelled.setHorizontalAlignment(SwingConstants.RIGHT);
                 percentageTravelled = createLabels("0%");
                 percentageTravelled.setHorizontalAlignment(SwingConstants.LEFT);
-                deadEnds = createLabels("Dead Ends:");
+                JLabel deadEnds = createLabels("Dead Ends:");
                 deadEnds.setHorizontalAlignment(SwingConstants.RIGHT);
                 deadEndCount = createLabels("0%");
                 deadEndCount.setHorizontalAlignment(SwingConstants.LEFT);
@@ -254,40 +244,40 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 GridBagConstraints descriptionConstraints = new GridBagConstraints();
                 descriptionConstraints .anchor = GridBagConstraints.PAGE_START;
 
-                addToPanel(borderSpot, logoLabel, constraints, 0,0,2,1);
-                addToPanel(borderSpot, mazeType_text, constraints , 0 , 1 ,1 ,1);
-                addToPanel(borderSpot, mazeTypeComboBox, constraints , 1 , 1 ,1 ,1);
-                addToPanel(borderSpot, name, constraints, 0, 2, 1, 1);
-                addToPanel(borderSpot, maze_name, constraints, 1, 2, 1, 1);
-                addToPanel(borderSpot, author_name, constraints, 0, 3, 1, 1);
-                addToPanel(borderSpot, author_name_text, constraints, 1, 3, 1, 1);
-                addToPanel(borderSpot, description, constraints, 0, 4, 2, 1);
-                addToPanel(borderSpot, description_pane, descriptionConstraints , 0, 5, 2, 1);
-                addToPanel(borderSpot, width, constraints, 0,6,1,1);
-                addToPanel(borderSpot, width_text, constraints, 1,6,1,1);
-                addToPanel(borderSpot, height, constraints, 0,7,1,1);
-                addToPanel(borderSpot, height_text, constraints, 1,7,1,1);
-                addToPanel(borderSpot, btnGenerate, constraints, 0,8,2,1);
-                addToPanel(borderSpot, btnCreate, constraints, 0,9,2,1);
+                addToPanel(borderSpot, logoLabel, constraints, 0,0,2);
+                addToPanel(borderSpot, mazeType_text, constraints , 0 , 1 ,1);
+                addToPanel(borderSpot, mazeTypeComboBox, constraints , 1 , 1 ,1);
+                addToPanel(borderSpot, name, constraints, 0, 2, 1);
+                addToPanel(borderSpot, maze_name, constraints, 1, 2, 1);
+                addToPanel(borderSpot, author_name, constraints, 0, 3, 1);
+                addToPanel(borderSpot, author_name_text, constraints, 1, 3, 1);
+                addToPanel(borderSpot, description, constraints, 0, 4, 2);
+                addToPanel(borderSpot, description_pane, descriptionConstraints , 0, 5, 2);
+                addToPanel(borderSpot, width, constraints, 0,6,1);
+                addToPanel(borderSpot, width_text, constraints, 1,6,1);
+                addToPanel(borderSpot, height, constraints, 0,7,1);
+                addToPanel(borderSpot, height_text, constraints, 1,7,1);
+                addToPanel(borderSpot, btnGenerate, constraints, 0,8,2);
+                addToPanel(borderSpot, btnCreate, constraints, 0,9,2);
 
                 constraints.insets = new Insets(20,20,5,20);
-                addToPanel(borderSpot, showGrid, constraints, 0, 10, 2, 1);
+                addToPanel(borderSpot, showGrid, constraints, 0, 10, 2);
 
                 constraints.insets = new Insets(5,20,20,20);
-                addToPanel(borderSpot, showSolution, constraints, 0, 11, 2, 1);
+                addToPanel(borderSpot, showSolution, constraints, 0, 11, 2);
 
                 constraints.insets = new Insets(5,35,5,20);
                 constraints.fill = GridBagConstraints.HORIZONTAL;
-                addToPanel(borderSpot, solvable, constraints, 0, 12, 1, 1);
-                addToPanel(borderSpot, travelled, constraints, 0, 13, 1, 1);
-                addToPanel(borderSpot, deadEnds, constraints, 0, 14, 1, 1);
-                addToPanel(borderSpot, deadEndCount, constraints, 1, 14, 1, 1);
-                addToPanel(borderSpot, solvableBool, constraints, 1, 12, 1, 1);
-                addToPanel(borderSpot, percentageTravelled, constraints, 1, 13, 1, 1);
+                addToPanel(borderSpot, solvable, constraints, 0, 12, 1);
+                addToPanel(borderSpot, travelled, constraints, 0, 13, 1);
+                addToPanel(borderSpot, deadEnds, constraints, 0, 14, 1);
+                addToPanel(borderSpot, deadEndCount, constraints, 1, 14, 1);
+                addToPanel(borderSpot, solvableBool, constraints, 1, 12, 1);
+                addToPanel(borderSpot, percentageTravelled, constraints, 1, 13, 1);
         }
 
         private JComboBox createComboBox(String[] options,int width, int height) {
-                JComboBox combo = new JComboBox<>(options);
+                JComboBox<String> combo = new JComboBox<>(options);
                 combo.setPreferredSize(new Dimension(width + 80,height));
                 combo.setUI(ColorArrowUI.createUI(combo));
                 combo.addActionListener(this);
@@ -338,35 +328,33 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         }
 
         /**
-         *
          * A convenience method to add a component to given grid bag
          * layout locations. Code due to Cay Horstmann.
          *
-         * @param component the component to add
+         * @param component   the component to add
          * @param constraints the grid bag constraints to use
-         * @param x the x grid position
-         * @param y the y grid position
-         * @param w the grid width of the component
-         * @param h the grid height of the component
+         * @param x           the x grid position
+         * @param y           the y grid position
+         * @param w           the grid width of the component
          */
         private void addToPanel(JPanel panel,Component component,
                                 GridBagConstraints constraints,
-                                int x, int y, int w, int h) {
+                                int x, int y, int w) {
                 constraints.gridx = x;
                 constraints.gridy = y;
                 constraints.gridwidth = w;
-                constraints.gridheight = h;
+                constraints.gridheight = 1;
                 panel.add(component, constraints);
         }
 
         /**
          * Sets font style to Sans Serif, bold and size 16
+         *
          * @param item The component to be set to this style.
          */
-        public static Component setStyle(Component item){
+        public static void setStyle(Component item){
                 item.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
                 item.setBackground(Color.DARK_GRAY);
                 item.setForeground(Color.WHITE);
-                return item;
         }
 }

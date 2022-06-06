@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class Maze implements Serializable {
 
 
+    /**
+     * Maze tools class
+     */
     public static class MazeTools {
 
         private static Maze currentMaze;
@@ -179,22 +182,41 @@ public class Maze implements Serializable {
             return currentMaze.getIndex(new int[]{posX,posY});
         }
 
+        /**
+         * returns current maze object
+         * @return current maze object
+         */
         public static Maze getCurrentMaze() {
             return currentMaze;
         }
 
+        /**
+         * Sets current maze object
+         * @param currentMaze Maze Object to set as current maze
+         */
         public static void setCurrentMaze(Maze currentMaze) {
             MazeTools.currentMaze = currentMaze;
         }
 
+        /**
+         * Sets current GUIMaze object
+         * @param currentGUIMaze GUIMaze object to set current GUIMaze
+         */
         public static void setCurrentGUIMaze(GUI_Maze currentGUIMaze) {
             MazeTools.currentGUIMaze = currentGUIMaze;
         }
 
+        /**
+         * return current GUIMaze
+         * @return Current GUIMaze object
+         */
         public static GUI_Maze getCurrentGUIMaze() {
             return currentGUIMaze;
         }
 
+        /**
+         * Clears current Maze and GUIMaze object
+         */
         public static void deleteMazeObj(){
             currentMaze = null;
             currentGUIMaze = null;
@@ -246,9 +268,8 @@ public class Maze implements Serializable {
     private int mazeWidth;
     private String authorName;
     private boolean solvable;
-    private int[] size;
-    private ArrayList<Block> mazeMap;
-    private MazeGenerator mazeHolder;
+    private final int[] size;
+    private final ArrayList<Block> mazeMap;
     private int kidsStartIndex;
     private int kidsFinishIndex;
 
@@ -276,41 +297,86 @@ public class Maze implements Serializable {
     }
 
 
+    /**
+     * Sets type of maze
+     * @param mazeType String maze type ("Kids" or "Adult")
+     */
     public void setMazeType(String mazeType) {
         this.mazeType = mazeType;
     }
 
+    /**
+     * Returns width of maze
+     * @return Integer width of maze
+     */
     public int getWidth() {
         return mazeWidth;
     }
 
+    /**
+     * Returns width of maze as string
+     * @return String version of integer width of maze
+     */
     public String getWidthAsString(){ return Integer.toString(mazeWidth);}
 
+    /**
+     * Returns height of maze
+     * @return Integer height of maze
+     */
     public int getHeight() {
         return mazeHeight;
     }
+
+    /**
+     * Returns height of maze as string
+     * @return String version of integer height of maze
+     */
     public String getHeightAsString(){ return Integer.toString(mazeHeight);}
 
+    /**
+     * Returns maze description of maze
+     * @return String maze description of maze
+     */
     public String getMazeDescription() {
         return mazeDescription;
     }
 
+    /**
+     * Returns authors name of maze
+     * @return String authors name maze
+     */
     public String getAuthorName() {
         return authorName;
     }
 
+    /**
+     * Set authors name of maze
+     * @param authorName String authors name of maze
+     */
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
 
+    /**
+     * Sets description of maze
+     * @param mazeDescription String description of maze
+     */
     public void setMazeDescription(String mazeDescription) {
         this.mazeDescription = mazeDescription;
     }
 
+    /**
+     * Sets width of maze
+     * @param mazeWidth Integer width of maze
+     */
     public void setWidth(int mazeWidth) {
         this.mazeWidth = mazeWidth;
     }
 
+    /**
+     * Sets height of maze
+     * @param mazeHeight Int height of maze
+     */
     public void setHeight(int mazeHeight) {
         this.mazeHeight = mazeHeight;
     }
@@ -373,9 +439,6 @@ public class Maze implements Serializable {
         mazeMap.clear();
         kidsStartIndex = 0;
         kidsFinishIndex = MazeTools.getKidsFinishIndex(this);
-//        logoBlockIndex = 0;
-
-//        int[] logoOriginXY = MazeLogoTools.randomLogoPlacerIndex(size);
 
         int currentIndex = 0;
         /*
@@ -383,10 +446,6 @@ public class Maze implements Serializable {
          */
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-//                if(mazeType.equalsIgnoreCase("ADULT") && x == logoOriginXY[0] && logoOriginXY[1] == y) {
-//                    mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex, this, "logo"));
-//                    logoBlockIndex = currentIndex;
-//                }
                 if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
                     mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "start",clearWalls));
                 }
@@ -620,28 +679,40 @@ public class Maze implements Serializable {
 
     /**
      * Sets the maze name
-     *
      * @param mazeName The new name for maze
      */
     public void setMazeName(String mazeName) {
         this.mazeName = mazeName;
     }
 
-
+    /**
+     * Gets start block index of kids maze
+     * @return Integer index of starting block
+     */
     public int getKidsStartIndex() {
         return kidsStartIndex;
     }
 
-
+    /**
+     * Get finish block index of kids maze
+     * @return Integer index of finish block
+     */
     public int getKidsFinishIndex() {
         return kidsFinishIndex;
     }
 
-
+    /**
+     * Sets start block index of kids maze
+     * @param kidsStartIndex Integer index of starting block
+     */
     public void setKidsStartIndex(int kidsStartIndex) {
         this.kidsStartIndex = kidsStartIndex;
     }
 
+    /**
+     * Sets finish block index of kids maze
+     * @param kidsFinishIndex Integer index of finish block
+     */
     public void setKidsFinishIndex(int kidsFinishIndex) {
         this.kidsFinishIndex = kidsFinishIndex;
     }

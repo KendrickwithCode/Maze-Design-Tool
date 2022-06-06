@@ -1,8 +1,5 @@
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.Queue;
 
 /**
@@ -12,8 +9,8 @@ public class MazeSolver {
 
     private static class solvingBlock {
 
-        private Block block;
-        private solvingBlock parent;
+        private final Block block;
+        private final solvingBlock parent;
 
         public solvingBlock (Block block, solvingBlock parent){
             this.block = block;
@@ -40,10 +37,10 @@ public class MazeSolver {
         for(Block block : maze.getMazeMap()){
             int walls = 0;
 
-            if ( block.getWallSouth().getActive() || block.getWallSouth().getborder() ){walls += 1;}
-            if ( block.getWallNorth().getActive() || block.getWallNorth().getborder() ){walls += 1;}
-            if ( block.getWallEast().getActive() || block.getWallEast().getborder() ){walls += 1;}
-            if ( block.getWallWest().getActive() || block.getWallWest().getborder() ){walls += 1;}
+            if ( block.getWallSouth().getActive() || block.getWallSouth().getIsBorder() ){walls += 1;}
+            if ( block.getWallNorth().getActive() || block.getWallNorth().getIsBorder() ){walls += 1;}
+            if ( block.getWallEast().getActive() || block.getWallEast().getIsBorder() ){walls += 1;}
+            if ( block.getWallWest().getActive() || block.getWallWest().getIsBorder() ){walls += 1;}
 
             if(walls >= 3){
                 deadEndCount += 1;
@@ -69,30 +66,30 @@ public class MazeSolver {
 
             if(isFinishingBlock(currentBlock.getBlock())){ return currentBlock; }
 
-            if ( !currentBlock.getBlock().getWallSouth().getActive() && !currentBlock.getBlock().getWallSouth().getborder() ) {
+            if ( !currentBlock.getBlock().getWallSouth().getActive() && !currentBlock.getBlock().getWallSouth().getIsBorder() ) {
                 Block neighborBlock = maze.getNeighbourBlock(currentBlock.getBlock(), "SOUTH");
-                if (!neighborBlock.getVisited()) {
+                if (neighborBlock.hasNotBeenVisited()) {
                     neighborBlock.setVisited(true);
                     queue.add(new solvingBlock(neighborBlock, currentBlock));
                 }
             }
-            if ( !currentBlock.getBlock().getWallEast().getActive() && !currentBlock.getBlock().getWallEast().getborder() ) {
+            if ( !currentBlock.getBlock().getWallEast().getActive() && !currentBlock.getBlock().getWallEast().getIsBorder() ) {
                 Block neighborBlock = maze.getNeighbourBlock(currentBlock.getBlock(), "EAST");
-                if (!neighborBlock.getVisited()) {
+                if (neighborBlock.hasNotBeenVisited()) {
                     neighborBlock.setVisited(true);
                     queue.add(new solvingBlock(neighborBlock, currentBlock));
                 }
             }
-            if ( !currentBlock.getBlock().getWallNorth().getActive() && !currentBlock.getBlock().getWallNorth().getborder() ) {
+            if ( !currentBlock.getBlock().getWallNorth().getActive() && !currentBlock.getBlock().getWallNorth().getIsBorder() ) {
                 Block neighborBlock = maze.getNeighbourBlock(currentBlock.getBlock(), "NORTH");
-                if (!neighborBlock.getVisited()) {
+                if (neighborBlock.hasNotBeenVisited()) {
                     neighborBlock.setVisited(true);
                     queue.add(new solvingBlock(neighborBlock, currentBlock));
                 }
             }
-            if ( !currentBlock.getBlock().getWallWest().getActive() && !currentBlock.getBlock().getWallWest().getborder() ) {
+            if ( !currentBlock.getBlock().getWallWest().getActive() && !currentBlock.getBlock().getWallWest().getIsBorder() ) {
                 Block neighborBlock = maze.getNeighbourBlock(currentBlock.getBlock(), "WEST");
-                if (!neighborBlock.getVisited()) {
+                if (neighborBlock.hasNotBeenVisited()) {
                     neighborBlock.setVisited(true);
                     queue.add(new solvingBlock(neighborBlock, currentBlock));
                 }

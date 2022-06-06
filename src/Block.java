@@ -108,7 +108,7 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                 changeIconSize(newSize, currentSizeY);
                 if (Objects.equals(workingBlock.getLogoType(), "adult"))
                     Maze.MazeTools.setupAdultLogoBlocks(workingBlock, newSize, currentSizeY);
-                rerenderIcons();
+                renderIcons();
             }
         }else{
             if(checkIconResizeInbounds(currentSizeX,newSize)) {
@@ -116,13 +116,13 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                 changeIconSize(currentSizeX, newSize);
                 if (Objects.equals(workingBlock.getLogoType(), "adult"))
                     Maze.MazeTools.setupAdultLogoBlocks(workingBlock, currentSizeX, newSize);
-                rerenderIcons();
+                renderIcons();
             }
         }
 
     }
 
-    protected void rerenderIcons() {
+    protected void renderIcons() {
         boolean gridStatus = Maze.MazeTools.getCurrentGUIMaze().getGrid();
         Maze.MazeTools.getCurrentGUIMaze().renderBlocks();
         Maze.MazeTools.getCurrentGUIMaze().renderMaze(gridStatus, true);
@@ -164,8 +164,8 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
      * Gets the boolean if the block has been visited
      * @return visited boolean.
      */
-    public boolean getVisited() {
-        return visited;
+    public boolean hasNotBeenVisited() {
+        return !visited;
     }
 
     /**
@@ -269,9 +269,9 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
     }
 
 
-    public Point getBlockPanelLocation() {
-        return this.blockPanel.getLocation();
-    }
+//    public Point getBlockPanelLocation() {
+//        return this.blockPanel.getLocation();
+//    }
 
     private JPanel createPanel(){
         JPanel panel = new JPanel();
@@ -305,39 +305,13 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
             JMenuItem item1 = new JMenuItem("Place Logo Icon Here");
 
 
-            item1.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(checkIconResizeInbounds(2,2))
-                    {
-                        try {
-                            Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this,"logo");
-                            Maze.MazeTools.setupAdultLogoBlocks(Block.this,2,2);
-                            rerenderIcons();
-
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-            });
-
-            JMenuItem item2 = new JMenuItem("Remove Icon");
-
-            item2.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
+            item1.addActionListener(e1 -> {
+                if(checkIconResizeInbounds(2,2))
+                {
                     try {
-
-                        LogoBlock workingBlock = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                        Maze.MazeTools.resetWalls(workingBlock);
-
-                        changeIconSize(1, 1);
-                        rerenderIcons();
-                        Block.this.clearStarts();
-                        Block.this.clearFinish();
-                        Maze.MazeTools.convertLogoBlockToWallBlock(Block.this);
-                        rerenderIcons();                                                     //needed to do twice
+                        Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this,"logo");
+                        Maze.MazeTools.setupAdultLogoBlocks(Block.this,2,2);
+                        renderIcons();
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -345,89 +319,59 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                 }
             });
 
+            JMenuItem item2 = new JMenuItem("Remove Icon");
+
+            item2.addActionListener(e12 -> {
+                try {
+
+                    LogoBlock workingBlock = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
+                    Maze.MazeTools.resetWalls(workingBlock);
+
+                    changeIconSize(1, 1);
+                    renderIcons();
+                    Block.this.clearStarts();
+                    Block.this.clearFinish();
+                    Maze.MazeTools.convertLogoBlockToWallBlock(Block.this);
+                    renderIcons();                                                     //needed to do twice
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+
 
             JMenuItem item3 = new JMenuItem("Change Icon Size X to 1");
-            item3.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(1,true);
-                }
-            });
+            item3.addActionListener(e13 -> iconSizeChangeEvent(1,true));
 
             JMenuItem item4 = new JMenuItem("Change Icon Size X to 2");
-            item4.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(2,true);
-                }
-            });
+            item4.addActionListener(e14 -> iconSizeChangeEvent(2,true));
 
 
             JMenuItem item5 = new JMenuItem("Change Icon Size X to 3");
-            item5.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(3,true);
-                }
-            });
+            item5.addActionListener(e15 -> iconSizeChangeEvent(3,true));
 
             JMenuItem item6 = new JMenuItem("Change Icon Size X to 4");
-            item6.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(4,true);
-                }
-            });
+            item6.addActionListener(e16 -> iconSizeChangeEvent(4,true));
 
 
             JMenuItem item7 = new JMenuItem("Change Icon Size X to 5");
-            item7.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                        iconSizeChangeEvent(5,true);
-                }
-            });
+            item7.addActionListener(e17 -> iconSizeChangeEvent(5,true));
 
 
             JMenuItem item8 = new JMenuItem("Change Icon Size X to 6");
-            item8.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(6,true);
-                }
-            });
+            item8.addActionListener(e18 -> iconSizeChangeEvent(6,true));
 
             JMenuItem item9 = new JMenuItem("Change Icon Size X to 7");
-            item9.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(7,true);
-                }
-            });
+            item9.addActionListener(e19 -> iconSizeChangeEvent(7,true));
 
             JMenuItem item10 = new JMenuItem("Change Icon Size X to 8");
-            item10.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(8,true);
-                }
-            });
+            item10.addActionListener(e110 -> iconSizeChangeEvent(8,true));
 
             JMenuItem item11 = new JMenuItem("Change Icon Size X to 9");
-            item11.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(9,true);
-                }
-            });
+            item11.addActionListener(e111 -> iconSizeChangeEvent(9,true));
 
             JMenuItem item12 = new JMenuItem("Change Icon Size X to 10");
-            item12.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(10,true);
-                }
-            });
+            item12.addActionListener(e112 -> iconSizeChangeEvent(10,true));
 
 
 
@@ -435,140 +379,80 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
 
 
             JMenuItem item13 = new JMenuItem("Change Icon Size Y to 1");
-            item13.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(1,false);
-                }
-            });
+            item13.addActionListener(e113 -> iconSizeChangeEvent(1,false));
 
             JMenuItem item14 = new JMenuItem("Change Icon Size Y to 2");
-            item14.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(2,false);
-                }
-            });
+            item14.addActionListener(e114 -> iconSizeChangeEvent(2,false));
 
             JMenuItem item15 = new JMenuItem("Change Icon Size Y to 3");
-            item15.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(3,false);
-                }
-            });
+            item15.addActionListener(e115 -> iconSizeChangeEvent(3,false));
 
             JMenuItem item16 = new JMenuItem("Change Icon Size Y to 4");
-            item16.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(4,false);
-                }
-            });
+            item16.addActionListener(e116 -> iconSizeChangeEvent(4,false));
 
             JMenuItem item17 = new JMenuItem("Change Icon Size Y to 5");
-            item17.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(5,false);
-                }
-            });
+            item17.addActionListener(e117 -> iconSizeChangeEvent(5,false));
 
             JMenuItem item18 = new JMenuItem("Change Icon Size Y to 6");
-            item18.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(6,false);
-                }
-            });
+            item18.addActionListener(e118 -> iconSizeChangeEvent(6,false));
 
             JMenuItem item19 = new JMenuItem("Change Icon Size Y to 7");
-            item19.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(7,false);
-                }
-            });
+            item19.addActionListener(e119 -> iconSizeChangeEvent(7,false));
 
             JMenuItem item20 = new JMenuItem("Change Icon Size Y to 8");
-            item20.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(8,false);
-                }
-            });
+            item20.addActionListener(e120 -> iconSizeChangeEvent(8,false));
 
             JMenuItem item21 = new JMenuItem("Change Icon Size Y to 9");
-            item21.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(9,false);
-                }
-            });
+            item21.addActionListener(e121 -> iconSizeChangeEvent(9,false));
 
             JMenuItem item22 = new JMenuItem("Change Icon Size Y to 10");
-            item22.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    iconSizeChangeEvent(10,false);
-                }
-            });
+            item22.addActionListener(e122 -> iconSizeChangeEvent(10,false));
 
 
             JMenuItem item23 = new JMenuItem("Change Icon");
-            item23.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    LogoBlock currentBlock = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(Block.this.blockIndex);
-                    currentBlock.changeLogo();
-                }
+            item23.addActionListener(e123 -> {
+                LogoBlock currentBlock = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(Block.this.blockIndex);
+                currentBlock.changeLogo();
             });
 
             JMenuItem item24 = new JMenuItem("Place Kids Start");
-            item24.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(checkIconResizeInbounds(2,2)) {
-                        try {
+            item24.addActionListener(e124 -> {
+                if(checkIconResizeInbounds(2,2)) {
+                    try {
 
-                            Block oldStart = Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getKidsStartIndex());
-                            Maze.MazeTools.convertLogoBlockToWallBlock(oldStart);                                //Remove Old Icon
-                            oldStart.clearStarts();
-                            Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this, "start");
-                            Maze.MazeTools.getCurrentMaze().setKidsStartIndex(Block.this.blockIndex);
+                        Block oldStart = Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getKidsStartIndex());
+                        Maze.MazeTools.convertLogoBlockToWallBlock(oldStart);                                //Remove Old Icon
+                        oldStart.clearStarts();
+                        Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this, "start");
+                        Maze.MazeTools.getCurrentMaze().setKidsStartIndex(Block.this.blockIndex);
 
-                            rerenderIcons();
+                        renderIcons();
 
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
                 }
             });
 
             JMenuItem item25 = new JMenuItem("Place Kids Finish");
-            item25.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(checkIconResizeInbounds(2,2)) {
-                        try {
-                            Block oldFinish = Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getKidsFinishIndex());
-                            Maze.MazeTools.convertLogoBlockToWallBlock(oldFinish);                               //Remove Old Icon
-                            oldFinish.clearFinish();
-                            Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this, "end");
-                            Maze.MazeTools.getCurrentMaze().setKidsFinishIndex(Block.this.blockIndex);
+            item25.addActionListener(e125 -> {
+                if(checkIconResizeInbounds(2,2)) {
+                    try {
+                        Block oldFinish = Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getKidsFinishIndex());
+                        Maze.MazeTools.convertLogoBlockToWallBlock(oldFinish);                               //Remove Old Icon
+                        oldFinish.clearFinish();
+                        Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this, "end");
+                        Maze.MazeTools.getCurrentMaze().setKidsFinishIndex(Block.this.blockIndex);
 
-                            //Clear default finish line
-                            Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getMazeMap().size() - 1).getWallSouth().setFinish(false);
+                        //Clear default finish line
+                        Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getMazeMap().size() - 1).getWallSouth().setFinish(false);
 
-                            rerenderIcons();
+                        renderIcons();
 
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
                 }
-
             });
 
 
@@ -617,17 +501,17 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
 
     }
 
-    private void debugTools(){
-            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex));
-            System.out.println(Maze.MazeTools.getCurrentMaze().getMazeType());
-            System.out.println("CurrentWall: " +  this.getWallNorth().getActive() + " Old: " + this.getWallNorth().getOldWallState());
-            if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
-                {
-                    LogoBlock current = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    System.out.println("Img: " + current.getPictureFile());
-                    System.out.println("LogoType: " + current.getLogoType());
-                    System.out.println("LogoKidsStart: " + current.isLogoStart());
-                }
-    }
+//    private void debugTools(){
+//            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex));
+//            System.out.println(Maze.MazeTools.getCurrentMaze().getMazeType());
+//            System.out.println("CurrentWall: " +  this.getWallNorth().getActive() + " Old: " + this.getWallNorth().getOldWallState());
+//            if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
+//                {
+//                    LogoBlock current = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
+//                    System.out.println("Img: " + current.getPictureFile());
+//                    System.out.println("LogoType: " + current.getLogoType());
+//                    System.out.println("LogoKidsStart: " + current.isLogoStart());
+//                }
+//    }
 
 }

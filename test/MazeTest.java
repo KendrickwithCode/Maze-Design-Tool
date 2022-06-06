@@ -185,14 +185,14 @@ public class MazeTest {
         assertEquals("img/icons/MazeCo.png",currentTestLogoBlock.getPictureFile());
         Maze.MazeTools.setupAdultLogoBlocks(testMaze.getMazeMap().get(5),2,2);
         assertTrue(currentTestLogoBlock.getWallWest().getActive());
-        assertTrue(currentTestLogoBlock.getWallWest().getborder());
+        assertTrue(currentTestLogoBlock.getWallWest().getIsBorder());
 
         Maze.MazeTools.resetWalls((LogoBlock) testMaze.getMazeMap().get(5));
         Maze.MazeTools.convertLogoBlockToWallBlock(testMaze.getMazeMap().get(5));
         MazeBlock currentMazeBlock = (MazeBlock) testMaze.getMazeMap().get(5);
         assertEquals("MazeBlock", testMaze.getMazeMap().get(5).getBlockType());
         assertFalse(currentTestLogoBlock.getWallWest().getActive());
-        assertFalse(currentTestLogoBlock.getWallWest().getborder());
+        assertFalse(currentTestLogoBlock.getWallWest().getIsBorder());
     }
 
 
