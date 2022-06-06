@@ -44,7 +44,7 @@ public class MazeGenerator {
     /**
      * Generate a maze via Depth Field Search Iterative Algorithm.
      *  Algorithm From Wikipedia
-     *  https://en.wikipedia.org/wiki/Maze_generation_algorithm
+     *  web address = en.wikipedia.org/wiki/Maze_generation_algorithm
      *
      *       1.  Choose the initial cell, mark it as visited and push it to the stack
      *       2.  While the stack is not empty
@@ -81,7 +81,7 @@ public class MazeGenerator {
     /**
      * Generate a maze via Depth Field Search Recursive Algorithm.
      *  Algorithm From Wikipedia
-     *  https://en.wikipedia.org/wiki/Maze_generation_algorithm
+     *  web address = en.wikipedia.org/wiki/Maze_generation_algorithm
      *
      *       1.  Given a current cell as a parameter
      *       2.  Mark the current cell as visited
@@ -94,7 +94,7 @@ public class MazeGenerator {
      * @param currentBlock current block that is being worked on.
      */
     private static void depthFieldSearchRecursion(Block currentBlock) {
-        if(!currentBlock.getVisited()){
+        if(currentBlock.hasNotBeenVisited()){
             stackList.push(currentBlock);
         }
 
@@ -116,7 +116,7 @@ public class MazeGenerator {
     }
 
     /**
-     * Removes wall needed to movel to the next block
+     * Removes wall needed to move to the next block
      * @param currentBlock reference block (block that you are working from).
      * @param nextDirection the direction you wish to move to for the next block "NORTH", "EAST", "SOUTH", "WEST"
      * @return the next block from the direction you chose to move.
@@ -166,7 +166,7 @@ public class MazeGenerator {
         for (String direction: new String[]{"NORTH","EAST","SOUTH","WEST"}
              ) {
             // If next block is not out of bounds and has not been visited add as a direction that can be travelled.
-            if (!currentMaze.outOfBounds(currentBlockIndex,direction) && !currentMaze.getNeighbourBlock(currentBlock, direction).getVisited())
+            if (!currentMaze.outOfBounds(currentBlockIndex,direction) && currentMaze.getNeighbourBlock(currentBlock, direction).hasNotBeenVisited())
             {
                 currentBlock.getAvailableDirections().add(direction);
             }

@@ -164,8 +164,8 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
      * Gets the boolean if the block has been visited
      * @return visited boolean.
      */
-    public boolean getVisited() {
-        return visited;
+    public boolean hasNotBeenVisited() {
+        return !visited;
     }
 
     /**
@@ -269,9 +269,9 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
     }
 
 
-    public Point getBlockPanelLocation() {
-        return this.blockPanel.getLocation();
-    }
+//    public Point getBlockPanelLocation() {
+//        return this.blockPanel.getLocation();
+//    }
 
     private JPanel createPanel(){
         JPanel panel = new JPanel();
@@ -501,17 +501,17 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
 
     }
 
-    private void debugTools(){
-            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex));
-            System.out.println(Maze.MazeTools.getCurrentMaze().getMazeType());
-            System.out.println("CurrentWall: " +  this.getWallNorth().getActive() + " Old: " + this.getWallNorth().getOldWallState());
-            if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
-                {
-                    LogoBlock current = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
-                    System.out.println("Img: " + current.getPictureFile());
-                    System.out.println("LogoType: " + current.getLogoType());
-                    System.out.println("LogoKidsStart: " + current.isLogoStart());
-                }
-    }
+//    private void debugTools(){
+//            System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex));
+//            System.out.println(Maze.MazeTools.getCurrentMaze().getMazeType());
+//            System.out.println("CurrentWall: " +  this.getWallNorth().getActive() + " Old: " + this.getWallNorth().getOldWallState());
+//            if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex).getBlockType(), "LogoBlock"))
+//                {
+//                    LogoBlock current = (LogoBlock) Maze.MazeTools.getCurrentMaze().getMazeMap().get(blockIndex);
+//                    System.out.println("Img: " + current.getPictureFile());
+//                    System.out.println("LogoType: " + current.getLogoType());
+//                    System.out.println("LogoKidsStart: " + current.isLogoStart());
+//                }
+//    }
 
 }

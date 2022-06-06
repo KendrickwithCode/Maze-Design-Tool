@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class LogoBlock extends Block implements Serializable{
     private String pictureFile;
-    private String logoType;
+    private final String logoType;
     private boolean logoStart;
     private int logoSizeX;
     private int logoSizeY;
@@ -60,7 +60,6 @@ public class LogoBlock extends Block implements Serializable{
     }
 
 
-
     public String getPictureFile() {
         return pictureFile;
     }
@@ -90,16 +89,8 @@ public class LogoBlock extends Block implements Serializable{
         return logoType;
     }
 
-    public void setLogoType(String logoType) {
-        this.logoType = logoType;
-    }
-
     public boolean isLogoStart() {
         return logoStart;
-    }
-
-    public void setLogoStart(boolean logoStart) {
-        this.logoStart = logoStart;
     }
 
     /**

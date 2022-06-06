@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class DBSource implements MazeDBSource {
 
-    public static final String SELECT = "SELECT * FROM maze WHERE idx = 1";
+//    public static final String SELECT = "SELECT * FROM maze WHERE idx = 1";
     private static final String INSERT_MAZE = "INSERT INTO maze " +
             "(Maze_Name, Maze_Type, Author_Name, Author_Description, Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?, ?);";
     private static final String UPDATE_MAZE = "UPDATE maze " +
@@ -62,7 +62,7 @@ public class DBSource implements MazeDBSource {
     @Override
     public Maze getMaze(String name) throws Exception {
         Maze m = null;
-        ResultSet rs = null;
+        ResultSet rs;
 
         try {
             getMaze.setString(1, name);
@@ -158,7 +158,7 @@ public class DBSource implements MazeDBSource {
 
     @Override
     public String getDateCreated(String name) {
-        ResultSet rs = null;
+        ResultSet rs;
         String dateCreated = "";
         try {
             getDateCreated.setString(1, name);
@@ -175,7 +175,7 @@ public class DBSource implements MazeDBSource {
 
     @Override
     public String getLastEdited(String name){
-        ResultSet rs = null;
+        ResultSet rs;
         String lastEdited = "";
         try {
             getLastEdited.setString(1, name);
@@ -216,7 +216,7 @@ public class DBSource implements MazeDBSource {
     public Maze getGUIMaze(String name) throws Exception {
 
         Maze readMaze = null;
-        ResultSet rs = null;
+        ResultSet rs;
         getMaze.setString(1, name);
         rs = getMaze.executeQuery();
         rs.next();
@@ -302,8 +302,8 @@ public class DBSource implements MazeDBSource {
      */
     @Override
     public ArrayList<String> nameList() {
-        ArrayList<String> names = new ArrayList<String>();
-        ResultSet rs = null;
+        ArrayList<String> names = new ArrayList<>();
+        ResultSet rs;
 
         try {
             rs = getAllMaze.executeQuery();

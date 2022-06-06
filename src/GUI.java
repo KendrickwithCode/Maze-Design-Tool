@@ -17,7 +17,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private GUI_Maze maze;
     private final ImageIcon icon = new ImageIcon("img/TopIcon.png");
     public JSplitPane splitPane;
-    public JList<Object> dbitems;
+    public JList<Object> dbItems;
     public JLabel leftPane, date, edited, lastEdited, dateCreated;
     MazeDB mazeData;
     DBSource mazeDB;
@@ -35,7 +35,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             try {
                 if (maze != null)
                     //Iterate over multiple selections from the list if bulk jpg saving.
-                    for(Object obj : dbitems.getSelectedValuesList()){
+                    for(Object obj : dbItems.getSelectedValuesList()){
                         display(mazeData.get(obj));
                         jpgExport(maze.getMazePanel());
                     }
@@ -71,7 +71,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 enableCheckboxes(false);
                 enableButtons(false);
                 clearMaze();
-                dbitems.clearSelection();
+                dbItems.clearSelection();
                 GUI_Tools.clearStats();
                 this.repaint();
                 this.revalidate();
@@ -82,13 +82,13 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 int delete = JOptionPane.showConfirmDialog
                         (null, "Are you sure you want to delete?", "WARNING", JOptionPane.YES_NO_OPTION);
                 if(delete == JOptionPane.YES_OPTION){
-                    mazeDB.deleteEntry(dbitems.getSelectedValue().toString());
+                    mazeDB.deleteEntry(dbItems.getSelectedValue().toString());
                     try {
                         clearMaze();
                         enableCheckboxes(false);
                         enableButtons(false);
                         GUI_Tools.clearStats();
-                        listModel.removeElement(dbitems.getSelectedValue());
+                        listModel.removeElement(dbItems.getSelectedValue());
                         mazeData.updateList(listModel);
                         Maze.MazeTools.deleteMazeObj();
                         this.repaint();
@@ -120,7 +120,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                     lastEdited.setText(mazeDB.getLastEdited(GUI_Tools.maze_name.getText()));
                 }
                 //set list selection to new or updated entry
-                dbitems.setSelectedIndex(listModel.indexOf(GUI_Tools.maze_name.getText()));
+                dbItems.setSelectedIndex(listModel.indexOf(GUI_Tools.maze_name.getText()));
             }
         } catch (SQLException | IOException ex) {
             ex.printStackTrace();
@@ -131,7 +131,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * Adds a listener to the name list
      */
     private void addNameListListener( MouseListener e) {
-        dbitems.addMouseListener(e);
+        dbItems.addMouseListener(e);
     }
 
     /**
@@ -185,27 +185,27 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     }
 
-    /**
-     * Changes images on the maze via an image selection
-     * @param blockIndex index of the block for image to be changed. (must be a logo block or a kids logo block).
-     * @param currentMaze the current maze that is being worked on.
-     */
-    private void imageChange(int blockIndex, Maze currentMaze) {
-        final JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
-
-        int returnVal = fc.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-
-            File imageFile = fc.getSelectedFile();
-
-            LogoBlock current = (LogoBlock) currentMaze.getMazeMap().get(blockIndex);
-
-            current.setPictureFile(imageFile.getPath());
-
-            maze.renderBlocks();
-        }
-    }
+//    /**
+//     * Changes images on the maze via an image selection
+//     * @param blockIndex index of the block for image to be changed. (must be a logo block or a kids logo block).
+//     * @param currentMaze the current maze that is being worked on.
+//     */
+//    private void imageChange(int blockIndex, Maze currentMaze) {
+//        final JFileChooser fc = new JFileChooser();
+//        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
+//
+//        int returnVal = fc.showOpenDialog(this);
+//        if (returnVal == JFileChooser.APPROVE_OPTION) {
+//
+//            File imageFile = fc.getSelectedFile();
+//
+//            LogoBlock current = (LogoBlock) currentMaze.getMazeMap().get(blockIndex);
+//
+//            current.setPictureFile(imageFile.getPath());
+//
+//            maze.renderBlocks();
+//        }
+//    }
 
 
     /**
@@ -220,7 +220,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     private void initializeFrame() throws SQLException {
         int fileMenuItemWith = 120;
-        int editMenuItemWith = 180;
         int viewMenuItemWith = 120;
         int menuItemHeight = 20;
 
@@ -266,25 +265,24 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         setIconImage(icon.getImage());
 
-        JPanel borderBottom = createPanel(Color.DARK_GRAY);
-        JPanel borderTop = createPanel(Color.DARK_GRAY);
-        JPanel borderLeft = createPanel(Color.DARK_GRAY);
-        JPanel borderRight = createPanel(Color.DARK_GRAY);
+        JPanel borderBottom = createPanel();
+        JPanel borderTop = createPanel();
+        JPanel borderLeft = createPanel();
 
 
         setResizable(false);
         new GUI_Tools(borderLeft, this); //<-- Call GUI_Tools to set menu items on left side
 
         mazeData.updateList(listModel);
-        dbitems = new JList<>(listModel);
-        dbitems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        dbItems = new JList<>(listModel);
+        dbItems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         addNameListListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
                     enableButtons(true);
                     enableCheckboxes(true);
-                    display(mazeData.get(dbitems.getSelectedValue()));
+                    display(mazeData.get(dbItems.getSelectedValue()));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -309,7 +307,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
             }
         });
-        dbitems.setVisible(true);
+        dbItems.setVisible(true);
 
         JPanel controls = new JPanel();
         date = new JLabel("Date Created");
@@ -330,7 +328,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         GUI_Tools.setStyle(delete);
         GUI_Tools.setStyle(dateCreated);
         GUI_Tools.setStyle(lastEdited);
-        GUI_Tools.setStyle(dbitems);
+        GUI_Tools.setStyle(dbItems);
         GUI_Tools.setStyle(reset);
         GUI_Tools.setStyle(controls);
         GUI_Tools.setStyle(date);
@@ -338,7 +336,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         delete.addActionListener(this);
         reset.addActionListener(this);
-        JSplitPane embeddedSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controls, dbitems);
+        JSplitPane embeddedSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, controls, dbItems);
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPane, embeddedSplit);
 
         //Makes the split pane unmovable
@@ -395,9 +393,9 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.maze = maze;
     }
 
-    private JPanel createPanel(Color c){
+    private JPanel createPanel(){
         JPanel temp = new JPanel();
-        temp.setBackground(c);
+        temp.setBackground(Color.darkGray);
         return temp;
     }
 
@@ -459,7 +457,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     /**
      * Creates a screenshot of the passed JPanel object and saves it
-     * adapted from: https://stackoverflow.com/a/10796047
+     * adapted from: web address = stackoverflow.com/a/10796047
      * @param mazePanel the GUI_Maze object that is to be exported.
      */
     private void jpgExport(JPanel mazePanel) {

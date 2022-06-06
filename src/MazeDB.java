@@ -6,14 +6,12 @@ import java.sql.*;
  * to the database through DBSource & MazeDBSource Interface.
  */
 public class MazeDB{
-
-    MazeDBSource mazedata;
-
+    MazeDBSource mazeData;
     /**
      * Constructs and Initialises connection to database through DBSource.
      */
     public MazeDB() {
-        mazedata = new DBSource();
+        mazeData = new DBSource();
     }
 
     /**
@@ -21,7 +19,7 @@ public class MazeDB{
      * @param l The List Model to add to.
      */
     public void updateList(DefaultListModel l) throws SQLException {
-        for(String name : mazedata.nameList()){
+        for(String name : mazeData.nameList()){
             if (!l.contains(name)){
                 l.addElement(name);
             }
@@ -35,16 +33,9 @@ public class MazeDB{
      * @return the Maze object related to the name.
      */
     public Maze get(Object key) throws Exception {
-        return mazedata.getMaze((String) key);
+        return mazeData.getMaze((String) key);
     }
 
-    /**
-     * Delete a Maze from the database.
-     * @param key The maze to be removed.
-     */
-    public void removeMaze(Object key){
-
-    }
 
     /**
      * Close connection to database

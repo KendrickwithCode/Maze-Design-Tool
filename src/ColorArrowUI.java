@@ -6,7 +6,7 @@ import java.awt.*;
 
 
 /**
- * based from on Code found from http://www.javased.com/?post=3008447
+ * based from on Code found from web address = www.javased.com/?post=3008447
  */
 public class ColorArrowUI extends BasicComboBoxUI {
 

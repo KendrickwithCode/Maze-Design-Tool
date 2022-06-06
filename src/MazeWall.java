@@ -44,7 +44,7 @@ public class MazeWall extends JButton implements Serializable {
     }
 
     /**
-     * Overlaod
+     * Overload
      * Sets if the current wall is an Active wall that can't be passed
      * @param active boolean of the active wall if it is true (enable / can't pass) / False can pass.
      */
@@ -113,7 +113,7 @@ public class MazeWall extends JButton implements Serializable {
      * Returns if wall is border wall
      * @return Boolean - is wall a border wall
      */
-    public boolean getborder(){
+    public boolean getIsBorder(){
         return this.border;
     }
 
