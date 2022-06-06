@@ -64,10 +64,10 @@ public class LogoBlock extends Block implements Serializable{
         return pictureFile;
     }
 
-    public void setPictureFile(String filePath)
-    {
-        pictureFile = filePath;
-    }
+//    public void setPictureFile(String filePath)
+//    {
+//        pictureFile = filePath;
+//    }
 
     public int getLogoSizeX() {
         return logoSizeX;

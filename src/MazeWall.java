@@ -35,13 +35,13 @@ public class MazeWall extends JButton implements Serializable {
         setActive(oldWallState);
     }
 
-    /**
-     * Returns previous wall state (saved due to placement of logo block)
-     * @return old wall state
-     */
-    public boolean getOldWallState() {
-        return oldWallState;
-    }
+//    /**
+//     * Returns previous wall state (saved due to placement of logo block)
+//     * @return old wall state
+//     */
+//    public boolean getOldWallState() {
+//        return oldWallState;
+//    }
 
     /**
      * Overload
