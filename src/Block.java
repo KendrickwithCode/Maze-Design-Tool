@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  *  Abstract class used for Maze Block and Logo Blocks in the maze.
  */
-public abstract class Block implements IBlock, Serializable, MouseListener, ActionListener{
+public abstract class Block implements Serializable, MouseListener, ActionListener{
 
     @Serial
     private static final long serialVersionUID = 6L;
@@ -74,6 +74,12 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
 
         availableDirections = new ArrayList<>();
     }
+
+    /**
+     * Gets the block type of the current block and returns as a string.
+     * @return block type as a String.
+     */
+    public abstract String getBlockType();
 
     /**
      * Gets all available directions from objects fields
@@ -609,10 +615,9 @@ public abstract class Block implements IBlock, Serializable, MouseListener, Acti
 
 //        else debugTools();
 
-
     }
 
-private void debugTools(){
+    private void debugTools(){
             System.out.println(location[0] + " ," + location[1] + " Idx: " + blockIndex + " Tp: " + MazeLogoTools.getCurrentMaze().getMazeMap().get(blockIndex));
             System.out.println(MazeLogoTools.getCurrentMaze().getMazeType());
             System.out.println("CurrentWall: " +  this.getWallNorth().getActive() + " Old: " + this.getWallNorth().getOldWallState());
@@ -623,6 +628,6 @@ private void debugTools(){
                     System.out.println("LogoType: " + current.getLogoType());
                     System.out.println("LogoKidsStart: " + current.isLogoStart());
                 }
-}
+    }
 
 }
