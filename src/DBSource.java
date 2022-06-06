@@ -157,6 +157,7 @@ public class DBSource implements MazeDBSource {
         return  inputDate;
     }
 
+    @Override
     public String getDateCreated(String name) {
         ResultSet rs = null;
         String dateCreated = "";
@@ -173,6 +174,7 @@ public class DBSource implements MazeDBSource {
         return dateCreated;
     }
 
+    @Override
     public String getLastEdited(String name){
         ResultSet rs = null;
         String lastEdited = "";
@@ -191,6 +193,7 @@ public class DBSource implements MazeDBSource {
         return lastEdited;
     }
 
+    @Override
     public void deleteEntry(String name){
         try {
             deleteEntry.setString(1, name);
@@ -199,6 +202,8 @@ public class DBSource implements MazeDBSource {
             e.printStackTrace();
         }
     }
+
+    @Override
     public void setLastEdited(String name){
         try {
             updateLastEdited.setString(1, name);
@@ -208,12 +213,7 @@ public class DBSource implements MazeDBSource {
         }
     }
 
-    /**
-     * Reads the byte stream from the database "Image" column and converts into a Maze object.
-     * @param name The name of the Maze from the database to be searched for.
-     * @return The maze object.
-     * @throws Exception
-     */
+    @Override
     public Maze getGUIMaze(String name) throws Exception {
 
         Maze readMaze = null;
@@ -237,23 +237,8 @@ public class DBSource implements MazeDBSource {
     }
 
     @Override
-    public ImageIcon getImage() throws SQLException {
-        ResultSet rs = st.executeQuery(SELECT);
-        ImageIcon printImage = new ImageIcon();
-        while (rs.next()) {
-            byte[] image = rs.getBytes("Image");
-            ImageIcon icon = new ImageIcon(image);
-            Image img = icon.getImage();
-            Image img2 = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-            printImage = new ImageIcon(img2);
-        }
-        rs.close();
-        return printImage;
-    }
-
-
-    @Override
-    public boolean addMaze(String maze, String type, String author, String description, String height, String width) throws SQLException, IOException {
+    public boolean addMaze(String maze, String type, String author,
+                           String description, String height, String width) throws SQLException, IOException {
         checkEntries.setString(1, maze);
         ResultSet rs = checkEntries.executeQuery();
         if (rs.getInt("Count(Maze_Name)") > 0){
@@ -282,7 +267,9 @@ public class DBSource implements MazeDBSource {
         return true;
     }
 
-    private void updateMaze(String maze, String type, String author, String description, String height, String width) throws SQLException, IOException {
+    @Override
+    public void updateMaze(String maze, String type, String author,
+                           String description, String height, String width) throws SQLException, IOException {
         updateMaze.setString(8, maze);
         updateMaze.setString(1, maze);
         updateMaze.setString(2, type);
