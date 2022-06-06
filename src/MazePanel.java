@@ -13,6 +13,10 @@ public class MazePanel extends JPanel{
     private JLabel percentageTravelledLabel;
 
 
+    /**
+     * MazePanel constructor
+     * @param maze maze object to create panael from
+     */
     public MazePanel(Maze maze) {
         this.maze = maze;
         percentageDeadEndLabel = new JLabel();
@@ -21,26 +25,32 @@ public class MazePanel extends JPanel{
         setBackground(Color.white);
     }
 
-    public void setRenderSolution(boolean setValue){
-        this.renderSolution = setValue;
-
+    /**
+     * Sets render field to be use to conditionally render solution line
+     * @param render boolean to conditionally render solution
+     */
+    public void setRenderSolution(boolean render){
+        this.renderSolution = render;
         repaint();
     }
 
+    /**
+     * Resets all walls in maze so that no wall is a finish wall
+     */
     public void resetStartWalls(){
         for ( Block block : maze.getMazeMap() ) {
-
             block.getWallNorth().setStart(false);
             block.getWallEast().setStart(false);
             block.getWallSouth().setStart(false);
             block.getWallWest().setStart(false);
-
         }
     }
 
+    /**
+     * Resets all walls in maze so no wall is a finish wall
+     */
     public void resetFinishWalls(){
         for ( Block block : maze.getMazeMap() ) {
-
             block.getWallNorth().setFinish(false);
             block.getWallSouth().setFinish(false);
             block.getWallEast().setFinish(false);
@@ -48,10 +58,61 @@ public class MazePanel extends JPanel{
         }
     }
 
+    /**
+     *
+     * @param label
+     */
     public void setSolvableLabel(JLabel label){
         this.solvableLabel = label;
     }
 
+    private ArrayList<Block> solveMaze(){
+        int totalCells = maze.getSize()[0] * maze.getSize()[1];
+
+        MazeSolver mazeSolver = new MazeSolver();
+
+        ArrayList<Block> solution = mazeSolver.solveMaze(maze);
+
+        double percentageTravelled = (solution.size() / (double)totalCells) * 100;
+        double percentageDeadEnds = mazeSolver.deadEndCount(maze) / (double)totalCells * 100;
+
+        this.percentageDeadEndLabel.setText(((int)percentageDeadEnds) + "%");
+
+        if(solution.isEmpty()){
+            maze.setSolvable(false);
+            solvableLabel.setText("False");
+            solvableLabel.setForeground(Color.red);
+            percentageTravelledLabel.setText("0%");
+        } else {
+            maze.setSolvable(true);
+            solvableLabel.setText("True");
+            solvableLabel.setForeground(Color.green);
+            percentageTravelledLabel.setText(((int)percentageTravelled) + "%");
+        }
+
+        return solution;
+    }
+
+    /**
+     *
+     * @param label
+     */
+    public void setPercentageDeadEndLabel(JLabel label) {
+        this.percentageDeadEndLabel = label;
+    }
+
+    /**
+     *
+     * @param label
+     */
+    public void setPercentageTravelledLabel(JLabel label) {
+        this.percentageTravelledLabel = label;
+    }
+
+    /**
+     * Renders maze panel with override for start / finish walls and solution line
+     * @param g  the <code>Graphics</code> context in which to paint
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -305,9 +366,7 @@ public class MazePanel extends JPanel{
 
         }
 
-
-
-        // Solution line
+        // Solution render
         if(renderSolution){
            if(solution.isEmpty()) { return; }
 
@@ -326,41 +385,5 @@ public class MazePanel extends JPanel{
                 g2.draw(line);
             }
         }
-    }
-
-    private ArrayList<Block> solveMaze(){
-        int totalCells = maze.getSize()[0] * maze.getSize()[1];
-
-        MazeSolver mazeSolver = new MazeSolver();
-
-        ArrayList<Block> solution = mazeSolver.solveMaze(maze);
-
-        double percentageTravelled = (solution.size() / (double)totalCells) * 100;
-        double percentageDeadEnds = mazeSolver.deadEndCount(maze) / (double)totalCells * 100;
-
-        this.percentageDeadEndLabel.setText(((int)percentageDeadEnds) + "%");
-
-        if(solution.isEmpty()){
-            maze.setSolvable(false);
-            solvableLabel.setText("False");
-            solvableLabel.setForeground(Color.red);
-            percentageTravelledLabel.setText("0%");
-        } else {
-            maze.setSolvable(true);
-            solvableLabel.setText("True");
-            solvableLabel.setForeground(Color.green);
-            percentageTravelledLabel.setText(((int)percentageTravelled) + "%");
-        }
-
-        return solution;
-    }
-
-
-    public void setPercentageDeadEndLabel(JLabel label) {
-        this.percentageDeadEndLabel = label;
-    }
-
-    public void setPercentageTravelledLabel(JLabel label) {
-        this.percentageTravelledLabel = label;
     }
 }
