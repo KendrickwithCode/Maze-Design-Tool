@@ -19,7 +19,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         static JLabel solvableBool;
         static JLabel percentageTravelled;
         static JLabel deadEndCount;
-        public static JComboBox mazeTypeComboBox;
+        public static JComboBox<String> mazeTypeComboBox;
         private static GUI mainGui;
         private String mazeType;
 
@@ -174,6 +174,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 JLabel description = createLabels("Maze Description: ");
                 description_text = new JTextArea();
                 description_text.setLineWrap(true);
+                description_text.setWrapStyleWord(true);
                 description_text.setEditable(true);
                 description_text.setCaretColor(Color.WHITE);
                 JScrollPane description_pane = new JScrollPane(description_text);
@@ -276,7 +277,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 addToPanel(borderSpot, percentageTravelled, constraints, 1, 13, 1);
         }
 
-        private JComboBox createComboBox(String[] options,int width, int height) {
+        private JComboBox<String> createComboBox(String[] options,int width, int height) {
                 JComboBox<String> combo = new JComboBox<>(options);
                 combo.setPreferredSize(new Dimension(width + 80,height));
                 combo.setUI(ColorArrowUI.createUI(combo));
