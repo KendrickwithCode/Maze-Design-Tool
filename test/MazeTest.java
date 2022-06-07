@@ -30,12 +30,12 @@ public class MazeTest {
     @Test void testGetSolvable(){
         assertFalse(testMaze.getSolvable());}
 
-    @Test void testGetSetDifficulty()
-    {
-        testMaze.setDifficulty(3);
-        int result = testMaze.getDifficulty();
-        assertEquals(3,result);
-    }
+//    @Test void testGetSetDifficulty()
+//    {
+//        testMaze.setDifficulty(3);
+//        int result = testMaze.getDifficulty();
+//        assertEquals(3,result);
+//    }
 
     @Test
     public void testMaze(){

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 
 /**
- *  Abstract class used for Maze Block and Logo Blocks in the maze.
+ *  Abstract class used for Maze Block and Logo Blocks in the maze. Objects of this class represent the cells within a maze.
  */
 public abstract class Block implements Serializable, MouseListener, ActionListener{
 
@@ -283,14 +283,14 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
         return panel;
     }
 
-    void clearStarts(){
+    private void clearStarts(){
         getWallNorth().setStart(false);
         getWallEast().setStart(false);
         getWallSouth().setStart(false);
         getWallWest().setStart(false);
     }
 
-    void clearFinish(){
+    private void clearFinish(){
         getWallNorth().setFinish(false);
         getWallEast().setFinish(false);
         getWallSouth().setFinish(false);

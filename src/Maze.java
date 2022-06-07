@@ -2,10 +2,24 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Main class for holding all the contents and information of a maze.
+ * Main class for holding all the contents and information of a maze. The maze is a two-dimensional array of Block objects arranged in a grid pattern.
  */
 public class Maze implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 4L;
+    //private int difficulty;
+    public String mazeName;
+    private String mazeType;
+    private String mazeDescription;
+    private int mazeHeight;
+    private int mazeWidth;
+    private String authorName;
+    private boolean solvable;
+    private final int[] size;
+    private final ArrayList<Block> mazeMap;
+    private int kidsStartIndex;
+    private int kidsFinishIndex;
 
     /**
      * Maze tools class
@@ -257,30 +271,15 @@ public class Maze implements Serializable {
     }
 
 
-
-    @Serial
-    private static final long serialVersionUID = 4L;
-    private int difficulty;
-    public String mazeName;
-    private String mazeType;
-    private String mazeDescription;
-    private int mazeHeight;
-    private int mazeWidth;
-    private String authorName;
-    private boolean solvable;
-    private final int[] size;
-    private final ArrayList<Block> mazeMap;
-    private int kidsStartIndex;
-    private int kidsFinishIndex;
-
-
-
     /**
      * Constructs and initialises a new Maze. Resulting maze is blank with only border walls activated.
      *
      * @param sizeX size of the x-axis for the maze
      * @param sizeY size of the y-axis for the maze
-     * @param name  name of the maze
+     * @param mazeType Whether the maze is a kids or adult maze
+     * @param name The name of the maze
+     * @param mazeDescription a description of the maze
+     * @param authorName The name of the author
      */
     public Maze(int sizeX, int sizeY, String name, String mazeType, String mazeDescription, String authorName) throws Exception {
         this.size = new int[]{sizeX, sizeY};
@@ -608,15 +607,15 @@ public class Maze implements Serializable {
         return y * size[0] + x;
     }
 
-    /**
-     * Returns current difficulty level
-     *
-     * @return difficulty level
-     */
-
-    public int getDifficulty() {
-        return difficulty;
-    }
+//    /**
+//     * Returns current difficulty level
+//     *
+//     * @return difficulty level
+//     */
+//
+//    public int getDifficulty() {
+//        return difficulty;
+//    }
 
     /**
      * Returns a boolean value of if the maze is currently solvable
@@ -659,14 +658,14 @@ public class Maze implements Serializable {
         return size.clone();
     }
 
-    /**
-     * Sets difficulty level
-     *
-     * @param difficulty new level for difficulty
-     */
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
+//    /**
+//     * Sets difficulty level
+//     *
+//     * @param difficulty new level for difficulty
+//     */
+//    public void setDifficulty(int difficulty) {
+//        this.difficulty = difficulty;
+//    }
 
     /**
      * Sets maze solvable
