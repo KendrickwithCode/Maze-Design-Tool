@@ -70,7 +70,7 @@ public class Maze implements Serializable {
             }
             else {
                 workingBlock.getWallEast().resetWall();
-                if(workingBlock.getLocation()[0] + 1 != currentMaze.getWidth())
+                if(workingBlock.getLocation()[0]+1 != currentMaze.getWidth())
                     workingBlock.getWallEast().setBorder(false);
             }
             if (endY == currentY)                       //base Case
@@ -97,7 +97,7 @@ public class Maze implements Serializable {
             }
             else {
                 workingBlock.getWallSouth().resetWall();
-                if(workingBlock.getLocation()[1] + 1 != currentMaze.getHeight())
+                if(workingBlock.getLocation()[1]+1 != currentMaze.getHeight())
                     workingBlock.getWallSouth().setBorder(false);
             }
 
