@@ -35,13 +35,22 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             try {
                 if (maze != null)
                     //Iterate over multiple selections from the list if bulk jpg saving.
-                    for(Object obj : dbItems.getSelectedValuesList()){
-                        display(mazeData.get(obj));
+                    if (!dbItems.getSelectedValuesList().isEmpty()) {
+                            for (Object obj : dbItems.getSelectedValuesList()) {
+                                display(mazeData.get(obj));
+                                jpgExport(maze.getMazePanel());
+                            }
+                    }
+                    //If an item isn't selected, ignore loop and export anyway if a maze is generated.
+                    else
+                    {
                         jpgExport(maze.getMazePanel());
                     }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+
+
         } else if (src == save) {
             if(Maze.MazeTools.getCurrentGUIMaze() != null){
                 saveMaze();
