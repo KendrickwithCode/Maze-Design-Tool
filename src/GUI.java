@@ -33,19 +33,24 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         //checks if the export button has been pressed and runs the jpgExport function if it has
         if (src == export) {
             try {
-                if (maze != null)
+                if (maze != null) {
                     //Iterate over multiple selections from the list if bulk jpg saving.
                     if (!dbItems.getSelectedValuesList().isEmpty()) {
-                            for (Object obj : dbItems.getSelectedValuesList()) {
-                                display(mazeData.get(obj));
-                                jpgExport(maze.getMazePanel());
-                            }
+                        for (Object obj : dbItems.getSelectedValuesList()) {
+                            display(mazeData.get(obj));
+                            jpgExport(maze.getMazePanel());
+                        }
                     }
                     //If an item isn't selected, ignore loop and export anyway if a maze is generated.
-                    else
-                    {
+                    else {
                         jpgExport(maze.getMazePanel());
                     }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,
+                            "Generate or create a Maze before exporting!","No Maze to export",JOptionPane.INFORMATION_MESSAGE);
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
