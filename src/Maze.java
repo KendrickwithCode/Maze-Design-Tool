@@ -64,15 +64,15 @@ public class Maze implements Serializable {
             int currentY = workingBlock.getLocation()[1];
             if(westWall) {
                 workingBlock.getWallWest().resetWall();
+
                 if(workingBlock.getLocation()[0] != 0)
                     workingBlock.getWallWest().setBorder(false);
             }
             else {
                 workingBlock.getWallEast().resetWall();
-                if(workingBlock.getLocation()[0] != currentMaze.getWidth())
+                if(workingBlock.getLocation()[0] + 1 != currentMaze.getWidth())
                     workingBlock.getWallEast().setBorder(false);
             }
-
             if (endY == currentY)                       //base Case
                 return;
             resetWallsEastWest(endY,nextIndex,westWall);     //Recurse
@@ -86,7 +86,6 @@ public class Maze implements Serializable {
          */
         private static void resetWallsNorthSouth(int endX, int currentIndexX, boolean northWall)
         {
-
             Block workingBlock = currentMaze.getMazeMap().get(currentIndexX);
             int nextIndex = currentMaze.getNeighbourIndex(workingBlock,"east");
             int currentX = workingBlock.getLocation()[0];
@@ -98,7 +97,7 @@ public class Maze implements Serializable {
             }
             else {
                 workingBlock.getWallSouth().resetWall();
-                if(workingBlock.getLocation()[1] != currentMaze.getHeight())
+                if(workingBlock.getLocation()[1] + 1 != currentMaze.getHeight())
                     workingBlock.getWallSouth().setBorder(false);
             }
 
