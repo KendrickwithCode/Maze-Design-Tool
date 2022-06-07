@@ -22,7 +22,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     MazeDB mazeData;
     DBSource mazeDB;
     private JButton reset, delete;
-    private JMenuItem save, export, fullScr, windowScr, exit;
+    private JMenuItem save, export, fullScr, windowScr, exit, about;
     private final DefaultListModel<Object> listModel;
 
 
@@ -73,6 +73,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         if(src==exit)
         {
             this.dispose();
+        }
+
+        if(src==about)
+        {
+            new About();
         }
 
         if(src== reset){
@@ -194,29 +199,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     }
 
-//    /**
-//     * Changes images on the maze via an image selection
-//     * @param blockIndex index of the block for image to be changed. (must be a logo block or a kids logo block).
-//     * @param currentMaze the current maze that is being worked on.
-//     */
-//    private void imageChange(int blockIndex, Maze currentMaze) {
-//        final JFileChooser fc = new JFileChooser();
-//        fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
-//
-//        int returnVal = fc.showOpenDialog(this);
-//        if (returnVal == JFileChooser.APPROVE_OPTION) {
-//
-//            File imageFile = fc.getSelectedFile();
-//
-//            LogoBlock current = (LogoBlock) currentMaze.getMazeMap().get(blockIndex);
-//
-//            current.setPictureFile(imageFile.getPath());
-//
-//            maze.renderBlocks();
-//        }
-//    }
-
-
     /**
      * GUI Constructor. Initializes Swing frame for application
      */
@@ -230,6 +212,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     private void initializeFrame() throws SQLException {
         int fileMenuItemWith = 120;
         int viewMenuItemWith = 120;
+        int aboutMenuItemWith = 100;
         int menuItemHeight = 20;
 
         leftPane = new JLabel();
@@ -257,7 +240,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         file.addSeparator();
         file.add(exit);
         menuBar.add(file);
-        this.setJMenuBar(menuBar);
+//        this.setJMenuBar(menuBar);
 
 
 
@@ -270,6 +253,12 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         view.add(windowScr);
 
         menuBar.add(view);
+//        this.setJMenuBar(menuBar);
+
+        JMenu help = new JMenu("Help");
+        about = menuItemFactory("About",aboutMenuItemWith,menuItemHeight);
+        help.add(about);
+        menuBar.add(help);
         this.setJMenuBar(menuBar);
 
         setIconImage(icon.getImage());
