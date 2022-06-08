@@ -136,6 +136,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 currentMaze.setMazeName(GUI_Tools.maze_name.getText());
                 currentMaze.setMazeType((String)GUI_Tools.mazeTypeComboBox.getSelectedItem());
                 currentMaze.setMazeDescription(GUI_Tools.description_text.getText());
+                currentMaze.setAuthorName((GUI_Tools.author_name_text.getText()));
                 currentMaze.setWidth(parseInt(GUI_Tools.height_text.getText()));
                 currentMaze.setHeight(parseInt(GUI_Tools.height_text.getText()));
                 //boolean is true if the entry is new to the db, false if it's an updating entry.
