@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.io.Serial;
 import java.util.HashMap;
 import java.io.Serializable;
 
@@ -8,6 +9,9 @@ import java.io.Serializable;
  * Block used to store images on the maze.
  */
 public class LogoBlock extends Block implements Serializable{
+    @Serial
+    private static final long serialVersionUID = 7L;
+
     private String pictureFile;
     private final String logoType;
     private boolean logoStart;

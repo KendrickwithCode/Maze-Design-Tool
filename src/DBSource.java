@@ -3,9 +3,11 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Implements MazeDBSource Interface which utilizes JDBC.
+ */
 public class DBSource implements MazeDBSource {
 
-//    public static final String SELECT = "SELECT * FROM maze WHERE idx = 1";
     private static final String INSERT_MAZE = "INSERT INTO maze " +
             "(Maze_Name, Maze_Type, Author_Name, Author_Description, Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?, ?);";
     private static final String UPDATE_MAZE = "UPDATE maze " +

@@ -3,7 +3,7 @@ import java.sql.*;
 
 /**
  * Maze Database Connection with getters and updates
- * to the database through DBSource & MazeDBSource Interface.
+ * to the database through DBSource.
  */
 public class MazeDB{
     MazeDBSource mazeData;
