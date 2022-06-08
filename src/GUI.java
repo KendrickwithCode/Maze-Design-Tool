@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * Graphic User Interface Base.
  * This is where all the components for the GUI Tools and GUI Maze Sit on top off.
@@ -58,7 +60,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
         } else if (src == save) {
             if(Maze.MazeTools.getCurrentGUIMaze() != null){
-                saveMaze();
+                saveMaze(Maze.MazeTools.getCurrentMaze());
             }
             else{
                 JOptionPane.showMessageDialog(null,
@@ -122,18 +124,22 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     /**
      * Save or Update Maze details (depending on if the Maze Name already exists in the DB) to the Database.
+     * @param currentMaze
      */
-    private void saveMaze(){
+    private void saveMaze(Maze currentMaze){
         try {
             if (GUI_Tools.author_name_text.getText() == null || GUI_Tools.author_name_text.getText().length() == 0){
                 JOptionPane.showMessageDialog(null,
                         "Please Enter an Author's Name before Saving","Okay",JOptionPane.INFORMATION_MESSAGE);
             }
             else{
-                String type = (String)GUI_Tools.mazeTypeComboBox.getSelectedItem();
+                currentMaze.setMazeName(GUI_Tools.maze_name.getText());
+                currentMaze.setMazeType((String)GUI_Tools.mazeTypeComboBox.getSelectedItem());
+                currentMaze.setMazeDescription(GUI_Tools.description_text.getText());
+                currentMaze.setWidth(parseInt(GUI_Tools.height_text.getText()));
+                currentMaze.setHeight(parseInt(GUI_Tools.height_text.getText()));
                 //boolean is true if the entry is new to the db, false if it's an updating entry.
-                boolean added = mazeDB.addMaze(GUI_Tools.maze_name.getText(), type, GUI_Tools.author_name_text.getText(),
-                        GUI_Tools.description_text.getText(), GUI_Tools.width_text.getText(), GUI_Tools.height_text.getText());
+                boolean added = mazeDB.addMaze(currentMaze);
                 mazeData.updateList(listModel);
                 if (!added){
                     lastEdited.setText(mazeDB.getLastEdited(GUI_Tools.maze_name.getText()));

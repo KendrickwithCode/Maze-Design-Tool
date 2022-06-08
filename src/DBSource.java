@@ -236,27 +236,26 @@ public class DBSource implements MazeDBSource {
     }
 
     @Override
-    public boolean addMaze(String maze, String type, String author,
-                           String description, String height, String width) throws SQLException, IOException {
-        checkEntries.setString(1, maze);
+    public boolean addMaze(Maze maze) throws SQLException, IOException {
+        checkEntries.setString(1, maze.getMazeName());
         ResultSet rs = checkEntries.executeQuery();
         if (rs.getInt("Count(Maze_Name)") > 0){
             int update = JOptionPane.showConfirmDialog
-                    (null, "Overwrite " + GUI_Tools.maze_name.getText() + "?", "WARNING", JOptionPane.YES_NO_OPTION);
+                    (null, "Overwrite " + maze.getMazeName() + "?", "WARNING", JOptionPane.YES_NO_OPTION);
             if(update == JOptionPane.YES_OPTION) {
                 //Overwrite Maze
-                updateMaze(maze, type, author, description, height, width);
+                updateMaze(maze);
                 JOptionPane.showMessageDialog(null,
                         "Maze Successfully Updated.", "Okay", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             }
         }
-        addMaze.setString(1, maze);
-        addMaze.setString(2, type);
-        addMaze.setString(3, author);
-        addMaze.setString(4, description);
-        addMaze.setString(5, width);
-        addMaze.setString(6, height);
+        addMaze.setString(1, maze.getMazeName());
+        addMaze.setString(2, maze.getMazeType());
+        addMaze.setString(3, maze.getAuthorName());
+        addMaze.setString(4, maze.getMazeDescription());
+        addMaze.setString(5, maze.getWidthAsString());
+        addMaze.setString(6, maze.getHeightAsString());
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
         objectStream.writeObject(Maze.MazeTools.getCurrentMaze());
@@ -267,21 +266,20 @@ public class DBSource implements MazeDBSource {
     }
 
     @Override
-    public void updateMaze(String maze, String type, String author,
-                           String description, String height, String width) throws SQLException, IOException {
-        updateMaze.setString(8, maze);
-        updateMaze.setString(1, maze);
-        updateMaze.setString(2, type);
-        updateMaze.setString(3, author);
-        updateMaze.setString(4, description);
-        updateMaze.setString(5, width);
-        updateMaze.setString(6, height);
+    public void updateMaze(Maze maze) throws SQLException, IOException {
+        updateMaze.setString(8, maze.getMazeName());
+        updateMaze.setString(1, maze.getMazeName());
+        updateMaze.setString(2, maze.getMazeType());
+        updateMaze.setString(3, maze.getAuthorName());
+        updateMaze.setString(4, maze.getMazeDescription());
+        updateMaze.setString(5, maze.getWidthAsString());
+        updateMaze.setString(6, maze.getHeightAsString());
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
         objectStream.writeObject(Maze.MazeTools.getCurrentMaze());
         byte[] data = byteStream.toByteArray();
         updateMaze.setBinaryStream(7, new ByteArrayInputStream(data), data.length);
-        setLastEdited(maze);
+        setLastEdited(maze.getMazeName());
         updateMaze.execute();
     }
 

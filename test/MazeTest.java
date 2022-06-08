@@ -371,12 +371,12 @@ public class MazeTest {
     public void testDBAdd() throws Exception {
         ResultSet rs = null;
         final String TEST = "Select Maze_Name FROM maze WHERE Maze_Name = 'Test'";
-        data.addMaze(testMaze.getMazeName(), testMaze.getMazeType(), testMaze.getAuthorName(), testMaze.getMazeDescription(),
-                testMaze.getHeightAsString(), testMaze.getWidthAsString());
+        data.addMaze(testMaze);
         PreparedStatement testAdd = data.connection.prepareStatement(TEST);
         rs = testAdd.executeQuery();
         rs.next();
         assertEquals("Test", rs.getString("Maze_Name"), "Cannot Add Entry To Database");
+        rs.close();
     }
 
     @Test

@@ -27,37 +27,48 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         public void actionPerformed(ActionEvent e) {
                 Object src = e.getSource();
 
-                if (src==btnCreate)
-                {
-                        try {
-                                mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
-                                        Integer.parseInt(height_text.getText()),  maze_name.getText(), false,mazeType);
-                                mainGui.enableCheckboxes(true);
-                        } catch (Exception ex) {
-                                if(ex.getMessage().equals("Invalid Dimension")){
-                                        JOptionPane.showMessageDialog(null,
-                                                "You must enter an integer between 4 and 100 inclusive for both width and height to generate a maze.","Invalid Dimension",JOptionPane.INFORMATION_MESSAGE);
+                if (src==btnCreate) {
+                        if (isDimensionsString()) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Invalid Width or Height. You must enter a number between 4 and 100 inclusive for width and height.",
+                                        "Invalid Dimension", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                                try {
+                                        mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
+                                                Integer.parseInt(height_text.getText()), maze_name.getText(), false, mazeType);
+                                        mainGui.enableCheckboxes(true);
+                                } catch (Exception ex) {
+                                        if (ex.getMessage().equals("Invalid Dimension")) {
+                                                JOptionPane.showMessageDialog(null,
+                                                        "You must enter an integer between 4 and 100 inclusive for both width and height to generate a maze.",
+                                                        "Invalid Dimension", JOptionPane.INFORMATION_MESSAGE);
+                                        } else ex.printStackTrace();
                                 }
-                                else ex.printStackTrace();
+                                setShowSolution();
+                                setMazeStatsLabels();
                         }
-                        setShowSolution();
-                        setMazeStatsLabels();
                 }
-                else if (src==btnGenerate)
-                {
-                        try {
-                                mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
-                                        Integer.parseInt(height_text.getText()), maze_name.getText(), true,mazeType);
-                                mainGui.enableCheckboxes(true);
+                else if (src==btnGenerate) {
+                        if (isDimensionsString()) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Invalid Width or Height. You must enter a number between 4 and 100 inclusive for width and height.",
+                                        "Invalid Dimension", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                                try {
+                                        mainGui.generateNewMaze(Integer.parseInt(width_text.getText()),
+                                                Integer.parseInt(height_text.getText()), maze_name.getText(), true,mazeType);
+                                        mainGui.enableCheckboxes(true);
                         } catch (Exception ex) {
                                 if(ex.getMessage().equals("Invalid Dimension")){
                                         JOptionPane.showMessageDialog(null,
-                                                "You must enter an integer between 4 and 100 inclusive for width and height","Invalid Dimension",JOptionPane.INFORMATION_MESSAGE);
+                                                "You must enter a number between 4 and 100 inclusive for width and height.",
+                                                "Invalid Dimension",JOptionPane.INFORMATION_MESSAGE);
                                 }
                                 else ex.printStackTrace();
                         }
                         setShowSolution();
                         setMazeStatsLabels();
+                        }
                 }
                 else if (src == showGrid)
                 {
@@ -103,6 +114,37 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
         }
 
+
+        /**
+         * Checks Width and Height text fields for String value.
+         * @return True if field is a String, false if it's an integer.
+         */
+        public boolean isDimensionsString(){
+                if (!isInteger(width_text.getText()) | (!isInteger(height_text.getText()))){
+                        return true;
+                }
+                return false;
+        }
+
+        /**
+         * Check if value being parsed from string to integer value is in fact an integer value.
+         * Adapted from https://stackoverflow.com/questions/6456219/java-checking-if-parseint-throws-exception
+         * @param string The string to be checked
+         * @return True if value is an Integer after conversion, false otherwise.
+         */
+        public boolean isInteger(String string){
+                try{
+                        Integer.valueOf(string);
+                        return true;
+                } catch (NumberFormatException e) {
+                        return false;
+                }
+        }
+
+        /**
+         * Clears Solvable, Solution Travels, Dead Ends text on the bottom left
+         * As well as Date Created and Last Edited text on the top right.
+         */
         public static void clearStats(){
                 percentageTravelled.setText("0%");
                 deadEndCount.setText("0%");
@@ -112,14 +154,14 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         }
 
         /**
-         *
+         * Sets Show Solution label.
          */
         public static void setShowSolution() {
                 GUI_Maze.mazePanel.setRenderSolution(showSolution.isSelected());
         }
 
         /**
-         * sets the maze stats labels in the GUI
+         * Sets the maze stats labels in the GUI
          */
         public static void setMazeStatsLabels() {
                 GUI_Maze.mazePanel.setSolvableLabel(solvableBool);

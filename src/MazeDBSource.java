@@ -18,27 +18,15 @@ public interface MazeDBSource {
 
     /**
      * Adds a Maze entry to the database.
-     * @param maze The name of the Maze
-     * @param type The type of Maze - Adult/Kids
-     * @param author The author's name who created the maze.
-     * @param description A description of the maze - can be an empty string
-     * @param height The height as a String
-     * @param width The width as a String
+     * @param maze A Maze Object
      */
-    boolean addMaze(String maze, String type, String author,
-                 String description, String height, String width) throws SQLException, IOException;
+    boolean addMaze(Maze maze) throws SQLException, IOException;
 
     /**
      * Adds a Maze entry to the database.
-     * @param maze The name of the Maze
-     * @param type The type of Maze - Adult/Kids
-     * @param author The author's name who created the maze.
-     * @param description A description of the maze - can be an empty string
-     * @param height The height as a String
-     * @param width The width as a String
+     * @param maze A Maze Object
      */
-    void updateMaze(String maze, String type, String author,
-                    String description, String height, String width) throws SQLException, IOException;
+    void updateMaze(Maze maze) throws SQLException, IOException;
 
     /**
      * Get the "Last Edited" column from the database.

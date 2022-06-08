@@ -95,12 +95,11 @@ public class GUI_Maze extends JPanel{
      */
     public void renderMaze(boolean grid,boolean refresh){
         setGrid(grid);
-
+        //LoadingBar bar = new LoadingBar();
         GridBagConstraints mazeComponentConstraints = setupGridConstraints();
 
         // Iterate through maze blocks and populate mazePanel
         for ( Block block : maze.getMazeMap() ){
-
             // Get location of block
             int blockXLocation = (block.getLocation()[0] + 1) * 2 -1;
             int blockYLocation = (block.getLocation()[1] + 1) * 2 -1;
