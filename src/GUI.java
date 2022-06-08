@@ -124,7 +124,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     /**
      * Save or Update Maze details (depending on if the Maze Name already exists in the DB) to the Database.
-     * @param currentMaze
+     * @param currentMaze The Maze object to be saved.
      */
     private void saveMaze(Maze currentMaze){
         try {
@@ -146,17 +146,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 }
                 //set list selection to new or updated entry
                 dbItems.setSelectedIndex(listModel.indexOf(GUI_Tools.maze_name.getText()));
+                display(Maze.MazeTools.getCurrentMaze());
             }
-        } catch (SQLException | IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-        //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
-    }
-    /**
-     * Adds a listener to the name list
-     */
-    private void addNameListListener( MouseListener e) {
-        dbItems.addMouseListener(e);
     }
 
     /**
@@ -196,9 +190,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             GUI_Maze loadedMaze = new GUI_Maze(load, false);
             Maze.MazeTools.setCurrentGUIMaze(loadedMaze);
             Maze.MazeTools.setCurrentMaze(load);
+            enableCheckboxes(true);
+            enableButtons(true);
             GUI_Tools.setShowSolution();
             GUI_Tools.setMazeStatsLabels();
-            setMaze(loadedMaze);
             leftPane.add(new JScrollPane(loadedMaze));
             this.revalidate();
         }
@@ -251,8 +246,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         file.addSeparator();
         file.add(exit);
         menuBar.add(file);
-//        this.setJMenuBar(menuBar);
-
 
 
         // Set Edit View
@@ -262,9 +255,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         windowScr = menuItemFactory("Window",viewMenuItemWith,menuItemHeight);
         view.add(fullScr);
         view.add(windowScr);
-
         menuBar.add(view);
-//        this.setJMenuBar(menuBar);
 
         JMenu help = new JMenu("Help");
         about = menuItemFactory("About",aboutMenuItemWith,menuItemHeight);
@@ -285,12 +276,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         mazeData.updateList(listModel);
         dbItems = new JList<>(listModel);
         dbItems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        addNameListListener(new MouseListener() {
+        dbItems.addMouseListener(new MouseListener(){
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    enableButtons(true);
-                    enableCheckboxes(true);
                     display(mazeData.get(dbItems.getSelectedValue()));
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -384,22 +373,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         menuItem.setPreferredSize(new Dimension(width,height));
         menuItem.addActionListener(this);
         return menuItem;
-    }
-
-    /**
-     * Returns current GUI_Maze
-     * @return current GUI_maze
-     */
-    public GUI_Maze getMaze() {
-        return maze;
-    }
-
-    /**
-     * Sets current maze GUI
-     * @param maze current GUI_Maze
-     */
-    public void setMaze(GUI_Maze maze) {
-        this.maze = maze;
     }
 
     private JPanel createPanel(){
