@@ -120,15 +120,12 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
          * @return True if field is a String, false if it's an integer.
          */
         public boolean isDimensionsString(){
-                if (!isInteger(width_text.getText()) | (!isInteger(height_text.getText()))){
-                        return true;
-                }
-                return false;
+                return !isInteger(width_text.getText()) | (!isInteger(height_text.getText()));
         }
 
         /**
          * Check if value being parsed from string to integer value is in fact an integer value.
-         * Adapted from https://stackoverflow.com/questions/6456219/java-checking-if-parseint-throws-exception
+         * Adapted from web address = stackoverflow.com/questions/6456219/java-checking-if-parseint-throws-exception
          * @param string The string to be checked
          * @return True if value is an Integer after conversion, false otherwise.
          */
