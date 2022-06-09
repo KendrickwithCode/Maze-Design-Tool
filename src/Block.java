@@ -421,7 +421,9 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                     try {
 
                         Block oldStart = Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getKidsStartIndex());
-                        Maze.MazeTools.convertLogoBlockToMazeBlock(oldStart);                                //Remove Old Icon
+                        if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeMap().get(oldStart.getBlockIndex()).getBlockType(), "LogoBlock")) {
+                            Maze.MazeTools.convertLogoBlockToMazeBlock(oldStart);                                //Remove Old Icon
+                        }
                         oldStart.clearStarts();
                         Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this, "start");
                         Maze.MazeTools.getCurrentMaze().setKidsStartIndex(Block.this.blockIndex);
@@ -439,7 +441,9 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                 if(checkIconResizeInbounds(2,2)) {
                     try {
                         Block oldFinish = Maze.MazeTools.getCurrentMaze().getMazeMap().get(Maze.MazeTools.getCurrentMaze().getKidsFinishIndex());
-                        Maze.MazeTools.convertLogoBlockToMazeBlock(oldFinish);                               //Remove Old Icon
+                        if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeMap().get(oldFinish.getBlockIndex()).getBlockType(), "LogoBlock")) {
+                            Maze.MazeTools.convertLogoBlockToMazeBlock(oldFinish);                               //Remove Old Icon
+                        }
                         oldFinish.clearFinish();
                         Maze.MazeTools.convertMazeBlockToLogoBlock(Block.this, "end");
                         Maze.MazeTools.getCurrentMaze().setKidsFinishIndex(Block.this.blockIndex);
