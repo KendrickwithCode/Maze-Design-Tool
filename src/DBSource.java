@@ -81,7 +81,7 @@ public class DBSource implements MazeDBSource {
 
     /**
      * Checks if the year is a leap year
-     * @param year to check if leapyear
+     * @param year to check if a leap year
      * @return true if leap year false if it is a normal year.
      */
     private boolean isLeapYear(int year){
