@@ -117,249 +117,245 @@ public class MazePanel extends JPanel{
     public void paint(Graphics g) {
         super.paint(g);
         ArrayList<Block> solution = solveMaze();
-        if(!Maze.MazeTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")){
+        MazeWall startWall = new MazeWall();
+        MazeWall finishWall= new MazeWall();
 
-            MazeWall startWall = new MazeWall();
-            MazeWall finishWall= new MazeWall();
+        String startWallLocation  = "";
+        String finishWallLocation  = "";
 
-            String startWallLocation  = "";
-            String finishWallLocation  = "";
+        for(Block block: maze.getMazeMap()){
+            if(block.getWallNorth().isStart()){
+                startWall = block.getWallNorth();
+                startWallLocation = "north";
+            }
+            if(block.getWallNorth().getFinish()){
+                finishWall = block.getWallNorth();
+                finishWallLocation = "north";
+            }
+            if(block.getWallSouth().isStart()){
+                startWall = block.getWallSouth();
+                startWallLocation = "south";
+            }
+            if(block.getWallSouth().getFinish()){
+                finishWall = block.getWallSouth();
+                finishWallLocation = "south";
+            }
+            if(block.getWallEast().isStart()){
+                startWall = block.getWallEast();
+                startWallLocation = "east";
+            }
+            if(block.getWallEast().getFinish()){
+                finishWall = block.getWallEast();
+                finishWallLocation = "east";
+            }
+            if(block.getWallWest().isStart()){
+                startWall = block.getWallWest();
+                startWallLocation = "west";
+            }
+            if(block.getWallWest().getFinish()){
+                finishWall = block.getWallWest();
+                finishWallLocation = "west";
+            }
+        }
 
-            for(Block block: maze.getMazeMap()){
-                if(block.getWallNorth().isStart()){
-                    startWall = block.getWallNorth();
-                    startWallLocation = "north";
+        int startWallX = startWall.getX() + startWall.getWidth() / 2;
+        int startWallY = startWall.getY() + startWall.getHeight() / 2;
+
+        int finishWallX = finishWall.getX() + finishWall.getWidth() / 2;
+        int finishWallY = finishWall.getY() + finishWall.getHeight() / 2;
+
+        Graphics2D g3 = (Graphics2D) g;
+        g3.setStroke(new BasicStroke(2));
+        g3.setColor(Color.black);
+
+        if(startWall.getIsBorder()){
+            switch (startWallLocation) {
+                case "north" -> {
+                    int triangleWidth = startWall.getHeight() / 2;
+                    int point1X = startWallX - triangleWidth;
+                    int point1Y = startWallY - triangleWidth + 2;
+                    int point2X = startWallX + triangleWidth;
+                    int point2Y = startWallY - triangleWidth + 2;
+                    int point3Y = startWallY + triangleWidth + 2;
+
+                    Path2D path = new Path2D.Double();
+                    path.moveTo(point1X, point1Y);
+                    path.lineTo(point2X, point2Y);
+                    path.lineTo(startWallX, point3Y);
+                    path.closePath();
+
+                    g3.draw(path);
+                    g3.fill(path);
                 }
-                if(block.getWallNorth().getFinish()){
-                    finishWall = block.getWallNorth();
-                    finishWallLocation = "north";
+                case "south" -> {
+                    int triangleWidth = startWall.getHeight() / 2;
+                    int point1X = startWallX - triangleWidth;
+                    int point1Y = startWallY + triangleWidth - 2;
+                    int point2X = startWallX + triangleWidth;
+                    int point2Y = startWallY + triangleWidth - 2;
+                    int point3Y = startWallY - triangleWidth - 2;
+
+                    Path2D path = new Path2D.Double();
+                    path.moveTo(point1X, point1Y);
+                    path.lineTo(point2X, point2Y);
+                    path.lineTo(startWallX, point3Y);
+                    path.closePath();
+
+                    g3.draw(path);
+                    g3.fill(path);
                 }
-                if(block.getWallSouth().isStart()){
-                    startWall = block.getWallSouth();
-                    startWallLocation = "south";
+                case "east" -> {
+                    int triangleWidth = startWall.getWidth() / 2;
+                    int point1X = startWallX + triangleWidth - 2;
+                    int point1Y = startWallY - triangleWidth;
+                    int point2X = startWallX + triangleWidth - 2;
+                    int point2Y = startWallY + triangleWidth;
+                    int point3X = startWallX - triangleWidth - 2;
+
+                    Path2D path = new Path2D.Double();
+                    path.moveTo(point1X, point1Y);
+                    path.lineTo(point2X, point2Y);
+                    path.lineTo(point3X, startWallY);
+                    path.closePath();
+
+                    g3.draw(path);
+                    g3.fill(path);
                 }
-                if(block.getWallSouth().getFinish()){
-                    finishWall = block.getWallSouth();
-                    finishWallLocation = "south";
-                }
-                if(block.getWallEast().isStart()){
-                    startWall = block.getWallEast();
-                    startWallLocation = "east";
-                }
-                if(block.getWallEast().getFinish()){
-                    finishWall = block.getWallEast();
-                    finishWallLocation = "east";
-                }
-                if(block.getWallWest().isStart()){
-                    startWall = block.getWallWest();
-                    startWallLocation = "west";
-                }
-                if(block.getWallWest().getFinish()){
-                    finishWall = block.getWallWest();
-                    finishWallLocation = "west";
+                case "west" -> {
+                    int triangleWidth = startWall.getWidth() / 2;
+                    int point1X = startWallX - triangleWidth + 2;
+                    int point1Y = startWallY - triangleWidth;
+                    int point2X = startWallX - triangleWidth + 2;
+                    int point2Y = startWallY + triangleWidth;
+                    int point3X = startWallX + triangleWidth + 2;
+
+                    Path2D path = new Path2D.Double();
+                    path.moveTo(point1X, point1Y);
+                    path.lineTo(point2X, point2Y);
+                    path.lineTo(point3X, startWallY);
+                    path.closePath();
+
+                    g3.draw(path);
+                    g3.fill(path);
                 }
             }
-
-            int startWallX = startWall.getX() + startWall.getWidth() / 2;
-            int startWallY = startWall.getY() + startWall.getHeight() / 2;
-
-            int finishWallX = finishWall.getX() + finishWall.getWidth() / 2;
-            int finishWallY = finishWall.getY() + finishWall.getHeight() / 2;
-
-            Graphics2D g3 = (Graphics2D) g;
-            g3.setStroke(new BasicStroke(2));
-            g3.setColor(Color.black);
-
-            if(startWall.getIsBorder()){
-                switch (startWallLocation) {
-                    case "north" -> {
-                        int triangleWidth = startWall.getHeight() / 2;
-                        int point1X = startWallX - triangleWidth;
-                        int point1Y = startWallY - triangleWidth + 2;
-                        int point2X = startWallX + triangleWidth;
-                        int point2Y = startWallY - triangleWidth + 2;
-                        int point3Y = startWallY + triangleWidth + 2;
-
-                        Path2D path = new Path2D.Double();
-                        path.moveTo(point1X, point1Y);
-                        path.lineTo(point2X, point2Y);
-                        path.lineTo(startWallX, point3Y);
-                        path.closePath();
-
-                        g3.draw(path);
-                        g3.fill(path);
-                    }
-                    case "south" -> {
-                        int triangleWidth = startWall.getHeight() / 2;
-                        int point1X = startWallX - triangleWidth;
-                        int point1Y = startWallY + triangleWidth - 2;
-                        int point2X = startWallX + triangleWidth;
-                        int point2Y = startWallY + triangleWidth - 2;
-                        int point3Y = startWallY - triangleWidth - 2;
-
-                        Path2D path = new Path2D.Double();
-                        path.moveTo(point1X, point1Y);
-                        path.lineTo(point2X, point2Y);
-                        path.lineTo(startWallX, point3Y);
-                        path.closePath();
-
-                        g3.draw(path);
-                        g3.fill(path);
-                    }
-                    case "east" -> {
-                        int triangleWidth = startWall.getWidth() / 2;
-                        int point1X = startWallX + triangleWidth - 2;
-                        int point1Y = startWallY - triangleWidth;
-                        int point2X = startWallX + triangleWidth - 2;
-                        int point2Y = startWallY + triangleWidth;
-                        int point3X = startWallX - triangleWidth - 2;
-
-                        Path2D path = new Path2D.Double();
-                        path.moveTo(point1X, point1Y);
-                        path.lineTo(point2X, point2Y);
-                        path.lineTo(point3X, startWallY);
-                        path.closePath();
-
-                        g3.draw(path);
-                        g3.fill(path);
-                    }
-                    case "west" -> {
-                        int triangleWidth = startWall.getWidth() / 2;
-                        int point1X = startWallX - triangleWidth + 2;
-                        int point1Y = startWallY - triangleWidth;
-                        int point2X = startWallX - triangleWidth + 2;
-                        int point2Y = startWallY + triangleWidth;
-                        int point3X = startWallX + triangleWidth + 2;
-
-                        Path2D path = new Path2D.Double();
-                        path.moveTo(point1X, point1Y);
-                        path.lineTo(point2X, point2Y);
-                        path.lineTo(point3X, startWallY);
-                        path.closePath();
-
-                        g3.draw(path);
-                        g3.fill(path);
-                    }
-                }
+        } else if(!Maze.MazeTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")){
+            int triangleWidth;
+            if(startWallLocation.equals("south") || startWallLocation.equals("north")){
+                triangleWidth = startWall.getHeight() / 2;
             } else {
-                int triangleWidth;
-                if(startWallLocation.equals("south") || startWallLocation.equals("north")){
-                    triangleWidth = startWall.getHeight() / 2;
-                } else {
-                    triangleWidth = startWall.getWidth() / 2;
-                }
-
-                int point1Y = startWallY - triangleWidth;
-                int point2X = startWallX - triangleWidth;
-                int point3Y = startWallY + triangleWidth;
-                int point4X = startWallX + triangleWidth;
-
-                Path2D path = new Path2D.Double();
-                path.moveTo(startWallX, point1Y);
-                path.lineTo(point2X, startWallY);
-                path.lineTo(startWallX, point3Y);
-                path.lineTo(point4X, startWallY);
-                path.closePath();
-
-                g3.draw(path);
-                g3.fill(path);
+                triangleWidth = startWall.getWidth() / 2;
             }
 
-            if(finishWall.getIsBorder()){
-                switch (finishWallLocation) {
-                    case "south" -> {
-                        int triangleWidth = finishWall.getHeight() / 2;
-                        int point1X = finishWallX - triangleWidth;
-                        int point1Y = finishWallY - triangleWidth - 2;
-                        int point2X = finishWallX + triangleWidth;
-                        int point2Y = finishWallY - triangleWidth - 2;
-                        int point3Y = finishWallY + triangleWidth - 2;
+            int point1Y = startWallY - triangleWidth;
+            int point2X = startWallX - triangleWidth;
+            int point3Y = startWallY + triangleWidth;
+            int point4X = startWallX + triangleWidth;
 
-                        Path2D path = new Path2D.Double();
-                        path.moveTo(point1X, point1Y);
-                        path.lineTo(point2X, point2Y);
-                        path.lineTo(finishWallX, point3Y);
-                        path.closePath();
+            Path2D path = new Path2D.Double();
+            path.moveTo(startWallX, point1Y);
+            path.lineTo(point2X, startWallY);
+            path.lineTo(startWallX, point3Y);
+            path.lineTo(point4X, startWallY);
+            path.closePath();
 
-                        g3.draw(path);
-                        g3.fill(path);
-                    }
-                    case "north" -> {
-                        int triangleWidth = finishWall.getHeight() / 2;
-                        int point1X = finishWallX - triangleWidth;
-                        int point1Y = finishWallY + triangleWidth + 2;
-                        int point2X = finishWallX + triangleWidth;
-                        int point2Y = finishWallY + triangleWidth + 2;
-                        int point3Y = finishWallY - triangleWidth + 2;
+            g3.draw(path);
+            g3.fill(path);
+        }
 
-                        Path2D path = new Path2D.Double();
-                        path.moveTo(point1X, point1Y);
-                        path.lineTo(point2X, point2Y);
-                        path.lineTo(finishWallX, point3Y);
-                        path.closePath();
+        if(finishWall.getIsBorder()){
+            switch (finishWallLocation) {
+                case "south" -> {
+                    int triangleWidth = finishWall.getHeight() / 2;
+                    int point1X = finishWallX - triangleWidth;
+                    int point1Y = finishWallY - triangleWidth - 2;
+                    int point2X = finishWallX + triangleWidth;
+                    int point2Y = finishWallY - triangleWidth - 2;
+                    int point3Y = finishWallY + triangleWidth - 2;
 
-                        g3.draw(path);
-                        g3.fill(path);
-                    }
-                    case "west" -> {
-                        int triangleWidth = finishWall.getWidth() / 2;
-                        int point1X = finishWallX + triangleWidth + 2;
-                        int point1Y = finishWallY - triangleWidth;
-                        int point2X = finishWallX + triangleWidth + 2;
-                        int point2Y = finishWallY + triangleWidth;
-                        int point3X = finishWallX - triangleWidth + 2;
+                    Path2D path = new Path2D.Double();
+                    path.moveTo(point1X, point1Y);
+                    path.lineTo(point2X, point2Y);
+                    path.lineTo(finishWallX, point3Y);
+                    path.closePath();
 
-                        Path2D path = new Path2D.Double();
-                        path.moveTo(point1X, point1Y);
-                        path.lineTo(point2X, point2Y);
-                        path.lineTo(point3X, finishWallY);
-                        path.closePath();
-
-                        g3.draw(path);
-                        g3.fill(path);
-                    }
-                    case "east" -> {
-                        int triangleWidth = finishWall.getWidth() / 2;
-                        int point1X = finishWallX - triangleWidth - 2;
-                        int point1Y = finishWallY - triangleWidth;
-                        int point2X = finishWallX - triangleWidth - 2;
-                        int point2Y = finishWallY + triangleWidth;
-                        int point3X = finishWallX + triangleWidth - 2;
-
-                        Path2D path = new Path2D.Double();
-                        path.moveTo(point1X, point1Y);
-                        path.lineTo(point2X, point2Y);
-                        path.lineTo(point3X, finishWallY);
-                        path.closePath();
-
-                        g3.draw(path);
-                        g3.fill(path);
-                    }
+                    g3.draw(path);
+                    g3.fill(path);
                 }
+                case "north" -> {
+                    int triangleWidth = finishWall.getHeight() / 2;
+                    int point1X = finishWallX - triangleWidth;
+                    int point1Y = finishWallY + triangleWidth + 2;
+                    int point2X = finishWallX + triangleWidth;
+                    int point2Y = finishWallY + triangleWidth + 2;
+                    int point3Y = finishWallY - triangleWidth + 2;
+
+                    Path2D path = new Path2D.Double();
+                    path.moveTo(point1X, point1Y);
+                    path.lineTo(point2X, point2Y);
+                    path.lineTo(finishWallX, point3Y);
+                    path.closePath();
+
+                    g3.draw(path);
+                    g3.fill(path);
+                }
+                case "west" -> {
+                    int triangleWidth = finishWall.getWidth() / 2;
+                    int point1X = finishWallX + triangleWidth + 2;
+                    int point1Y = finishWallY - triangleWidth;
+                    int point2X = finishWallX + triangleWidth + 2;
+                    int point2Y = finishWallY + triangleWidth;
+                    int point3X = finishWallX - triangleWidth + 2;
+
+                    Path2D path = new Path2D.Double();
+                    path.moveTo(point1X, point1Y);
+                    path.lineTo(point2X, point2Y);
+                    path.lineTo(point3X, finishWallY);
+                    path.closePath();
+
+                    g3.draw(path);
+                    g3.fill(path);
+                }
+                case "east" -> {
+                    int triangleWidth = finishWall.getWidth() / 2;
+                    int point1X = finishWallX - triangleWidth - 2;
+                    int point1Y = finishWallY - triangleWidth;
+                    int point2X = finishWallX - triangleWidth - 2;
+                    int point2Y = finishWallY + triangleWidth;
+                    int point3X = finishWallX + triangleWidth - 2;
+
+                    Path2D path = new Path2D.Double();
+                    path.moveTo(point1X, point1Y);
+                    path.lineTo(point2X, point2Y);
+                    path.lineTo(point3X, finishWallY);
+                    path.closePath();
+
+                    g3.draw(path);
+                    g3.fill(path);
+                }
+            }
+        } else if(!Maze.MazeTools.getCurrentMaze().getMazeType().equalsIgnoreCase("KIDS")){
+            int triangleWidth;
+            if(finishWallLocation.equals("south") || finishWallLocation.equals("north")){
+                triangleWidth = finishWall.getHeight() / 2 + 2;
             } else {
-                int triangleWidth;
-                if(finishWallLocation.equals("south") || finishWallLocation.equals("north")){
-                    triangleWidth = finishWall.getHeight() / 2 + 2;
-                } else {
-                    triangleWidth = finishWall.getWidth() / 2 + 2;
-                }
-                int point1Y = finishWallY - triangleWidth;
-                int point2X = finishWallX - triangleWidth;
-                int point3Y = finishWallY + triangleWidth;
-                int point4X = finishWallX + triangleWidth;
-
-
-                Path2D path = new Path2D.Double();
-                path.moveTo(finishWallX, point1Y);
-                path.lineTo(point2X, finishWallY);
-                path.lineTo(finishWallX, point3Y);
-                path.lineTo(point4X, finishWallY);
-                path.closePath();
-
-                g3.draw(path);
-                g3.fill(path);
+                triangleWidth = finishWall.getWidth() / 2 + 2;
             }
+            int point1Y = finishWallY - triangleWidth;
+            int point2X = finishWallX - triangleWidth;
+            int point3Y = finishWallY + triangleWidth;
+            int point4X = finishWallX + triangleWidth;
 
+
+            Path2D path = new Path2D.Double();
+            path.moveTo(finishWallX, point1Y);
+            path.lineTo(point2X, finishWallY);
+            path.lineTo(finishWallX, point3Y);
+            path.lineTo(point4X, finishWallY);
+            path.closePath();
+
+            g3.draw(path);
+            g3.fill(path);
         }
 
         // Solution render

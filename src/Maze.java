@@ -9,7 +9,6 @@ public class Maze implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 4L;
-    //private int difficulty;
     public String mazeName;
     private String mazeType;
     private String mazeDescription;
@@ -387,11 +386,10 @@ public class Maze implements Serializable {
     /**
      * Activates all the wall objects that sit on the border of the maze. All the block and corresponding wall objects
      * in the maze must have already been created.
-     *
-     * @param sizeX size of the x-axis of the maze
-     * @param sizeY size of the y-axis of the maze
      */
-    private void activateBorderWalls(int sizeX, int sizeY) {
+    public void activateBorderWalls() {
+        int sizeX = size[0];
+        int sizeY = size[1];
         int[] current = {0, 0};  //used to hold the current position and get the index in mazeMap
         //set the east and west border walls
         for (int y = 0; y < sizeY; y++) {
@@ -462,11 +460,9 @@ public class Maze implements Serializable {
                 setMazeWalls(mazeMap.get(currentIndex));
                 currentIndex++;
             }
-
         }
-        activateBorderWalls(sizeX, sizeY);
+        activateBorderWalls();
     }
-
 
     /**
      * Overload Resets the maze map to new clear blocks with only the outer border walls activated.
