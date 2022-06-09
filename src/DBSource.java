@@ -9,20 +9,24 @@ import java.util.ArrayList;
 public class DBSource implements MazeDBSource {
 
     private static final String INSERT_MAZE = "INSERT INTO maze " +
-            "(Maze_Name, Maze_Type, Author_Name, Author_Description, Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?, ?);";
+            "(Maze_Name, Maze_Type, Author_Name, Author_Description," +
+            " Width, Height, Image) VALUES (?, ?, ?, ?, ?, ?, ?);";
     private static final String UPDATE_MAZE = "UPDATE maze " +
-            "SET Maze_Name = ?, Maze_Type = ?, Author_Name = ?, Author_Description = ?, Width = ?, Height = ?, Image = ? WHERE Maze_Name = ?;";
+            "SET Maze_Name = ?, Maze_Type = ?, Author_Name = ?," +
+            " Author_Description = ?, Width = ?, Height = ?, Image = ? WHERE Maze_Name = ?;";
     private static final String GET_NAME = "SELECT * from maze WHERE Maze_Name=?";
     private static final String GET_ALL_NAMES = "SELECT Maze_Name, Author_Name from maze";
     private static final String GET_DATE = "SELECT Date_Created from maze WHERE Maze_Name =?";
     private static final String GET_EDITED = "SELECT Last_Edited from maze WHERE Maze_Name =?";
-    private static final String UPDATE_DATE = "UPDATE maze SET Last_Edited = CURRENT_TIMESTAMP WHERE Maze_Name = ?";
+    private static final String UPDATE_DATE = "UPDATE maze SET Last_Edited = CURRENT_TIMESTAMP" +
+            " WHERE Maze_Name = ?";
     private static final String CHECK_ENTRIES = "SELECT COUNT(Maze_Name) FROM maze WHERE Maze_Name =?";
     private static final String DELETE_ENTRY = "DELETE FROM maze WHERE Maze_Name = ?";
 
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS maze ("
-                    + "idx INTEGER PRIMARY KEY /*!40101 AUTO_INCREMENT */ NOT NULL UNIQUE," // from https://stackoverflow.com/a/41028314
+                    + "idx INTEGER PRIMARY KEY /*!40101 AUTO_INCREMENT */" +
+                    " NOT NULL UNIQUE," // from https://stackoverflow.com/a/41028314
                     + "Maze_Name VARCHAR(30),"
                     + "Maze_Type VARCHAR(5),"
                     + "Date_Created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
