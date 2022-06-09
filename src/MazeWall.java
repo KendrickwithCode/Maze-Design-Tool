@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.awt.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class MazeWall extends JButton implements Serializable {
     @Serial
@@ -158,23 +159,32 @@ public class MazeWall extends JButton implements Serializable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 MazePanel mazePanel = (MazePanel) getParent();
-
+                ArrayList<JMenuItem> items = new ArrayList<JMenuItem>();
                 super.mouseClicked(e);
                 if (SwingUtilities.isRightMouseButton(e)){
                     JPopupMenu menu = new JPopupMenu();
-                    JMenuItem item = new JMenuItem("Set as starting wall");
-                    item.addActionListener(e1 -> {
-                        mazePanel.resetStartWalls();
-                        setStart(!start);
-                    });
-                    JMenuItem item2 = new JMenuItem("Set as finishing wall");
-                    item2.addActionListener(e12 -> {
-                        mazePanel.resetFinishWalls();
-                        setFinish(true);
-                    });
-                    menu.add(item);
-                    menu.add(item2);
+                    if(Maze.MazeTools.getCurrentMaze().getMazeType().equals("Adult")){
+                        JMenuItem item1 = new JMenuItem("Set as starting wall");
+                        item1.addActionListener(e1 -> {
+                            mazePanel.resetStartWalls();
+                            setStart(!start);
+                        });
+                        JMenuItem item2 = new JMenuItem("Set as finishing wall");
+                        item2.addActionListener(e12 -> {
+                            mazePanel.resetFinishWalls();
+                            setFinish(true);
+                        });
+                        items.add(item1);
+                        items.add(item2);
+                    } else {
+                        JMenuItem item1 = new JMenuItem("Set as start and finish points by placing icons");
+                        items.add(item1);
+                    }
+                    for(JMenuItem item: items){
+                        menu.add(item);
+                    }
                     menu.show(e.getComponent(), e.getX(), e.getY());
+
                 } else {
                     if(border) return;
                     setButtonColor();
