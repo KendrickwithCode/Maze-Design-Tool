@@ -30,13 +30,6 @@ public class MazeTest {
     @Test void testGetSolvable(){
         assertFalse(testMaze.getSolvable());}
 
-//    @Test void testGetSetDifficulty()
-//    {
-//        testMaze.setDifficulty(3);
-//        int result = testMaze.getDifficulty();
-//        assertEquals(3,result);
-//    }
-
     @Test
     public void testMaze(){
         testMaze.setMazeType("kids");
@@ -188,13 +181,18 @@ public class MazeTest {
         assertTrue(currentTestLogoBlock.getWallWest().getIsBorder());
 
         Maze.MazeTools.resetWalls((LogoBlock) testMaze.getMazeMap().get(5));
-        Maze.MazeTools.convertLogoBlockToWallBlock(testMaze.getMazeMap().get(5));
+        Maze.MazeTools.convertLogoBlockToMazeBlock(testMaze.getMazeMap().get(5));
         MazeBlock currentMazeBlock = (MazeBlock) testMaze.getMazeMap().get(5);
         assertEquals("MazeBlock", testMaze.getMazeMap().get(5).getBlockType());
         assertFalse(currentTestLogoBlock.getWallWest().getActive());
         assertFalse(currentTestLogoBlock.getWallWest().getIsBorder());
     }
 
+    @Test
+    public void testInvalidBlockConversion() {
+        Maze.MazeTools.setCurrentMaze(testMaze);
+        assertThrows(Exception.class, () -> Maze.MazeTools.convertLogoBlockToMazeBlock(testMaze.getMazeMap().get(5)));
+    }
 
     @Test
     public void testMazeReturns() throws Exception {

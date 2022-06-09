@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Main class for holding all the contents and information of a maze. The maze is a two-dimensional array of Block objects arranged in a grid pattern.
@@ -239,9 +240,8 @@ public class Maze implements Serializable {
          * converts a Maze block to a Logo block.
          * @param inputBLock block to be converted.
          * @param logoType logo type to use (logo, start, finish).
-         * @throws Exception on error of logoBLock creation.
          */
-        public static void convertMazeBlockToLogoBlock(Block inputBLock,String logoType) throws Exception {
+        public static void convertMazeBlockToLogoBlock(Block inputBLock,String logoType) {
             LogoBlock working = new LogoBlock(inputBLock.getLocation(),inputBLock.getBlockIndex(),logoType,true);
             working.setWallNorth(inputBLock.getWallNorth());
             working.setWallSouth(inputBLock.getWallSouth());
@@ -253,10 +253,15 @@ public class Maze implements Serializable {
         }
 
         /**
-         * converts a Maze block to a Logo block.
+         * converts a Logo block to a Maze block.
          * @param inputBLock block to be converted.
+         * @throws Exception on invalid conversion of block.
          */
-        public static void convertLogoBlockToWallBlock(Block inputBLock) {
+        public static void convertLogoBlockToMazeBlock(Block inputBLock) throws Exception {
+            if (Objects.equals(currentMaze.getMazeMap().get(inputBLock.getBlockIndex()).getBlockType(), "MazeBlock"))
+            {
+                throw new Exception("Invalid Conversion of " + inputBLock.getBlockType());
+            }
             MazeBlock working = new MazeBlock(inputBLock.getLocation(),inputBLock.getBlockIndex(),true);
             working.setWallNorth(inputBLock.getWallNorth());
             working.setWallSouth(inputBLock.getWallSouth());
@@ -606,16 +611,6 @@ public class Maze implements Serializable {
         return y * size[0] + x;
     }
 
-//    /**
-//     * Returns current difficulty level
-//     *
-//     * @return difficulty level
-//     */
-//
-//    public int getDifficulty() {
-//        return difficulty;
-//    }
-
     /**
      * Returns a boolean value of if the maze is currently solvable
      *
@@ -656,15 +651,6 @@ public class Maze implements Serializable {
     public int[] getSize() {
         return size.clone();
     }
-
-//    /**
-//     * Sets difficulty level
-//     *
-//     * @param difficulty new level for difficulty
-//     */
-//    public void setDifficulty(int difficulty) {
-//        this.difficulty = difficulty;
-//    }
 
     /**
      * Sets maze solvable
