@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Main class for holding all the contents and information of a maze. The maze is a two-dimensional array of Block objects arranged in a grid pattern.
@@ -239,9 +240,8 @@ public class Maze implements Serializable {
          * converts a Maze block to a Logo block.
          * @param inputBLock block to be converted.
          * @param logoType logo type to use (logo, start, finish).
-         * @throws Exception on error of logoBLock creation.
          */
-        public static void convertMazeBlockToLogoBlock(Block inputBLock,String logoType) throws Exception {
+        public static void convertMazeBlockToLogoBlock(Block inputBLock,String logoType) {
             LogoBlock working = new LogoBlock(inputBLock.getLocation(),inputBLock.getBlockIndex(),logoType,true);
             working.setWallNorth(inputBLock.getWallNorth());
             working.setWallSouth(inputBLock.getWallSouth());
@@ -253,10 +253,15 @@ public class Maze implements Serializable {
         }
 
         /**
-         * converts a Maze block to a Logo block.
+         * converts a Logo block to a Maze block.
          * @param inputBLock block to be converted.
+         * @throws Exception on invalid conversion of block.
          */
-        public static void convertLogoBlockToWallBlock(Block inputBLock) {
+        public static void convertLogoBlockToMazeBlock(Block inputBLock) throws Exception {
+            if (Objects.equals(currentMaze.getMazeMap().get(inputBLock.getBlockIndex()).getBlockType(), "MazeBlock"))
+            {
+                throw new Exception("Invalid Conversion of " + inputBLock.getBlockType());
+            }
             MazeBlock working = new MazeBlock(inputBLock.getLocation(),inputBLock.getBlockIndex(),true);
             working.setWallNorth(inputBLock.getWallNorth());
             working.setWallSouth(inputBLock.getWallSouth());
@@ -280,7 +285,7 @@ public class Maze implements Serializable {
      * @param mazeDescription a description of the maze
      * @param authorName The name of the author
      */
-    public Maze(int sizeX, int sizeY, String name, String mazeType, String mazeDescription, String authorName) throws Exception {
+    public Maze(int sizeX, int sizeY, String name, String mazeType, String mazeDescription, String authorName) {
         this.size = new int[]{sizeX, sizeY};
         this.mazeWidth = sizeX;
         this.mazeHeight = sizeY;
@@ -412,7 +417,7 @@ public class Maze implements Serializable {
      * @param algorithm  the algorithm used to generate the maze "DFSIterative", "DFSRecursive"
      * @param startPosXY the starting position int[x,y]
      */
-    public void generateNewMaze(String algorithm, int[] startPosXY) throws Exception {
+    public void generateNewMaze(String algorithm, int[] startPosXY) {
         int startIndex = getIndex(startPosXY);
         resetMaze(false);
         MazeGenerator.GenerateMaze(this, startIndex, algorithm);
@@ -421,7 +426,7 @@ public class Maze implements Serializable {
     /**
      * Overload Auto generates a new maze. Destroys old maze while generating a new one
      */
-    public void generateNewMaze() throws Exception {
+    public void generateNewMaze() {
         generateNewMaze("DFSIterative", new int[]{0, 0});
     }
 
@@ -433,7 +438,7 @@ public class Maze implements Serializable {
      * @param sizeY      Y-axis size of the maze
      * @param clearWalls Boolean to set internal maze walls
      */
-    public void resetMaze(int sizeX, int sizeY, Boolean clearWalls) throws Exception {
+    public void resetMaze(int sizeX, int sizeY, Boolean clearWalls) {
         mazeMap.clear();
         kidsStartIndex = 0;
         kidsFinishIndex = MazeTools.getKidsFinishIndex(this);
@@ -468,7 +473,7 @@ public class Maze implements Serializable {
      *
      * @param clearWalls boolean for clearing or setting walls.
      */
-    public void resetMaze(Boolean clearWalls) throws Exception {
+    public void resetMaze(Boolean clearWalls)  {
         this.resetMaze(size[0], size[1], clearWalls);
     }
 
@@ -478,7 +483,7 @@ public class Maze implements Serializable {
      * @param sizeX X-axis size of the maze
      * @param sizeY Y-axis size of the maze
      */
-    public void resetMaze(int sizeX, int sizeY) throws Exception {
+    public void resetMaze(int sizeX, int sizeY) {
         this.resetMaze(sizeX, sizeY, true);
     }
 
@@ -606,16 +611,6 @@ public class Maze implements Serializable {
         return y * size[0] + x;
     }
 
-//    /**
-//     * Returns current difficulty level
-//     *
-//     * @return difficulty level
-//     */
-//
-//    public int getDifficulty() {
-//        return difficulty;
-//    }
-
     /**
      * Returns a boolean value of if the maze is currently solvable
      *
@@ -656,15 +651,6 @@ public class Maze implements Serializable {
     public int[] getSize() {
         return size.clone();
     }
-
-//    /**
-//     * Sets difficulty level
-//     *
-//     * @param difficulty new level for difficulty
-//     */
-//    public void setDifficulty(int difficulty) {
-//        this.difficulty = difficulty;
-//    }
 
     /**
      * Sets maze solvable

@@ -23,7 +23,7 @@ public class LogoBlock extends Block implements Serializable{
      * @param location location of block on maze
      * @param clearWalls true will clear walls on creation, false will activate them.
      */
-    public LogoBlock(int[] location, int blockIndex, String picture, boolean clearWalls) throws Exception {
+    public LogoBlock(int[] location, int blockIndex, String picture, boolean clearWalls) {
         super(location, blockIndex,clearWalls);
         HashMap<String, String> images = new HashMap<>();
         images.put("start","img/icons/Dog.png");

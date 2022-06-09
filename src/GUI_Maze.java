@@ -31,7 +31,7 @@ public class GUI_Maze extends JPanel{
      * @param maze Maze object to display
      * @param generate true to generate maze or false to create blank canvas
      */
-    public GUI_Maze(Maze maze,boolean generate)throws Exception {
+    public GUI_Maze(Maze maze,boolean generate) {
         // Set Maze
         this.maze = maze;
         Maze.MazeTools.setCurrentGUIMaze(this);

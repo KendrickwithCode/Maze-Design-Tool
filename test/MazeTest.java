@@ -15,7 +15,7 @@ public class MazeTest {
     int[] location = {5,2};
 
     @BeforeEach
-    public void Before() throws Exception {
+    public void Before() {
         data = new DBSource();
         testMaze = new Maze(7,3, "Test","Adult", "Cool Maze!", "Jason");
         kidsTest = new Maze(7,3,"kidsTest","KIDS", "Cool Maze!", "Dan");
@@ -29,13 +29,6 @@ public class MazeTest {
 
     @Test void testGetSolvable(){
         assertFalse(testMaze.getSolvable());}
-
-//    @Test void testGetSetDifficulty()
-//    {
-//        testMaze.setDifficulty(3);
-//        int result = testMaze.getDifficulty();
-//        assertEquals(3,result);
-//    }
 
     @Test
     public void testMaze(){
@@ -94,11 +87,6 @@ public class MazeTest {
 
         assertEquals(5,result.getLocation()[0]);
         assertEquals(2,result.getLocation()[1]);
-
-
-//        Block testBlockError = testMaze.getMazeMap().get(testErrorBlockIndex);
-//        Block resultError = testMaze.getNeighbourBlock(testBlockError, "SOUTH");
-//        assertNull(resultError);
     }
 
     @Test
@@ -188,16 +176,20 @@ public class MazeTest {
         assertTrue(currentTestLogoBlock.getWallWest().getIsBorder());
 
         Maze.MazeTools.resetWalls((LogoBlock) testMaze.getMazeMap().get(5));
-        Maze.MazeTools.convertLogoBlockToWallBlock(testMaze.getMazeMap().get(5));
-        MazeBlock currentMazeBlock = (MazeBlock) testMaze.getMazeMap().get(5);
+        Maze.MazeTools.convertLogoBlockToMazeBlock(testMaze.getMazeMap().get(5));
         assertEquals("MazeBlock", testMaze.getMazeMap().get(5).getBlockType());
         assertFalse(currentTestLogoBlock.getWallWest().getActive());
         assertFalse(currentTestLogoBlock.getWallWest().getIsBorder());
     }
 
+    @Test
+    public void testInvalidBlockConversion() {
+        Maze.MazeTools.setCurrentMaze(testMaze);
+        assertThrows(Exception.class, () -> Maze.MazeTools.convertLogoBlockToMazeBlock(testMaze.getMazeMap().get(5)));
+    }
 
     @Test
-    public void testMazeReturns() throws Exception {
+    public void testMazeReturns() {
 
         GUI_Maze testMazeGui = new GUI_Maze(testMaze,false);
         Maze.MazeTools.setCurrentMaze(testMaze);
@@ -225,7 +217,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testSetWallsMemAloc(){
+    public void testSetWallsMemAllocation(){
         Block working = kidsTest.getMazeMap().get(11);
         working.setWallSouth(working.getWallNorth());
         working.setWallEast(working.getWallWest());
@@ -282,7 +274,7 @@ public class MazeTest {
 
 
     @Test
-    public void testMazeGen() throws Exception {
+    public void testMazeGen() {
         AtomicBoolean displayMazeMap = new AtomicBoolean(false);
 
         testMaze.generateNewMaze();
@@ -368,8 +360,20 @@ public class MazeTest {
     }
 
     @Test
+    public void testDBInvalidQuery() {
+        final String TEST = "not a valid query";
+        assertThrows(Exception.class, () -> {
+            ResultSet rs;
+            data.addMaze(testMaze);
+            PreparedStatement testAdd = data.connection.prepareStatement(TEST);
+            rs = testAdd.executeQuery();
+            rs.close();
+        });
+    }
+
+    @Test
     public void testDBAdd() throws Exception {
-        ResultSet rs = null;
+        ResultSet rs;
         final String TEST = "Select Maze_Name FROM maze WHERE Maze_Name = 'Test'";
         data.addMaze(testMaze);
         PreparedStatement testAdd = data.connection.prepareStatement(TEST);
@@ -382,7 +386,7 @@ public class MazeTest {
     @Test
     public void testDBUpdate() throws Exception{
         testDBAdd();
-        ResultSet rs = null;
+        ResultSet rs;
         final String TEST = "UPDATE maze SET Maze_Type = 'KIDS' WHERE Maze_Name = 'Test'";
         final String SELECT = "Select Maze_Type FROM maze WHERE Maze_Name = 'Test'";
         PreparedStatement testUpdate = data.connection.prepareStatement(TEST);
@@ -396,7 +400,7 @@ public class MazeTest {
 
     @AfterEach @Test
     public void testDBDelete() throws Exception{
-        ResultSet rs = null;
+        ResultSet rs;
         final String TEST = "DELETE FROM maze WHERE Maze_Name = 'Test'";
         final String SELECT = "Select Maze_Type FROM maze WHERE Maze_Name = 'Test'";
         PreparedStatement testDelete = data.connection.prepareStatement(TEST);
