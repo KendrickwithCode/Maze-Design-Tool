@@ -136,6 +136,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 currentMaze.setMazeName(GUI_Tools.maze_name.getText());
                 currentMaze.setMazeType((String)GUI_Tools.mazeTypeComboBox.getSelectedItem());
                 currentMaze.setMazeDescription(GUI_Tools.description_text.getText());
+                currentMaze.setAuthorName((GUI_Tools.author_name_text.getText()));
                 currentMaze.setWidth(parseInt(GUI_Tools.height_text.getText()));
                 currentMaze.setHeight(parseInt(GUI_Tools.height_text.getText()));
                 //boolean is true if the entry is new to the db, false if it's an updating entry.
@@ -146,17 +147,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 }
                 //set list selection to new or updated entry
                 dbItems.setSelectedIndex(listModel.indexOf(GUI_Tools.maze_name.getText()));
+                display(Maze.MazeTools.getCurrentMaze());
             }
-        } catch (SQLException | IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-        //JOptionPane.showMessageDialog(null,"Save to Database.","Save",JOptionPane.INFORMATION_MESSAGE);
-    }
-    /**
-     * Adds a listener to the name list
-     */
-    private void addNameListListener( MouseListener e) {
-        dbItems.addMouseListener(e);
     }
 
     /**
@@ -196,9 +191,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             GUI_Maze loadedMaze = new GUI_Maze(load, false);
             Maze.MazeTools.setCurrentGUIMaze(loadedMaze);
             Maze.MazeTools.setCurrentMaze(load);
+            enableCheckboxes(true);
+            enableButtons(true);
             GUI_Tools.setShowSolution();
             GUI_Tools.setMazeStatsLabels();
-            setMaze(loadedMaze);
             leftPane.add(new JScrollPane(loadedMaze));
             this.revalidate();
         }
@@ -251,8 +247,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         file.addSeparator();
         file.add(exit);
         menuBar.add(file);
-//        this.setJMenuBar(menuBar);
-
 
 
         // Set Edit View
@@ -262,9 +256,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         windowScr = menuItemFactory("Window",viewMenuItemWith,menuItemHeight);
         view.add(fullScr);
         view.add(windowScr);
-
         menuBar.add(view);
-//        this.setJMenuBar(menuBar);
 
         JMenu help = new JMenu("Help");
         about = menuItemFactory("About",aboutMenuItemWith,menuItemHeight);
@@ -285,12 +277,10 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         mazeData.updateList(listModel);
         dbItems = new JList<>(listModel);
         dbItems.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        addNameListListener(new MouseListener() {
+        dbItems.addMouseListener(new MouseListener(){
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    enableButtons(true);
-                    enableCheckboxes(true);
                     display(mazeData.get(dbItems.getSelectedValue()));
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -386,22 +376,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         return menuItem;
     }
 
-    /**
-     * Returns current GUI_Maze
-     * @return current GUI_maze
-     */
-    public GUI_Maze getMaze() {
-        return maze;
-    }
-
-    /**
-     * Sets current maze GUI
-     * @param maze current GUI_Maze
-     */
-    public void setMaze(GUI_Maze maze) {
-        this.maze = maze;
-    }
-
     private JPanel createPanel(){
         JPanel temp = new JPanel();
         temp.setBackground(Color.darkGray);
@@ -474,7 +448,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         Rectangle rec = mazePanel.getBounds();
         File image;
 
-        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_BGR);
+        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
         mazePanel.paint(bufferedImage.getGraphics());
         //Jfile chooser code
         JFileChooser fc = new JFileChooser();
@@ -494,7 +468,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 }
 
                 // Use the ImageIO API to write the bufferedImage to the selected file
-                ImageIO.write(bufferedImage, "jpg", image);
+                ImageIO.write(bufferedImage, "png", image);
 
                 JOptionPane.showMessageDialog(null,image.getName(),"Exported image of current maze view at:",JOptionPane.INFORMATION_MESSAGE);
             }
