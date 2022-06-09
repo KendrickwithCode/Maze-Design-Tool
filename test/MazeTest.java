@@ -15,7 +15,7 @@ public class MazeTest {
     int[] location = {5,2};
 
     @BeforeEach
-    public void Before() throws Exception {
+    public void Before() {
         data = new DBSource();
         testMaze = new Maze(7,3, "Test","Adult", "Cool Maze!", "Jason");
         kidsTest = new Maze(7,3,"kidsTest","KIDS", "Cool Maze!", "Dan");
@@ -195,7 +195,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testMazeReturns() throws Exception {
+    public void testMazeReturns() {
 
         GUI_Maze testMazeGui = new GUI_Maze(testMaze,false);
         Maze.MazeTools.setCurrentMaze(testMaze);
@@ -280,7 +280,7 @@ public class MazeTest {
 
 
     @Test
-    public void testMazeGen() throws Exception {
+    public void testMazeGen() {
         AtomicBoolean displayMazeMap = new AtomicBoolean(false);
 
         testMaze.generateNewMaze();
@@ -366,8 +366,20 @@ public class MazeTest {
     }
 
     @Test
+    public void testDBInvalidQuery() {
+        final String TEST = "not a valid query";
+        assertThrows(Exception.class, () -> {
+            ResultSet rs;
+            data.addMaze(testMaze);
+            PreparedStatement testAdd = data.connection.prepareStatement(TEST);
+            rs = testAdd.executeQuery();
+            rs.close();
+        });
+    }
+
+    @Test
     public void testDBAdd() throws Exception {
-        ResultSet rs = null;
+        ResultSet rs;
         final String TEST = "Select Maze_Name FROM maze WHERE Maze_Name = 'Test'";
         data.addMaze(testMaze);
         PreparedStatement testAdd = data.connection.prepareStatement(TEST);
@@ -380,7 +392,7 @@ public class MazeTest {
     @Test
     public void testDBUpdate() throws Exception{
         testDBAdd();
-        ResultSet rs = null;
+        ResultSet rs;
         final String TEST = "UPDATE maze SET Maze_Type = 'KIDS' WHERE Maze_Name = 'Test'";
         final String SELECT = "Select Maze_Type FROM maze WHERE Maze_Name = 'Test'";
         PreparedStatement testUpdate = data.connection.prepareStatement(TEST);
@@ -394,7 +406,7 @@ public class MazeTest {
 
     @AfterEach @Test
     public void testDBDelete() throws Exception{
-        ResultSet rs = null;
+        ResultSet rs;
         final String TEST = "DELETE FROM maze WHERE Maze_Name = 'Test'";
         final String SELECT = "Select Maze_Type FROM maze WHERE Maze_Name = 'Test'";
         PreparedStatement testDelete = data.connection.prepareStatement(TEST);

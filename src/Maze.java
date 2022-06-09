@@ -285,7 +285,7 @@ public class Maze implements Serializable {
      * @param mazeDescription a description of the maze
      * @param authorName The name of the author
      */
-    public Maze(int sizeX, int sizeY, String name, String mazeType, String mazeDescription, String authorName) throws Exception {
+    public Maze(int sizeX, int sizeY, String name, String mazeType, String mazeDescription, String authorName) {
         this.size = new int[]{sizeX, sizeY};
         this.mazeWidth = sizeX;
         this.mazeHeight = sizeY;
@@ -417,7 +417,7 @@ public class Maze implements Serializable {
      * @param algorithm  the algorithm used to generate the maze "DFSIterative", "DFSRecursive"
      * @param startPosXY the starting position int[x,y]
      */
-    public void generateNewMaze(String algorithm, int[] startPosXY) throws Exception {
+    public void generateNewMaze(String algorithm, int[] startPosXY) {
         int startIndex = getIndex(startPosXY);
         resetMaze(false);
         MazeGenerator.GenerateMaze(this, startIndex, algorithm);
@@ -426,7 +426,7 @@ public class Maze implements Serializable {
     /**
      * Overload Auto generates a new maze. Destroys old maze while generating a new one
      */
-    public void generateNewMaze() throws Exception {
+    public void generateNewMaze() {
         generateNewMaze("DFSIterative", new int[]{0, 0});
     }
 
@@ -438,7 +438,7 @@ public class Maze implements Serializable {
      * @param sizeY      Y-axis size of the maze
      * @param clearWalls Boolean to set internal maze walls
      */
-    public void resetMaze(int sizeX, int sizeY, Boolean clearWalls) throws Exception {
+    public void resetMaze(int sizeX, int sizeY, Boolean clearWalls) {
         mazeMap.clear();
         kidsStartIndex = 0;
         kidsFinishIndex = MazeTools.getKidsFinishIndex(this);
@@ -473,7 +473,7 @@ public class Maze implements Serializable {
      *
      * @param clearWalls boolean for clearing or setting walls.
      */
-    public void resetMaze(Boolean clearWalls) throws Exception {
+    public void resetMaze(Boolean clearWalls)  {
         this.resetMaze(size[0], size[1], clearWalls);
     }
 
@@ -483,7 +483,7 @@ public class Maze implements Serializable {
      * @param sizeX X-axis size of the maze
      * @param sizeY Y-axis size of the maze
      */
-    public void resetMaze(int sizeX, int sizeY) throws Exception {
+    public void resetMaze(int sizeX, int sizeY) {
         this.resetMaze(sizeX, sizeY, true);
     }
 
