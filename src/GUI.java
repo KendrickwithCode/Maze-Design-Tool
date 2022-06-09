@@ -185,6 +185,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             GUI_Tools.description_text.setText(maze.getMazeDescription());
             GUI_Tools.height_text.setText(Integer.toString(maze.getHeight()));
             GUI_Tools.width_text.setText(Integer.toString(maze.getWidth()));
+            GUI_Tools.mazeTypeComboBox.getModel().setSelectedItem(maze.getMazeType());
             dateCreated.setText(mazeDB.getDateCreated(maze.getMazeName()));
             lastEdited.setText(mazeDB.getLastEdited(maze.getMazeName()));
             Maze load = mazeDB.getGUIMaze(maze.getMazeName());
@@ -430,11 +431,11 @@ public class GUI extends JFrame implements ActionListener, Runnable {
     }
 
     public void setGrid(boolean toggle) {
-        maze.renderMaze(toggle, true);
+        Maze.MazeTools.getCurrentGUIMaze().renderMaze(toggle, true);
     }
 
     public boolean getGrid(){
-        return maze.getGrid();
+        return Maze.MazeTools.getCurrentGUIMaze().getGrid();
     }
 
 

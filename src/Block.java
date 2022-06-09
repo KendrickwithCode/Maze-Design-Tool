@@ -106,7 +106,7 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
             if(checkIconResizeInbounds(newSize,currentSizeY)) {
                 Maze.MazeTools.resetWalls(workingBlock);
                 changeIconSize(newSize, currentSizeY);
-                if (Objects.equals(workingBlock.getLogoType(), "adult"))
+                if (Objects.equals(workingBlock.getLogoType().toUpperCase(), "ADULT"))
                     Maze.MazeTools.setupAdultLogoBlocks(workingBlock, newSize, currentSizeY);
                 renderIcons();
             }
@@ -114,7 +114,7 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
             if(checkIconResizeInbounds(currentSizeX,newSize)) {
                 Maze.MazeTools.resetWalls(workingBlock);
                 changeIconSize(currentSizeX, newSize);
-                if (Objects.equals(workingBlock.getLogoType(), "adult"))
+                if (Objects.equals(workingBlock.getLogoType().toUpperCase(), "ADULT"))
                     Maze.MazeTools.setupAdultLogoBlocks(workingBlock, currentSizeX, newSize);
                 renderIcons();
             }
@@ -464,7 +464,7 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
                 menu.add(item1);
 
 
-            if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeType(), "KIDS"))
+            if(Objects.equals(Maze.MazeTools.getCurrentMaze().getMazeType().toUpperCase(), "KIDS"))
             {
                 menu.add(item24);
                 menu.add(item25);

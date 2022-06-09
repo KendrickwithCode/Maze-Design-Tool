@@ -294,7 +294,7 @@ public class Maze implements Serializable {
         this.mazeMap = new ArrayList<>();
         this.mazeName = name;
         this.solvable = false;
-        this.mazeType = mazeType.toUpperCase();
+        this.mazeType = mazeType;
         resetMaze(sizeX, sizeY);
         MazeTools.setCurrentMaze(this);
     }
@@ -449,10 +449,10 @@ public class Maze implements Serializable {
          */
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsStartIndex){
+                if(mazeType.equalsIgnoreCase("Kids") && currentIndex == kidsStartIndex){
                     mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "start",clearWalls));
                 }
-                else if(mazeType.equalsIgnoreCase("KIDS") && currentIndex == kidsFinishIndex){
+                else if(mazeType.equalsIgnoreCase("Kids") && currentIndex == kidsFinishIndex){
                     mazeMap.add(new LogoBlock(new int[]{x, y}, currentIndex,  "end",clearWalls));
                 }
                 else
@@ -629,6 +629,10 @@ public class Maze implements Serializable {
         return mazeName;
     }
 
+    /**
+     * Return Maze type - Adult/Kids
+     * @return String value of maze type
+     */
     public String getMazeType() {
         return mazeType;
     }

@@ -199,7 +199,6 @@ public class GUI_Maze extends JPanel{
 
     private void setGrid(boolean toggle){
         mazeGrid = toggle;
-
         }
 
     private JButton createNorthWallButton(Block block, GridBagConstraints constraints, int[] location) {
