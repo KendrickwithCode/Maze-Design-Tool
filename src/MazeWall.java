@@ -135,7 +135,7 @@ public class MazeWall extends JButton implements Serializable {
     }
 
     /**
-     * Add Mouse listeners to mazeWall JButton (This is public as loading now mazes in requires listeners to be reset)
+     * Add Mouse listeners to mazeWall JButton (This is public as loading new mazes in requires listeners to be reset)
      */
     public void addListeners() {
 

@@ -489,7 +489,7 @@ public class Maze implements Serializable {
 
 
     /**
-     * Sets all the walls in the maze
+     * Instantiates all the walls for the passed block that must be contained within a mazeMap. It is given either new instantiated Wall class objects for northernWall and WesternWall or if these walls exist in neighbour blocks, they are referenced from their neighbor’s wall object.
      *
      * @param currentBlock current Block from mazeMap Arraylist
      */
@@ -600,8 +600,8 @@ public class Maze implements Serializable {
     /**
      * Gets the ArrayList index of the asked location
      *
-     * @param location [x,y] of the cell you like to know the Arraylist index
-     * @return the index of the supplied location2
+     * @param location [x,y] of the cell for which you want to know the Arraylist index
+     * @return the index of the supplied location
      */
     public int getIndex(int[] location) {
         int x = location[0];

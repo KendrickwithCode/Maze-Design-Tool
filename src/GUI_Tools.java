@@ -233,7 +233,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
 
                 //Bottom buttons
                 btnCreate = createButtons("Create","Create a new blank maze.");
-                btnGenerate = createButtons("Generate","Generate a new maze..");
+                btnGenerate = createButtons("Generate","Generate a new filled maze.");
                 //Show Grid check box
                 showGrid = new JCheckBox("Show Grid", true);
                 showGrid.addActionListener(this);
@@ -328,7 +328,7 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
         }
 
         /**
-         * Creates JTextfields components
+         * Creates JTextField components
          * @param defaultValue is the default value of the TextField.
          * @param width sets the width size of the TextField.
          * @param height set the height size of the TextField.
