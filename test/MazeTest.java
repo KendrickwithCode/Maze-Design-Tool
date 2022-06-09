@@ -87,11 +87,6 @@ public class MazeTest {
 
         assertEquals(5,result.getLocation()[0]);
         assertEquals(2,result.getLocation()[1]);
-
-
-//        Block testBlockError = testMaze.getMazeMap().get(testErrorBlockIndex);
-//        Block resultError = testMaze.getNeighbourBlock(testBlockError, "SOUTH");
-//        assertNull(resultError);
     }
 
     @Test
@@ -182,7 +177,6 @@ public class MazeTest {
 
         Maze.MazeTools.resetWalls((LogoBlock) testMaze.getMazeMap().get(5));
         Maze.MazeTools.convertLogoBlockToMazeBlock(testMaze.getMazeMap().get(5));
-        MazeBlock currentMazeBlock = (MazeBlock) testMaze.getMazeMap().get(5);
         assertEquals("MazeBlock", testMaze.getMazeMap().get(5).getBlockType());
         assertFalse(currentTestLogoBlock.getWallWest().getActive());
         assertFalse(currentTestLogoBlock.getWallWest().getIsBorder());
@@ -223,7 +217,7 @@ public class MazeTest {
     }
 
     @Test
-    public void testSetWallsMemAloc(){
+    public void testSetWallsMemAllocation(){
         Block working = kidsTest.getMazeMap().get(11);
         working.setWallSouth(working.getWallNorth());
         working.setWallEast(working.getWallWest());
