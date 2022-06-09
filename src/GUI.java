@@ -448,7 +448,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         Rectangle rec = mazePanel.getBounds();
         File image;
 
-        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage bufferedImage = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_BGR);
         mazePanel.paint(bufferedImage.getGraphics());
         //Jfile chooser code
         JFileChooser fc = new JFileChooser();
@@ -468,7 +468,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
                 }
 
                 // Use the ImageIO API to write the bufferedImage to the selected file
-                ImageIO.write(bufferedImage, "png", image);
+                ImageIO.write(bufferedImage, "jpg", image);
 
                 JOptionPane.showMessageDialog(null,image.getName(),"Exported image of current maze view at:",JOptionPane.INFORMATION_MESSAGE);
             }
