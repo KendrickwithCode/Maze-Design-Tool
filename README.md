@@ -1,4 +1,4 @@
-![alt text](https://github.com/KendrickwithCode/Maze-Design-Tool/blob/main/img/MazeCraft-logos_transparent.png?raw=true)
+![alt text](https://github.com/KendrickwithCode/Maze-Design-Tool/blob/main/img/StartUp.png?raw=true)
 
 
 # Maze-Design-Tool
