@@ -9,7 +9,14 @@ public class Maze implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 4L;
+    /**
+     * The name of the maze as specified in the Maze name field on the GUI
+     */
     public String mazeName;
+
+    /**
+     * A string representing the maze type. Must be equal to either "kids" or "adult"
+     */
     private String mazeType;
     private String mazeDescription;
     private int mazeHeight;
@@ -188,7 +195,7 @@ public class Maze implements Serializable {
          * @param currentMaze the current maze where the index is going to be used on.
          * @return index for placing a kids finish logo.
          */
-        public static int getKidsFinishIndex(Maze currentMaze){
+        private static int getKidsFinishIndex(Maze currentMaze){
             int posX = currentMaze.getSize()[0]-2;
             int posY = currentMaze.getSize()[1]-2;
 
@@ -277,8 +284,8 @@ public class Maze implements Serializable {
     /**
      * Constructs and initialises a new Maze. Resulting maze is blank with only border walls activated.
      *
-     * @param sizeX size of the x-axis for the maze
-     * @param sizeY size of the y-axis for the maze
+     * @param sizeX size of the x-axis for the maze in number of blocks
+     * @param sizeY size of the y-axis for the maze in number of blocks
      * @param mazeType Whether the maze is a kids or adult maze
      * @param name The name of the maze
      * @param mazeDescription a description of the maze
@@ -485,7 +492,7 @@ public class Maze implements Serializable {
 
 
     /**
-     * Instantiates all the walls for the passed block that must be contained within a mazeMap. It is given either new instantiated Wall class objects for northernWall and WesternWall or if these walls exist in neighbour blocks, they are referenced from their neighbor’s wall object.
+     * Instantiates all the walls for the passed block that must be contained within a mazeMap. It is given either new instantiated Wall class objects for northernWall and WesternWall or, if these walls exist in neighbour blocks, they are referenced from their neighbor’s wall object.
      *
      * @param currentBlock current Block from mazeMap Arraylist
      */
@@ -627,7 +634,7 @@ public class Maze implements Serializable {
 
     /**
      * Return Maze type - Adult/Kids
-     * @return String value of maze type
+     * @return String value of maze type equal to either
      */
     public String getMazeType() {
         return mazeType;

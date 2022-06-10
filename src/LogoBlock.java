@@ -22,6 +22,7 @@ public class LogoBlock extends Block implements Serializable{
      * @param blockIndex Index of logoBlock
      * @param location location of block on maze
      * @param clearWalls true will clear walls on creation, false will activate them.
+     * @param picture The type of logoBlock. Either "Start", "end" or, "logo"
      */
     public LogoBlock(int[] location, int blockIndex, String picture, boolean clearWalls) {
         super(location, blockIndex,clearWalls);
@@ -47,6 +48,9 @@ public class LogoBlock extends Block implements Serializable{
         logoSizeY=2;
     }
 
+    /**
+     * Will display a JFile chooser. The logo image will be changed to the image picked from the chooser.
+     */
     public void changeLogo() {
         final JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter("Image Files (*.png | *.jpg | *.bmp)", "png", "jpg", "bmp"));
@@ -63,7 +67,10 @@ public class LogoBlock extends Block implements Serializable{
         }
     }
 
-
+    /**
+     * Gets the picture file for the logo
+     * @return the file path of the actual image
+     */
     public String getPictureFile() {
         return pictureFile;
     }
@@ -73,26 +80,50 @@ public class LogoBlock extends Block implements Serializable{
 //        pictureFile = filePath;
 //    }
 
+    /**
+     * Gets the logo cell width
+     * @return the logo width in  number of blocks
+     */
     public int getLogoSizeX() {
         return logoSizeX;
     }
 
+    /**
+     * sets the logo width in number of blocks
+     * @param logoSizeX logo width in number of blocks
+     */
     public void setLogoSizeX(int logoSizeX) {
         this.logoSizeX = logoSizeX;
     }
 
+    /**
+     * Gets the logo cell height
+     * @return the logo height in number of blocks
+     */
     public int getLogoSizeY() {
         return logoSizeY;
     }
 
+    /**
+     * sets the logo height in number of blocks
+     * @param logoSizeY logo height in number of blocks
+     */
     public void setLogoSizeY(int logoSizeY) {
         this.logoSizeY = logoSizeY;
     }
 
+    /**
+     * Gets the logoType as a string
+     * @return String LogoType will be "kids" or "ADULT"
+     */
     public String getLogoType() {
         return logoType;
     }
 
+    /**
+     * Will return true if the logo is a starting logo. A starting logo represents the start point in a kid maze.
+     * @return true if logo is a starting logo
+     */
     public boolean isLogoStart() {
         return logoStart;
     }

@@ -202,11 +202,6 @@ public class GUI extends JFrame implements ActionListener, Runnable {
 
     }
 
-    @Override
-    public void run() {
-
-    }
-
     /**
      * GUI Constructor. Initializes Swing frame for application
      */
@@ -407,6 +402,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
      * @param height Height of maze (in blocks) between 4 and 100 inclusive
      * @param name Name of maze
      * @param generate true to generate maze or false to create blank canvas
+     * @param mazeType The type of maze to be created.
      * @throws IllegalArgumentException with the message Invalid Dimension when the height or width passed does not fall between 4 and 100
      */
     public void generateNewMaze( int width, int height, String name, boolean generate, String mazeType) throws IllegalArgumentException {
@@ -430,10 +426,18 @@ public class GUI extends JFrame implements ActionListener, Runnable {
         this.revalidate();
     }
 
+    /**
+     * sets the maze grid
+     * @param toggle true to render the maze with grid displayed
+     */
     public void setGrid(boolean toggle) {
         Maze.MazeTools.getCurrentGUIMaze().renderMaze(toggle, true);
     }
 
+    /**
+     * Returns the Maze grid value
+     * @return boolean Maze grid value. True if maze grid is enabled.
+     */
     public boolean getGrid(){
         return Maze.MazeTools.getCurrentGUIMaze().getGrid();
     }
@@ -478,4 +482,7 @@ public class GUI extends JFrame implements ActionListener, Runnable {
             ioe.printStackTrace();
         }
     }
+
+    @Override
+    public void run() {}
 }

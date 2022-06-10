@@ -5,6 +5,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Class defining maze wall objects which are all contained within Block objects.
+ */
 public class MazeWall extends JButton implements Serializable {
     @Serial
     private static final long serialVersionUID = 5L;

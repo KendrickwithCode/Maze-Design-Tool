@@ -264,6 +264,10 @@ public abstract class Block implements Serializable, MouseListener, ActionListen
         return this.blockPanel;
     }
 
+    /**
+     * Sets the JPanel to be associated with this block.
+     * @param blockPanel the blockPanel to be set
+     */
     public void setBlockPanel(JPanel blockPanel) {
         this.blockPanel = blockPanel;
     }

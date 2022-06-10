@@ -100,6 +100,11 @@ public class MazeSolver {
         return null;
     }
 
+    /**
+     * Will solve the Maze passed and return an array of the blocks travelled in the solution.
+     * @param maze the maze object to be solved
+     * @return Block ArrayList containing the blocks used in the solution
+     */
     public ArrayList<Block> solveMaze ( Maze maze){
         resetMaze(maze);
 

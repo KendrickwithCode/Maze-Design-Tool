@@ -113,9 +113,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 GUI_Maze.mazePanel.setPercentageTravelledLabel(percentageTravelled);
         }
 
-        @Override
-        public void run() {}
-
         /**
          * Constructs and initialises Menu items for the GUI
          * @param borderComponent Determines the location of the menu with BorderLayout.
@@ -345,4 +342,6 @@ public class GUI_Tools extends JFrame implements ActionListener, Runnable {
                 item.setForeground(Color.WHITE);
         }
 
+        @Override
+        public void run() {}
 }

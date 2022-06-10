@@ -3,6 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+/**
+ * Contains main(). Program entry point. Will show the startup window according to a timer before launching the GUI.
+ */
 public class Main implements ActionListener{
 
     private static Timer windowTimer;

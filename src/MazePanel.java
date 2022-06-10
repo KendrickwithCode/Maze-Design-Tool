@@ -4,6 +4,9 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
+/**
+ * The bottom left maze statistics area of the GUI and methods to interface
+ */
 public class MazePanel extends JPanel{
 
     private final Maze maze;

@@ -17,6 +17,10 @@ public class GUI_Maze extends JPanel{
     private final int blockSize;
     private final int wallThickness;
     private final Maze maze;
+
+    /**
+     * The associated GUI mazePanel object which shows solution statistics
+     */
     public static MazePanel mazePanel;
 
     private static boolean mazeGrid = true;
@@ -73,7 +77,8 @@ public class GUI_Maze extends JPanel{
 }
 
     /**
-     * @return the mazePanel which holds the actual maze display
+     * returns the mazePanel
+     * @return the mazePanel
      */
     public MazePanel getMazePanel() {
         return mazePanel;
