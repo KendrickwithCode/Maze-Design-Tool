@@ -113,7 +113,6 @@ public class DBSource implements MazeDBSource {
     public String dateTimeZoneFix(String inputDate,int offsetHrs){
         int [] dayMonths = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
 
-//        System.out.println(inputDate);
         String date = inputDate.split(" ")[0];
 
         String day = date.split("-")[2];

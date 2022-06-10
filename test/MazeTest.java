@@ -410,4 +410,12 @@ public class MazeTest {
         assertFalse(rs.next());
         rs.close();
     }
+
+    @Test
+    public void testTimeOffsetString(){
+        String inputTime = "2022-06-09 04:17:08";
+        assertEquals("    9/6/2022       14:17:08", data.dateTimeZoneFix(inputTime, 10));
+        String inputTime2 = "2022-06-10 08:37:30";
+        assertEquals("    10/6/2022       18:37:30", data.dateTimeZoneFix(inputTime2, 10));
+    }
 }
