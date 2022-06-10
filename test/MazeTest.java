@@ -8,6 +8,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit testing class for MazeCraft.
+ */
 public class MazeTest {
     Maze testMaze;
     Maze kidsTest;
