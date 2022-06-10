@@ -66,7 +66,7 @@ public class DBSource implements MazeDBSource {
     }
 
     @Override
-    public Maze getMaze(String name) throws Exception {
+    public Maze getMaze(String name) {
         Maze m = null;
         ResultSet rs;
 

@@ -162,7 +162,7 @@ public class MazeWall extends JButton implements Serializable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 MazePanel mazePanel = (MazePanel) getParent();
-                ArrayList<JMenuItem> items = new ArrayList<JMenuItem>();
+                ArrayList<JMenuItem> items = new ArrayList<>();
                 super.mouseClicked(e);
                 if (SwingUtilities.isRightMouseButton(e)){
                     JPopupMenu menu = new JPopupMenu();
